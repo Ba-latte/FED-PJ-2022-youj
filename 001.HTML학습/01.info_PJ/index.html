@@ -50,6 +50,7 @@
 
                 6.자손 선택자: 띄어쓰기
                 예) div a {} =>div 하위의 모든 a요소들 모두 선택
+
             */
 
             /* 기본 마진 패딩 없애기 */
@@ -104,11 +105,29 @@
                 */
             }
 
-            /* 메인영역 이미지 */
+            /* 1.상단 영역*/
+            .top{
+                /* 배경색 bgc
+                -background-color */
+                /* background-color: hsl(212, 95%, 76%); */
+                background-color: #9cceec;
+                
+                /* 글자 중앙 정렬 tac
+                -text-align: center*/
+                text-align: center;
+            }
+            /* 2.메인 영역*/
             .cont img{
                 width: 100%;
                 /* 한쪽만 크기를 주면 이미지는 자동으로 비율 유지를 하면서 변경됨(100%는 부모 박스를 체우라는 뜻임) */
             }
+            /* 3.하단 영역*/
+            .info{
+                background-color: #afcee7;
+                /* 글자 중앙 정렬 */
+                text-align: center;
+            }
+            
         </style>
     </head>
     <body>
