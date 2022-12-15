@@ -30,10 +30,13 @@
                 [CSS 선택자 (Selector)]
                 1.타입 선택자: 요소명으로 선택
                 예) h1{}, div{}, a{}
+
                 2.아이디 선택자: #
                 예) #my{}
+
                 3.클래스 선택자: .
                 예) .my{}
+
                 4.종속 선택자: 요소명#아이디명 or 요소명.클래스명 or 요소명#아이디명.클래스명
                 예) div#my{}: div요소인데 아이디가 my인 것
                 예) a.my{}: a요소인데 클래스가 my인 것
@@ -41,15 +44,77 @@
                 =>특정 요소에 특정 이름을 밝혀야 할 경우에 사용됨
                 =>클래스적용시 같은 이름으로 다른 디자인을 줄 때 사용됨
                 예) div.on{} header.on{} 와 같이 같은 클래스인데 다른 디자인 적용 가능함
+
+                5.그룹 선택자: ,(콤마)
+                예) h1,div,a {}
+
+                6.자손 선택자: 띄어쓰기
+                예) div a {} =>div 하위의 모든 a요소들 모두 선택
+            */
+
+            /* 기본 마진 패딩 없애기 */
+            html,body{
+                margin: 0;
+                padding: 0;
+                /* 실제는 body에만 마진 8px이 있음=>사용자가 별도로 적용한 마진 등 초기화 할 때 한꺼번에 최상위 요소인 html,body를 마진, 패딩 초기값 0으로 세팅함 */
+            }
+
+            /* 1.박스 공통 클래스 */
+            .bx{
+                /* (1)가로크기 w */
+                width: 750px;
+                /* !!아무 값도 안 쓰면 auto인데, 블록은 부모요소 끝까지 차지함!! */
+
+                /* (2)세로크기 h */
+                /* height: 150px; */
+                /* !!아무 값도 안 쓰면 auto인데, 블록은 내용만큼만 늘어남!! */
                 
 
-            */
+                /* (3)경계선(보더) bd
+                booder: 두께 종류 색상 
+                -border-width: 두께
+                -border-style: 종류
+                -border-color: 색상
+                참고: https://www.w3schools.com/css/css_border.asp
+                */
+                border: 5px double #0c34a3;
+
+                /* (3-1)둥근 모서리 보더: brad
+                -border-radius */
+                border-radius: 15px;
+                /* border-radius: 50%; */
+
+                /* (4)안쪽 여백(패딩) p
+                padding: 1개(4방향)
+                padding: 1개 2개(위아래 양쪽)
+                padding: 1개 2개 3개(위 양쪽 아래)
+                padding: 1개 2개 3개 4개(각 방향: 시계방향으로 회전)
+                =>마진도 동일함*/
+                padding: 20px;
+                /* padding: 20px 50px 80px 5px; */
+
+                /* (5)바깥 여백(마진) m */
+                /* margin: 30px; */
+                margin: 0 auto;
+                /* 마진탑 덮어쓰기 mt */
+                margin-top: 30px;
+                /* 
+                    마영오씨가 누구지?
+                    =>일반적인 블럭요소가 가로크기를 가질 때 이를 중앙정렬하기 위하여 양쪽 마진을 auto로 설정함. 이때 '위아래0 양쪽auto'를 줄여서 '마영오'라고 부름
+                */
+            }
+
+            /* 메인영역 이미지 */
+            .cont img{
+                width: 100%;
+                /* 한쪽만 크기를 주면 이미지는 자동으로 비율 유지를 하면서 변경됨(100%는 부모 박스를 체우라는 뜻임) */
+            }
         </style>
     </head>
     <body>
         <!-- 1.상단영역 -->
         <!-- 1-1.제목 -->
-        <header class="top">
+        <header class="top bx">
         <h1>네이버 요약 뉴스</h1>
         <!-- 1-2.GNB메뉴(어디서든 나오는 네비게이션 메뉴) -->
         <!-- GNB(Global Navigation Bar <-> LNB) -->
@@ -65,11 +130,11 @@
         </nav>
         </header>
         <!-- 2.메인영역 -->
-        <main class="cont">
+        <main class="cont bx">
             <img src="images/main.png" alt="뉴스 메인 이미지" />
         </main>
         <!-- 3.하단영역 -->
-        <footer class="info">
+        <footer class="info bx">
             <!-- 주소 블록 요소 -->
             <address>
                 서울시 강남구 역삼동 119 대호B 8F <br>
