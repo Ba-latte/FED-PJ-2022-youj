@@ -6,18 +6,16 @@
         <!-- meta: charset 필수 인코딩 설정 -->
         <meta charset="utf-8"/>
         <!-- title: 탭에 표시되는 타이틀 -->
-        <title>네이버 요약 뉴스</title>
-        <!-- 인터널 스타일시트 요소 -->
-        <!-- <style>css코드 내용</style> -->
-        
-        <!-- 익스터널 스타일 시트 요소 -->
+        <title>네이버 요약 뉴스 - TV/연예</title>
+        <!-- 익스터널 스타일시트 요소 -->
         <link rel="stylesheet" href="./CSS/common.css">
+        <link rel="stylesheet" href="./CSS/sub.css">
     </head>
     <body>
         <!-- 1.상단영역 -->
         <!-- 1-1.제목 -->
         <header class="top bx">
-        <h1>네이버 요약 뉴스</h1>
+        <h1>네이버 요약 뉴스 - TV/연예</h1>
         <!-- 1-2.GNB메뉴(어디서든 나오는 네비게이션 메뉴) -->
         <!-- GNB(Global Navigation Bar <-> LNB) -->
         <nav id="gnb">
@@ -33,7 +31,49 @@
         </header>
         <!-- 2.메인영역 -->
         <main class="cont bx">
-            <img src="images/main.png" alt="뉴스 메인 이미지" />
+            
+            <!-- 2-1.언론사 로고 -->
+            <div class="prlogo">
+                <a href="" target="_blank">
+                    <img src="" alt="">
+                </a>
+                <!-- 
+                a 요소: anchor(닻)
+                href 속성: 이동할 페이지 주소 (hyper text reference)
+                target 속성: 새창일 경우 "_blank" 세팅해주면 됨 (아니면 자기 창에서 열림)
+                -->
+            </div>
+            <!-- 2-2.기사 제목 -->
+            <h2 class="atit">
+
+            </h2>
+            <!-- 2-3.기사 사진(+사진 설명) -->
+            <figure class="afig">
+                <img src="" alt="">
+                <!-- 이미지 설명 -->
+                <figcaption>
+
+                </figcaption>
+            </figure>
+            <!-- 
+            figure 요소: 이미지나 표를 넣는 박스
+            =>figcaption 하위 요소: 필요할 때 사용하면 됨 (필수 아님)
+            -->
+            <!-- 2-4.기사 내용 -->
+            <section class="arti">
+
+            </section>
+            <!-- 2-5.기자 정보 -->
+            <div class="rpt">
+                
+            </div>
+            <!-- 2-6.기사 원문 -->
+            <h5>
+                <a href="" target="_blank">
+                    기사 원문
+                </a>
+            </h5>
+        
         </main>
         <!-- 3.하단영역 -->
         <footer class="info bx">

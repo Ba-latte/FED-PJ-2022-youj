@@ -1,0 +1,241 @@
+@charset "utf-8";
+/* 외부 CSS 상단엔 반드시 @charset 필수! */
+/* Info PJ 공통 CSS - common.css */
+
+/* 
+[스타일 시트 문법 영역!
+기본 문법]
+
+선택자{
+속성:값;
+}
+
+[CSS 박스 모델]
+모든 요소는 박스 형태로 그 디자인을 설정함
+=>5가지 속성을 셋팅함
+1.width: 가로 크기
+2.hight: 세로 크기
+3.padding: 안쪽 여백
+4.border: 경계선
+5.margin: 바깥 여백
+=>박스 모델은 블록요소를 기본으로 함 (인라인X)
+
+[CSS 선택자 (Selector)]
+1.타입 선택자: 요소명으로 선택
+예) h1{}, div{}, a{}
+
+2.아이디 선택자: #
+예) #my{}
+
+3.클래스 선택자: .
+예) .my{}
+
+4.종속 선택자: 요소명#아이디명 or 요소명.클래스명 or 요소명#아이디명.클래스명
+예) div#my{}: div요소인데 아이디가 my인 것
+예) a.my{}: a요소인데 클래스가 my인 것
+=>기본적으로 종속 선택자는 요소 분석기에서 사용됨
+=>특정 요소에 특정 이름을 밝혀야 할 경우에 사용됨
+=>클래스적용시 같은 이름으로 다른 디자인을 줄 때 사용됨
+예) div.on{} header.on{} 와 같이 같은 클래스인데 다른 디자인 적용 가능함
+
+5.그룹 선택자: ,(콤마)
+예) h1,div,a {}
+
+6.자손 선택자: 띄어쓰기
+예) div a {} =>div 하위의 모든 a요소들 모두 선택
+
+7.직계자식 선택자: >(왼쪽 꺽쇠)
+예) header>a{}: header 바로 아래 a요소만 선택
+
+8.형제 선택자: +
+예) div+div{} =>앞에 형제div가 있는 div 다 선택함
+예) a+a{} =>앞에 a가 있는 a선택
+=>첫번째를 제외한 나머지 형제 요소들 선택시 많이 씀
+*/
+
+/* 웹폰트 CDN */
+@import url("https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Nanum+Myeongjo&display=swap");
+
+/* 
+[글자체 이름]
+1.타이틀,메뉴용
+font-family: 'East Sea Dokdo', cursive;
+2.일반 글씨
+font-family: 'Nanum Myeongjo', serif;
+*/
+
+/* 기본 마진 패딩 없애기 */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    /* 실제는 body에만 마진 8px이 있음=>사용자가 별도로 적용한 마진 등 초기화 할 때 한꺼번에 최상위 요소인 html,body를 마진, 패딩 초기값 0으로 세팅함 */
+}
+
+body {
+    /* 하단패딩 pb */
+    padding-bottom: 50px;
+}
+
+/* 1.박스 공통 클래스 */
+.bx {
+    /* (1)가로크기 w */
+    width: 750px;
+    /* !!아무 값도 안 쓰면 auto인데, 블록은 부모요소 끝까지 차지함!! */
+
+    /* (2)세로크기 h */
+    /* height: 150px; */
+    /* !!아무 값도 안 쓰면 auto인데, 블록은 내용만큼만 늘어남!! */
+
+    /* (3)경계선(보더) bd
+    booder: 두께 종류 색상 
+    -border-width: 두께
+    -border-style: 종류
+    -border-color: 색상
+    참고: https://www.w3schools.com/css/css_border.asp
+    */
+    border: 5px double #0c34a3;
+
+    /* (3-1)둥근 모서리 보더: brad
+    -border-radius */
+    border-radius: 15px;
+    /* border-radius: 50%; */
+
+    /* (4)안쪽 여백(패딩) p
+    padding: 1개(4방향)
+    padding: 1개 2개(위아래 양쪽)
+    padding: 1개 2개 3개(위 양쪽 아래)
+    padding: 1개 2개 3개 4개(각 방향: 시계방향으로 회전)
+    =>마진도 동일함*/
+    padding: 20px;
+    /* padding: 20px 50px 80px 5px; */
+
+    /* (5)바깥 여백(마진) m */
+    /* margin: 30px; */
+    margin: 0 auto;
+    /* 마진탑 덮어쓰기 mt */
+    margin-top: 30px;
+    /* 
+    '마영오'씨가 누구지?
+    =>일반적인 블럭요소가 가로크기를 가질 때 이를 중앙정렬하기 위하여 양쪽 마진을 auto로 설정함. 이때 '위아래0 양쪽auto'를 줄여서 '마영오'라고 부름
+    */
+}
+
+/* 1.상단 영역*/
+.top {
+    /* (1)배경색 bgc
+    -background-color */
+    /* background-color: hsl(212, 95%, 76%); */
+    background-color: #7aa3ff;
+
+    /* (2)글자 중앙 정렬 tac
+    -text-align: center*/
+    text-align: center;
+}
+
+/* 타이틀 */
+.top > h1 {
+    /* (1)글자 스타일 fs
+    -font-style
+    italic: 이탤릭
+    normal: 이탤릭해제 (기본값)*/
+    /* font-style: italic; */
+    /* font-style: normal; */
+
+    /* (2)글자 두께 fw
+    -font-weight
+    normal: 두께 없음
+    bold: 두껍게 */
+    font-weight: normal;
+    /* font-weight: bold; */
+
+    /* (3)글자 크기 fz
+    -font-size
+    -글자 단위: pt, px, em, rem, vw, vh 등 */
+    font-size: 60px;
+
+    /* (4)글자 줄간격 lh
+    -line-heignt
+    -단위가 없으면 배수로 적용됨
+    -여러줄일때 사이간격 의미
+    -버튼같은 것 가운데에 주고 싶을 때
+    (글자 박스에서 세로로 중앙 정렬하고 싶을 때) */
+    /* line-height: 1; */
+
+    /* (5)글자체 ff
+    -font-family
+    -콤마로 여러개를 쓰면 대체체를 설정함 */
+    /* font-family: "긍서", "글림", "맑은고딕", "돋움"; */
+    font-family: "East Sea Dokdo", cursive;
+
+    /* (6)글자색 c
+    -color: 해시코드, RGB, HSL, 웹색상명으로 쓸 수 있음 */
+    color: #0c34a3;
+}
+
+/* GNB 메뉴 */
+#gnb a {
+    /* (1)글자체
+    -a요소는 기본적으로 밑줄과 글자색이 셋팅됨!
+    -반드시 'a'에서 변경해야만 적용됨(부모에서는 안됨) */
+    font-family: "East Sea Dokdo", cursive;
+
+    /* (2)글자색 */
+    color: #ecf2ff;
+
+    /* (3)밑줄 없앰 tdn
+    -text-decoration: none */
+    text-decoration: none;
+
+    /* (4)글자 크기 */
+    font-size: 32px;
+}
+/* a요소 오버시 */
+/* :hover 가상 클래스
+=>마우스오버된 상태에 대한 디자인 세팅 */
+/* a+a:hover = 앞에 a형제가 있는 a에 오버시 */
+#gnb a + a:hover {
+    /* 글자색 */
+    color: lightcoral;
+    /* 글자 데코레이션
+    -underline(밑줄)
+    -overline(윗줄)
+    -line-through(중간줄)
+    -none(없음) */
+    text-decoration: overline;
+}
+
+/* 로고 이미지 */
+#gnb img {
+    /* 인라인 요소 간 세로 정렬 (진행 방향) va
+    -vertical-align: top, bottom, middle, 수치(px등) */
+    vertical-align: -3px;
+}
+
+/* 2.메인 영역*/
+/* 메인 영역 이미지
+-메인의 .cont 직계 자식 img만 적용 되게 하기!! */
+.cont>img {
+    width: 100%;
+    /* 한쪽만 크기를 주면 이미지는 자동으로 비율 유지를 하면서 변경됨(100%는 부모 박스를 체우라는 뜻임) */
+}
+
+/* 3.하단 영역*/
+.info {
+    /* (1)배경색 */
+    background-color: #c9cdcf;
+    /* (2)글자 중앙 정렬 */
+    text-align: center;
+}
+
+/* 하단주소 */
+.info address {
+    /* (1)글자체 */
+    font-family: "Nanum Myeongjo", serif;
+    /* (2)address는 기본값이 이탤릭체라서 해제하기 */
+    font-style: normal;
+    /* (3)글자색 */
+    color: #333;
+    /* (4)글자 크기 */
+    font-size: 14px;
+}
