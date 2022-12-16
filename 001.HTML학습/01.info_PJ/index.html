@@ -50,6 +50,20 @@
 
                 6.자손 선택자: 띄어쓰기
                 예) div a {} =>div 하위의 모든 a요소들 모두 선택
+
+                7.직계자식 선택자: >(왼쪽 꺽쇠)
+                예) header>a{}: header 바로 아래 a요소만 선택
+            */
+
+            /* 웹폰트 CDN */
+            @import url('https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Nanum+Myeongjo&display=swap');
+            
+            /* 
+            [글자체 이름]
+            1.타이틀,메뉴용
+            font-family: 'East Sea Dokdo', cursive;
+            2.일반 글씨
+            font-family: 'Nanum Myeongjo', serif;
             */
 
             /* 기본 마진 패딩 없애기 */
@@ -115,6 +129,62 @@
                 -text-align: center*/
                 text-align: center;
             }
+            /* 타이틀 */
+            .top>h1{
+                /* 1.글자 스타일 fs
+                -font-style
+                italic: 이탤릭
+                normal: 이탤릭해제 (기본값)*/
+                /* font-style: italic; */
+                /* font-style: normal; */
+
+                /* 2.글자 두께 fw
+                -font-weight
+                normal: 두께 없음
+                bold: 두껍게 */
+                font-weight: normal;
+                /* font-weight: bold; */
+
+                /* 3.글자 크기 fz
+                -font-size
+                -글자 단위: pt, px, em, rem, vw, vh 등 */
+                font-size: 40px;
+
+                /* 4.글자 줄간격 lh
+                -line-heignt
+                -단위가 없으면 배수로 적용됨
+                -여러줄일때 사이간격 의미
+                -버튼같은 것 가운데에 주고 싶을 때
+                (글자 박스에서 세로로 중앙 정렬하고 싶을 때) */
+                line-height: 1.7;
+                
+                /* 5.글자체 ff
+                -font-family
+                -콤마로 여러개를 쓰면 대체체를 설정함 */
+                /* font-family: "긍서", "글림", "맑은고딕", "돋움"; */
+                font-family: 'East Sea Dokdo', cursive;
+
+                /* 6.글자색 c
+                -color: 해시코드, RGB, HSL, 웹색상명으로 쓸 수 있음 */
+                color: #0c34a3;
+            }
+            
+            /* GNB 메뉴 */
+            #gnb a{
+                /* 글자체 */
+                font-family: 'East Sea Dokdo', cursive;
+                /* a요소는 기본적으로 밑줄과 글자색이 셋팅됨!
+                반드시 a에서 변경해야만 적용됨(부모에서는 안됨) */
+
+                /* 글자색 */
+                color: rgb(104, 133, 146);
+
+                /* 밑줄 없앰 tdn
+                -text-decoration: none */
+                text-decoration: none;
+            }
+
+
             /* 2.메인 영역*/
             .cont img{
                 width: 100%;
@@ -122,10 +192,11 @@
             }
             /* 3.하단 영역*/
             .info{
-                background-color: #5088b6;
+                background-color: #c9cdcf;
                 /* 글자 중앙 정렬 */
                 text-align: center;
             }
+            
             
         </style>
     </head>
