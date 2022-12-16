@@ -113,90 +113,106 @@
                 /* 마진탑 덮어쓰기 mt */
                 margin-top: 30px;
                 /* 
-                    마영오씨가 누구지?
+                    '마영오'씨가 누구지?
                     =>일반적인 블럭요소가 가로크기를 가질 때 이를 중앙정렬하기 위하여 양쪽 마진을 auto로 설정함. 이때 '위아래0 양쪽auto'를 줄여서 '마영오'라고 부름
                 */
             }
 
             /* 1.상단 영역*/
             .top{
-                /* 배경색 bgc
+                /* (1)배경색 bgc
                 -background-color */
                 /* background-color: hsl(212, 95%, 76%); */
-                background-color: #9cceec;
+                background-color: #7aa3ff;
                 
-                /* 글자 중앙 정렬 tac
+                /* (2)글자 중앙 정렬 tac
                 -text-align: center*/
                 text-align: center;
             }
+
             /* 타이틀 */
             .top>h1{
-                /* 1.글자 스타일 fs
+                /* (1)글자 스타일 fs
                 -font-style
                 italic: 이탤릭
                 normal: 이탤릭해제 (기본값)*/
                 /* font-style: italic; */
                 /* font-style: normal; */
 
-                /* 2.글자 두께 fw
+                /* (2)글자 두께 fw
                 -font-weight
                 normal: 두께 없음
                 bold: 두껍게 */
                 font-weight: normal;
                 /* font-weight: bold; */
 
-                /* 3.글자 크기 fz
+                /* (3)글자 크기 fz
                 -font-size
                 -글자 단위: pt, px, em, rem, vw, vh 등 */
-                font-size: 40px;
+                font-size: 60px;
 
-                /* 4.글자 줄간격 lh
+                /* (4)글자 줄간격 lh
                 -line-heignt
                 -단위가 없으면 배수로 적용됨
                 -여러줄일때 사이간격 의미
                 -버튼같은 것 가운데에 주고 싶을 때
                 (글자 박스에서 세로로 중앙 정렬하고 싶을 때) */
-                line-height: 1.7;
+                line-height: 1;
                 
-                /* 5.글자체 ff
+                /* (5)글자체 ff
                 -font-family
                 -콤마로 여러개를 쓰면 대체체를 설정함 */
                 /* font-family: "긍서", "글림", "맑은고딕", "돋움"; */
                 font-family: 'East Sea Dokdo', cursive;
 
-                /* 6.글자색 c
+                /* (6)글자색 c
                 -color: 해시코드, RGB, HSL, 웹색상명으로 쓸 수 있음 */
                 color: #0c34a3;
             }
             
             /* GNB 메뉴 */
             #gnb a{
-                /* 글자체 */
+                /* (1)글자체
+                -a요소는 기본적으로 밑줄과 글자색이 셋팅됨!
+                -반드시 'a'에서 변경해야만 적용됨(부모에서는 안됨) */
                 font-family: 'East Sea Dokdo', cursive;
-                /* a요소는 기본적으로 밑줄과 글자색이 셋팅됨!
-                반드시 a에서 변경해야만 적용됨(부모에서는 안됨) */
 
-                /* 글자색 */
-                color: rgb(104, 133, 146);
+                /* (2)글자색 */
+                color: #ecf2ff;
 
-                /* 밑줄 없앰 tdn
+                /* (3)밑줄 없앰 tdn
                 -text-decoration: none */
                 text-decoration: none;
-            }
 
+                /* (4)글자 크기 */
+                font-size: 30px;
+            }
 
             /* 2.메인 영역*/
             .cont img{
                 width: 100%;
                 /* 한쪽만 크기를 주면 이미지는 자동으로 비율 유지를 하면서 변경됨(100%는 부모 박스를 체우라는 뜻임) */
             }
+
             /* 3.하단 영역*/
             .info{
+                /* (1)배경색 */
                 background-color: #c9cdcf;
-                /* 글자 중앙 정렬 */
+                /* (2)글자 중앙 정렬 */
                 text-align: center;
             }
-            
+
+            /* 하단주소 */
+            .info address{
+                /* (1)글자체 */
+                font-family: 'Nanum Myeongjo', serif;
+                /* (2)address는 기본값이 이탤릭체라서 해제하기 */
+                font-style: normal;
+                /* (3)글자색 */
+                color: #333;
+                /* (4)글자 크기 */
+                font-size: 14px;
+            }
             
         </style>
     </head>
