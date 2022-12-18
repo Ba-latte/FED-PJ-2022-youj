@@ -1,0 +1,60 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Nanum+Gothic&family=Nanum+Myeongjo&display=swap');
+/* 
+폰트 이름
+font-family: 'Do Hyeon', sans-serif;
+font-family: 'Nanum Gothic', sans-serif;
+font-family: 'Nanum Myeongjo', serif;
+*/
+html, body{
+    margin: 0;
+    padding: 0;
+}
+body{
+    padding-bottom: 50px;
+}
+.bx{
+    width: 750px;
+    border: 3px solid blue;
+    border-radius: 10px;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 20px;
+}
+#gnb img{
+    width: 20px;
+    vertical-align: -4px;
+}
+.top{
+    background-color: aqua;
+    text-align: center;
+}
+.top>h1{
+    font-weight: normal;
+    font-size: 50px;
+    font-family: 'Do Hyeon', sans-serif;
+
+}
+.top a{
+    font-family: 'Nanum Gothic', sans-serif;
+    color: blue;
+    text-decoration: none;
+    font-size: 18px;
+}
+#gnb a+a:hover{
+    color: brown;
+    text-decoration: overline;
+}
+.cont>img{
+    width: 100%;
+}
+.info{
+    background-color: azure;
+    text-align: center;
+}
+.info address{
+    font-family: 'Nanum Myeongjo', serif;
+    font-style: normal;
+    color: blueviolet;
+    font-size: 14px;
+}
