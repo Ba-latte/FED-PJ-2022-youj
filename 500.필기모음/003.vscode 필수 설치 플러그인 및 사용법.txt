@@ -130,7 +130,8 @@ __________________________________________________
 -> ctrl+alt+P (P는 Prettier)
 
 (프리티어 설정에서)
->>> Prettier: Tab Width를 4로 변경
+>>> Prettier: Tab Width를 기본2에서 4로 변경
+>>> Prettieer: print width => 수치를 기본 80에서 120정도로 올리면, 과도한 줄바꿈 해결됨
 
 9) book mark : 소스 코드 위치 북마크
  -> 라인설정 토글 : ctrl+alt+K
