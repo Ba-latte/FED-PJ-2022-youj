@@ -1,1 +1,8 @@
 @charset "utf-8";
+@import url(common_review.css);
+.cont{
+    padding: 30px;
+}
+.prlogo img{
+    height: 50px;
+}
