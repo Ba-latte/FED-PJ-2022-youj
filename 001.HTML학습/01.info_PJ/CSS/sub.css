@@ -38,14 +38,157 @@
     글자간격(자간) letter-spacing (ls)
     기본값은 0(normal), 양수는 멀어짐, 음수는 가까워짐
     */
-    letter-spacing: 10px;
+    letter-spacing: -1px;
     /* 
     단어간격 word-spacing (ws)
     기본값은 0(normal), 양수는 멀어짐, 음수는 가까워짐
     */
     word-spacing: 3px;
+
+    /*
+    줄바꿈 방지 (공백->백공->white-space)
+    -normal: 기본값 (박스 끝에서 줄바꿈)
+    -nowrap: 박스 끝에서 줄바꿈이 안 되고, 계속 감
+    (줄바꿈이 되면 안 될때)
+    (버튼에 써있는 글씨들이 버튼 박스가 작아지거나 하면 글씨가 아랫줄로 떨어지는데, 그러면 안되니까! 그럴 때 씀=한줄에 버튼글자)
+    (혹은 기사같은 것들...제목 좀 길게 써서 뒷 부분은 말줄임표시나오게=한줄에 말줄임표)
+    */
+    /* white-space: nowrap; */
+
+    
 }
 /* 2-3.기사 사진(+사진 설명) */
+.afig{
+    /* 마진은 m : 2개 값-> 위아래 양쪽임 */
+    margin: 15px 0;
+    /* 인라인 가로 중앙 : tac (text-align: center) */
+    text-align: center;
+}
+/* 기사 이미지 */
+.afig img{
+    width: 100%;
+}
+/* 기사 이미지 설명 글 */
+.afig small{
+    /* 글자체: ff */
+    font-family: 'East Sea Dokdo', cursive;
+    /* 글자크기: fz 
+    -글자 크기 최저 한계는 10px임*/
+    font-size: 17px;
+    /* 글자색: c */
+    color: #979797;
+}
+
 /* 2-4.기사 내용 */
+.arti p{
+    /* 글자크기: fz */
+    font-size: 18px;
+    /* 줄 간격: lh */
+    line-height: 1.5;
+    /* 주의사항: 단위가 없으면 배수임!! 생각없이 25라고 쓰고 엔터치면... 25배 간격이 나옴...! 기준은 글자 크기임 */
+    /* 양쪽 패딩 */
+    padding: 0 10px;
+    /* 자간: ls */
+    letter-spacing: 1px;
+    /* 글자 들여쓰기: text-indent (ti) */
+    /* text-indent: 15px; */
+    /* 마이너스를 하면 내어쓰기가 되므로, 글자를 살짝 앞뒤로 수정하고 싶을 때 응용해서 쓰면 됨! */
+
+}
+/* mark요소 변경하기! */
+.arti p mark{
+    /* 인라인을 블록으로 출신 변경해보기 */
+    display: block;
+    /* 글자크기 변경 */
+    font-size: 20px;
+    /* 줄간격 주기 */
+    line-height: 2;
+    /* 위아래, 양쪽 패딩 주기 */
+    padding: 20px 50px;
+    /* 배경색: bgc*/
+    background-color: #e9e9e9;
+    /*
+    보더 위, 아래!
+    위는 (top), 아래는 (bottom), 왼쪽 (left), 오른쪽(right)
+    */
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
+    /* 중앙 정렬: tac */
+    text-align: center;
+    /* 위아래 마진 */
+    margin: 15px 0;
+}
+/* p요소 아래 em요소의 디자인 변경하기 */
+.arti p em{
+    /*
+    글자에 그림자 넣기: ts (text-shadow)
+    값: x축 y축 블러 (그림자)색
+    블러는 그림자 경계 흐림 정도임
+    */
+    text-shadow: 2px 2px 2px rgba(224, 35, 199, 0.692);
+    /* 이탤릭 해제하기: fsn (font-style: normal) */
+    font-style: normal;
+    /* 글자색 */
+    color: darkmagenta;
+    /* 글자 두껍게: fwb */
+    font-weight: bold;
+}
+
 /* 2-5.기자 정보 */
+.rpt{
+    /* display 출신 변경하기
+    디자인 적용과 동시에 인라인 특성인 글자 만큼만 크기가 잡히도록 인라인 블록으로 변경함*/
+    display: inline-block;
+    /* 글자크기 fz */
+    font-size: 14px;
+    /* 배경색 bgc */
+    background-color: #ececec;
+    /* 패딩 */
+    padding: 5px;
+    /* 마진 */
+    margin: 15px 0;
+    
+}
 /* 2-6.기사 원문 */
+/* 별도의 이름 없이 구조로만 기사 원문 선택함 (다른 곳의 h5는 직계 자손이 아니라서 ㅎㅎ) */
+.cont>h5{
+    /* 내부의 인라인 요소: 오른쪽 정렬임 */
+    text-align: right;
+}
+.cont>h5>a{
+    /* 디자인 적용 위해 display변경함! */
+    display: inline-block;
+    /* 블록요소 오른쪽 끝으로 보내기 */
+    /* 그냥 두면 애가 모양이 망가지므로, 부모 박스인 .cont에 넘치는 자식 숨겨라!ㅋㅋㅋㅋ 
+    =>overflow:hidden 세팅으로 박스가 망가지는 것을 막아야 함 */
+    overflow: hidden;
+    /* 기본 없애기 */
+    margin: 20px 0;
+    padding: 0;
+    /* 가로, 세로 지정하기 */
+    width: 70px;
+    height: 70px;
+    border: 2px solid #dbdbdb;
+    /* 글자 중앙으로 옮기기 */
+    text-align: center;
+    /* 세로 중앙으로 옮기기: 줄간격으로 하기! */
+    line-height: 70px;
+    /* 둥글게 하기: border-radius
+    50%는 원이 됨*/
+    border-radius: 50%;
+    /* 배경색 */
+    background-color: #ffdb3a;
+}
+/* 모든 a에 밑줄 없애고 보라색 없애기 => 모든 a '공통'이니까 common에서 만들기*/
+
+/* 가상클래스로 마우스 오버시 박스 그림자 넣기 */
+.cont>h5>a:hover{
+    /* 박스 그림자 넣기 bsh
+        box-shadow: x y blur spread 색;
+        (내부그림자는 inset을 씀)
+        (spread는 박스 그림자 크기임! 필요할 때 쓰면 됨!)
+    */
+    box-shadow: 0 0 5px darkblue;
+}
+
+
