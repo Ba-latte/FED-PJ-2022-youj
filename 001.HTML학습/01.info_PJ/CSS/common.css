@@ -75,6 +75,8 @@ body {
 body {
     /* 하단패딩 pb */
     padding-bottom: 50px;
+    /* 글자체 ff */
+    font-family: 'Nanum Myeongjo', serif;
 }
 
 /* 1.박스 공통 클래스 */
