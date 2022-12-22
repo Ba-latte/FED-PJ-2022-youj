@@ -148,7 +148,7 @@
     /* 패딩 */
     padding: 5px;
     /* 마진 */
-    margin: 15px 0;
+    margin: 15px 20px;
     
 }
 /* 2-6.기사 원문 */
@@ -450,5 +450,106 @@
 .secnews dd{
     /* 왼쪽 마진 ml */
     margin-left: 100px;
+}
+
+/* 사진뉴스 타이틀 */
+.pnews h3{
+    text-align: center;
+}
+
+/* 사진뉴스 타이틀에 가상요소로 아이콘 넣기^0^!
+=>!!태그를 사용하지 않고 요소를 넣는 방법!! */
+/* 맨 앞 가상요소는 '::before' 이렇게 콜론2개 쓴다 */
+.pnews h3::before{
+    content: '📸';
+}
+
+/* 사진뉴스 테이블 박스 */
+.pnews table{
+    /* 가로 중앙 이동: 마영오씨! */
+    /* 마영오씨는 블록요소 또는 table에 적용됨! */
+    /* 인라인에는 적용 안됨~ */
+    margin: 0 auto;
+    border: 2px solid #ccc;
+/* 테이블에는 기본적으로 사이 간격이 있는데, 그걸 없애주는 것임
+기본값: seperate임! */
+    border-collapse: collapse;
+}
+
+/* 테이블 a요소 잡아서 lh를 조금 작게 줘보자 */
+/* 기존의 .cont article a로 세팅된 것이 더 쎄기 때문에!
+여기서 윗 부모를 같은 레벨로 넣어서 선택하면
+하위에 클래스가 요소(타입)보다 더 높기 때문에 우선 적용된다~!*/
+.cont .pnews a{
+    /* 글자크기 */
+    font-size: 14px;
+    /* 줄간격 */
+    line-height: 1.3;
+}
+
+/* 
+tr이나 td에 child 선택자 사용 가능함!
+왜? 같은 종류의 요소만 올 수 있으므로!
+*/
+
+/* 첫번째 td-숫자부분 */
+.pnews td:first-child{
+    /* 가로크기 w */
+    width: 50px;
+    /* 세로크기 h */
+    height: 84px;
+    /* 인라인 가로 중앙 tac*/
+    text-align: center;
+    /* 배경색 bgc */
+    background-color: #ccc;
+}
+
+/* 두번째 td */
+.pnews td:nth-child(2){
+    /* 배경색 bgc */
+    background-color: #e2e2e2;
+    /* 양쪽 패딩: 위아래 양쪽 p*/
+    padding: 0 20px;
+}
+
+/* 세번째 td */
+.pnews td:last-child{
+    background-color: #e2e2e2;
+    /* 이미지가 너무 붙어있는 것 같아서 오른쪽 패딩주기~ */
+    padding-right: 7px;
+}
+
+/* 사진 뉴스 이미지 */
+.pnews img{
+    height: 70px;
+    /* 이미지는 한쪽만 크기줄 때 나머지는 자동 비율 유지 */
+    /* 세로 정렬  */
+    vertical-align: middle;
+    /* td에서만 세로 정렬이 적용되고, 일반적으로는 vertical-align이라는 건 언제 쓰이냐면,
+    인라인 요소간 세로 방향 정렬임 */
+}
+
+/* 맨앞 tr제외하고! 앞에 tr이 있는 tr만 하위 td에 디자인 주기
+: 보통 디자인 같은 거는 데이터(td)요소에 준다~ */
+.pnews tr+tr td{
+    border-top: 2px solid #ccc;
+}
+
+/***************************************
+말줄임표시 셋팅하기!
+***************************************/
+ul a, ol a, dl a{
+    /* 1.디자인 적용 위해서 block하기*/
+    display: block;
+    /* 2.가로크기 한계를 주기 */
+    width: 315px;
+    /* 3.줄바꿈 방지(한줄짜리) */
+    white-space: nowrap;
+    /* 4.넘치는 자식 숨기기 */
+    overflow: hidden;
+    /* 5.넘치는 텍스트 말줄임 설정하기 */
+    text-overflow: ellipsis;
+    /* 가로 크기 한계를 주기 위해서 일부러 경계선 보여주기 위해 만듦~ */
+    /* border: 1px solid red; */
 }
 
