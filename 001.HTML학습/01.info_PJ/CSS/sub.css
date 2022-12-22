@@ -93,6 +93,8 @@
     /* 글자 들여쓰기: text-indent (ti) */
     /* text-indent: 15px; */
     /* 마이너스를 하면 내어쓰기가 되므로, 글자를 살짝 앞뒤로 수정하고 싶을 때 응용해서 쓰면 됨! */
+    /* 양쪽 정렬: taj (text-aling: justify) */
+    text-align: justify;
 
 }
 /* mark요소 변경하기! */
@@ -191,4 +193,262 @@
     box-shadow: 0 0 5px darkblue;
 }
 
+/* 메인 공통 article 박스 디자인 */
+.cont article{
+    /* 구분선: 보더 위 bdt (border-top) */
+    border-top: 2px dashed #ccc;
+    /* 마진 위 mt (margin-top) */
+    margin-top: 40px;
+    /* 패딩 p */
+    padding: 15px;
+}
+
+/* 기사 관련 타이틀 h5 */
+/* .cont>h5와 구분하기 위해서 중간경로 article을 씀 */
+/* 꺽쇠는 웬만하면 쓰지 않고 싶어 함....그렇다네...? */
+.cont article h5{
+    /* 내용만큼 자동으로 커지게 하기 위해서 인라인-블록을 씀 */
+    display: inline-block;/* 그러면 크기를 가지면서도 안쪽으로 들어가게됨 */
+    /* 패딩은 위아래 양쪽 적용함 */
+    padding: 10px 20px;
+    /* 배경색 넣기 */
+    background-color: #d4d4d4;
+    /* 헤딩 요소 기본 마진 없앰 */
+    margin: 0;
+    /* 둥근 모서리 brad */
+    border-radius: 20px;
+    /* 내부 그림자: bsh */
+    /* inset은 내부그림자 설정임 */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.507);
+    /* 글자 두께: 얇게(기본값) fwn */
+    font-weight: bold;
+    /* 글자 크기: fz */
+    font-size: 20px;
+    /* 글자 들여쓰기: ti */
+    /* text-indent: 20px; */
+    /* 글자 색: c */
+    color: #333;
+}
+
+/* 각 파트별 공통 타이틀 h3 */
+.cont h3{
+    /* 글자체: 웹폰트 ff*/
+    font-family: 'East Sea Dokdo', cursive;
+    /* 글자 두께: 얇게(기본값) fwn */
+    font-weight: normal;
+    /* 글자 크기: fz */
+    font-size: 30px;
+    /* 글자 들여쓰기: ti */
+    text-indent: 20px;
+    /* 글자 색: c */
+    color: #333;
+}
+
+/* 주해 박스 (내용 부분) */
+.desc div{
+    /* 패딩 p : 위, 양쪽, 아래 임*/
+    /* 0은 단위 안 넣어도 되도록 되어 있음 */
+    padding: 20px 5px 0;
+    /* 줄간격: lh */
+    line-height: 1.7;
+    /* 자간: ls */
+    letter-spacing: 1px;
+    /* 양쪽 정렬: taj (text-aling: justify) */
+    text-align: justify;
+}
+
+/* 인용 박스 (내용 부분) */
+.qb blockquote{
+    /* 기본 마진 없애기 */
+    margin: 0;
+    /* 패딩 p : 위, 양쪽, 아래 임*/
+    /* 0은 단위 안 넣어도 되도록 되어 있음 */
+    padding: 20px 5px 0;
+    /* 줄간격: lh */
+    line-height: 1.7;
+    /* 자간: ls */
+    /* letter-spacing: 0px; */
+    /* 글자 크기 fz */
+    font-size: 14px;
+    /* 양쪽 정렬: taj (text-aling: justify) */
+    text-align: justify;
+}
+
+/* 오늘의 작품 & 느낌 */
+.work{
+    /* 글자 중앙: tac */
+    text-align: center;
+    /* 배경색 */
+    /* background-color: lightseagreen; */
+
+    /* 그라데이션은 이미지로 넣음! bgi */
+    /* background-image: linear-gradient(방향, 색1 %, 색2 %...); 
+        -방향: to top, to bottom, to left, to right (방향에 각도를 쓰면 그라데이션 각도가 표현됨)
+        -> 방향 대신 각도: 수치deg (예: 40deg)
+        -색상을 콤마로 나열하면 등분할하여 그라데이션 표현되고, 색상 뒤에 % 수치를 쓰면
+        특정 비율을 나타낼 수 있음
+        -기본으로...색이 패딩이랑 보더까지도 색이 들어감! 
+        -그걸 옵션으로 바꿔줄 수 있음 (clip속성!!)
+
+    */
+    /* background-image: linear-gradient(15deg, red 10%, yellow 20%, yellow 80%, blue); */
+    background-image: linear-gradient(to bottom, #ffa0a0, #e2b890, #bbcef3);
+
+    /* 배경 옵션 추가!!!!
+        background-clip: 배경이 적용되는 범위 설정
+        1.border-box: 보더까지 적용 (기본값)
+        2.padding-box: 패딩까지 적용됨
+        3.content-box: 내용영역만 적용(패딩, 보더가 빠짐)*/
+    background-clip: content-box;
+}
+
+/* 작품명 */
+.work figcaption{
+    font-family: 'East Sea Dokdo', cursive;
+}
+
+.work figcaption cite{
+    font-style: normal;
+}
+
+/* 작품이미지 */
+.work img{
+    border: 15px ridge goldenrod;
+}
+
+/* 파트별 a 링크 요소 공통 디자인 */
+.cont article a{
+    /* 글자크기 fz */
+    font-size: 17px;
+    /* 줄간격 lh */
+    line-height: 2.5;
+    /* 자간 ls */
+    letter-spacing: -1px;
+}
+/* 가상클래스 hover 오버시 */
+.cont article a:hover{
+    /* 글자색 c */
+    color: rgb(80, 191, 255);
+    /* 글자그림자 ts */
+    text-shadow: 1px 1px 1px rgb(187, 187, 187);
+}
+
+/* 공통 ul */
+.cont article ul{
+    /* 리스트 타입 lst */
+    list-style-type: "🎃";
+    /* 
+        square 사각형, disc 원형, circle 빈원
+        -> 따옴표안에 다른 문자형을 넣을 수 있음
+        -> 윈도우키+점(.) -> 아이콘
+    */
+}
+
+/* 공통 ol */
+.cont article ol{
+    /* 숫자형 리스트 스타일 lit */
+    list-style-type: upper-roman;
+    /* 순서를 표시하는 종류는 너무 많다! */
+}
+
+/* 주요 뉴스 li별 글자색 변경하기 */
+/* 
+    [자식 요소 선택 가상 클래스: 자식 요소 종류가 같아야함!!]
+    요소:first-child -> 첫번째 자식요소
+    요소:nth-child(n) -> n번째 자식요소
+    요소:last-child -> 마지막 자식요소
+*/
+
+/* 첫번째 li */
+.cont article ul li:first-child a{
+    color: red;
+}
+.cont article ul li:nth-child(2) a{
+    color: green;
+}
+.cont article ul li:last-child a{
+    color: blue;
+}
+
+/* 불릿과 글자 사이 간격 주기 */
+.cont article ul li,
+.cont article ol li{
+    /* 패딩 left: 불릿 뒤쪽이 적용됨 */
+    padding-left: 10px;
+}
+
+/* 랭킹 뉴스에 색 넣기 */
+
+.cont article ol li:first-child a{
+    color: red;
+}
+.cont article ol li:nth-child(2) a{
+    color: green;
+}
+.cont article ol li:last-child a{
+    color: blue;
+}
+/*
+    [CSS 적용 우선 순위]
+    type < class < id < inline < !important
+    ->더 쎈 선택자이어도 부모 요소를 업고 있는 것이 더 쎄다!!!
+    예) #my < '.cont>.my' (부모 업고 있음)
+*/
+
+/* 분야별 뉴스 */
+/* 각 분야명 dt 공통 디자인 */
+.secnews dt{
+    /* 글자체 */
+    font-family: 'East Sea Dokdo', cursive;
+    /* 글자 크기만큼 디자인 적용 위해 dib! */
+    display: inline-block;
+    /* 보더 bd */
+    border: 3px dashed darkcyan;
+    /* 패딩 p */
+    padding: 10px;
+    /* 둥근 모서리 */
+    border-radius: 50%;
+    /* 글자 크기: fz */
+    font-size: 24px;
+    /* 인라인요소가 이동될수있는건 마진가지고 이동할 수 있음 */
+    /* 왼쪽 마진으로 이동하기 ml */
+    margin-left: 20px;
+    /* 박스 그림자 bsh
+    -> (inset) x y blur spread 색 순으로 적으면 됨! */
+    /* 보통 hoff, voff, blur는 같은 수치를 준다고 함 */
+    box-shadow: 0 0 5px 5px rgba(189, 13, 86, 0.445);
+
+    /* 마진 탑 밀기 => 전부다 탑에 마진 넣어서 맨 앞이 너무 밀림 */
+    /* margin-top: 20px; */
+}
+
+/* 앞에 dd가 이는 dt만 마진탑 밀기 */
+.secnews dd+dt{
+    /* 마진 탑 밀기 => 전부다 탑에 마진 넣어서 맨 앞이 너무 밀림 */
+    margin-top: 20px;
+}
+
+/* 
+    [여러 종류가 섞여 있을 경우에 형제 선택하기]
+    요소:first-of-type ->같은 요소(=타입) 중 첫번째! 선택하기~
+    요소:nth-of-type(n) ->같은 요소 중 n번째
+    요소:last-of-type ->같은 요소 중 마지막!
+*/
+/* dt별 글자색 다르게 하기 */
+/* dt는 형제 중에 dd가 섞여 있으므로!! -of-type을 사용해야 함! */
+.secnews dt:first-of-type{
+    color: rgb(250, 16, 16);
+}
+.secnews dt:nth-of-type(2){
+    color: rgb(54, 219, 13);
+}
+.secnews dt:last-of-type{
+    color: rgb(18, 29, 185);
+}
+
+/* dd 공통 */
+.secnews dd{
+    /* 왼쪽 마진 ml */
+    margin-left: 100px;
+}
 
