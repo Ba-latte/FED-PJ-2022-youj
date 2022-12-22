@@ -4,5 +4,53 @@
     padding: 30px;
 }
 .prlogo img{
-    height: 50px;
+    height: 40px;
+}
+.cont .atit{
+    margin-top: 0;
+    font-size: 30px;
+    letter-spacing: -1;
+    /* word-spacing: 0px; */
+}
+
+.afig{
+    margin: 15px 0;
+    text-align: center;
+}
+
+.afig img{
+    width: 100%;
+}
+
+.afig small{
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 12px;
+    color: #838383;
+}
+
+.arti p{
+    font-size: 16px;
+    line-height: 1.7;
+    /* letter-spacing: 0px; */
+    padding: 0 10px;
+    text-align: justify;
+}
+
+.cont article{
+    border-top: 2px dashed #c4d7ff;
+    margin-top: 40px;
+    padding: 15px;
+}
+
+.cont article h5{
+    display: inline-block;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 0;
+    background-color: #bb6083;
+    box-shadow: inset 0 0 5px #e7e7e7;
+    font-family: 'Do Hyeon', sans-serif;
+    font-weight: normal;
+    font-size: 22px;
+    color: #f1f1f1;
 }
