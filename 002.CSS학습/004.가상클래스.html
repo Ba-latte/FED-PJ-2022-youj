@@ -135,7 +135,9 @@
         /* 내부 인라인 요소 오른쪽 정렬 (글자도 인라인요소라고 부르기도 함) */
         text-align: right;
 
-        outline: 1px solid red;
+        /* outline: 1px solid red; */
+        padding: 20px;
+        box-sizing: border-box;
     }
 
     /* 
@@ -153,7 +155,8 @@
         list-style: none; /* lin */
     }
 
-    ul.part1{
+    /* 부모박스 */
+    ul.part1, div.part2{
         width: 800px;
         margin: 0 auto;
         padding: 20px;
@@ -173,6 +176,8 @@
         [font 한번에 셋팅하기!]
         font: 스타일 두께 크기/줄간격 글자체
         => font: 스두크/줄체
+        font 한번에 쓰기에서 글씨체는 필수값~
+        2개 이상 셋팅 필수임~
     */
 
     /* 모든 li에 오버시 손가락모양  */
@@ -287,11 +292,11 @@
     (!important는 진짜 되도록 쓰지 말것~~ 인라인 스타일도 안좋아~~~~)
     */
 
-
     /* 
     -가상클래스는 :1번이고 가상요소는 ::2번임
     -가상클래스를주면 클래스를 준것과 같기 때문에, 일반타입보다 더 쎔
      */
+    
         /* 
         [ CSS 선택자 우선순위 ]
 
@@ -333,6 +338,47 @@
         이런 셋팅이 있으면 JS가 적용되지 않는 경우가
         발생한다! 따라서 사용을 최대한 신중하게 해야함
       */
+
+    /* 두번째 파트
+    ->여러종류의 요소가 섞여있으면
+    first-of-type
+    nth-of-type(n)
+    list-of-type 를 쓴다
+    */
+
+    /* 두번째 div
+    font-30px 궁서
+    글자색 - blueviolet */
+    .part2 div:nth-of-type(2){
+        font: 30px "궁서";
+        color: blueviolet;
+    }
+
+    /* 첫번째 i
+    font - bold 20px
+    글자색 - palevioletred*/
+    .part2 i:first-of-type{
+        /* font 한번에 쓰기에서 글씨체는 필수값~ */
+        font-weight: bold;
+        font-size: 20px;
+        color: palevioletred;
+    }
+
+    /* 3번째 div이후 div형제 요소 모두
+    font - 궁서체, 글자색 - red */
+    /* .part2 div:nth-of-type(3)~div{ */
+
+    /* 3번째 div이후 i형제 요소 모두
+    font - 궁서체, 글자색 - red */
+    /* .part2 div:nth-of-type(3)~i{ */
+
+    /* 3번째 div이후 모든 형제 요소 (*)
+    font - 궁서체, 글자색 - red */
+    .part2 div:nth-of-type(3)~*{
+        font-family: "궁서";
+        color: red;
+    }
+
     </style>
 </head>
 

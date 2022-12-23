@@ -10,23 +10,39 @@
             padding: 0;
             /* 높이 채우기(?) */
             height: 100%;
+            /* 보이는 화면을 기준하여 높이값을 설정함
+            ->직계 하위 자식요소가 높이값을 %로 설정할 때 body가 기준이 된다~ */
         }
         body{
+            /* 패딩 탑 pt */
+            /* padding-top: 50px; */
+        }
+        /* 페이지 박스: div니까 블록 박스임 */
+        .mybox{
+            width: 100%;
+            height: 100%;
+            
             /* 배경이미지 (배경색과 다름~) bgi */
             background-image: url(./imgs/worksbg.jpg);
             /* 배경반복여부: bgr */
             /* 원래 배경이미지는 반복되게 되어 있으므로, 반복하지말라고 설정하기 */
             background-repeat: no-repeat;
+            /* 배경 고정 bga ->고정의 기준은 보이는 화면임!! -> 화면은 고정되어 있는데 페이지가 넘어가니까 그거 따라서 계속 올라가느라고... 벗겨지는? 느낌이 남!*/
+            background-attachment: fixed;
+            /* 배경 위치: bgp */
+            background-position: center;
             /* 배경 크기: bgz 채우기(cover)*/
             background-size: cover;
             /* 양쪽 마진이 오토면 양쪽을 등분해서 가로 중앙이 된다! */
-            /* 패딩 탑 pt */
-            padding-top: 50px;
         }
-        /* 전체 박스: div니까 블록 박스임 */
-        .mybox{
-            width: 1200px;
-            height: 800px;
+
+        /* 두번째 페이지 박스 */
+        .mbx2{
+            background-image: url(./imgs/bg_mainvisual.jpg);
+        }
+        
+        /* 페이지별 컨텐츠 박스 */
+        .pwrap{
             background-color: rgba(255, 255, 255, 0.500);
             /* 둥근 모서리 brad */
             border-radius: 20px;
@@ -34,6 +50,8 @@
             /* 마영오!씨를 무대 중앙으로 모시겠습니다.ㅋㅋ */
             margin: 0 auto;
         }
+
+
         /* h1요소 */
         .tit{
             /* 기본 마진 없앰 */
@@ -46,24 +64,88 @@
     </style>
 </head>
 <body>
-    <div class="mybox">
+    <!-- 1번 페이지 -->
+    <div class="mybox mbx1">
+        <!-- 1.타이틀 -->
         <h1 class="tit">
             <img src="./imgs/mylogo_14.png" alt="나의 로고">
             <br>
-            bara의 아카이브 페이지:></h1>
-        <h2>
-            <ol>
-                <li>
-                    <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
-                </li>
-                <li>
-                    <a href="./001.HTML학습/01.info_PJ/sub4.html" target="_blank">IT/과학 페이지</a>
-                </li>
-                <li>
-                    <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
-                </li>
-            </ol>
-        </h2>
+            bara의 아카이브 페이지:>
+        </h1>
+        
+        <div class="pwrap">
+            <!-- 1.html학습 링크 파트 -->
+            <section class="part pt1">
+                <ol>
+                    <li>
+                        <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
+                    </li>
+                    <li>
+                        <a href="./001.HTML학습/01.info_PJ/sub4.html" target="_blank">IT/과학 페이지</a>
+                    </li>
+                    <li>
+                        <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- 2.CSS학습 링크 파트 -->
+            <section class="part pt2">
+                <ol>
+                    <li>
+                        <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
+                    </li>
+                    <li>
+                        <a href="./001.HTML학습/01.info_PJ/sub4.html" target="_blank">IT/과학 페이지</a>
+                    </li>
+                    <li>
+                        <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
+                    </li>
+                </ol>
+            </section>
+        </div>
+    </div>
+
+    <!-- 2번 페이지 -->
+    <div class="mybox mbx2">
+        <!-- 1.타이틀 -->
+        <h1 class="tit">
+            <img src="./imgs/mylogo_14.png" alt="나의 로고">
+            <br>
+            bara의 아카이브 페이지:>
+        </h1>
+
+        <div class="pwrap">
+            <!-- 1.html학습 링크 파트 -->
+            <section class="part pt1">
+                <ol>
+                    <li>
+                        <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
+                    </li>
+                    <li>
+                        <a href="./001.HTML학습/01.info_PJ/sub4.html" target="_blank">IT/과학 페이지</a>
+                    </li>
+                    <li>
+                        <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- 2.CSS학습 링크 파트 -->
+            <section class="part pt2">
+                <ol>
+                    <li>
+                        <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
+                    </li>
+                    <li>
+                        <a href="./001.HTML학습/01.info_PJ/sub4.html" target="_blank">IT/과학 페이지</a>
+                    </li>
+                    <li>
+                        <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
+                    </li>
+                </ol>
+            </section>
+        </div>
     </div>
 </body>
 </html>
