@@ -42,7 +42,7 @@
     padding: 15px;
 }
 
-.cont article h5{
+.cont .desc h5{
     display: inline-block;
     border-radius: 20px;
     padding: 10px 20px;
@@ -54,3 +54,113 @@
     font-size: 22px;
     color: #f1f1f1;
 }
+
+.desc div{
+    padding-top: 20px;
+}
+
+.cont h5{
+    text-align: right;
+}
+.cont h5 a{
+    display: inline-block;
+    border: 2px dashed #8898dd;
+    background-color: lightsalmon;
+    border-radius: 50%;
+    height: 70px;
+    width: 70px;
+    line-height: 65px;
+    text-align: center;
+    color: #4e4e4e;
+    text-decoration: none;
+}
+.cont h5 a:hover{
+    box-shadow: inset 0 0 5px 5px rgba(136, 109, 185, 0.582);
+}
+
+.work{
+    text-align: center;
+    /* background-color: aquamarine; */
+    background-image: linear-gradient(to bottom, rgb(8, 85, 15), rgb(127, 73, 189));
+    background-clip: content-box;
+    color: #dddddd;
+}
+
+.work h3{
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: 35px;
+    font-weight: normal;
+}
+
+.work figure img{
+    border: 20px ridge darkgoldenrod;
+}
+
+.work figcaption{
+    font-family: 'Nanum Myeongjo', serif;
+    margin: 10px 0 50px;
+}
+
+.work figcaption cite{
+    font-style: normal;
+}
+
+/* 분야별 뉴스 제목 공통 글씨체 적용하기 */
+article h3{
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: 23px;
+    font-weight: normal;
+    margin-bottom: 0;
+}
+article a{
+    text-decoration: none;;
+    color: rgb(31, 31, 31);
+}
+
+.cnews ul{
+    list-style-type: "👍";
+}
+
+.cnews ul li:first-child a{
+    color: #046404;
+}
+
+.cnews ul li:nth-child(2) a{
+    color: #b04fb9;
+}
+
+.cnews ul li:last-child a{
+    color: #491386;
+}
+
+/* 
+((궁금)) ul이든 ol이든간에 마우스오버하면 lightblue가 나왔으면 하는데...
+아무리 부모요소를 더 줘도 ul의 a요소들은 색상 변화가 없네... 뭘 잘못한거지...?
+이제보니까 선생님이랑 한것도 전체 a에 색상 줬는데...!
+나 잠깐 자리비웠을 때 설명해주셨나? ㅠ-ㅜ 궁금궁금...
+*/
+html body article li a:hover{
+    color: lightblue;
+    text-shadow: 0 0 1px rgba(29, 29, 29, 0.863);
+}
+
+article a:hover{
+    color: rgb(207, 118, 66);
+    text-shadow: 0 0 1px rgba(204, 204, 204, 0.863);
+}
+
+.rank ol{
+    list-style: upper-roman;
+}
+
+.rank ol li:first-child a{
+    color: red;
+}
+.rank ol li:nth-child(2) a{
+    color: green;
+}
+.rank ol li:last-child a{
+    color: brown;
+}
+
+
