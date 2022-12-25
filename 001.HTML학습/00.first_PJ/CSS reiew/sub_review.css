@@ -163,4 +163,93 @@ article a:hover{
     color: brown;
 }
 
+.secnews dt{
+    border: 2px dashed darkred;
+    display: inline-block;
+    background-color: plum;
+    border-radius: 10px;
+    box-shadow:  2px 2px 3px darkgreen;
+    padding: 10px;
+    margin-left: 18px;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.secnews dt:first-of-type{
+    color: red;
+}
+.secnews dt:nth-of-type(2){
+    color: green;
+}
+.secnews dt:last-of-type{
+    color: blue;
+}
+
+
+/* 
+((궁금)) 박스들이 서로 너무 가까울 때... 마진으로 밀어내는 게 좋은지, 패딩으로 밀어내는 게 좋은지?
+마진은 위아래라면 서로 겹칠 수도 있고(아래), 박스가 커질 수도 있으니까 패딩으로 여백을 주는 게 좋은 것 같은데 이 생각이 맞는지..?
+그리고 어떤 박스에 여백을 주는 게 좋은지...? 따로 권고되는 부분이 있나..?(추천되는 부분...??)
+*/
+
+.secnews dd{
+    font-family: 'Nanum Myeongjo', serif;
+    margin: 20px 50px;
+}
+
+/* 사진뉴스 */
+.pnews h3{
+    text-align: center;
+    margin-bottom: 25px;
+}
+.pnews h3::before{
+    content: "🌈";
+}
+
+.pnews table{
+    margin: 0 auto;
+    /* text-align: center; */
+    border-collapse: collapse;
+    border: 2px solid #1d0db1;
+}
+
+.pnews table td:first-child{
+    width: 70px;
+    height: 70px;
+    background-color: #1d0db1;
+    text-align: center;
+    color: #dddddd;
+    font-weight: bold;
+}
+
+.pnews td:nth-child(2){
+    background-color: #dddddd;
+    padding: 0 20px;
+    font-family: 'Nanum Myeongjo', serif;
+    color: hotpink;
+}
+
+.pnews td:last-child{
+    background-color: #dddddd;
+}
+
+.pnews tr+tr td{
+    border-top: 2px solid #1d0db1;
+}
+
+.pnews img{
+    width: 120px;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+/* 말줄임표 자동 표시기능 */
+dl a, table td:nth-child(2) a{
+    display: block;
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
