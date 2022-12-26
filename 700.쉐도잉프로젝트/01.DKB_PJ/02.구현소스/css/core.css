@@ -1,0 +1,29 @@
+@charset "utf-8";
+/* 웹폰트, 공통클래스 셋팅 CSS - core.css */
+
+/* 웹폰트 CDN */
+@import url('https://fonts.googleapis.com/css2?family=Gugi&family=Nanum+Gothic&family=Single+Day&family=ZCOOL+KuaiLe&display=swap');
+/* 
+    1. 캐릭터 설명 제목체
+    font-family: 'Gugi', cursive;
+    2. 캐릭터 설명 내용체
+    font-family: 'Single Day', cursive;
+    3. 캐릭터 설명 한자체
+    font-family: 'ZCOOL KuaiLe', cursive;
+    4. 전체 공통체(메뉴 등)
+    font-family: 'Nanum Gothic', sans-serif;
+*/
+
+/* 전체 웹폰트 적용하기 */
+body{
+    /* 출력 영역의 최상위 부모가 바디니까 여기에다가 적용시키는 것임 */
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+/* 중앙 속박스 클래스 */
+.ibx{
+    max-width: 1200px;    /* maw */
+    /* 1200px을 유지하다가 이것보다 작아지면 auto로 가로크기가 전환되어 가로 스크롤이 안 생기게 됨! */
+    margin: 0 auto;
+
+}
