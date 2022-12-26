@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* 웹폰트 등 공통 클래스 셋팅 CSS - core.css */
+
+/* 웹폰트 */
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gothic+A1&family=Gugi&family=Nanum+Gothic&family=Nanum+Myeongjo&display=swap');
+
+/* 
+1.제일 강조하는 제목
+font-family: 'Black Han Sans', sans-serif;
+2.부제목
+font-family: 'Gothic A1', sans-serif;
+3.손글씨같은 포인트용
+font-family: 'Gugi', cursive;
+4.메뉴 (공통)
+font-family: 'Nanum Gothic', sans-serif;
+5.본문, 기타
+font-family: 'Nanum Myeongjo', serif;
+*/
+
+body{
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.ibx{
+    max-width: 1200px;
+    margin: 0 auto;
+}

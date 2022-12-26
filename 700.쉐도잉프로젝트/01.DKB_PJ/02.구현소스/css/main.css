@@ -102,7 +102,7 @@ body{
 /* .cat박스에 마우스오버시 진한 이미지 보이기 */
 .cat:hover .ci figcaption img:first-child{
     display: inline;
-    /* display: inline-block; */
+    /* display: inline-block;???????????? */
 }
 
 /* .cat박스에 마우스오버시 흐린 이미지 숨기기 */

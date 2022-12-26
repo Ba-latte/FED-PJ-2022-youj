@@ -1,0 +1,74 @@
+@charset "utf-8";
+/* 스토브리그 PJ 메인페이지 CSS - main.css */
+
+/* 외부 CSS 합치기 */
+@import url(reset.css);
+@import url(core.css);
+@import url(common.css);
+
+/* 공사중 표시 */
+body *{
+    outline: 1px dotted red;
+}
+
+body{
+    background: 
+    /* url(../images/sl_logo.png) no-repeat fixed 92% 25%, */
+    url(../images/sl_main.jpg) no-repeat fixed center/cover;
+    background-color: #1c5c50;
+}
+
+/****************************** 메인 영역 ******************************/
+/* 메인영역 속박스 */
+.cont{
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+/* 전체 캐릭터 박스 */
+.cbx{
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 300px;
+}
+/* 자식요소의 float 해제 clear설정 가상요소로 하기 */
+.cbx::after{
+    content: '';
+    display: block;
+    clear: both;
+}
+/* 각각의 캐릭터 박스 공통 */
+.cat{
+    float: left;
+    width: 25%;
+}
+/* 캐릭터 이미지(.ci 직계 img에만 적용되게 만들기) */
+.ci>img{
+    width: 100%;
+}
+/* 캐릭터 이름 이미지 박스 */
+.ci figcaption{
+    margin-top: -100px;
+    text-align: center;
+}
+/* 캐릭터 이름 이미지 */
+.ci figcaption img{
+    width: 60%;
+}
+/* 캐릭터 이름 이미지 중 첫번째 이미지 처음에 숨기기 (저번에 공부한 영변에 약산~~~) */
+.ci figcaption img:first-child{
+    display: none;
+}
+/* .cat박스에 마우스오버시 진한 이미지 보이기 */
+.cat:hover .ci figcaption img:first-child{
+    display: inline;
+}
+/* .cat박스에 마우스오버시 흐린 이미지 숨기기 */
+.cat:hover .ci figcaption img:last-child{
+    display: none;
+}
+
+/* 
+((궁금)) 선생님이랑 똑같이 했는데, 얘는 브라우저 사이즈를 줄이면 이름이미지가 너무 높게 올라가요....... 왜 그럴까요......?
+=>%는 기준이 부모박스라서! 부모박스가 세로로 길쭉하니까~ 얘도 덩달아 높게 올라가는 거 아닐까....??
+((궁금)) 아니 왜 ci가 img보다 더 박스 크기가 작게 나오지요..................??
+*/

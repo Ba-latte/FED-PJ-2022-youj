@@ -1,0 +1,12 @@
+@charset "utf-8";
+/* 요소 리셋 CSS - reset.css (기본 셋팅값이 있는 요소들 초기화) */
+
+html, body, h1, h2, h3, h4, h5, h6, p, figure, 
+ul, ol, dl, dt, dd{
+    margin: 0;
+    padding: 0;
+}
+
+ul, ol{
+    list-style: none;
+}
