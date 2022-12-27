@@ -15,7 +15,7 @@ body{
     background: 
     /* url(../images/sl_logo.png) no-repeat fixed 92% 25%, */
     url(../images/sl_main.jpg) no-repeat fixed center/cover;
-    background-color: #1c5c50;
+    /* background-color: #1c5c50; */
 }
 
 /****************************** 메인 영역 ******************************/
@@ -47,7 +47,7 @@ body{
 }
 /* 캐릭터 이름 이미지 박스 */
 .ci figcaption{
-    margin-top: -100px;
+    margin-top: -40%;
     text-align: center;
 }
 /* 캐릭터 이름 이미지 */
@@ -70,5 +70,7 @@ body{
 /* 
 ((궁금)) 선생님이랑 똑같이 했는데, 얘는 브라우저 사이즈를 줄이면 이름이미지가 너무 높게 올라가요....... 왜 그럴까요......?
 =>%는 기준이 부모박스라서! 부모박스가 세로로 길쭉하니까~ 얘도 덩달아 높게 올라가는 거 아닐까....??
+    ((해결))!!!!!아 이거 내가 캐릭터 이름 이미지 박스에 margin-top를 %가 아니라 픽셀로 줘서 고정된거였어!!!!!!
+    
 ((궁금)) 아니 왜 ci가 img보다 더 박스 크기가 작게 나오지요..................??
 */
