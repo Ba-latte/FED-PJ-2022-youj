@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>인라인 요소의 정렬</title>
+        <style>
+            h1,h2{
+                text-align: center;
+            }
+            /* 박스공통 */
+            .bx{
+                border: 5px dashed darkblue;
+                width: 600px;
+                margin: 50px auto;
+                padding: 5px;
+            }
+            /* 기본적으로 인라인요소나 글자는 박스의 텍스트정렬로 셋팅한다! */
+            /* 1번박스 - 가로중앙정렬*/
+            .bx1{
+                text-align: center;
+                height: 100px;
+                line-height: 100px;
+                /* 세로 중앙은 줄간격을 높이값과 같은 값으로 셋팅함! (인라인 요소는 이렇게 하면 됨~ 인라인요소 마영오씨 안먹힘) */
+            }
+            /* 2번박스 - 가로오른쪽정렬 */
+            .bx2{
+                text-align: right;
+                /* 텍스트 정렬은 인라인요소에도 동일하게 적용! */
+            }
+            /* 3번박스 - 이미지 가로중앙정렬 */
+            .bx3{
+                text-align: center;
+                height: 200px;
+                /* 이미지도 인라인요소임~ */
+            }
+            /* 인라인 요소의 세로정렬은 일반적으로 line-height를 사용한다! */
+            /* 4번박스 - 글자정중앙 */
+            .bx4{
+                width: auto;
+                max-width: 400px;
+                /* 기존 공통 .bx에 width 크기가 이미 셋팅되어 있어서 (600으로) max-width가 적용 안 되므로! 이것을 auto로 전환해줘야함(이 박스에만 해당되게 덮어씀) */
+                /* 박스자식요소 인라인 가로중앙 - text-align */
+                text-align: center;
+                /* 박스자식요소 인라인 세로중앙 - line-height */
+                height: 400px;
+                line-height: 400px;
+                /* 그냥 400이라고 쓰면 400'배'가 되니까 픽셀단위 꼭 써야하고!! 위에 높이가 지금 400이니까 400으로 하는 것임. 그리고 만약 글씨가 길어서 줄바꿈되면 그만큼 저~~~아래에 다음 문장이 있을 것임! 그래서 줄바꿈 방지함*/
+                /* 
+                    세로중앙은 높이값과 같은 값으로 설정!
+                    -> 단, 한줄짜리 글자일때만 적용
+                    보통 한줄짜리일 경우 혹시 모를 줄바꿈을 
+                    방지하기 위해 white-space: nowrap;
+                    줄바꿈방지 설정을 함!
+                 */
+                
+                /* 글자내용 넘칠 때 말줄임표 ... 셋팅 */
+                /* 1.한줄짜리 글자 줄바꿈 방지 */
+                white-space: nowrap;
+                /* 2.넘치는 자식요소 숨기기 */
+                overflow: hidden;
+                /* 3.넘치는 글자 말줄임표 셋팅 */
+                text-overflow: ellipsis;
+            }
+
+            /* 5번박스 - 이미지 정중앙 */
+            .bx5{
+                width: 300px;
+                height: 300px;
+
+                /* 이미지도 텍스트 정렬이 동일하게 적용됨! */
+                text-align: center;
+
+                /* 300px + 이미지높이값 36px의 절반인 18px */
+                line-height: 318px;
+                /* 이미지의 높이값때문에 그냥 박스의 높이인 300픽셀이라고 하면~ 중앙에 안옴! (글자는 왜 이렇게 안해도 돼? =>글자는 중앙선이란게 있어서 그걸로 알아서 처리하나봐~) */
+                /* 
+                    이미지 세로중앙정렬은 이미지 높이값의 절반을
+                    line-height에 더하여 셋팅한다!
+                */
+            }
+            /* 6번박스 - 인라인 요소간 간격밀기 : 오른쪽마진으로 '여름'글자를 밀어준다! */
+            .bx6 i{
+                margin-right: 100px;
+            }
+            .bx6 strong{
+                margin: 100px 30px 0 80px;
+                /* 마진: 위 오른 아래 왼 */
+                /* 인라인요소의 위아래 마진은 적용되지 않는다!
+                그래서 100px은 적용 안 됨!! */
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1>인라인 요소의 정렬</h1>
+
+        <h2>박스안의 글자정렬 - 중앙정렬</h2>
+        <div class="bx bx1">
+            나는 누구인가?
+        </div>
+
+        <h2>박스안의 b태그 - 오른쪽정렬</h2>
+        <div class="bx bx2">
+            <b>나는 김수현이다!</b>
+        </div>
+
+        <h2>박스안의 img태그 - 중앙정렬</h2>
+        <div class="bx bx3">
+            <img src="../../002.CSS학습/imgs/blogo.png" alt="로고">
+        </div>
+
+        <h2>박스안의 글자가 박스의 정중앙에 오기</h2>
+        <div class="bx bx4">
+            나는 김수현이 너무너무너무너무 완전 진짜 짱 좋다! 
+        </div>
+
+        <h2>박스안의 이미지가 박스의 정중앙에 오기</h2>
+        <div class="bx bx5">
+            <img src="../../002.CSS학습/imgs/blogo.png" alt="로고">
+        </div>
+
+        <h2>인라인 요소간 간격밀기</h2>
+        <div class="bx bx6">
+            <i>봄</i><em>여름</em><strong>가을</strong><span>겨울</span>
+        </div>
+
+    </body>
+</html>

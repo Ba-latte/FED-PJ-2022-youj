@@ -56,8 +56,21 @@ body{
 .cat{
     /* 블록박스 옆으로 흐르게 */
     float: left;
-    /* 4등분할 가로크기 -> 25% */
-    width: 25%;
+    /* 4등분할 가로크기 -> 25% - 마진값인 1% = 25% */
+    width: 24%;
+    /* 마진: 위아래 0, 양쪽 0.5% (전체 %에 0.5들어가니까 주의) */
+    margin: 0 .5%;
+
+}
+
+/* 캐릭터 이미지 박스 */
+.cat .ci{
+    /* 트랜지션 : 속시이지 (trs) */
+    transition: margin-top .4s;
+}
+/* .cat에 오버시 .ci박스 마진탑 변경하기 (흔들림이 없어지네) */
+.cat:hover .ci{
+    margin-top: -45%;
 }
 
 /* 캐릭터 이미지(.ci 직계 img에만 적용되게 만들기) */
@@ -108,4 +121,48 @@ body{
 /* .cat박스에 마우스오버시 흐린 이미지 숨기기 */
 .cat:hover .ci figcaption img:last-child{
     display: none;
+}
+
+/* 캐릭터 설명 박스 */
+.cd{
+    /* 전체 높이 설정 */
+    height: 0px;
+    /* 넘치는 자식 요소 숨기기
+    1)overflow-y:scroll; =>y축 스크롤 셋팅
+    2)overflow:auto도 좋은 방법임!=>자동으로 y나 x축 스크롤 만들어줌 */
+    overflow-y: scroll;
+    /* h0을 안줘도 박스 일정부분 바깥에 있는 것들 다 잘려서 숨겨진 이유는, 배경?에다가 오버플로우히든 준게 있어서! */
+
+    /* 배경넣기 */
+    background: url(../images/eachBG.jpg) no-repeat bottom/cover;
+
+    /* 트랜지션 
+    -2가지 변화상태를 애니메이션해주는 속성
+    transition: 속성(속성 이름을 굳이! 콕찝어서 써줄 수도 있음) 시간(0.4s 에서 0을 생략해도 되서 안 씀) 이징 지연 */
+    transition: height .4s;
+
+}
+
+/* .cat에 마우스오버시 .cd 높이값 늘리기 */
+.cat:hover .cd{
+    height: 250px;
+}
+
+/* 캐릭터 설명 타이틀 */
+.cd h3{
+    font-family: 'Gugi', cursive;
+    font-size: 24px;
+    font-weight: normal;
+    padding: 15px 10px 5px;
+    letter-spacing: -1px;
+}
+
+/* 캐릭터 설명 문단 */
+.cd p{
+    font-family: 'Single Day', 'ZCOOL KuaiLe', cursive;
+    font-size: 18px;
+    line-height: 1.6;
+    padding: 10px;
+    /* 양쪽정렬 text-align : justify (taj) */
+    text-align: justify;
 }

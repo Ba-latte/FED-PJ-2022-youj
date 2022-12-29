@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>04.fixed 포지션</title>
+    <style>
+
+        /* fixed 박스 공통 */
+        .fxd{
+
+        }
+
+        /* 두번째 fixed 박스 */
+        .f2{
+
+        }
+
+
+
+        .bx{
+            width: 100px;
+            height: 100px;
+            border: 2px solid blue;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold; /* fwb */
+            /* 글자 세로 중앙 */
+            line-height: 100px;
+        }
+
+        /* 첫번째 앱솔루트!!!! */
+        #a1{
+
+        }
+        
+        /* 두번째 앱솔루트 */
+        #a2{
+        }
+
+        /* 첫번째 박스에 포지션 체크 */
+        #r1{
+        }
+        
+        /* 또 하나의 relative */
+        #r2{
+        }
+
+        #s1{
+        }
+        #s2{
+        }
+
+        /* 부모를 찾는 앱솔루트 */
+        .bx2{
+        }
+        /* 각 부모박스 */
+        .s5{
+        }
+        .s6{
+        }
+        .s7{
+        }
+        .s8{
+            /* 앱솔루트 자식에 관하여 부모자격이 있는 경우에만 overflow:hidden이 적용된다 */
+        }
+        /* 부모 찾는 앱솔루트박스 */
+        .abs{
+        }
+
+        /* .a3는 위치이동값이 없으므로 젠틀하다!! (싸고 있는 박스 안에 그대로 가만히 있는다!!) */
+
+        /* 부모 찾는 앱솔루트 .a4 */
+        .a4{
+            /* 부모자격 있는 overflow:hidden 체크위해 약간 위로 이동시켜놓음 */
+            /* 나의 부모는???? */
+            /* 앱솔루트인데 %로 가로, 세로 크기를 줄 경우 부모'자격'박스를 기준한다! (퍼센트를 써도 부모자격박스를 찾는다~~~) */
+        }
+
+        /* 앱솔루트:판타롱스타킹! */
+        .a5{
+            /* 크기를 안주면 내용만큼 늘어남! */
+        }
+        .a5 img{
+            /* 인라인요소 세로정렬값을 주면 박스와 이미지 사이의 하단 간극이 없어짐! 아무 값을 넣어도 다 되는건 아니고 탑 미들 버텀 이정도는 됨 */
+
+            /* 
+            박스에 단일한 이미지를 넣을 경우 하단에 자연스러운 간극이 '존재한다!'(그냥...4픽셀 정도 '그냥'생긴다.....)
+            이것을 없애려면 vertical-align속성으로
+            인라인 요소간 세로정렬 속성의 값으로 top/bottom/middle중 어느것이든 쓰면 이것이 사라진다! 알아두자!
+            */
+        }
+
+        /* span을 앱솔루트로! => 자동 display:block으로 전환! */
+        .spabs{
+            /* 부모는 .s8 */
+        }
+
+        /* 앱솔루트끼리는 서로 겹친다! */
+        .absimg{
+        }
+        .absimg img{
+            /* 젠틀앱솔루트여서 부모자격이 없는 일반 static요소여도  그자리에 가만히 있음
+            ->앱솔루트 이미지끼리는 서로 겹쳐짐!!
+            위아래 관계는 z-index로 변경 가능 */
+        }
+        /* 두번째 이미지 닥스만 투명하게 */
+        .absimg img:last-child{
+            /* 투명도 : opacity (0은 투명, 1은 불투명, 0.몇은 반투명) */
+            /* op숫자 */
+            /* 트랜지션 : transition - trs */
+            
+        }
+        /* 부모 박스 오버시 닥스 보이기 */
+        .absimg:hover img:last-child{
+        }
+
+        /* 최하위요소일지라도 fixed가 되면 보이는 화면을 기준하여 변경됨!!!! */
+        .f3{
+            /* 기준은 무조건 보이는 화면! */
+            /* 트랜지션 : trs */
+        }
+        /* 마우스오버시 나오기 */
+        .f3:hover{
+
+        }
+        .f3 span{/* 글자박스 */
+            /* 부모는 누구? =>.f3임 */
+            /* 글자세로모드 - wm */
+            /* 둥근모서리 : 왼쪽위, 왼쪽아래
+            border-radius: 왼위 오른위 오른아래 왼아래 (왼쪽위부터 시계방향) */
+        }
+        .f3 img{
+            /* 하단 간극 없애기!! */
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="bx" id="r1">r1</div>
+    <div class="bx" id="s1">s1</div>
+    <div class="bx" id="a1">a1</div>
+    <div class="bx" id="r2">r2</div>
+    <div class="bx" id="s2">s2</div>
+    <div class="bx" id="a2">a2</div>
+
+    <!-- 화면고정 fixed 포지션 박스 -->
+    <div class="fxd f1">나는 젠틀 fixed다!</div>
+    <div class="fxd f2">나 fixed의 부모는 보이는 화면이다!</div>
+
+
+
+
+    <!-- 앱솔루트 : 판타롱스타킹! -->
+    <div class="a5">
+        <img src="../../002.CSS학습/01.Position/images/ab2.jpg" alt="타노스">
+    </div>
+
+    <!-- 앱솔루트끼리는 서로 겹친다! -->
+    <div class="absimg">
+        <img src="../../002.CSS학습/01.Position/images/ab3.jpg" alt="토르">
+        <img src="../../002.CSS학습/01.Position/images/ab4.jpg" alt="닥스">
+    </div>
+
+    <!-- 부모를 찾는 앱솔루트! -->
+    <!-- .bx2.s5{s5}>.bx2.s6{s6}>.bx2.s7{s7}>.bx2.s8{s8}>.abs.a3{a3} 에밋코딩 -->
+    <div class="bx2 s5">s5
+        <div class="bx2 s6">s6
+            <div class="bx2 s7">s7
+                <div class="bx2 s8">s8
+                    <div class="abs a3">a3</div>
+                    <div class="abs a4">a4</div>
+                    <span class="spabs">
+                        나는 span앱솔루트다!
+                    </span>
+                    <!-- 최하위요소일지라도 fixed가 되면 보이는 화면을 기준하여 변경됨!!!! -->
+                    <div class="f3">
+                        <img src="../../002.CSS학습/01.Position/images/ab0.jpg" alt="포스터">
+                        <span>포스터보기</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
