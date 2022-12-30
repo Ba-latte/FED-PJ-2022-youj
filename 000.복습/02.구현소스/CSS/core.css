@@ -25,3 +25,16 @@ body{
     max-width: 1200px;
     margin: 0 auto;
 }
+
+/* 스크롤바 디자인 클래스 */
+.scbar::-webkit-scrollbar{
+    width: 10px;
+}
+.scbar::-webkit-scrollbar-thumb{
+    background-color: #424242;
+    border-radius: 5px;
+}
+.scbar::-webkit-scrollbar-track{
+    background-color: #cacaca;
+    border-radius: 5px;
+}

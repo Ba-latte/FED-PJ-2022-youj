@@ -7,9 +7,9 @@
 @import url(common.css);
 
 /* 공사중 표시 */
-body *{
+/* body *{
     outline: 1px dotted red;
-}
+} */
 
 body{
     background: 
@@ -70,8 +70,64 @@ body{
 }
 
 .cd{
-    /* height: 400px; */
-    background: url(../../../imgs/img3.jpg) no-repeat bottom/cover;
+    height: 0px;
+    background: #e6e6e6 no-repeat center/cover;
+    border-radius: 15px 10px 10px 20px;
+    margin-top: 40px;
+    overflow-y: scroll;
+}
+
+.cat:hover .cd{
+    height: 350px;
+}
+
+.cat .ci{
+    transition: margin-top .4s;
+}
+.cat:hover .ci{
+    margin-top: -60%;
+}
+
+.cd h3{
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 30px;
+    font-weight: normal;
+    color: #1f1f1f;
+    margin-top: 10px;
+    padding: 10px 15px 0px;
+    white-space: -2px;
+}
+
+.cd h3::before{
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: url(../images/dreams.png) no-repeat 0 0/30px;
+    vertical-align: -3px;
+    margin-right: 5px;
+}
+
+.cd h2{
+    font-family: 'Gothic A1', sans-serif;
+    font-size: 20px;
+    padding: 5px 15px 0px;
+}
+
+.cd p{
+    padding: 10px;
+    line-height: 1.5;
+}
+
+.cd p:first-child::first-letter{
+    font-family: 'Gugi', cursive;
+    font-size: 25px;
+    color: #ffee00;
+    text-shadow:
+    1px 0 #000,
+    -1px 0 #000,
+    0 1px #000,
+    0 -1px #000;
 }
 
 /* 
