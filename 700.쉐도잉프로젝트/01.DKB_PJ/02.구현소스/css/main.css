@@ -8,9 +8,9 @@
 @import url(common.css);
 
 /* 공사중 표시 */
-body *{
+/* body *{
     outline: 1px dotted red;
-}
+} */
 
 /* 컨텐츠파트 최상위부모 */
 body{
@@ -136,6 +136,12 @@ body{
     /* 배경넣기 */
     background: url(../images/eachBG.jpg) no-repeat bottom/cover;
 
+    /* 둥근모서리 : 왼쪽위부터 시계방향으로  */
+    border-radius: 20px 5px 5px 20px;
+
+    /* 위쪽여백(캐릭터사진과 설명박스 사이) 주기 */
+    margin-top: 20px;
+
     /* 트랜지션 
     -2가지 변화상태를 애니메이션해주는 속성
     transition: 속성(속성 이름을 굳이! 콕찝어서 써줄 수도 있음) 시간(0.4s 에서 0을 생략해도 되서 안 씀) 이징 지연 */
@@ -157,6 +163,19 @@ body{
     letter-spacing: -1px;
 }
 
+/* 캐릭터 타이틀 앞 아이콘을 가상요소로 넣기 */
+.cd h3::before{
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 35px;
+    /* 인라인요소간 세로정렬 */
+    vertical-align: -6px;
+    margin-right: 5px;
+    background: url(../images/bg_logo_a_01.png) no-repeat -144px -181px;
+    /* 배경이미지 위치값은 본 이미지를 그림판으로 열어서 마우스 커서 위치에 따라 표시되는 x,y축 좌표값에 마이너스 기호를 붙여서 가로,세로순으로 써주면 정확한 위치가 됨!(이미지는 오른쪽으로 갈수록, 아래로 내려갈수록 +임....) */
+}
+
 /* 캐릭터 설명 문단 */
 .cd p{
     font-family: 'Single Day', 'ZCOOL KuaiLe', cursive;
@@ -166,3 +185,33 @@ body{
     /* 양쪽정렬 text-align : justify (taj) */
     text-align: justify;
 }
+
+/* 캐릭터 첫번째 문단 첫글자 가상요소로 디자인 변경하기 */
+.cd p:first-child::first-letter{
+    font-size: 50px;
+    color: cyan;
+    /* 그림자로 글자 테두리주기
+    블러없는 그림자 4개사용 */
+    text-shadow:
+    1px 0 #000,
+    -1px 0 #000,
+    0 1px #000,
+    0 -1px #000;
+
+    /* 글자크기로 인해 줄간격 조정하기 (글자크기가 혼자 커지면서 아랫줄을 혼자서 너무 밀어대는 현상 발생) */
+    line-height: 1;
+}
+
+/* 각 캐릭터 박스별로 첫글자 색상 변경하기 */
+.cat:nth-child(2) .cd p:first-child::first-letter{
+    color: lightgreen;
+}
+
+.cat:nth-child(3) .cd p:first-child::first-letter{
+    color: lightsalmon;
+}
+
+.cat:nth-child(4) .cd p:first-child::first-letter{
+    color: lightseagreen;
+}
+
