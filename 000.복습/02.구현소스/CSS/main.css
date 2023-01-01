@@ -68,7 +68,7 @@ body{
 .cat:hover .ci figcaption img:last-child{
     display: none;
 }
-
+/* 캐릭터 설명 박스 공통 */
 .cd{
     height: 0px;
     background: #e6e6e6 no-repeat center/cover;
@@ -76,18 +76,19 @@ body{
     margin-top: 40px;
     overflow-y: scroll;
 }
-
+/* 캐릭터 설명 박스 마우스 오버시 */
 .cat:hover .cd{
     height: 350px;
 }
-
+/* 캐릭터 이미지 박스 */
 .cat .ci{
     transition: margin-top .4s;
 }
+/* 캐릭터 이미지 박스에 마우스 오버시 */
 .cat:hover .ci{
     margin-top: -60%;
 }
-
+/* 캐릭터 설명박스 안의 배역 이름 */
 .cd h3{
     font-family: 'Black Han Sans', sans-serif;
     font-size: 30px;
@@ -97,7 +98,7 @@ body{
     padding: 10px 15px 0px;
     white-space: -2px;
 }
-
+/* 배역 이름 가상요소 */
 .cd h3::before{
     content: '';
     display: inline-block;
@@ -107,18 +108,18 @@ body{
     vertical-align: -3px;
     margin-right: 5px;
 }
-
+/* 배역 이름 부제목 */
 .cd h2{
     font-family: 'Gothic A1', sans-serif;
     font-size: 20px;
     padding: 5px 15px 0px;
 }
-
+/* 캐릭터 설명 */
 .cd p{
     padding: 10px;
     line-height: 1.5;
 }
-
+/* 캐릭터 설명 첫번째 줄 디자인 */
 .cd p:first-child::first-letter{
     font-family: 'Gugi', cursive;
     font-size: 25px;
@@ -130,11 +131,44 @@ body{
     0 -1px #000;
 }
 
+/* 세로 포스터 공통 박스 */
+.poster{
+    top: 20%;
+    right: -200px;
+    position: fixed;
+    transition: right .3s;
+}
+/* '포스터보기'에 마우스오버시 이미지 등장 */
+.poster:hover{
+    right: 0;
+}
+/* 포스터 보기 텍스트 */
+.poster figcaption{
+    position: absolute;
+    top: 0;
+    right: 100%;
+    width: 50px;
+    height: 100%;
+    padding-left: 20px;
+    text-align: center;
+    background-color: #333;
+    writing-mode: vertical-lr;
+    font-size: 30px;
+    font-weight: bold;
+    color: lightsalmon;
+    border-radius: 10px 0 0 10px;
+}
+/* 세로 포스터 이미지 */
+.poster img{
+    width: 200px;
+    vertical-align: middle;
+}
+
 /* 
 ((궁금)) 선생님이랑 똑같이 했는데, 얘는 브라우저 사이즈를 줄이면 이름이미지가 너무 높게 올라가요....... 왜 그럴까요......?
 =>%는 기준이 부모박스라서! 부모박스가 세로로 길쭉하니까~ 얘도 덩달아 높게 올라가는 거 아닐까....??
     ((해결))!!!!!아 이거 내가 캐릭터 이름 이미지 박스에 margin-top를 %가 아니라 픽셀로 줘서 고정된거였어!!!!!!
     
 ((궁금)) 아니 왜 ci가 img보다 더 박스 크기가 작게 나오지요..................??
-=>((해결))이거 이미지가 들어가면 사이간극 생겨서 그런 것 같음!!!!
+=>((해결))이거 이미지가 더 커서 그런거 같은데...?!
 */
