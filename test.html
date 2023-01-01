@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <style>
+    /*
+    질문1. 이미지 크기를 %로 지정해주고 이미지보다 부모요소인 박스의 위치값을 px로 주면, 왜 이미지의 크기가 달라지나요...?
+    질문1-1. 이미지의 크기 단위를 px로 주면, 다른 모든 요소들의 단위도 px같이 고정?된 값을 줘야 하나요? %로는 못 주나요...? (단위 전부 다 통일시켜야 하나요)
+    질문2. 여기서 .cont에 배경이미지를 줬는데, 적용이 안됨..대신 body에는 적용됨...왜 그런거지요...?
+    */
+    html,body{
+        margin: 0 auto;
+    }
+    body{
+        background: url(./imgs/note.jpg) no-repeat fixed -250px;
+    }
+    /* .cont{
+        background-color: #333;
+    } */
+    .top{
+        position: fixed;
+        width: 100%;
+        height: 300px;
+    }
+    .gnb ul{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: 25px;
+        font-family: "나눔명조";
+        font-weight: bold;
+        position: relative;
+        top: 60px;
+        left: 550px;
+    }
+    .gnb li{
+        float: left;
+        padding-right: 20px;
+    }
+    .gnb ul::after{
+        content: '';
+        display: block;
+        clear: both;
+    }
+    article{
+        display: inline-block;
+        width: 1200px;
+        height: 800px;
+        background-color: #dddddd8f;
+        margin: 100px 30px 0;
+    }
+    .test{
+        border: 2px dashed red;
+        position: fixed;
+        top: 20%;
+        right: -302px;
+        padding-left: 20px;
+        border-radius: 20px 0 0 20px;
+        background-color: lightcyan;
+        transition: right .4s;
+    }
+    .test:hover{
+        right: 0;
+    }
+    .test span{
+        font-weight: bold;
+        writing-mode: vertical-lr;
+        vertical-align: middle;
+    }
+    .test img{
+        width: 300px;
+        vertical-align: middle;
+    }
+
+    </style>
+</head>
+<body>
+    <header class="top">
+        <nav class="gnb">
+            <ul>
+                <li><a href="#main">main</a></li>
+                <li><a href="#1p">1 page</a></li>
+                <li><a href="#2p">2 page</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="cont">
+
+        <div class="main">
+            <article>
+                메인페이지 테스트
+            </article>
+            <div class="test">
+                <span>옆으로 숨기기</span>
+                <img src="./imgs/img1.jpg" alt="숨겨진 이미지">
+            </div>
+        </div>
+        <div id="1p">
+            <article>
+                테스트1
+            </article>
+        </div>
+        <div id="2p">
+            <article>
+                테스트2
+            </article>
+        </div>
+    </main>
+</body>
+</html>
