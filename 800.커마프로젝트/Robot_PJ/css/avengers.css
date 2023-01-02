@@ -58,7 +58,7 @@ html,body{
     /* 가장 위에 위치하게 만들기 */
     
     font-family: 'Monoton', cursive;
-    color: #fff;
+    color: #222;
     font-size: 70px;
     /* 글자 두께 보통 */
     font-weight: normal;
@@ -265,7 +265,7 @@ body:hover .cbx:nth-child(5){
 
     padding: 50px 0;
     text-align: center;
-    color: #fff;
+    color: #222;
 }
 
 /* 동영상 박스 */
@@ -303,9 +303,15 @@ body:hover .cbx:nth-child(5){
 #pg1 .gobtn::after{
     content: '👇';
 }
+#pg1 .gobtn::before{
+    content: '🎬';
+}
 
 #pg2 .gobtn::after{
     content: '👆';
+}
+#pg2 .gobtn::before{
+    content: '🎬';
 }
 
 /* 개별 위치 정해주기 */
@@ -319,7 +325,7 @@ body:hover .cbx:nth-child(5){
 
 /* 오버시 a변경하기 */
 .gobtn:hover{
-    color: hotpink;
+    color: lightsalmon;
     text-decoration: overline;
     text-decoration-style: wavy;
 }
