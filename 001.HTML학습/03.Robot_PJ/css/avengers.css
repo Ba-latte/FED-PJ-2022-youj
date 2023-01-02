@@ -1,0 +1,221 @@
+@charset "utf-8";
+/* 어벤저스 CSS - avengers.css */
+
+/* 웹폰트 */
+@import url('https://fonts.googleapis.com/css2?family=Monoton&family=Single+Day&display=swap');
+
+/* 
+    font-family: 'Monoton', cursive;
+    font-family: 'Single Day', cursive;
+*/
+
+/* 초기화 */
+html, body, h1, h2, ul, ol{
+    margin: 0;
+    padding: 0;
+}
+/* 초기셋팅 */
+a{
+    color: #fff;
+    text-decoration: none;
+}
+body{
+    /* 배경이미지 채우기 */
+    background: url(../ab_img/space.jpg) no-repeat fixed center/cover;
+    /* 전체 body 스크롤바 숨기기 */
+    overflow: hidden;
+}
+/* 바디의 높이값을 보이는 화면에 맞추기 */
+html,body{
+    height: 100%;
+    /* 바디는 html을 기준으로 잡기 때문에, 반드시 html에다가도 100% 줘야 한다 */
+    /* 즉,
+        body 100%는 html을 기준하며
+        html 100%는 window(보이는 화면)을 기준한다!
+        ★★★ % 셋팅시 html과 body 모두 셋팅해야 적용된다!! ★★★
+        _______________________________________________________________________
+
+        가끔 width:100%를 잡는 경우가 있다
+        아무것도 안 주면 width:auto 임. 둘 간의 차이는?
+        width:100%는 컨텐트 영역 크기를 채우도록 채우도록 셋팅함
+        따라서 보더나 패딩을 줄 경우, 박스가 커지고 스크롤바가 생김
+        그래서 특별한 경우가 아니라면 auto 상태(오토는 기본값임)로 놔두면 보더와 패딩이 내부에 포함된다
+
+    */
+}
+
+/* 1.전체 타이틀 */
+.tit{
+    font-family: 'Monoton', cursive;
+    color: #fff;
+    font-size: 70px;
+    /* 글자 두께 보통 */
+    font-weight: normal;
+    /* 글자 가운데 정렬 (블록박스니까) */
+    text-align: center;
+    /* 위,아래 여백 주기 */
+    padding: 50px 0;
+}
+
+/* 2.메인 캐릭터 박스 */
+.abx{
+    /* 부모자격주기 - .cbx의 부모 */
+    position: relative;
+    width: 300px;
+    height: 400px;
+    /* 배경이미지 */
+    background: url(../ab_img/ab0.jpg) no-repeat center/cover;
+    /* 둥근 모서리 -> 원형은 50% */
+    border-radius: 50%;
+    /* 블록 박스 무대 중앙으로! -> 마영오 */
+    margin: 0 auto;
+    /* 양쪽 오토라는 것은 자동으로 양쪽의 마진을 딱 반띵해주는 것을 말함 (이건 포지션:앱솔루트(날아다니는것들) 주면 안 먹힘 */
+    /* 글로우 효과 : 박스그림자 응용(밝은 색으로 주면 됨)
+    -형식 = box-shadow: x y blur spread 색
+    -inset은 내부 그림자
+    -그림자효과는 여러 개 줄 수 있음 */
+    box-shadow:
+    0 0 50px 10px cyan,
+    inset 0 0 20px lightgreen;
+}
+
+/* 캐릭터 박스 */
+.cbx{
+    /*
+    [ 앱솔루트 포지션 ]
+    위치값 주기 전 상태: 모두 겹침, 자신을 싸고 있는 박스 안에 그대로 있음(젠틀), 크기는 내용만큼 자동으로 착 달라붙음, 나중에 쓴 것이 기본적으로 위에 옴
+    */
+    position: absolute;
+    top: calc(50% - 75px);
+    left: calc(50% - 75px);
+    /* 부모는? .abx가 부모자격 있는 박스가 됨 */
+
+    /* 
+        [앱솔루트 자식 박스
+        부모박스의 정중앙 위치하기]
+        top : calc(50% - 자기 height의 절반)
+        left : calc(50% - 자기 width의 절반)
+        ->원리 : 50%밀고 자신 크기의 절반을 빼서 정중앙으로 위치를 이동하는 것
+        ->계산은 calc() css함수를 사용한다^^
+        (+,- 연산시 기호 앞뒤를 꼭 띄어쓴다!)
+    */
+
+    /* 박스 테두리 (박스 외곽선 임시로 표시하는 것이라서 brad 적용 안됨(모서리 둥글게 안됨)
+    outline: 3px dotted yellow; */
+
+    /* 
+    박스 크기 설정 (이미지보다 박스가 작아질 수도 있음 -> 이미지를 박스 크기에 맞게 조절하고 싶음 -> (박스에 맞추기 위해) w100% h100%하면 찌그러짐 ㅠ -> 그래서 css에서 설정 하나 만들어줌 ('오브젝트-핏' 속성) -> object-fit: cover; 는 배경이미지:커버 처럼 자동으로 비율을 맞추면서 박스 안을 다 채워줌!
+    */
+    width: 150px;
+    height: 150px;
+
+    /* 처음에 투명하게 만들어두기 - opa */
+    opacity: 0;
+
+    /* 트랜지션: 속시이지 */
+    transition: .8s ease-in-out;
+}
+
+/* 캐릭터 이미지 (이미지 요소를 얘 하나만 줄 것이면 러프하게 크게 잡아도 됨) */
+.cbx img{
+    /* 크기를 박스에 맞춤 -> 이미지가 왜곡된다는 단점이 있음 -> object-fit:cover를 쓴다 */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /*
+        [object-fit 속성]
+        -이미지나 동영상을 박스에 맞출 때 옵션을 설정해주는 속성
+        1.fill : 설정값에 강제 적용함 (기본값) (가로 세로 왜곡 가능성 있음)
+        2.contain : 박스에 모두 보이게 만듦
+        3.cover : 박스를 비율에 맞게 채움
+            -> 빈틈 없이 채우기 때문에 '배경:cover'와 유사한 효과를 준다! (박스 밖으로 나간 부분은 안보이게 해줌)
+    */
+
+    /* 이미지 둥글게 */
+    border-radius: 50%;
+
+    /* 글로우 효과 */
+    box-shadow: 0 0 30px 10px lightgreen;
+    /* 가운데 오게 하기 가로세로크기 정해서 모양 다 똑같이 만들면 이미지가 찌그러드러ㅠ */
+}
+
+/* 바디에 오버시 전체 오퍼시티 보이게 하기 */
+body:hover .cbx{
+    opacity: 1;
+}
+
+/* 2-1. 아이언맨 */
+body:hover .cbx:nth-child(1){
+    top: -9%;
+    left: -81%;
+}
+
+/* 2-2.타노스 */
+body:hover .cbx:nth-child(2){
+    top: -9%;
+    left: 121%;
+}
+
+/* 3-2.토르 */
+body:hover .cbx:nth-child(3){
+    top: 82%;
+    left: -81%;
+}
+
+/* 4-2.닥스 */
+body:hover .cbx:nth-child(4){
+    top: 82%;
+    left: 121%;
+}
+
+/* 5-2.스타로드 */
+body:hover .cbx:nth-child(5){
+    top: 120%;
+    /* left는 중앙위치이므로 셋팅하지 않음*/
+}
+
+/* 캐릭터 설명 박스 공통 */
+.cd{
+    position: absolute;
+    top: 50%;
+    /* 부모는? .cbx */
+    /* 처음에는 살짝 내려가 있고, 마우스오버하면 탑값0으로 올라오게끔 만들기 */
+    
+    /* 박스 셋팅 */
+    width: 300px;
+    border: 2px solid #fff;
+    padding: 15px;
+    border-radius: 15px;
+    background-color: hsla(0, 0%, 100%, 0.388);
+
+    /* 글자 셋팅 */
+    font-family: 'Single Day', cursive;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+
+    /* 처음에 투명하게 만들기 */
+    opacity: 0;
+
+    /* 트랜지션: 속시이지 - trs */
+    transition: .4s ease-out;
+}
+
+/* .cbx에 오버시 글자박스 보이기 */
+.cbx:hover .cd{
+    top: 0;
+    opacity: 1;
+}
+
+/* 왼쪽 진영 글자 박스 클래스 */
+.ltxt{
+    left: -230%;
+}
+/* 왼쪽 진영 제목 오른쪽 정렬 */
+.ltxt h2{
+    text-align: right;
+}
+
+/* 오른쪽 진영 글자 박스 클래스 */
+.rtxt{
+    right: -230%;
+}
