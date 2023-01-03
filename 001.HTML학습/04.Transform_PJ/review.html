@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>트랜스폼 공부</title>
+    <style>
+        body{
+            background: #df7d7d url(./images/bg-main.jpg) no-repeat fixed center top/cover;
+        }
+        /* 타이틀 */
+        .tit{
+            /* 박스 셋팅 */
+            background-color: rgba(231, 96, 96, 0.521);
+            border-radius: 50px;
+            text-align: center;
+
+            /* 글자 셋팅 */
+            color: #fff;
+            font-size: 50px;
+            line-height: 2;
+            text-shadow:
+            2px 0 #000,
+            -2px 0 #000,
+            0 2px #000,
+            0 -2px #000;
+        }
+
+        /* 전체 부모 박스 */
+        .cont{
+            max-width: 1500px;
+            border: 5px dashed coral;
+            border-radius: 20px;
+            padding: 50px;
+            margin: 100px auto;
+        }
+
+        /* 가상요소 이용해서 clear */
+        .cont::after{
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        /* 캐릭터 공통 div */
+        .cont>div{
+            float: left;
+            width: 20%;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        /* 이미지 설정 */
+        .cont>div>img{
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+
+            /* 트랜지션: 속시이지 (원본에 트랜지션을 줘야 양방향 적용됨) */
+            transition: transform .4s;
+        }
+        
+        /* 1.y축 회전 */
+        #trans1:hover img{
+            transform: rotateY(180deg);
+            filter: grayscale(100%);
+        }
+
+        /* 2.x축 회전 */
+        #trans2 img{
+            transform: rotateX(180deg);
+            filter: blur(3px);
+        }
+        #trans2:hover img{
+            transform: rotateX(0deg);
+            filter: blur(0px);
+        }
+
+        /* 3.x축 이동 */
+        #trans3:hover img{
+            transform: translateX(-100px);
+        }
+        
+        /* 4.y축 이동 */
+        #trans4:hover img{
+            transform: translateY(255px);
+        }
+
+        /* 5.x,y축 이동 */
+        #trans5:hover img{
+            transform: translate(-300px, -300px);
+        }
+
+        /* 6.원형회전 */
+        #trans6:hover img{
+            transform: rotate(5218deg);
+            transition: 5s;
+        }
+        /* 6-1.회전축 변경하기 */
+        #trans6 img{
+            transform-origin: -60px -10px;
+        }
+
+        /* 7.x,y축 기울임 */
+        #trans7:hover img{
+            transform: skewY(50deg);
+        }
+
+        /* 8.스케일-크기변형 */
+        #trans8:hover img{
+            transform: scale(2.5);
+        }
+        /* 초기 크기 설정 */
+        #trans8 img{
+            transform: scale(0.5);
+        }
+
+        /* 9.복합 적용하기 */
+        #trans9:hover img{
+            transform: scale(3.5) translate(-50%, -70%) rotate(630deg) skewX(20deg);
+            transition-duration: 2s;
+        }
+
+        /* 10.앞뒤 이미지 뒤집기 */
+        #trans10{
+            width: 200px;
+            height: 200px;
+            text-align: left;
+        }
+        #trans10 img{
+            position: absolute;
+        }
+        /* 보검이 */
+        #trans10 img:last-child{
+            transform: rotateY(0deg);
+            transition: .5s ease-out .5s;
+        }
+        #trans10:hover img:last-child{
+            transform: rotateY(90deg);
+            transition: .5s ease-in;
+        }
+        /* 유정이 */
+        #trans10 img:first-child{
+            transform: rotateY(90deg);
+            transition: .5s ease-in;
+        }
+        #trans10:hover img:first-child{
+            transform: rotateY(0deg);
+            transition: .5s ease-out .5s;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <!-- 타이틀 -->
+    <h1 class="tit">트랜스폼 공부</h1>
+    <!-- 내용 박스 -->
+    <div class="cont">
+        <div id="trans1">
+            <img src="./images/cast01.jpg" alt="캐릭터이미지">
+        </div>
+        <div id="trans2">
+            <img src="./images/cast02.jpg" alt="캐릭터이미지">
+        </div>
+        <div id="trans3">
+            <img src="./images/cast03.jpg" alt="캐릭터이미지">
+        </div>
+        <div id="trans4">
+            <img src="./images/cast04.jpg" alt="캐릭터이미지">
+        </div>
+        <div id="trans5">
+            <img src="./images/cast05.jpg" alt="캐릭터이미지">
+        </div>
+        <div id="trans6">
+            <img src="./images/cast01.jpg" alt="캐릭터이미지">
+        </div>
+        <div id="trans7">
+            <img src="./images/cast02.jpg" alt="캐릭터이미지">
+        </div>
+        <div id="trans8">
+            <img src="./images/cast03.jpg" alt="캐릭터이미지">
+        </div>
+        <div id="trans9">
+            <img src="./images/cast04.jpg" alt="캐릭터이미지">
+        </div>
+        <div id="trans10">
+            <img src="./images/cast02.jpg" alt="캐릭터이미지">
+            <img src="./images/cast03.jpg" alt="캐릭터이미지">
+        </div>
+    </div>
+</body>
+</html>

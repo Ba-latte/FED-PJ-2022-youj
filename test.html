@@ -15,17 +15,22 @@
     /*
     앞으로 추가해볼거!
     1.가로 스크롤 없애기
-    2.스크롤 부드럽게 움직이기
+    2.스크롤 부드럽게 움직이기  =>성공!
     3.스크롤 모양 바꾸기
     4.top버튼 만들어서 화면 
     5.각 페이지(article태그)가 화면 가운데 오게 셋팅하기....이거 어떻게 하지...ㅠㅠ...
     
     */
     html,body{
-        margin: 0 auto;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+    html{
+        scroll-behavior: smooth;
     }
     body{
-        background: url(./imgs/note.jpg) no-repeat fixed center/cover;
+        background: url(./imgs/paper4.jpg) no-repeat fixed center top/cover;
     }
     /* .cont{
         background-color: #333;
@@ -59,8 +64,7 @@
         display: block;
         clear: both;
     }
-    article{
-        display: inline-block;
+    .ctbx{
         width: 1200px;
         height: 800px;
         background-color: #dddddd8f;
@@ -88,6 +92,9 @@
         width: 300px;
         vertical-align: middle;
     }
+    .ctbx div{
+        text-align: center;
+    }
 
     </style>
 </head>
@@ -104,23 +111,23 @@
     <main class="cont">
 
         <div id="main">
-            <article>
-                메인페이지 테스트
+            <article class="ctbx">
+                <div>메인페이지 테스트</div>
             </article>
-            <div class="test">
-                <span>옆으로 숨기기</span>
-                <img src="./imgs/img1.jpg" alt="숨겨진 이미지">
-            </div>
         </div>
         <div id="1p">
-            <article>
+            <article class="ctbx">
                 테스트1
             </article>
         </div>
         <div id="2p">
-            <article>
+            <article class="ctbx">
                 테스트2
             </article>
+        </div>
+        <div class="test">
+            <span>옆으로 숨기기</span>
+            <img src="./imgs/img1.jpg" alt="숨겨진 이미지">
         </div>
     </main>
 </body>
