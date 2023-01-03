@@ -66,6 +66,20 @@ html,body{
     text-align: center;
     /* 위,아래 여백 주기 */
     padding: 50px 0;
+    
+    /* 트랜스폼
+    ->y축 상단이동 + x축회전 90도 + 스케일 0(안보임)*/
+    transform: translateY(-200px) rotateX(90deg) scale(0);
+
+    /* 트랜지션 */
+    transition: transform 3s ease-in-out;
+}
+
+/* 오버시 타이틀 트랜스폼 */
+body:hover .tit{
+    /* 트랜스폼: 원래위치로! 그리고 x축 회전, 원래 크기! */
+    transform: translateY(0) rotateX(720deg) scale(1);
+    /* 주의! y축을 맨앞에 안쓰고 다음에 쓰면~ 꼬여서 이상하게 나올 수 있으니 주의! */
 }
 
 /* 1.페이지 박스 공통 */
@@ -142,20 +156,30 @@ html,body{
     height: 100%;
     object-fit: cover;
     /*
-        [object-fit 속성]
-        -이미지나 동영상을 박스에 맞출 때 옵션을 설정해주는 속성
-        1.fill : 설정값에 강제 적용함 (기본값) (가로 세로 왜곡 가능성 있음)
-        2.contain : 박스에 모두 보이게 만듦
-        3.cover : 박스를 비율에 맞게 채움
-            -> 빈틈 없이 채우기 때문에 '배경:cover'와 유사한 효과를 준다! (박스 밖으로 나간 부분은 안보이게 해줌)
+    [object-fit 속성]
+    -이미지나 동영상을 박스에 맞출 때 옵션을 설정해주는 속성
+    1.fill : 설정값에 강제 적용함 (기본값) (가로 세로 왜곡 가능성 있음)
+    2.contain : 박스에 모두 보이게 만듦
+    3.cover : 박스를 비율에 맞게 채움
+    -> 빈틈 없이 채우기 때문에 '배경:cover'와 유사한 효과를 준다! (박스 밖으로 나간 부분은 안보이게 해줌)
     */
-
+    
     /* 이미지 둥글게 */
     border-radius: 50%;
-
+    
     /* 글로우 효과 */
     box-shadow: 0 0 30px 10px lightgreen;
     /* 가운데 오게 하기 가로세로크기 정해서 모양 다 똑같이 만들면 이미지가 찌그러드러ㅠ */
+    
+    /* 트랜지션: 속시이지 */
+    transition: transform .8s ease-in-out;
+}
+
+/* 오버시 이미지 변경 */
+body:hover .cbx>img{
+        /* 트랜스폼 회전하기 - tfry*/
+        transform: rotateY(720deg);
+
 }
 
 /* 바디에 오버시 전체 오퍼시티 보이게 하기 */

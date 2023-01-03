@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>스타벅스 응용</title>
+    <style>
+        body{
+            background: #000 url(./starbucks_img/reserve_bg.jpg) no-repeat top/100%;
+        }
+
+        /* 
+        10.앞뒤로 있는 이미지 뒤집기 (자연스럽게 동전 뒤집히듯)
+        -셋팅: 한 박스 안에 이미지가 2장 있고, 이것을 겹치도록 셋팅한다 = 앱솔루트로 셋팅하면 됨!
+        -순서는 나중의 것이 위에 온다!
+        -적절한 트랜스폼, 트랜지션을 이용한다
+        */
+        /* 박스의 가로, 세로 크기 셋팅 */
+        #trans10{
+            width: 334px;
+            height: 334px;
+            /* tac가 영향을 주고 있어서 가운데정렬 풀기! (left가 기본값임) */
+            text-align: left;
+            /* outline: 2px dashed lime; */
+
+            /* 마영오! : !!!!포지션이 스태틱한 블록요소!!! 에 먹힘 */
+            margin: 0 auto;
+            /* 너무 위에 붙어 있어서 조금 밀어주기 */
+            margin-top: 100px;
+        }
+        /* 이미지끼리 겹치도록 이미지에 앱솔루트 포지션 세팅하기 */
+        #trans10 img{
+            position: absolute;
+            /* 젠틀 앱솔루트! (위치값 안주면, 부모 자격 없어도 그자리에 그대로 있음)
+            주의사항: 크기(width나 height)를 %로 주면 안됨!=>퍼센트는 기준이 부모라서, 부모를 찾아 헤메다가 없으면 결국 윈도우를 기준 삼아버리기 때문에! */
+        }
+        /* 1.보검이 원본 */
+        #trans10 img:last-child{
+            transform: rotateY(0deg);
+            /* 트랜지션: 속시이지 - 0.4초 기다림 */
+            transition: .4s ease-out .4s;
+            /* ease-out : 나중에 천천히 처음엔 등속도 */
+        }
+        /* 2.보검이 오버시 */
+        #trans10:hover img:last-child{
+            /* 90도 회전하기 */
+            transform: rotateY(90deg);
+            /* 트랜지션: 속시이지 */
+            transition: .4s ease-in;
+            /* ease-in : 처음에 천천히 나중엔 등속도 */
+        }
+
+        /* 3.유정이 원본 */
+        #trans10 img:first-child{
+            /* 보검이가 돌았을 때 유정이 보이면 안 되니까 미리 90도 회전해놓는거지! */
+            transform: rotateY(90deg);
+            /* 트랜지션: 속시이지 - 기다림 없음 */
+            transition: .4s ease-in;
+            /* ease-in : 처음에 천천히 나중엔 등속도 */
+        }
+        /* 4.유정이 오버시 */
+        #trans10:hover img:first-child{
+            transform: rotateY(0deg);
+            /* 트랜지션: 속시이지 -0.4초 기다림 */
+            transition: .4s ease-out .4s;
+            /* ease-out : 나중에 천천히 처음엔 등속도 */
+        }
+
+    </style>
+</head>
+<body>
+    <div id="trans10">
+        <img src="./starbucks_img/reserve_medal02.png" alt="캐릭터">
+        <img src="./starbucks_img/reserve_medal01.png" alt="캐릭터">
+    </div>
+</body>
+</html>
