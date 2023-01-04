@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>플렉스 디스플레이 혼자 복습</title>
+    <style>
+        /* 초기화 */
+        html,body, ol, ul{
+            margin: 0;
+            padding: 0;
+        }
+        /* 불릿 없애기 */
+        ul, ol{
+            list-style: none;
+        }
+
+        /* 보이는 화면에 채우기 셋팅 */
+        html, body, #wrap, #wrap>ul{
+            height: 100%;
+        }
+
+        /* 각 파티션 박스에 배경이미지 넣기 */
+        #wrap>ul>li:first-child{
+            background: url(./images/m01_bg.jpg) no-repeat center/cover;
+            /* background-color: red; */
+        }
+        #wrap>ul>li:nth-child(2){
+            background: url(./images/m02_bg.jpg) no-repeat center/cover;
+        }
+        #wrap>ul>li:nth-child(3){
+            background: url(./images/m03_bg.jpg) no-repeat center/cover;
+        }
+        #wrap>ul>li:nth-child(4){
+            background: url(./images/m04_bg.jpg) no-repeat center/cover;
+        }
+        #wrap>ul>li:last-child{
+            background: url(./images/m05_bg.jpg) no-repeat center/cover;
+        }
+
+        /* 플렉스 적용하기 */
+        #wrap>ul{
+            display: flex;
+        }
+
+        /* 플렉스 적용 자식요소 */
+
+        /* 타이틀 공통 */
+
+        /* 타이틀 하위 공통 li */
+
+        /* 1번 타이틀 */
+
+        /* 2번 타이틀 */
+
+        /* 3번 타이틀 */
+
+        /* 4번 타이틀 */
+
+        /* 5번 타이틀 */
+
+        /* 6번 타이틀 */
+
+        /* 7번 타이틀 */
+
+
+    </style>
+</head>
+<body>
+    <!-- 전체 랩핑 박스 -->
+    <div id="wrap">
+        <!-- 파티션 박스 -->
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <!-- 1번 타이틀 박스 -->
+        <!-- 2번 타이틀 박스 -->
+        <!-- 3번 타이틀 박스 -->
+        <!-- 4번 타이틀 박스 -->
+        <!-- 5번 타이틀 박스 -->
+        <!-- 6번 타이틀 박스 -->
+        <!-- 7번 타이틀 박스 -->
+    </div>
+</body>
+</html>
