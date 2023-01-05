@@ -10,17 +10,35 @@
     질문1-1. 이미지의 크기 단위를 px로 주면, 다른 모든 요소들의 단위도 px같이 고정?된 값을 줘야 하나요? %로는 못 주나요...? (단위 전부 다 통일시켜야 하나요)
     (배경이미지 질문)
     질문2. 여기서 .cont에 배경이미지를 줬는데, 적용이 안됩니다.....대신 body에는 적용되는데......왜 그런거지요...?
+    =>해결!! 가끔 바로 적용 안 될 때가 있다고 함.........!
     */
 
     /*
     앞으로 추가해볼거!
-    1.가로 스크롤 없애기
+    1.가로 스크롤 없애기 => 이미 없어서리...
     2.스크롤 부드럽게 움직이기  =>성공!
-    3.스크롤 모양 바꾸기
-    4.top버튼 만들어서 화면 
-    5.각 페이지(article태그)가 화면 가운데 오게 셋팅하기....이거 어떻게 하지...ㅠㅠ...
-    
+    3.스크롤 모양 바꾸기  =>성공!
+    4.top버튼 만들기....
+    5.각 페이지(article태그)가 화면 가운데 오게 셋팅하기=>성공! (스태틱한 블록요소 가운데 정렬은 마영오씨!)
+    5-1.근데 .ctbx를 좀 아래로 내리고 싶은데 이건 또 어떻게 하더라.....=>어찌저찌 성공..ㅠㅠ
+    =>근데 이러니까 내비 링크를 누르면......완전 최상단부터 보이지가 않음...ㅠㅠㅠㅠㅠㅠ....
+    6.회색박스 안에 이미지 넣고 트랜스폼 적용해보기....
+    7.
+
+
     */
+    
+    .scbar::-webkit-scrollbar{
+        width: 12px;
+    }
+    .scbar::-webkit-scrollbar-thumb{
+        background-color: #b11919;
+        border-radius: 5px;
+    }
+    .scbar::-webkit-scrollbar-track{
+        background-color: #cfcfcf;
+    }
+    
     html,body{
         margin: 0;
         padding: 0;
@@ -29,15 +47,20 @@
     html{
         scroll-behavior: smooth;
     }
-    body{
-    }
     .cont{
         background: url(./imgs/paper4.jpg) no-repeat fixed center top/cover;
+        overflow: hidden;  /* 자식 요소에다가 마진 탑을 줬더니 부모 밀어내서, 조상에다가 오버플로우 히든 줘서 숨겨버림...! */
+    }
+    .cont>div{
+        margin-bottom: 100px;
     }
     .top{
         position: fixed;
         width: 100%;
-        height: 300px;
+        height: 120px;
+    }
+    #main{
+        margin-top: 100px;
     }
     .gnb a{
         color: #b11919;
@@ -51,7 +74,7 @@
         font-family: "나눔명조";
         font-weight: bold;
         position: relative;
-        top: 60px;
+        top: 30px;
         left: 550px;
     }
     .gnb li{
@@ -67,7 +90,7 @@
         width: 1200px;
         height: 800px;
         background-color: #dddddd8f;
-        margin: 100px 30px 0;
+        margin: 0 auto;
     }
     .test{
         border: 2px dashed red;
@@ -97,7 +120,7 @@
 
     </style>
 </head>
-<body>
+<body class="scbar">
     <header class="top">
         <nav class="gnb">
             <ul>
@@ -111,17 +134,22 @@
 
         <div id="main">
             <article class="ctbx">
-                <div>메인페이지 테스트</div>
+                <div>
+                    메인페이지 테스트 <br>
+                    아우 모르겠다~~ (‾◡◝) 헤헤헿.... <br>
+                    귀여운 고양이 이미지나 넣어야징... (～￣▽￣)～
+                    <img src="./imgs/cat.png" alt="고양이">
+                </div>
             </article>
         </div>
         <div id="1p">
             <article class="ctbx">
-                테스트1
+                <div>테스트1</div>
             </article>
         </div>
         <div id="2p">
             <article class="ctbx">
-                테스트2
+                <div>테스트2</div>
             </article>
         </div>
         <div class="test">
