@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>내비게이션 혼자 연습</title>
+    <style>
+        /* 초기화 */
+        html,body{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            /* h0p = 자손 요소들의 높이가 화면 전체에 표시되기를 원할 때 조상 요소에 100%줘야지 자손도 높이가 먹힘 */
+        }
+        h1{
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            padding: 20px;
+            color: #623ad6;
+        }
+        body{
+            color: #333;
+            background: #f6f4fc;
+        }
+        ul, ol{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .gnb a{
+            color: #333;
+            text-decoration: none;
+
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* 내비게이션 전체 박스 */
+        .gnb ul{
+            display: flex;
+            /* 진행방향 정렬 : 중앙 */
+            justify-content: center;
+        }
+
+        /* 상위 메뉴의 li에만 적용 */
+        .gnb ul>li{
+            position: relative;
+            /* 하위 메뉴인 .lnb의 부모자격 부여 */
+            padding: 0 40px;
+            text-align: center;
+
+            /*  */
+        }
+
+        /* 하위 메뉴 박스 */
+        .lnb{
+            position: absolute;
+            left: 50%;
+            z-index: 999;
+            width: 200px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px #333;
+            /* line-height: 2; */
+            margin-top: 10px;
+
+            /* 트랜스폼 이용해서 가로방향 중앙으로 이동 */
+            transform: translateX(-50%);
+
+            /* 내부 컨텐츠 숨기기 */
+            height: 0;
+            overflow: hidden;
+
+            /* 처음에 투명하게 만들기 */
+            opacity: 0;
+
+            /* 트랜지션 : 속시이지 */
+            transition: all .4s ease-out;
+        }
+
+        /* 하위메뉴 오버시 공통 속성 부여 : 투명도, 색 변경 */
+        .gnb>ul>li:hover .lnb{
+            opacity: 1;
+        }
+        .gnb>ul>li .lnb a:hover{
+            color: #623ad6;
+            font-weight: bold;
+        }
+        /* 상위메뉴 오버시 개별 속성 부여(트랜지션 애니 구현하려면 구체적인 크기 있어야 함) */
+        .gnb>ul>li:first-child:hover .lnb{
+            height: 400px;
+        }
+        .gnb>ul>li:nth-child(2):hover .lnb{
+            height: 400px;
+        }
+        .gnb>ul>li:nth-child(4):hover .lnb{
+            height: 400px;
+        }
+        .gnb>ul>li:nth-child(5):hover .lnb{
+            height: 400px;
+        }
+
+        /* 하위메뉴 a요소 */
+        .lnb a{
+            display: block;  /* 디스플레이 블록을 주는 이유가....뭔지 잘모르겠어... */
+            padding: 8px 0;
+            /* text-align: center; */
+            font-size: 16px;
+            font-weight: normal;
+            
+        }
+
+        /* 컨텐츠 박스 */
+        .cont{
+            /* z-index 관계 파악용 */
+            position: relative;
+            margin: 50px auto;
+            max-width: 1200px;
+            height: 500px;
+            border-radius: 10px;
+            border: 5px dashed #623ad6;
+            text-align: center;
+            font-size: 30px;
+            line-height: 500px;
+            background-color: #f286397e;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>가로 내비게이션 - 서브별 드롭다운 세로형</h1>
+    <nav class="gnb">
+        <ul>
+            <!-- 메인메뉴 -->
+            <li>
+                <a href="#">기능</a>
+                <!-- 서브메뉴 -->
+                <div class="lnb">
+                    <ol>
+                        <li>
+                            <a href="#">프로젝트 협업</a>
+                        </li>
+                        <li>
+                            <a href="#">업무관리</a>
+                        </li>
+                        <li>
+                            <a href="#">메신저</a>
+                        </li>
+                        <li>
+                            <a href="#">OKR</a>
+                        </li>
+                        <li>
+                            <a href="#">화상회의</a>
+                        </li>
+                        <li>
+                            <a href="#">보안기능</a>
+                        </li>
+                        <li>
+                            <a href="#">시스템 연동</a>
+                        </li>
+                        <li>
+                            <a href="#">다운로드</a>
+                        </li>
+                    </ol>
+                </div>
+            </li>
+            <li>
+                <a href="#">요금</a>
+                <!-- 서브메뉴 -->
+                <div class="lnb">
+                    <ol>
+                        <li>
+                            <a href="#">요금제</a>
+                        </li>
+                        <li>
+                            <a href="#">구축형 문의</a>
+                        </li>
+                        <li>
+                            <a href="#">유료vs무료</a>
+                        </li>
+                    </ol>
+                </div>
+            </li>
+            <li>
+                <a href="#">고객사례</a>
+            </li>
+            <li>
+                <a href="#">교육</a>
+                <!-- 서브메뉴 -->
+                <div class="lnb">
+                    <ol>
+                        <li>
+                            <a href="#">온라인 정기교육</a>
+                        </li>
+                        <li>
+                            <a href="#">동영상 매뉴얼</a>
+                        </li>
+                        <li>
+                            <a href="#">자주묻는 질문</a>
+                        </li>
+                    </ol>
+                </div>
+            </li>
+            <li>
+                <a href="#">자료실</a>
+                <!-- 서브메뉴 -->
+                <div class="lnb">
+                    <ol>
+                        <li>
+                            <a href="#">재택근무 활용</a>
+                        </li>
+                        <li>
+                            <a href="#">활용방법</a>
+                        </li>
+                        <li>
+                            <a href="#">인사이트</a>
+                        </li>
+                        <li>
+                            <a href="#">웨비나</a>
+                        </li>
+                        <li>
+                            <a href="#">성공사례</a>
+                        </li>
+                        <li>
+                            <a href="#">보도자료</a>
+                        </li>
+                    </ol>
+                </div>
+            </li>
+            <li>
+                <a href="#">도입문의</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- 컨텐츠 박스(내비 메뉴가 컨텐츠 영역을 밀어내는지 확인용) -->
+    <main class="cont">
+        🚀여기에 내용이 들어갑니다🚀
+    </main>
+</body>
+</html>
