@@ -1,0 +1,226 @@
+@charset "utf-8";
+
+/* Robot PJ 메인 CSS - Robot.css */
+
+/* 초기화 */
+html, body, h1, h2, p, ol, ul{
+    margin: 0;
+    padding: 0;
+}
+
+/* 공통 클래스 */
+/* 메탈소재1 배경 */
+.mt1{
+    background: url(../images/metal01.jpg) no-repeat center/cover;
+}
+/* 메탈소재2 배경 */
+.mt2{
+    background: url(../images/metal02.jpg) no-repeat center/cover;
+}
+
+body{
+    background: url(../images/bg.jpg) no-repeat fixed top/cover;
+}
+/* 공사중 표시 */
+body *{
+    outline: 2px dashed yellow;
+}
+
+
+/************************************************* 1.상단영역 *************************************************/
+/* 2-1.로봇 박스 */
+.robx{
+    /* 상단에 속한 애들이 다 떠있는 애들이라서 위에서 고정?밀어줄?애가 필요해서 패딩으로 밀어냄;;; */
+    padding: 200px 0 400px;
+}
+
+/* 로봇 머리 */
+.head{
+    position: relative;
+    /* 마영오와 같은 것들이 먹혀야 하니까 스태틱한 설정을 할 수 밖에 없음! 그래서 렐러티브를 많이 주는 것임 */
+
+    width: 250px;
+    height: 150px;
+    /* 마영오! */
+    margin: 0 auto;
+    
+    /* 머리 둥글게 */
+    /* border-radius: 30% 30% 45% 45%; */
+}
+
+/* 로봇 머리 직계 하위 div는 모두 앱솔루트! */
+.head>div{
+    position: absolute;
+}
+
+/* 로봇 머리에 가상요소로 머리털 박스 만들기 (이미지 찾아서 넣기) */
+.head::before{
+    content: '';
+    display: block;
+    position: absolute;
+    /* 부모는? .head가 부모임 (가상요소도 자식임) */
+    /* 머리카락 맨 위로 오게 하기 */
+    z-index: 999;
+    top: -149px;
+    left: -99px;
+    width: 431px;
+    height: 272px;
+    background: url(../images/hair.png) no-repeat center/100% 100%;
+}
+
+/* 머리박스에 오버시 가상요소가발 변경하기 */
+.head:hover::before{
+    top: -100px;
+    left: -170px;
+    width: 500px;
+    height: 500px;
+    background: url(../images/hair2.png) no-repeat 0/100% 100%;
+}
+
+/* 머리의 가상요소로 턱 만들기 */
+.head::after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 250px;
+    height: 100px;
+    background-color: #000;
+    top: 100%;
+    /* 100%의 의미 = 부모박스의 높이만큼 밀어준다 */
+    z-index: -1;
+    background: url(../images/metal01.jpg) no-repeat bottom/100%;
+    
+    /* 턱깎기 */
+    clip-path: polygon(0 0,33.33% 100%,66.66% 100%,100% 0);
+}
+
+
+/* 눈 공통 */
+.eye{
+    width: 50px;
+    height: 50px;
+    
+    /* 배경 공통(이미지만 다를뿐 다른 셋팅 똑같으니까) */
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;  /* 백퍼 주면 강제로 늘림 */
+    
+    /* 둥근 모서리 */
+    border-radius: 50%;
+    /* 보더 이중선 */
+    border: 4px double #000;
+}
+/* 왼눈 */
+.e1{
+    top: 50px;
+    left: 50px;
+
+    background-image: url(../images/e1.jpg);
+}
+/* 오른눈 */
+.e2{
+    top: 50px;
+    right: 50px;
+
+    background-image: url(../images/e2.jpg);
+}
+/* 코 */
+.nose{
+    top: 100px;
+    left: 100px;
+    
+    width: 50px;
+    height: 70px;
+
+    background: url(../images/nose.jpg) no-repeat center/110% 100%;
+    border-radius: 30px;
+}
+/* 입 */
+.mouth{
+    top: 190px;
+    left: 89px;
+
+    width: 70px;
+    height: 30px;
+
+    background: url(../images/mouth.png) no-repeat center/100% 100%;
+    border-radius: 50px;
+}
+
+/* 입 옆에 별모양 점 가상요소로 만들기 */
+.mouth::before, .mouth::after{
+    content: '';
+    display: block;  /* 디자인 잘 먹게끔 db주는 것임. 사실 poa를 주면 db 안줘도 먹히지만, 명시적으로 주는 것임 */
+    position: absolute;
+    top: -25px;
+    right: -25px;
+    /* 부모는? .mouth (마우스가 앱솔루트니까!) */
+
+    width: 20px;
+    height: 20px;
+    background-color: gold;
+    /* 삼각형 클리핑 속성으로 만들기 */
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+}
+/* 
+[ CSS 클리핑 속성 ]
+- clip-path : polygon(x1 y1, x2 y2, ...)
+->각 좌표쌍은 띄어쓰기로, 각 점은 콤마로 구분
+->각 점을 연결하여 도형모양만 출력한다
+->픽셀은 각 도형 크기 내부의 수치로 쓰고, 퍼센트는 도형을 기준한 위치를 %로 나타낸다
+*/
+.mouth::after{
+    transform: rotate(180deg) translateY(-30%);
+}
+
+
+/* 귀 공통 */
+.ear{
+    width: 50px;
+    height: 60px;
+}
+
+
+/* 왼귀 */
+.er1{
+    top: 100px;
+    left: -50px;
+    border-radius: 30% 0 0 30%;
+}
+/* 귀걸이 */
+.er1::before{
+    content: '';
+    display: block;
+    position: absolute;
+    top: 34px;
+    left: 1px;
+
+    width: 50px;
+    height: 50px;
+    background: url(../images/earing.png) no-repeat center/100% 100%;
+}
+
+/* 오른귀 */
+.er2{
+    top: 100px;
+    right: -50px;
+    border-radius: 0 30% 30% 0;
+}
+/* 귀걸이 */
+.er2::before{
+    content: '';
+    display: block;
+    position: absolute;
+    top: 34px;
+    left: 1px;
+
+    width: 50px;
+    height: 50px;
+    background: url(../images/earing.png) no-repeat center/100% 100%;
+}
+
+/************************************************* 2.메인영역 *************************************************/
+
+/************************************************* 3.하단영역 *************************************************/
+
