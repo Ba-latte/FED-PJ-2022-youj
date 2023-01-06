@@ -115,14 +115,14 @@ body *{
 .e1{
     top: 50px;
     left: 50px;
-
+    
     background-image: url(../images/e1.jpg);
 }
 /* 오른눈 */
 .e2{
     top: 50px;
     right: 50px;
-
+    
     background-image: url(../images/e2.jpg);
 }
 /* 코 */
@@ -132,7 +132,7 @@ body *{
     
     width: 50px;
     height: 70px;
-
+    
     background: url(../images/nose.jpg) no-repeat center/110% 100%;
     border-radius: 30px;
 }
@@ -140,10 +140,10 @@ body *{
 .mouth{
     top: 190px;
     left: 89px;
-
+    
     width: 70px;
     height: 30px;
-
+    
     background: url(../images/mouth.png) no-repeat center/100% 100%;
     border-radius: 50px;
 }
@@ -156,7 +156,7 @@ body *{
     top: -25px;
     right: -25px;
     /* 부모는? .mouth (마우스가 앱솔루트니까!) */
-
+    
     width: 20px;
     height: 20px;
     background-color: gold;
@@ -195,7 +195,7 @@ body *{
     position: absolute;
     top: 34px;
     left: 1px;
-
+    
     width: 50px;
     height: 50px;
     background: url(../images/earing.png) no-repeat center/100% 100%;
@@ -214,13 +214,77 @@ body *{
     position: absolute;
     top: 34px;
     left: 1px;
-
+    
     width: 50px;
     height: 50px;
     background: url(../images/earing.png) no-repeat center/100% 100%;
 }
 
-/************************************************* 2.메인영역 *************************************************/
 
-/************************************************* 3.하단영역 *************************************************/
+
+
+/******* 로봇몸통 ******/
+.body{
+    position: relative;
+    /* 부모자격 - 하위 직계 div들 */
+    width: 200px;
+    height: 450px;
+    /* 마영오 */
+    margin: 0 auto;
+    margin-top: 130px;  /* 중간애들은 다 마진으로밀면 된다 바깥으로 안나감 중간에 있어서 */
+}
+
+/* 몸통 하위 직계 div 모두 앱솔루트 */
+.body>div{
+    position: absolute;
+}
+
+/* 몸통 - 가상요소로 몸통 상단 만들기 */
+.body::before{
+    content: '';
+    display: block;
+    position: absolute;
+    left: -50px;
+    width: 300px;
+    height: 200px;
+    background-color: #fff;
+    /* 그라데이션 */
+    background-image: linear-gradient(75deg, rgb(204, 58, 58), rgb(188, 110, 219), lime);
+    /* 삼각형 클리핑 속성으로 만들기 */
+    clip-path: polygon(0 0,10% 100%,90% 100%,100% 0);
+}
+
+/* 몸통 - 가상요소로 몸통 하단 만들기 */
+.body::after{
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: -50px;
+    width: 300px;
+    height: 180px;
+    background-color: #fff;
+    background-image: linear-gradient(20deg, rgb(69, 99, 182), rgb(224, 120, 164), rgb(221, 219, 94));
+    clip-path: polygon(10% 0,0 20%,0 50%,10% 100%,90% 100%,100% 50%,100% 20%,90% 0);
+}
+
+/* 목 */
+.neck{
+    top: -29px;
+    left: 65px;
+    width: 70px;
+    height: 40px;
+    border-radius: 0 0 25px 25px;
+    /* z-index: -2;   =>선생님은 목을 낮춤! 나는 그냥 목의 길이를 짧게 해서 맞춤 */
+}
+/* 왼팔 */
+/* 오른팔 */
+/* 왼다리 */
+/* 오른다리 */
+/* 왼어깨 */
+/* 오른어깨 */
+/* tv */
+
+
+/************************** 3.하단영역 *******************************/
 
