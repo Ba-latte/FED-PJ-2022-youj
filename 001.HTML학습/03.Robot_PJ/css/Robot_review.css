@@ -1,0 +1,178 @@
+@charset "utf-8";
+
+/* 로봇pj 혼자 복습 CSS 파일 */
+
+/* 공사중 */
+body *{
+    outline: 2px dashed red;
+}
+
+/* 초기화 */
+html, body, h1, h2, p{
+    margin: 0;
+    padding: 0;
+}
+
+/* 배경이미지 */
+body{
+    background: url(../../../imgs/forest-gaa59798b6_1920.jpg) no-repeat fixed top/cover;
+}
+
+/* 공통 소재(메탈) */
+/* 메탈소재 1 배경이미지 */
+.mt1{
+    background: url(../images/metal01.jpg) no-repeat center/cover;
+}
+/* 메탈소재 2 배경이미지 */
+.mt2{
+    background: url(../images/metal02.jpg) no-repeat center/cover;
+}
+
+/* 1. 상단영역 */
+/* 2-1. 로봇박스 */
+.robx{
+    padding: 200px 400px;
+}
+
+/* 로봇머리 */
+.head{
+    position: relative;
+    /* 부모자격주기 */
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+    border-radius: 25% 25% 50% 50%;
+}
+
+/* 로봇머리 직계 하위 div의 포지션 : 앱솔루트 (그래야 떠오름) */
+.head>div{
+    position: absolute;
+}
+
+/* 가발 */
+.head::after{
+    content: '';
+    display: block;
+    width: 300px;
+    height: 250px;
+    background: url(../images/hair3.png) no-repeat center/100% 100%;
+    position: absolute;
+    top: -89px;
+    left: -24px;
+}
+
+/* 눈 공통 */
+.eye{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+/* 안경 */
+.e1:after{
+    content: '';
+    display: block;
+    width: 300px;
+    height: 100px;
+    background: url(../images/glasses.png) no-repeat center/80%;
+    position: absolute;
+    top: -15px;
+    left: -73px;
+    z-index: 99;
+}
+
+/* 왼쪽눈 */
+.e1{
+    background: url(../images/e1.jpg) no-repeat center/cover;
+    top: 50px;
+    left: 50px;
+}
+/* 오른쪽눈 */
+.e2{
+    background: url(../images/e2.jpg) no-repeat center/cover;
+    top: 50px;
+    right: 50px;
+}
+
+/* 코 */
+.nose{
+    width: 50px;
+    height: 70px;
+    background: url(../images/nose.jpg) no-repeat 40%/cover;
+    border-radius: 35px;
+    top: 90px;
+    left: 100px;
+}
+
+/* 귀 공통 */
+.ear{
+    width: 50px;
+    height: 50px;
+    top: 85px;
+}
+
+/* 왼쪽귀 */
+.er1{
+    border-radius: 20px 0  0 20px;
+    left: -50px;
+}
+/* 오른쪽귀 */
+.er2{
+    right: -50px;
+    border-radius: 0 20px 20px 0;
+}
+
+/* 입 */
+.mouth{
+    width: 75px;
+    height: 50px;
+    background: url(../images/mouth.png) no-repeat center/100%;
+    border-radius: 20px;
+    top: 170px;
+    left: 88px;
+}
+
+/* 로봇몸통 공통 */
+.body{
+    position: relative;
+    width: 200px;
+    height: 450px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+.body>div{
+    position: absolute;
+}
+/* 목 */
+.neck{
+    width: 70px;
+    height: 60px;
+    border-radius: 20% 20% 40% 40%;
+    top: -53px;
+    left: 65px;
+}
+
+/* 몸통(가상요소로 상단만들기) */
+.body::before{
+    content: '';
+    display: block;
+    width: 400px;
+    height: 400px;
+    background: url(../images/vest.png) no-repeat center/75%;
+    position: absolute;
+    top: -54px;
+    left: -102px;
+
+}
+
+/* 몸통(가상요소로 하단만들기) */
+.body::after{
+    content: '';
+    display: block;
+    width: 300px;
+    height: 200px;
+    background-image: linear-gradient(45deg, rgb(118, 182, 118), rgb(216, 95, 95));
+    position: absolute;
+    top: 317px;
+    left: -45px;
+}
