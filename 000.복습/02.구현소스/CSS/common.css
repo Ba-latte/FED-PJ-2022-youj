@@ -5,6 +5,30 @@
 /* 1. 상단영역 */
 .top{
     height: 128px;
+    background-color: #fff;
+}
+/* 1-1.로고 */
+h1.logo img{
+    width: 100px;
+    /* outline: 2px dashed red; */
+    display: block;
+    margin: 0 auto;
+    padding: 15px 0;
+}
+/* 1-2.GNB메뉴 */
+nav.gnb>ul{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.gnb>ul>li>a{
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 20px;
+}
+.gnb>ul>li>a:hover{
+    color: seagreen;
 }
 /* 2. 메인영역 */
 .cont{
