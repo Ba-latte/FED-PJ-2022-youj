@@ -357,6 +357,9 @@ body *{
     width: 90px;
     height: 125px;
     /* outline: 2px dashed lime; */
+
+    /* 회전축 변경 : 세로방향 top*/
+    transform-origin: top;
 }
 
 
@@ -364,22 +367,24 @@ body *{
 .a1 span::after{
     background: url(../images/hand_left.png) no-repeat center/100%;
     left: -5px;
+    transform: rotate(-10deg);
 }
 
 /* 오른쪽손 배경이미지 */
 .a2 span::after{
     background: url(../images/hand_right.png) no-repeat center/100%;
     right: -5px;
+    transform: rotate(-10deg);
 }
 
 /* 왼팔 */
 .a1{
     left: -90px;
-    transform: rotate(25deg);
+    transform: rotate(15deg);
 }
 /* 왼팔 하단 */
 .a1 span{
-    transform: rotate(25deg);
+    transform: rotate(-15deg);
 }
 /* 오른팔 */
 .a2{
@@ -388,7 +393,7 @@ body *{
 }
 /* 오른팔 하단 */
 .a2 span{
-    transform: rotate(-15deg);
+    transform: rotate(15deg);
 }
 
 /* 어꺠 공통 */
@@ -524,13 +529,15 @@ body *{
     height: 100px;
     border-radius: 15px;
     background-color: #000;
+    /* 자식요소 아이프레임 넘치는 부분 숨기기 */
+    overflow: hidden;
 }
 /* 동영상 iframe */
 .screen iframe{
     position: absolute;
-    top: 1px;
-    left: 1px;
-    width: 133px;
+    top: 0px;
+    left: -19px;
+    width: 174px;
     height: 100px;
     /* 아이프레임 기본 보더 없앰 */
     border: none;
