@@ -2,10 +2,303 @@
 
 /* 아카이브 페이지 연습용 css - test2.css */
 
+/* 초기화 */
+html{
+    font-size: 10px;
+}
 html,body{
     margin: 0;
     padding: 0;
+    height: 100%;
+    text-align: center;
 }
+body{
+    background-color: #f0ede1;
+    color: #333;
+    font-size: 1.6rem;
+}
+h1{
+    margin: 0;
+    padding: 0;
+}
+ul, ol{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+a{
+    color: #333;
+    text-decoration: none;
+}
+
+/* 공사중 표시 */
 html *{
-    outline: 1px dashed red;
+    /* outline: 1px dashed red; */
+}
+
+
+/**************************** 상단 영역 ****************************/
+.top{
+    display: flex;
+    justify-content: center;
+}
+
+/* 제목 */
+body>h1{
+    padding: 20px;
+}
+body h1 span{
+    color: tomato;
+}
+
+/* 로고박스 */
+.logo img{
+    width: 80px;
+    height: 80px;
+}
+
+/* GNB 메뉴 */
+.gnb ul{
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+}
+
+/* 상위메뉴 li */
+.gnb ul>li{
+    position: relative;
+    padding: 0 50px;
+
+    /* 아래쪽 패딩으로 하위메뉴(.lnb)와 연결되게 함 */
+    padding-bottom: 15px;
+}
+.gnb ul>li>a{
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+
+/* 가상요소로 상위메뉴 하이라이트 칠하기 */
+.gnb>ul>li:nth-child(1)>a::after{
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: -1;
+
+    width: 0px;
+    height: 33px;
+    background-color: rgba(255, 0, 0, 0.5);
+
+    transform: 
+    skew(-10deg, 1deg)
+    translate(-10px, -30px);
+
+    transition: all .3s;
+}
+.gnb>ul>li:nth-child(1):hover>a::after{
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: -1;
+
+    width: 80px;
+    height: 33px;
+    background-color: rgba(255, 0, 0, 0.5);
+
+    transform: 
+    skew(-10deg, 1deg)
+    translate(-10px, -30px);
+
+    transition: all .3s ease-in-out;
+}
+
+.gnb>ul>li:nth-child(2)>a::after{
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: -1;
+
+    width: 0px;
+    height: 33px;
+    background-color: rgba(255, 0, 0, 0.5);
+
+    transform: 
+    skew(10deg, 0deg)
+    translate(-2px, -30px);
+
+    transition: all .3s;
+}
+.gnb>ul>li:nth-child(2):hover>a::after{
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: -1;
+
+    width: 60px;
+    height: 33px;
+    background-color: rgba(255, 0, 0, 0.5);
+
+    transform: 
+    skew(10deg, 0deg)
+    translate(-2px, -30px);
+
+    transition: all .3s ease-in-out;
+}
+
+.gnb>ul>li:nth-child(3)>a::after{
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: -1;
+
+    width: 0px;
+    height: 33px;
+    background-color: rgba(255, 0, 0, 0.5);
+
+    transform: 
+    skew(-12deg, -1deg)
+    translate(-8px, -30px);
+
+    transition: all .3s;
+}
+.gnb>ul>li:nth-child(3):hover>a::after{
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: -1;
+
+    width: 190px;
+    height: 33px;
+    background-color: rgba(255, 0, 0, 0.5);
+
+    transform: 
+    skew(-12deg, -1deg)
+    translate(-8px, -32px);
+
+    transition: all .3s ease-in-out;
+}
+
+.gnb>ul>li:nth-child(4)>a::after{
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: -1;
+
+    width: 0px;
+    height: 33px;
+    background-color: rgba(255, 0, 0, 0.5);
+
+    transform: 
+    skew(-14deg, -2deg)
+    translate(-13px, -30px);
+
+    transition: all .3s;
+}
+.gnb>ul>li:nth-child(4):hover>a::after{
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: -1;
+
+    width: 85px;
+    height: 33px;
+    background-color: rgba(255, 0, 0, 0.5);
+
+    transform: 
+    skew(-14deg, -2deg)
+    translate(-13px, -32px);
+
+    transition: all .3s ease-in-out;
+}
+
+
+
+/* 가상요소로 상위메뉴 언더바 만들기 */
+/* .gnb>ul>li>a::after{
+    content: '';
+    display: block;
+
+    height: 3px;
+    background-color: red;
+    margin-top: 2px;
+
+    변경되는 속성
+    width: 0%;
+    margin-left: 100%;
+
+    transition: all .3s;
+} */
+
+/* 상위메뉴 마우스오버시 언더바 등장 */
+/* .gnb>ul>li:hover>a::after{
+    width: 100%;
+    margin-left: 0%;
+
+    transition: width .3s;
+} */
+
+
+/* 하위메뉴 */
+.lnb{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+
+    background-color: #fff;
+    border-radius: 7px;
+    box-shadow: 2px 2px 2px #555;
+
+    margin-top: 10px;
+
+    /* 내부 컨텐츠 숨기기 */
+    height: 0;
+    overflow: hidden;
+
+    /* 트랜지션 : 속시이지 */
+    transition: height .4s ease-out;
+}
+
+/* 상위메뉴 마우스 오버시 하위메뉴 등장 */
+.gnb>ul>li:nth-child(1):hover .lnb{
+    height: 130px;
+}
+.gnb>ul>li:nth-child(2):hover .lnb{
+    height: 130px;
+}
+.gnb>ul>li:nth-child(3):hover .lnb{
+    height: 130px;
+}
+.gnb>ul>li:nth-child(4):hover .lnb{
+    height: 130px;
+}
+
+/* 하위메뉴 a요소 */
+.lnb>ol>li>a{
+    display: block;
+    padding: 7px 0;
+    font-size: 1.8rem;
+
+    /* 트랜지션 */
+    transition: all .3s;
+}
+
+/* 하위메뉴 a에 마우스 오버시 효과 */
+.lnb a:hover{
+    transform: scale(1.1);
+    color: tomato;
+}
+
+
+/************************** 메인 영역 **************************/
+
+/* 본문 */
+.cont{
+    margin: 100px auto;
+    padding: 30px;
+    
+    max-width: 1200px;
+    border: 5px dashed tomato;
+    
+    font-size: 1.8rem;
 }
