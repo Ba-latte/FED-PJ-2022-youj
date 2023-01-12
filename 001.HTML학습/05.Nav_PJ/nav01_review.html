@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>내비게이션 혼자 연습</title>
+    <!-- 파비콘 -->
+    <link rel="stylesheet" href="">
+    <!-- 아이콘 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <style>
         /* 초기화 */
         html,body{
@@ -27,6 +31,10 @@
             padding: 0;
             list-style: none;
         }
+        .top{
+            display: flex;
+            justify-content: space-between;
+        }
         .gnb a{
             color: #333;
             text-decoration: none;
@@ -34,6 +42,11 @@
             font-size: 20px;
             font-weight: bold;
         }
+        .sideMenu a{
+            color: #333;
+            text-decoration: none;
+        }
+
 
         /* 내비게이션 전체 박스 */
         .gnb ul{
@@ -131,6 +144,17 @@
             font-weight: normal;
             
         }
+        
+
+        /* 사이드 메뉴 */
+        .sideMenu{
+        }
+        .sideMenu>ul{
+        }
+        .sideMenu>ul>li{
+        }
+
+
 
         /* 컨텐츠 박스 */
         .cont{
@@ -156,109 +180,129 @@
 </head>
 <body>
     <h1>가로 내비게이션 - 서브별 드롭다운 세로형</h1>
-    <nav class="gnb">
-        <ul>
-            <!-- 메인메뉴 -->
-            <li>
-                <a href="#">기능</a>
-                <!-- 서브메뉴 -->
-                <div class="lnb">
-                    <ol>
-                        <li>
-                            <a href="#">프로젝트 협업</a>
-                        </li>
-                        <li>
-                            <a href="#">업무관리</a>
-                        </li>
-                        <li>
-                            <a href="#">메신저</a>
-                        </li>
-                        <li>
-                            <a href="#">OKR</a>
-                        </li>
-                        <li>
-                            <a href="#">화상회의</a>
-                        </li>
-                        <li>
-                            <a href="#">보안기능</a>
-                        </li>
-                        <li>
-                            <a href="#">시스템 연동</a>
-                        </li>
-                        <li>
-                            <a href="#">다운로드</a>
-                        </li>
-                    </ol>
-                </div>
-            </li>
-            <li>
-                <a href="#">요금</a>
-                <!-- 서브메뉴 -->
-                <div class="lnb">
-                    <ol>
-                        <li>
-                            <a href="#">요금제</a>
-                        </li>
-                        <li>
-                            <a href="#">구축형 문의</a>
-                        </li>
-                        <li>
-                            <a href="#">유료vs무료</a>
-                        </li>
-                    </ol>
-                </div>
-            </li>
-            <li>
-                <a href="#">고객사례</a>
-            </li>
-            <li>
-                <a href="#">교육</a>
-                <!-- 서브메뉴 -->
-                <div class="lnb">
-                    <ol>
-                        <li>
-                            <a href="#">온라인 정기교육</a>
-                        </li>
-                        <li>
-                            <a href="#">동영상 매뉴얼</a>
-                        </li>
-                        <li>
-                            <a href="#">자주묻는 질문</a>
-                        </li>
-                    </ol>
-                </div>
-            </li>
-            <li>
-                <a href="#">자료실</a>
-                <!-- 서브메뉴 -->
-                <div class="lnb">
-                    <ol>
-                        <li>
-                            <a href="#">재택근무 활용</a>
-                        </li>
-                        <li>
-                            <a href="#">활용방법</a>
-                        </li>
-                        <li>
-                            <a href="#">인사이트</a>
-                        </li>
-                        <li>
-                            <a href="#">웨비나</a>
-                        </li>
-                        <li>
-                            <a href="#">성공사례</a>
-                        </li>
-                        <li>
-                            <a href="#">보도자료</a>
-                        </li>
-                    </ol>
-                </div>
-            </li>
-            <li>
-                <a href="#">도입문의</a>
-            </li>
-        </ul>
-    </nav>
+    <header class="top">
+        <nav class="gnb">
+            <ul>
+                <!-- 메인메뉴 -->
+                <li>
+                    <a href="#">기능</a>
+                    <!-- 서브메뉴 -->
+                    <div class="lnb">
+                        <ol>
+                            <li>
+                                <a href="#">프로젝트 협업</a>
+                            </li>
+                            <li>
+                                <a href="#">업무관리</a>
+                            </li>
+                            <li>
+                                <a href="#">메신저</a>
+                            </li>
+                            <li>
+                                <a href="#">OKR</a>
+                            </li>
+                            <li>
+                                <a href="#">화상회의</a>
+                            </li>
+                            <li>
+                                <a href="#">보안기능</a>
+                            </li>
+                            <li>
+                                <a href="#">시스템 연동</a>
+                            </li>
+                            <li>
+                                <a href="#">다운로드</a>
+                            </li>
+                        </ol>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">요금</a>
+                    <!-- 서브메뉴 -->
+                    <div class="lnb">
+                        <ol>
+                            <li>
+                                <a href="#">요금제</a>
+                            </li>
+                            <li>
+                                <a href="#">구축형 문의</a>
+                            </li>
+                            <li>
+                                <a href="#">유료vs무료</a>
+                            </li>
+                        </ol>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">고객사례</a>
+                </li>
+                <li>
+                    <a href="#">교육</a>
+                    <!-- 서브메뉴 -->
+                    <div class="lnb">
+                        <ol>
+                            <li>
+                                <a href="#">온라인 정기교육</a>
+                            </li>
+                            <li>
+                                <a href="#">동영상 매뉴얼</a>
+                            </li>
+                            <li>
+                                <a href="#">자주묻는 질문</a>
+                            </li>
+                        </ol>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">자료실</a>
+                    <!-- 서브메뉴 -->
+                    <div class="lnb">
+                        <ol>
+                            <li>
+                                <a href="#">재택근무 활용</a>
+                            </li>
+                            <li>
+                                <a href="#">활용방법</a>
+                            </li>
+                            <li>
+                                <a href="#">인사이트</a>
+                            </li>
+                            <li>
+                                <a href="#">웨비나</a>
+                            </li>
+                            <li>
+                                <a href="#">성공사례</a>
+                            </li>
+                            <li>
+                                <a href="#">보도자료</a>
+                            </li>
+                        </ol>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">도입문의</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- 사이드 메뉴 -->
+        <aside class="sideMenu">
+            <ul>
+                <li>
+                    <a href="#">로그인</a>
+                </li>
+                <li>
+                    <a href="#">회원가입</a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-duotone fa-rocket"></i>  <!-- 아이콘 넣기 -->
+                    </a>
+                </li>
+            </ul>
+        </aside>
+    </header>
+
     <!-- 컨텐츠 박스(내비 메뉴가 컨텐츠 영역을 밀어내는지 확인용) -->
     <main class="cont">
         <div>
