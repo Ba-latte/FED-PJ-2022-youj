@@ -47,3 +47,13 @@ body{
     background-color: #ddd;
     border-radius: 5px;
 }
+
+/* 배경이미지 설명 넣기 숨기기 클래스 - IR(Image Replacement) */
+.ir{
+    display: block;
+    /* 디자인요소(크기 등)먹히게 만들기 위해 db줌 */
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    /* 디스플레이:넌 하면 리더기가 못읽으니까~ 이렇게 처리하는 것임 */
+}

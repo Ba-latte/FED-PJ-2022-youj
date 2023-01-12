@@ -10,8 +10,11 @@
 
 /* 개별 속박스 */
 .top{
-    position: relative;
+    /* position: relative; */
     /* .tmenu(앱솔루트)의 부모가 되기 위함! */
+    /* 잠깐 주석처리한 이유 : 하위메뉴의 박스가 화면 전체를 덮기 위해서는 가로값100%를 줘야함!
+    =>근데 부모자격을 찾아 올라가다보니까 얘가 있네? 그래서 부모크기만큼만! 덮어버림!
+    =>그래서 빼버리고 화면전체를 부모로 하게끔 만들기 */
     height: 128px;
 }
 
@@ -48,28 +51,141 @@ nav.gnb ul{
 .gnb>ul>li>a{
     color: #222;
     text-decoration: none;
-    line-height: 40px;
+    font-size: 1.7rem;
+    line-height: 4rem;
     margin: 0 10px;
+}
+
+/* GNB 서브메뉴 배경 상위메뉴 li에 가상요소로 만들기
+서브메뉴가 있는 li에 sm이름의 클래스를 준다 */
+.gnb>ul>li.sm::before{
+    content: '';
+    position: absolute;
+    top: 128px;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    /* 부모는? */
+    height: 0;
+    background-color: #fff;
+    /* 트랜지션 */
+    transition: .6s ease-out;
+}
+/* 상위메뉴 오버시에 서브배경 보이기 */
+.gnb>ul>li.sm:hover::before{
+    height: 200px;
+    border-bottom: 2px solid red;
+}
+
+
+/* GNB 서브메뉴 */
+.smenu{
+    text-align: center;
+    background-color: #fff;
+
+    /* 숨기기 - 배경색이 없어졌다는 것은, 보이는 자식들은 다 밖으로 나가있다는 것임 */
+    /* height: 0;
+    overflow: hidden; */
+
+    /* 트랜지션 */
+    transition: .4s ease-out;
+}
+
+/* 상위메뉴 오버시 하위메뉴 보이기 */
+.gnb>ul>li:hover .smenu{
+    height: 120px;
+}
+
+
+.smenu a{
+    font-size: 1.4rem;
+    line-height: 2;
+    color: #222;
+    text-decoration: none;
 }
 
 /* 1-3.탑메뉴 */
 aside.tmenu{
     position: absolute;
-    top: 0;
-    right: 0;
     /* 부모는? .top에게 부모자격주기! */
+    top: 25px;
+    right: 0;
 }
 
 /* 회원가입 등 메뉴 박스 */
 .tmenu ul{
     /* 플렉스 박스 : 하위 li요소 옆으로 흐르게 만들기! ('직계'부모에게 주는거야~) */
     display: flex;
+    align-items: center;
 }
+
+/* 사이드메뉴의 '로그인, 회원가입'의 사이 간격 띄우기 */
+.tmenu>ul>li+li{
+    margin-left: 10px;
+}
+
+/* 탑메뉴 a */
+.tmenu>ul>li>a{
+    color: #222;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+
 /* sns 메뉴 박스 */
 .tmenu ol{
     /* 플렉스 박스 : 하위 li요소 옆으로 흐르게 만들기! ('직계'부모에게 주는거야~) */
     display: flex;
 }
+
+/* sns li박스 */
+.sns li{
+    width: 30px;
+    height: 30px;
+    background: url(../images/icons.png) no-repeat;
+    /* 트랜지션 */
+    transition: .3s;
+    border-radius: 50%;
+    /* 둥근모서리를 주면, 그 안에서만 변화함 */
+}
+
+/* 스프라이츠(Sprites)로 배경이미지 넣기 */
+/* 트위터 */
+.sns li:nth-child(1){
+    background-position: 0px 0px;
+}
+/* 트위터 오버시 */
+.sns li:nth-child(1):hover{
+    background-position: 0px -30px;
+}
+
+/* 인스타그램 */
+.sns li:nth-child(2){
+    background-position: -30px 0px;
+}
+/* 인스타그램 오버시 */
+.sns li:nth-child(2):hover{
+    background-position: -30px -30px;
+}
+
+/* 페이스북 */
+.sns li:nth-child(3){
+    background-position: -60px 0px;
+}
+/* 페이스북 오버시 */
+.sns li:nth-child(3):hover{
+    background-position: -60px -30px;
+}
+
+/* a태그가 쪼그라들어서 안보임! -> a태그 확장~ */
+.sns a{
+    display: block;
+    /* 인라인은 크기 안먹으니까~ */
+    width: 100%;
+    height: 100%;
+    /* 100% -> 박스를 가득 채워라~ */
+}
+
 
 /**************************** 2.메인영역 ****************************/
 .cont{
