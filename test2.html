@@ -11,16 +11,19 @@
 <body>
     <h1>내가 해낸 <span>아카이브</span> 페이지</h1>
 
-    <header class="top">
-        <h1 class="logo">
-            <a href="#">
-                <img src="./imgs/coffee.png" alt="커피 이미지">
-            </a>
-        </h1>
-        <nav class="gnb">
-            <ul>
-                <li>
-                    <a href="#">HTML
+    <!-- 1.상단영역 -->
+    <div id="top">
+        <header class="top">
+            <h1 class="logo">
+                <a href="#">
+                    <img src="./imgs/coffee.png" alt="커피 이미지">
+                </a>
+            </h1>
+            <nav class="gnb">
+                <ul>
+                    <li>
+                        <a href="#">HTML</a>
+                        <!-- 하위메뉴 -->
                         <div class="lnb">
                             <ol>
                                 <li>
@@ -34,74 +37,87 @@
                                 </li>
                             </ol>
                         </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">CSS
-                        <div class="lnb">
-                            <ol>
-                                <li>
-                                    <a href="#">연습1</a>
-                                </li>
-                                <li>
-                                    <a href="#">연습2</a>
-                                </li>
-                                <li>
-                                    <a href="#">연습3</a>
-                                </li>
-                            </ol>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">쉐도잉 프로젝트
-                        <div class="lnb">
-                            <ol>
-                                <li>
-                                    <a href="#">연습1</a>
-                                </li>
-                                <li>
-                                    <a href="#">연습2</a>
-                                </li>
-                                <li>
-                                    <a href="#">연습3</a>
-                                </li>
-                            </ol>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">실험실
-                        <div class="lnb">
-                            <ol>
-                                <li>
-                                    <a href="#">연습1</a>
-                                </li>
-                                <li>
-                                    <a href="#">연습2</a>
-                                </li>
-                                <li>
-                                    <a href="#">연습3</a>
-                                </li>
-                            </ol>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
-    <main class="cont">
-        <section class="cbx">
-            <p>
-                🍪여기에 내용 입력🍪 <br>
-                나는 분명 lnb에 a태그를 3개만 썼는데... <br>
-                왜자꾸 1개가 더 나올까...?
-            </p>
-        </section>
         
-    </main>
-    <footer class="info">
+                    </li>
+                    <li>
+                        <a href="#">CSS</a>
+                        <!-- 하위메뉴 -->
+                        <div class="lnb">
+                            <ol>
+                                <li>
+                                    <a href="#">연습1</a>
+                                </li>
+                                <li>
+                                    <a href="#">연습2</a>
+                                </li>
+                                <li>
+                                    <a href="#">연습3</a>
+                                </li>
+                            </ol>
+                        </div>
+        
+                    </li>
+                    <li>
+                        <a href="#">쉐도잉 프로젝트</a>
+                        <!-- 하위메뉴 -->
+                        <div class="lnb">
+                            <ol>
+                                <li>
+                                    <a href="#">연습1</a>
+                                </li>
+                                <li>
+                                    <a href="#">연습2</a>
+                                </li>
+                                <li>
+                                    <a href="#">연습3</a>
+                                </li>
+                            </ol>
+                        </div>
+        
+                    </li>
+                    <li>
+                        <a href="#">실험실</a>
+                        <!-- 하위메뉴 -->
+                        <div class="lnb">
+                            <ol>
+                                <li>
+                                    <a href="#">연습1</a>
+                                </li>
+                                <li>
+                                    <a href="#">연습2</a>
+                                </li>
+                                <li>
+                                    <a href="#">연습3</a>
+                                </li>
+                            </ol>
+                        </div>
+        
+                    </li>
+                </ul>
+            </nav>
+        </header>
+    </div>
 
-    </footer>
+    <!-- 2.메인영역 -->
+    <div id="cont">
+        <main class="cont">
+            <section class="cbx">
+                <p>
+                    🍪여기에 내용 입력🍪 <br>
+                    나는 분명 lnb에 a태그를 3개만 썼는데... <br>
+                    왜자꾸 1개가 더 나올까...? <br>
+                    =>아하! 내가 하위 메뉴도 a태그로 감싸서 그런거구나!
+                </p>
+            </section>
+        
+        </main>
+    </div>
+
+    <!-- 3.하단영역 -->
+    <div id="info">
+        <footer class="info">
+            식후티타임보존협회
+        </footer>
+    </div>
 </body>
 </html>

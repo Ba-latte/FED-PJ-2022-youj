@@ -4,179 +4,12 @@
     <meta charset="UTF-8">
     <title>내비게이션 혼자 연습</title>
     <!-- 파비콘 -->
-    <link rel="stylesheet" href="">
+    <link rel="SHORTCUT ICON" href="./images/favicon.ico">
     <!-- 아이콘 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <style>
-        /* 초기화 */
-        html,body{
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            /* h0p = 자손 요소들의 높이가 화면 전체에 표시되기를 원할 때 조상 요소에 100%줘야지 자손도 높이가 먹힘 */
-        }
-        h1{
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            padding: 20px;
-            color: #f28539;
-        }
-        body{
-            color: #333;
-            background: #f6f4fc;
-        }
-        ul, ol{
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-        .top{
-            display: flex;
-            justify-content: space-between;
-        }
-        .gnb a{
-            color: #333;
-            text-decoration: none;
-
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .sideMenu a{
-            color: #333;
-            text-decoration: none;
-        }
-
-
-        /* 내비게이션 전체 박스 */
-        .gnb ul{
-            display: flex;
-            /* 진행방향 정렬 : 중앙 */
-            justify-content: center;
-        }
-
-        /* 상위 메뉴의 li에만 적용 */
-        .gnb ul>li{
-            position: relative;
-            /* 하위 메뉴인 .lnb의 부모자격 부여 */
-            padding: 0 40px;
-            text-align: center;
-
-            /* 아래쪽 패딩을 줘서 앱솔루트(.lnb)와 연결되게 하기 */
-            padding-bottom: 10px;
-        }
-
-        /* 하위 메뉴 박스 */
-        .lnb{
-            position: absolute;
-            left: 50%;
-            z-index: 999;
-            width: 200px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 1px 1px 5px #333;
-            /* line-height: 2; */
-            margin-top: 10px;
-
-            /* 트랜스폼 이용해서 가로방향 중앙으로 이동 */
-            transform: translateX(-50%);
-
-            /* 내부 컨텐츠 숨기기 */
-            height: 0;
-            overflow: hidden;
-
-            /* 처음에 투명하게 만들기 */
-            opacity: 0;
-
-            /* 트랜지션 : 속시이지 */
-            transition: all .4s ease-out;
-        }
-
-        /* 상위메뉴 오버시 공통 속성 부여 */
-        .gnb>ul>li:hover>a{
-            color: #623ad6;
-        }
-
-        /* 하위메뉴 오버시 공통 속성 부여 : 투명도, 색 변경 */
-        .gnb>ul>li:hover .lnb{
-            opacity: 1;
-        }
-        .gnb>ul>li .lnb a:hover{
-            color: #623ad6;
-            font-weight: bold;
-        }
-        /* 상위메뉴 오버시 개별 속성 부여(트랜지션 애니 구현하려면 구체적인 크기 있어야 함) */
-        .gnb>ul>li:first-child:hover .lnb{
-            height: 300px;
-        }
-        .gnb>ul>li:nth-child(2):hover .lnb{
-            height: 115px;
-        }
-        .gnb>ul>li:nth-child(4):hover .lnb{
-            height: 115px;
-        }
-        .gnb>ul>li:nth-child(5):hover .lnb{
-            height: 225px;
-        }
-        
-        /****************************************************
-            질문1. 상위메뉴에 마우스오버할 때
-            하위 메뉴를 감싸고 있는 박스(.lnb)의 높이값이
-            박스 안 내용(a의 개수)에 따라서 자동으로 조절되게 만들 순 없나요?
-            각 상위 메뉴 아래에 있는 하위 메뉴마다 높이값을 일일이 부여하려니 여백의 사이즈가 메뉴마다 동일하게 만들기 번거로워서요!
-            (높이값을 auto로 주면 애니메이션이 먹히지 않음...!)
-
-            질문2. 컨텐츠 박스 안의 글이 박스 위쪽에 너무 붙어있어서 line-height값을 주었더니,
-            글의 윗줄과 아랫줄 사이가 너무 벌어지는 느낌입니다...
-            줄글은 서로 간격이 좁게 붙어있되 상단과 하단에만 좀더 넓은 여백을 주고 싶다면,
-            줄글을 div같은 박스로 감싸고 마진을 줘야 할까요? 아니면 패딩을 줘야 할까요?
-            -> 
-            
-
-        ****************************************************/
-
-        /* 하위메뉴 a요소 */
-        .lnb a{
-            display: block;
-            padding: 8px 0;
-            /* text-align: center; */
-            font-size: 16px;
-            font-weight: normal;
-            
-        }
-        
-
-        /* 사이드 메뉴 */
-        .sideMenu{
-        }
-        .sideMenu>ul{
-        }
-        .sideMenu>ul>li{
-        }
-
-
-
-        /* 컨텐츠 박스 */
-        .cont{
-            /* z-index 관계 파악용 */
-            position: relative;
-            margin: 50px auto;
-            padding: 100px 20px;
-            max-width: 1200px;
-            height: 500px;
-            border-radius: 10px;
-            border: 5px dashed #623ad6;
-            text-align: center;
-            font-size: 30px;
-            /* line-height: 100px; */
-            background-color: #f286393d;
-        }
-
-        .cont div{
-            margin: 100px 0;
-        }
-
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    
+    <!-- 외부 CSS 파일 -->
+    <link rel="stylesheet" href="./nav01_review.css">
 </head>
 <body>
     <h1>가로 내비게이션 - 서브별 드롭다운 세로형</h1>
@@ -296,7 +129,7 @@
                 </li>
                 <li>
                     <a href="#">
-                        <i class="fa-duotone fa-rocket"></i>  <!-- 아이콘 넣기 -->
+                        <i class="fa-solid fa-rocket"></i>  <!-- 아이콘 넣기 -->
                     </a>
                 </li>
             </ul>

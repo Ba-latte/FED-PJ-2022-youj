@@ -30,6 +30,12 @@ a{
     color: #333;
     text-decoration: none;
 }
+img{
+    border: none;
+    /* 이미지에 링크시 기본 보더 없앰 : 서버 배포할 때 보더 나올 수 있음 */
+    vertical-align: top;
+    /* 박스 요소에 이미지 단독 삽입시 하단 공백 생기는 문제 해결 위함 */
+}
 
 /* 공사중 표시 */
 html *{
