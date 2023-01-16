@@ -13,19 +13,73 @@ html, body, h1{
 
 body{
     background-color: #9c0;
+
+    /* 배경색 애니메이션 : 이시이지반방마 */
+    animation: bgAni 10s linear infinite;
+}
+
+/* 배경색 키프레임 */
+@keyframes bgAni {
+    0%{
+        background-color: #9c0;
+    }
+    20%{
+        background-color: rgb(228, 196, 15);
+    }
+    40%{
+        background-color: rgb(0, 155, 147);
+    }
+    60%{
+        background-color: rgb(172, 0, 29);
+    }
+    80%{
+        background-color: rgb(139, 0, 204);
+    }
+    100%{
+        background-color: #9c0;
+    }
 }
 
 /* 전체 타이틀 */
 .tit{
+    /* height: 50px; => auto로 글자크기만큼 유동적으로 커졌다 작아졌다하게 두기 */
     font-family: 'Comfortaa', cursive;
     /* 최대 글자크기 지정 */
     font-size: min(5vw, 42px);
-    padding: 5vh 0;
-    /* 패딩도 보이는 화면 기준으로 주면 good */
+    margin: 5vh 0;
+    /* 마진/패딩도 보이는 화면 기준으로 주면 good */
     text-align: center;
     color: #fff;
     text-shadow: 2px 2px 2px #222;
+
+    /* 넘치는 자식(span) 숨기기 */
+    overflow: hidden;
 }
+
+/* 글자만 싸고 있는 span */
+.tit span{
+    display: block;
+    transform: translateY(100%);
+
+    /* 등장 애니메이션 : 이시이지반방마 */
+    animation: upAni .3s ease-out 1.5s forwards;
+}
+
+/* 등장 키프레임 */
+@keyframes upAni {
+    to{
+        transform: translateY(0%);
+    }
+} /* upAni 키프레임 끝 */
+
+/* 전체 랩핑 박스 */
+.wrap{
+    overflow: hidden;
+
+    /* 3D 문이 열렸을 때 위아래가 잘리는 것을 방지하기 위해서 패딩을 줌 */
+    padding: 50px 0;
+}
+
 
 /* 전체 문 부모 */
 .cont{
@@ -33,6 +87,12 @@ body{
     height: 300px;
     margin: 0 auto;
     background-color: #900;
+
+    /* 트랜스폼 y축 이동 - 위아래 패딩을 줬기 때문에, 그거 고려해서 내 크기보다 조금 더 큰 값을 줌 */
+    transform: translateY(120%);
+
+    /* 등장 애니메이션 : 이시이지반방마 */
+    animation: upAni .6s cubic-bezier(0.18, 0.89, 0.45, 1.59) 1s forwards;
 }
 
 /* 문 프레임 */
@@ -64,12 +124,24 @@ body{
     2가지를 같이 셋팅함!
     *******************************************/
     /* perspective-origin: top; */
+
+    /* 파도치는 애니 넣기 */
+    animation: waveAni 3s ease-in-out infinite alternate;
 }
+
+/* 배경이미지 크기 변경으로, 파도치는 애니 */
+@keyframes waveAni {
+    to{
+        background-size: auto 120%;
+    }
+} /* 파도치는 애니 끝 */
 
 /* 문짝 */
 .door{
     position: relative;
     /* 부모자격 : .handle */
+    z-index: 1;
+    /* 엘사보다 위에 있게 만듦 */
     width: 150px;
     height: 280px;
     background-color: #c90;
@@ -136,3 +208,36 @@ body{
     border-radius: 50%;
     background-color: blue;
 }
+
+/* 엘사박스 */
+#elsa{
+    position: absolute;
+    top: 0;
+
+    width: 150px;
+    height: 280px;
+    overflow: hidden;
+}
+
+/* 엘사 이미지 */
+#elsa img{
+    margin-left: 133px;
+    transform-origin: bottom;
+
+    /* 엘사 애니 : 이시이지반방마 */
+    animation: elsaAni 1s ease-in-out infinite alternate;
+    /* 처음에 멈춰있기 (문열릴때부터 같이 움직이기) */
+    animation-play-state: paused;
+}
+
+/* 마우스오버시 엘사애니 작동 */
+.cont:hover #elsa img{
+    animation-play-state: running;
+}
+
+/* 엘사 애니 키프레임 */
+@keyframes elsaAni {
+    to{
+        transform: rotate(-10deg);
+    }
+} /* 엘사 애니 키프레임 끝 */
