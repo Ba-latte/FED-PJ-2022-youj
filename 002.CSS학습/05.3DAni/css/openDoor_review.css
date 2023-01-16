@@ -1,0 +1,147 @@
+@charset "utf-8";
+/* openDoor_review css폴더 - openDoor_review.css */
+
+/* 폰트 cdn */
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+/* font-family: 'Abel', sans-serif; */
+
+/* 초기화 */
+html, body, h1{
+    margin: 0;
+    padding: 0;
+}
+
+/* 배경 */
+body{
+    background-color: lightblue;
+}
+
+/* 공사중 */
+body *{
+    /* outline: 1px dashed blue; */
+}
+
+
+h1.tit{
+    text-align: center;
+    /* 마진/패딩도 유동적인 값을 줄 수 있음 */
+    margin: 4vh 0;
+
+    font-family: 'Abel', sans-serif;
+    /* 글자 유동적 사이즈 만들기 */
+    font-size: min(max(3vw, 20px), 50px);
+    color: #dff6ff;
+    text-shadow: 1px 1px 1px #000;
+}
+
+/* 문 부모 */
+.cont{
+    width: 280px;
+    height: 380px;
+    margin: 0 auto;
+    border: 30px ridge maroon;
+    border-bottom: 0;
+}
+
+/* 문틀 */
+.frame{
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 280px;
+    height: 380px;
+    
+    background: url(../images/seashore.jpg) no-repeat center/100% 100%;
+
+    /* 원근감 주기 : 부모요소에 줘야 함 */
+    perspective: 500px;
+}
+
+/* 문짝 */
+.door{
+    position: relative;
+    width: 280px;
+    height: 380px;
+    z-index: 1;
+
+    background-color: firebrick;
+
+    transform: rotateY(30deg);
+    transform-origin: left;
+    /* 애니메이션 : 이시이지반방마 */
+    animation: openDoor 2s ease-in-out infinite alternate;
+    animation-play-state: paused;
+
+}
+
+/* 문짝에 마우스오버시 애니메이션 멈추는 기능 */
+.frame:hover .door{
+    animation-play-state: running;
+}
+
+.frame:hover .tit::first-letter{
+    color: maroon;
+}
+
+
+/* 문짝 열리는 키프레임 */
+@keyframes openDoor {
+    0%{
+        transform: rotateY(30deg);
+    }
+    100%{
+        transform: rotateY(-30deg);
+    }
+}
+
+/* 문 손잡이 */
+.handle{
+    position: relative;
+    top: 160px;
+    right: -222px;
+    width: 35px;
+    height: 35px;
+    background-color: burlywood;
+    border-radius: 50%;
+    box-shadow:
+    3px 3px 3px #000,
+    inset 3px 3px 3px 3px rgba(228, 228, 228, 0.452);
+}
+
+/* 엘사 */
+#elsa{
+    position: absolute;
+    top: 0;
+
+    width: 280px;
+    height: 380px;
+    
+    /* 문보다 더 큰 부분 잘라내기 */
+    overflow: hidden;
+}
+
+/* 엘사 이미지 */
+#elsa img{
+    margin-left: 100%;
+
+    transform: rotate(0deg);
+    transform-origin: bottom;
+    /* 엘사 애니메이션 : 이시이지반방마 */
+    animation: elsaAni 1s ease-out 1s infinite alternate;
+    animation-play-state: paused;
+}
+
+/* 마우스오버시 엘사애니 작동 */
+.cont:hover #elsa img{
+    animation-play-state: running;
+}
+
+/* 엘사 애니 키프레임 */
+@keyframes elsaAni {
+    100%{
+        transform: rotate(-11deg);
+    }
+}
+
+
+
