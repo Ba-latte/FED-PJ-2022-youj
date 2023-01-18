@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가로네비 서브별 드롭다운 가로형</title>
+</head>
+<body>
+    <h1>가로네비 서브별 드롭다운 가로형</h1>
+    <style>
+        /* 초기화 */
+        html,body{
+            margin: 0;
+            padding: 0;
+        }
+
+        h1{
+            text-align: center;
+        }
+        ul{
+            /* 3무! */
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+
+
+        /****************************** GNB메뉴 ******************************/
+        .gnb{  /* 얘가 전체를 감싸고 있으니까 얘에게 디자인 주는 것임 */
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+        }
+
+        .gnb>ul{  /* 전체적인 박스를 잡아주는 애! - 서브메뉴의 ul 선택 안하기 위해서 > 씀 */
+            /* 플렉스 박스 */
+            display: flex;
+            /* 진행방향 정렬 - 중앙 */
+            justify-content: center;
+        }
+
+        /* 상위메뉴 하단 보더 셋팅 */
+        .gnb>ul>li>a{  /* 하위메뉴도 있을거니까~ 선택자를 이용해서 좀 더 디테일하게 잡아주기 */
+            /* border-bottom: 3px solid red; => 보더는 박스 크기를 잡아먹어서 약간 크기가 달라지며 움직임! */
+            /* box-sizing: border-box;  근데 이렇게 해도 박스사이즈가 오토라서 자동으로 늘어남! => 박스에 지정된 사이즈 줘야함 => 근데 나는 사이즈 주기 싫어 그러면? 원래 박스에다가도 보더를 주고, 그걸 투명하게 만들면 됨 */
+
+            /* 투명한 하단 보더 만들기 */
+            border-bottom: 3px solid transparent;
+        }
+
+        /* 상위 메뉴 li에 마우스오버시 */
+        .gnb>ul>li:hover>a{
+            /* 투명한 하단 보더에 색상 넣기 */
+            border-bottom-color: darkblue;
+        }
+
+        /* 상위메뉴 li에 서브메뉴 배경 넣기 */
+        .gnb>ul>li::after{
+            /* 비포/에프터 쓰는 기준 : li박스 맨 위/ 맨 아래서부터 만들어지니까...잉...설명 놓침 */
+            content: '';
+            display: block;
+            position: absolute;
+            /* 부모는? 보이는 화면이 됨(자격 준 적 없으니까)*/
+            left: 0;
+            /* top값은 안줘서 젠틀함!(그래서 스태틱한 애를 존중하며 그대로 있는 것임) */
+            width: 100%;
+            height: 80px;
+            /* 언더바 보이게 살짝 내려주기 - 앱솔루트의 미세 조정은 마진으로 한다! */
+            margin-top: 1px;
+            background-color: #f5f5f5;
+            border-bottom: 5px solid darkblue;
+
+            /* 마우스오버할때 보이도록 처음에 숨겨두기 */
+            display: none;
+        }
+
+        /* 상위 li 오버시 서브메뉴 배경 보이기 */
+        .gnb>ul>li:hover::after{
+            display: block;
+        }
+
+        /* 두번째 li부터 사이간격 : 패딩으로! */
+        .gnb>ul>li+li{
+            padding-left: 10px;
+        }
+
+        /* 상위 메뉴 li에 마우스오버시 a요소 */
+        .gnb>ul>li:hover>a{
+            /* 글자 색상 바꾸기 */
+            color: darkblue;
+        }
+
+        .gnb>ul>li>a{
+            /* a요소 확장 - 인라인요소니까 딱 자기 크기만큼 자리차지하고 있는 것을, 블록으로 만들어주면 꽉 채우게 됨 */
+            display: block;
+
+            /* a요소에서 반드시 잡아줘야 하는 것 - 글자색, 밑줄 (a에 잡혀있는 설정이라서, 위에 해줘도 소용 없음) */
+            color: #444;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 56px;
+            padding: 0 25px;
+        }
+
+        /* 서브메뉴 */
+        .smenu{
+            position: absolute;  /* a태그 존중해서 밑에 있지만 떠있어서 박스 밖에 나가 있다 */
+            padding: 25px 20px;
+            /* 서브메뉴 박스 확인용 아웃라인 */
+            /* outline: 1px dashed gray; */
+
+            /* 처음에 안 보이게 만들기 */
+            display: none;
+
+            /* 배경보다 위에 있게 만들기 */
+            z-index: 1;
+        }
+
+        /* 상위메뉴 li에 마우스오버시 서브메뉴 보이기 */
+        .gnb>ul>li:hover .smenu{
+            display: block;
+        }
+
+        .smenu ul{
+            display: flex;
+        }
+
+        .smenu li+li{
+            margin-left: 20px;
+        }
+
+        .smenu a{
+            display: inline-block;
+            color: #555;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 6px 8px;  
+            /* 디스플레이:인라인 블록을 안 주면!
+            디자인은 먹히지만 인라인이라 실제 영향력은 없음(그래서 패딩 아무리 크게 줘도 박스 크기 그대로임) */
+            /* 패딩을 여기다 준 이유 : 어짜피 하이라이트주듯이 배경박스 있으니까~ 그게 너무 글자에 붙어 있으면 안되니까~ */
+
+            /* background-color: lightgreen; */
+            /* 오버했을 때의 크기같은거 확인용! */
+        }
+
+        /* 서브메뉴 a 오버시 */
+        .smenu a:hover{
+            background-color: darkblue;
+            color: #eee;
+            font-weight: bold;
+        }
+
+        /* 서브메뉴 6,7,8의 위치 이동하기 - 왜 레프트값으로 안 주고? => 젠틀하게 있던 애가 위치값 주면 부모 찾아 감 */
+        .gnb>ul>li:nth-child(6) .smenu{
+            margin-left: -215px;
+        }
+        .gnb>ul>li:nth-child(7) .smenu{
+            margin-left: -672px;
+        }
+        .gnb>ul>li:nth-child(8) .smenu{
+            margin-left: -275px;
+        }
+
+
+        /* 근사값코딩;; 비슷하게 일단 만들고, 세부 조정은 나중에 하기!;; */
+
+
+    </style>
+    <div class="gnb">
+        <ul>
+            <li>
+                <a href="#">홈페이지</a>
+                <!-- 서브메뉴 -->
+                <div class="smenu">
+                    <ul>
+                        <li>
+                            <a href="#">제작안내</a>
+                        </li>
+                        <li>
+                            <a href="#">제작유형</a>
+                        </li>
+                        <li>
+                            <a href="#">부가서비스</a>
+                        </li>
+                        <li>
+                            <a href="#">포트폴리오</a>
+                        </li>
+                        <li>
+                            <a href="#">문의하기</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="#">쇼핑몰</a>
+                <!-- 서브메뉴 -->
+                <div class="smenu">
+                    <ul>
+                        <li>
+                            <a href="#">제작안내</a>
+                        </li>
+                        <li>
+                            <a href="#">제작유형</a>
+                        </li>
+                        <li>
+                            <a href="#">부가서비스</a>
+                        </li>
+                        <li>
+                            <a href="#">포트폴리오</a>
+                        </li>
+                        <li>
+                            <a href="#">문의하기</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="#">모바일/앱</a>
+                <!-- 서브메뉴 -->
+                <div class="smenu">
+                    <ul>
+                        <li>
+                            <a href="#">제작안내</a>
+                        </li>
+                        <li>
+                            <a href="#">제작유형</a>
+                        </li>
+                        <li>
+                            <a href="#">부가서비스</a>
+                        </li>
+                        <li>
+                            <a href="#">포트폴리오</a>
+                        </li>
+                        <li>
+                            <a href="#">문의하기</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="#">기술력</a>
+                <!-- 서브메뉴 -->
+                <div class="smenu">
+                    <ul>
+                        <li>
+                            <a href="#">웹접근성</a>
+                        </li>
+                        <li>
+                            <a href="#">반응형웹</a>
+                        </li>
+                        <li>
+                            <a href="#">하이브리드앱</a>
+                        </li>
+                        <li>
+                            <a href="#">웹문서최적화SEO</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="#">호스팅/유지관리</a>
+                <!-- 서브메뉴 -->
+                <div class="smenu">
+                    <ul>
+                        <li>
+                            <a href="#">웹호스팅</a>
+                        </li>
+                        <li>
+                            <a href="#">정기유지관리</a>
+                        </li>
+                        <li>
+                            <a href="#">건별유지관리</a>
+                        </li>
+                        <li>
+                            <a href="#">유지관리신청</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="#">포트폴리오</a>
+                <!-- 서브메뉴 -->
+                <div class="smenu">
+                    <ul>
+                        <li>
+                            <a href="#">홈페이지</a>
+                        </li>
+                        <li>
+                            <a href="#">쇼핑몰</a>
+                        </li>
+                        <li>
+                            <a href="#">해외 쇼핑몰</a>
+                        </li>
+                        <li>
+                            <a href="#">모바일</a>
+                        </li>
+                        <li>
+                            <a href="#">Android</a>
+                        </li>
+                        <li>
+                            <a href="#">IOS</a>
+                        </li>
+                        <li>
+                            <a href="#">영상</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="#">회사소개</a>
+                <!-- 서브메뉴 -->
+                <div class="smenu">
+                    <ul>
+                        <li>
+                            <a href="#">회사소개</a>
+                        </li>
+                        <li>
+                            <a href="#">연구개발</a>
+                        </li>
+                        <li>
+                            <a href="#">주요고객사</a>
+                        </li>
+                        <li>
+                            <a href="#">고객분포도</a>
+                        </li>
+                        <li>
+                            <a href="#">스텝</a>
+                        </li>
+                        <li>
+                            <a href="#">채용정보</a>
+                        </li>
+                        <li>
+                            <a href="#">오시는 길</a>
+                        </li>
+                        <li>
+                            <a href="#">뉴스&공지사항</a>
+                        </li>
+                        <li>
+                            <a href="#">쓰리웨이스토</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="#">고객센터</a>
+                <!-- 서브메뉴 -->
+                <div class="smenu">
+                    <ul>
+                        <li>
+                            <a href="#">자주묻는질문</a>
+                        </li>
+                        <li>
+                            <a href="#">제작시 유의사항</a>
+                        </li>
+                        <li>
+                            <a href="#">원격지원상담</a>
+                        </li>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
