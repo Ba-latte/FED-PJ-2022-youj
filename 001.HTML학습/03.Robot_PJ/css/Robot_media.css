@@ -4,11 +4,42 @@
 
 /* 1024px 이하 */
 @media screen and (max-width:1024px) {
+    /* 링크 박스 */
+    .link{
+        top: 40px;
+    }
     /* 링크이동버튼 */
     .link a{
         font-size: 35px;
     }
-}
+
+
+/*
+[ 기존 애니메이션 적용 요소 변경시 ]
+-애니메이션을 없애고(none) 디자인을 변경한다
+-필요에 따라 애니메이션을 다시 설정한다
+: 다시 설정할 때 같은{}안에서 애니메이션을 2번 쓰지 말고,
+.logo{}를 아래에다 하나 더 쓰고 거기에 애니메이션을 넣어야 함
+*/
+
+
+    /* 로고박스 */
+    .logo{
+        animation: none;
+        top: 50px;
+        left: 50px;
+        transform: scale(1);
+        width: 150px;
+        height: 150px;
+        font-size: 20px;
+    }
+
+    /* 로고 애니메이션 재설정 */
+    .logo{
+        animation: 
+        logoAni2 .5s ease-in-out 3s infinite alternate;
+    }
+}  /* 1024px 끝 */
 
 /* 900px 이하 */
 @media screen and (max-width:900px) {
@@ -26,9 +57,38 @@
 
 /* 500px 이하 */
 @media screen and (max-width:500px) {
+    html, body{
+        width: 100vw;
+        /* 보이는 화면 가로크기 채움 */
+        overflow-x: hidden;
+        /* x축 스크롤 없애기 */
+    }
+    .link{
+        position: static;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .logo {
+        animation: none;
+        top: 90px;
+        left: 30px;
+        transform: scale(1);
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        font-size: 20px;
+    }
+
     /* 2-2-3.내용단락 */
     .dcbx p{
         /* 다중열개수 */
         column-count: 1;
+    }
+
+    /* 로고 애니메이션 재설정 */
+    .logo{
+        animation: 
+        logoAni2 .5s ease-in-out 3s infinite alternate;
     }
 }
