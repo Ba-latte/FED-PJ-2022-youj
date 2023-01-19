@@ -1,0 +1,179 @@
+@charset "utf-8";
+
+/* 롯데월드 사이트 css - lotte.css */
+
+/* 외부파일 합치기 */
+@import url(../css/reset.css);
+
+/************************************* 1.상단영역 *************************************/
+
+
+
+/* 타이틀 공통 */
+.tit{
+    position: absolute;  /* 포지션 준적없으니까 부모자격은 윈도우가 받음 */
+    z-index: 1;
+    top: 50px;
+    left: 50%;
+    /* 가로 중앙 이동 : 트랜스폼(트랜스레이트) */
+    transform: translateX(-50%);
+    /* 자신의 크기 절반(50%)만큼 왼쪽 방향(-)이동하기 (가운데 이동할 때 많이 씀) */
+    width: 500px;  /* 박스 크기 잡아주기 */
+    /* height: 100px; */
+    /* border: 5px double #fff; */
+    /* margin: 0 auto;  마영오는 블록요소가 스태틱한 경우에 먹힘!!!! 먹히는지 확인하려면 가로값을 오토가아니라 특정 값으로 줘야 확인 가능함. 여기는 앱솔루트니까 안먹힘 */
+}
+
+/* 타이틀 하위 공통 li */
+.tit>li{
+    /* li박스 셋팅 */
+    width: 50px;
+    height: 50px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background-color: red;
+    text-align: center;
+    /* 글자 셋팅 - font: 스두크/줄체; */
+    font: bold 14px/50px Verdana;
+    color: #fff;
+}
+
+/* 타이틀박스 7 (마진으로 안 밀고 알아서 줄바꿈하게 하고 싶은데 어떻게 하지?!) */
+.t7{
+    width: 450px;
+    /* height: 200px; */
+
+    /* 플렉스박스 */
+    display: flex;
+    /* 랩핑박스 */
+    flex-wrap: wrap;
+    /* 수평정렬: 등분할공간 - jcsp */
+    justify-content: space-evenly;
+    /* 수직정렬(여러줄) : 중앙 - acc */
+    align-content: center;
+}
+
+/* 자체응용 - 줄바꿈을 위한 li */
+        /* 원리 : 줄바꿈을 할 부분에서 가로크기 100%를 차지하게 만들어서 줄바꿈 효과를 부여함 */
+        .t7 li.brk{
+            /* width: 100%; */
+            flex-basis: 100%;
+            /* flex-basis는 width와 동일하지만, flex에서만 사용가능함 */
+
+            /* 기존의 디자인 없애기 */
+            height: 0;
+            border: none;
+            /* .brk에 위쪽 마진으로 간격을 주기! (윗줄과 아랫줄 사이에 간격을 주고싶을 떄 사용하면 됨) */
+            margin-top: 20px;
+        }
+
+/************************************* 2.메인영역 *************************************/
+
+/* 파티션 박스 ul */
+.cont>ul{
+    /* 플렉스 박스 */
+    display: flex;
+    /* width: 100vw; => 오토로 들어가니까 굳이 안 줘도 돼!*/
+    /* 높이값을 보이는 화면 기준 채우기 */
+    height: 100vh;
+}
+
+/* 파티션 박스 li */
+.cont>ul>li{
+    position: relative;
+    /* 부모자격 - 하위img */
+    /* 플렉스의 자식요소를 등분시킴! (1:응! / 0:아니!) => 가로는 등분할, 세로는 100% 채워줌 */
+    flex: 1;
+
+    /* 커서를 손가락 모양으로 바꾸기 */
+    cursor: pointer;
+
+    /* 트랜지션: 속시이지 */
+    transition: all .4s ease-out;
+}
+/* 파티션 박스 li의 가상요소로 오버레이 효과 주기 */
+.cont>ul>li::before{
+    content: '';
+    display: block;
+    position: absolute;
+    /* 사방으로 잡아 땡겨서 박스 크기 키우기 - t0, l0, b0, r0!! (혹은 t0, l0, w100p, h100p해도 동일 효과) */
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #000;
+    opacity: .5;
+
+    /* 트랜지션: 속시이지 */
+    transition: all .4s ease-out;
+}
+
+/* 파티션 박스 li에 마우스 오버시 */
+/* li 넓어지기 */
+.cont>ul>li:hover{
+    flex: 1.4;
+    /* flex: 1혹은 0말고 다른 숫자 주면, 기존 1로 등분할 되었던 것에 비해서 배수로 인식함! 2=>2배수 */
+}
+/* 가상요소 배경에 있는 암전 밝아지기 */
+.cont>ul>li:hover::before{
+    opacity: 0;
+}
+
+
+/* 각 파티션 박스에 배경이미지 넣기 */
+.cont>ul>li:first-child{
+    background: url(../images/m01_bg.jpg) no-repeat center/cover;
+}
+.cont>ul>li:nth-child(2){
+    background: url(../images/m02_bg.jpg) no-repeat center/cover;
+}
+.cont>ul>li:nth-child(3){
+    background: url(../images/m03_bg.jpg) no-repeat center/cover;
+}
+.cont>ul>li:nth-child(4){
+    background: url(../images/m04_bg.jpg) no-repeat center/cover;
+}
+.cont>ul>li:last-child{
+    background: url(../images/m05_bg.jpg) no-repeat center/cover;
+}
+
+
+/* 타이틀 + 로고 이미지 공통 셋팅 */
+.cont>ul>li>img{
+    position: absolute;
+    width: min(70%, 250px);
+    /* 부모박스의 70%를 적용하고, (아무리 화면이 커져도) 250픽셀보다는 안 커지게 제한을 둠 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* 로고만 셋팅 변경해주기 */
+.cont>ul>li>img:last-child{
+    top: 80%;
+    width: auto;    /* 오토 : 기본값!(자기 원래 크기?) */
+}
+
+
+
+
+
+/************************************* 3.하단영역 *************************************/
+
+.info{
+    /*
+    선생님이랑 다른 부분은
+    -position: absolute;
+    -width: 100%;
+    -bottom: 0;
+    -패딩 위/아래 사이즈 조금 달랐음
+    => 선생님은 자리차지 하지 않게! 상하 스크롤이 생기지 않게! 하기 위해서 공중에 띄우는 앱솔루트를 씀! (그리고 값들은 조정해줬음~)
+    => 나는 스크롤이 생겼음...!
+    */
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    text-align: center;
+    background-color: #da041c;
+    padding: 7px 0;
+}
