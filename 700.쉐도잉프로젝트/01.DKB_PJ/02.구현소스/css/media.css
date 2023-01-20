@@ -1,0 +1,127 @@
+@charset "utf-8";
+/* 도깨비 PJ 공통 미디어 쿼리 CSS - media.css */
+
+/* 큰거에서부터 작은거로 내려가기로 함~ */
+
+
+/* 1200px 사이즈 이하 미디어쿼리 시작 */
+@media screen and (max-width: 1200px) {
+    /* 하단 - 브랜드 바로가기 */
+    .brand {
+        top: 160px;
+        right: 10px;
+    }
+}  /* 1200px 사이즈 이하 미디어쿼리 끝 */
+
+
+/* 1024px 사이즈 이하 미디어쿼리 시작 */
+@media screen and (max-width: 1024px) {
+    /* 전체 글자 크기 변경 */
+    html{
+        /* rem단위 글자 모두 변경 */
+        font-size: 8.235px;
+        /*
+            [ 기준 글자 계산 : GNB 메뉴 기준 ]
+        -처음 : 1.7rem * 10px = 17px
+        -변경 : 1.7rem * 몇px = 14px
+        =>계산 : 몇px = 14px / 1.7rem
+        =>결과 : 8.235px
+        */
+    }
+
+    /* 등장 글자 이미지 없애기 */
+    #mvtxt{
+        display: none;
+    }
+    
+    /* 메인 속박스 */
+    .cont {
+        /* 가로 크기에 대한 비율을 만들어 준다! - 스태틱한 애들이 더 많아지면 밀고 나갈 수 있는게 민-하이트...*/
+        min-height: 100vw;
+    }
+
+    /* 전체 캐릭터 박스 */
+    .cbx {
+        margin-top: 10vw;
+    }
+    
+    /* 캐릭터 각 박스 공통 */
+    .cat {
+        position: relative;
+        /* 부모자격 - .cd */
+        width: 49%;
+        margin-bottom: 20px;
+    }
+
+    /* .cat에 오버시 .ci박스 마진탑 변경하기 (흔들림이 없어지네) */
+    .cat:hover .ci{
+        margin-top: 0;
+    }
+
+    /* 캐릭터 설명 박스 */
+    .cd{
+        position: absolute;
+        z-index: 1;
+    }
+
+}  /* 1024px 사이즈 이하 미디어쿼리 끝 */
+
+
+/* 780px 사이즈 이하 미디어쿼리 시작 */
+@media screen and (max-width: 780px) {
+    /* 디스플레이 없애기 */
+    .tmenu, .gnb{
+        display: none;
+    }
+
+    /* 햄버거 버튼 보이기 */
+    .ham{
+        display: block;
+        /* 원래 버튼은 인라인요소지만, 앱솔루트 주면 블록이 된다~~ */
+    }
+
+    /********************* 상단영역 *********************/
+    .top{
+        height: 80px;
+    }
+
+    /* 캐릭터 박스 - 한 줄에 하나 오게 만들기 */
+    .cat{
+        width: 99%;
+    }
+
+    /* 캐릭터 설명박스 - 다시 스태틱하게 만들어주기 */
+    .cd{
+        /* 자리차지하게 하면서 내려가는게 기본임! */
+        position: static;
+    }
+    
+    /* 캐릭터 설명박스 제목 */
+    .cd h3{
+        font-size: 4.5vw;
+    }
+
+    /* 캐릭터 설명박스 문단 */
+    .cd p{
+        font-size: 4vw;
+        padding: 3vw;
+    }
+
+    /* 설명박스 문단 첫글자 */
+    .cd p:first-child::first-letter{
+        font-size: 8vw;
+    }
+
+    /* 하단영역 */
+    /* 브랜드 바로가기 */
+    .brand{
+        bottom: 10px;
+        top: auto;
+    }
+
+    /* 하단링크 일부 숨기기 - li 1번부터 4번까지 */
+    .blink li:nth-child(-n+3){
+        display: none;
+    }
+
+}  /* 780px 사이즈 이하 미디어쿼리 끝 */
