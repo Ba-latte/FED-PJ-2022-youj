@@ -12,3 +12,93 @@ html,body{
     margin: 0;
     padding: 0;
 }
+
+/* 테이블 공통 */
+.tbl{
+    /* 글자체 */
+    font-family: 'Hahmlet', serif;
+    /* 글자색 */
+    color: #222;
+    /* 테이블 기본 간극 없애기 - bdcol
+    collapse(붕괴) 기본값은 seperate인데, collapse를 주면됨
+    셀 사이 간격을 없애야 정확한 디자인 셋팅이 가능하다
+    =>table태그에 bd1을 줘보면 바로 확인 가능하다! */
+    border-collapse: collapse;
+}
+
+/* 드라마 테이블 전체 */
+#drama{
+    font-size: 24px;
+    margin: 0 auto;
+    /* 테이블은 특징이, 내용이 넓어지면 겉 박스보다 커지는 경우, 아래로 툭툭 떨어진다!
+    그래서 가운데 올 때에 사이즈 지정 안하면~ 내용만큼 혼자서만 길어질 수 있다
+    =>그러니까 사이즈 셋팅해주는 것이 좋음 */
+    width: 1000px;
+    /* 테이블은 width 지정이 없으면 내용만큼 늘어남! 좁으면 내용이 아래로 떨어져서 줄바꿈된다! */
+}
+
+/* 테이블 제목 */
+#drama caption{
+    font-size: 35px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    padding: 50px 0 20px;
+}
+
+/* td와 th 패딩 */
+#drama td, #drama th{
+    padding: 8px 10px;
+}
+
+/* td에 밑줄 넣기 (선 넣기) - tfoot에도 td가 있어서 그거 빼려고 tbody를 준 것임 */
+#drama tbody td{
+    border-bottom: 1px solid #ccc;
+}
+
+/* th에 윗줄, 아랫줄에 두꺼운 보더 넣기 */
+#drama th{
+    border-top: 2px solid #555;
+    border-bottom: 2px solid #555;
+}
+
+/* tbody 마지막 td에 아랫줄 두꺼운 보더 넣기 - 좀더 정확하게 디자인 주기 위해서 td에 주는 것임 */
+#drama tbody tr:last-child td{
+    border-bottom: 2px solid #555;
+}
+
+/* tbody의 첫번째 td(번호)에 가운데 정렬하기 */
+#drama tbody td:first-child{
+    text-align: center;
+    /* background-color: red; */
+    /* 퍼스트차일드의 특징 중 하나가, 약간 그룹을 지정하듯이 전부 찾아서 적용(?)시키기 때문에 주의해서 쓰..라는거 같은데...잘 못들었엉ㅎㅎㅎ */
+}
+
+/* 하단부분(tfoot) */
+#drama tfoot td{
+    text-align: center;
+    padding: 45px 0;
+}
+
+/* 본문 배경색 짝수만 넣기 - 실제 디자인 요소는 구체적인 내용이 들어가있는 td에 주기~!! */
+#drama tbody tr:nth-child(even) td{
+    background-color: #f0f0f0;
+}
+
+/* 링크 a요소 변경하기 */
+#drama a{
+    color: #222;
+    text-decoration: none;
+}
+
+/* 링크 오버시 */
+#drama tbody a:hover{
+    color: hotpink;
+    text-decoration: underline;
+    text-decoration-style: wavy;
+}
+#drama tfoot a:hover{
+    color: darkgreen;
+    text-decoration: overline;
+    text-decoration-style: double;
+}
+
