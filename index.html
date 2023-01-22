@@ -1,196 +1,276 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아카이브 페이지</title>
-    <link rel="stylesheet" href="./zcss/main.css">
+    <title>아카이브 페이지 테스트</title>
+    <!-- 파비콘 -->
+    <link rel="shortcut icon" type="image/x-icon" href="./imgs/coffee.png" />
+    <link rel="stylesheet" href="./zcss/index.css">
 </head>
 <body>
+    
+    <!-- 1.상단영역 -->
     <div id="top">
         <header class="top">
-            <!-- 1.타이틀 -->
+
+            <!-- 1-1.타이틀 -->
             <h1 class="tit">
-                <img src="./imgs/mylogo_14.png" alt="나의 로고">
-                <br>
-                bara의 아카이브 페이지:>
+                내가 해낸 <span>아카이브</span> 페이지
             </h1>
-            <!-- 네비게이션 -->
-            <nav class="gnb">
-                <ul>
-                    <li>
-                        <a href="#pg1">공통·개별 PJ</a>
-                        <!-- a요소의 href에 "#아이디명"은 같은 페이지내의 아이디 요소 위치로 이동함! -->
-                    </li>
-                    <li>
-                        <a href="#pg2">2페이지</a>
-                    </li>
-                    <li>
-                        <a href="#pg3">3페이지</a>
-                    </li>
-                    <li>
-                        <a href="#pg4">4페이지</a>
-                    </li>
-                </ul>
-            </nav>
 
-
+            <div class="menu">
+                <!-- 1-2.로고 -->
+                <h1 class="logo">
+                    <a href="./index.html">
+                        <img src="./imgs/coffee.png" alt="커피 이미지">
+                    </a>
+                </h1>
+                <!-- 1-3.내비게이션 -->
+                <nav class="gnb">
+                    <ul>
+                        <li>
+                            <a href="#html_page">HTML</a>
+                        </li>
+                        <li>
+                            <a href="#css_page">CSS</a>
+                        </li>
+                        <li>
+                            <a href="#sp_page">쉐도잉 프로젝트</a>
+                        </li>
+                        <li>
+                            <a href="#lab_page">실험실</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </header>
     </div>
 
-    <!-- 1번 페이지 -->
-    <div id="pg1" class="mybox mbx1">
 
-        <div class="pwrap">
-            <!-- 1.공통 프로젝트 링크 파트 -->
-            <section class="part pt1">
-                <!-- 타이틀 -->
-                <h2>공통 프로젝트</h2>
-                <ol>
-                    <li>
-                        <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
-                    </li>
-                    <li>
-                        <a href="./001.HTML학습/03.Robot_PJ/avengers.html" target="_blank">avengers PJ</a>
-                    </li>
-                    <li>
-                        <a href="./001.HTML학습/03.Robot_PJ/Robot.html" target="_blank">Robot PJ</a>
-                    </li>
-                    <li>
-                        <a href="./001.HTML학습/04.Transform_PJ/index.html" target="_blank">Transform PJ</a>
-                    </li>
-                    <li>
-                        <a href="./001.HTML학습/06.CGV_PJ/003.구현소스/index.html" target="_blank">CGV PJ</a>
-                    </li>
-                </ol>
-            </section>
+    <!-- 각 페이지 박스 묶음 -->
+    <div class="pbx">
 
-            <!-- 2.개별 프로젝트 링크 파트 -->
-            <section class="part pt2">
-                <h2>개별 프로젝트</h2>
-                <ol>
-                    <li>
-                        <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ 응용</a>
-                    </li>
-                    <li>
-                        <a href="./800.커마프로젝트/Robot_PJ/avengers.html" target="_blank">Avengers PJ 응용</a>
-                    </li>
-                    <li>
-                        <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
-                    </li>
-                </ol>
-            </section>
+        <!-- 2.메인영역 -->
+        <!-- 2-1.메인 페이지 -->
+        <div id="cont">
+            <main class="cont">
+                <section class="cbx">
+                    <p>
+                        🍪여기에 내용 입력🍪
+                        <br><br>
+                        지금 상위메뉴의 가로값이 픽셀인데, 이걸 뷰포트 단위로 바꾸고 싶음!
+                        <br>
+                        그러면... 크기가 유동적이게 되는데... 형광펜 효과 가로 크기도 그럼 a 길이 따라서 변해야 하는데...
+                        <br>
+                        =>오잉 그냥 바꿔봤는데 그냥 바뀌네? @.@ 다시 알아보자,,,
+                        <br><br>
+                        그러면... 형광펜(가상요소) 가로값에도 뷰포트 단위를 쓰면 되는건가...?
+                        <br>
+                        =>바꿔봄!
+                        <br><br>
+                        그리고 또! 바디에 폰트사이즈값을 준거랑 h1에 준 거랑 차이가 왜이렇게 나지...?
+                        <br>
+                        모르겟넹 @.@
+                        <br><br>
+                        해야하는 부분!
+                        <br>
+                        1. 탑(👆)버튼 수정하기
+                        <br>
+                        2. 각 페이지 단 내부에 있는 li들 간격주고 꾸며주기,,
+                        <br>
+                        3. 링크 옆에 설명도 넣어주고 싶은데,,,
+                        
+                    </p>
+                </section>
+            
+            </main>
         </div>
-    </div>
 
-    <!-- 2번 페이지 -->
-    <div id="pg2" class="mybox mbx2">
+        <!-- 2-2. HTML 페이지 -->
+        <div id="html_page" class="pbx1">
+            <div class="cont">
+                <section class="cbx">
 
-        <div class="pwrap">
-            <!-- 1.공통 프로젝트 링크 파트 -->
-            <section class="part pt1">
-                <h2>공통 프로젝트</h2>
-                <ol>
-                    <li>
-                        <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
-                    </li>
-                    <li>
-                        <a href="./001.HTML학습/01.info_PJ/sub4.html" target="_blank">IT/과학 페이지</a>
-                    </li>
-                    <li>
-                        <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
-                    </li>
-                </ol>
-            </section>
+                    <!-- 2-2-1.공통 프로젝트 링크 파트 -->
+                    <article class="part pt1">
+                        <!-- 타이틀 -->
+                        <h2>🍪다같이🍪</h2>
+                        <ol>
+                            <li>
+                                <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
+                            </li>
+                            <li>
+                                <a href="./001.HTML학습/02.Drama_PJ/dramaTable.html" target="_blank">Drama PJ</a>
+                            </li>
+                            <li>
+                                <a href="./001.HTML학습/03.Robot_PJ/Robot.html" target="_blank">Robot PJ</a>
+                            </li>
+                            <li>
+                                <a href="./001.HTML학습/06.CGV_PJ/003.구현소스/intro.html" target="_blank">영화관 PJ</a>
+                            </li>
+                        </ol>
+                    </article>
 
-            <!-- 2.CSS학습 링크 파트 -->
-            <section class="part pt2">
-                <ol>
-                    <li>
-                        <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
-                    </li>
-                    <li>
-                        <a href="./001.HTML학습/01.info_PJ/sub4.html" target="_blank">IT/과학 페이지</a>
-                    </li>
-                    <li>
-                        <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
-                    </li>
-                </ol>
-            </section>
+                    <!-- 2-2-2.개별 프로젝트 링크 파트 -->
+                    <article class="part pt2">
+                        <!-- 타이틀 -->
+                        <h2>☕혼자서☕</h2>
+                        <ol>
+                            <li>
+                                <a href="./001.HTML학습/00.first_PJ/review.html" target="_blank">Info PJ</a>
+                            </li>
+                            <li>
+                                <a href="./001.HTML학습/02.Drama_PJ/dramaTable_review.html" target="_blank">Drama PJ</a>
+                            </li>
+                            <li>
+                                <a href="./001.HTML학습/03.Robot_PJ/Robot_review.html" target="_blank">Robot PJ</a>
+                            </li>
+                        </ol>
+                    </article>
+
+                </section>
+            </div>
         </div>
-    </div>
 
-    <!-- 3번 페이지 -->
-    <div id="pg3" class="mybox mbx3">
+        <!-- 2-3. CSS 페이지 -->
+        <div id="css_page" class="pbx2">
+            <div class="cont">
+                <section class="cbx">
 
-        <div class="pwrap">
-            <!-- 1.html학습 링크 파트 -->
-            <section class="part pt1">
-                <ol>
-                    <li>
-                        <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
-                    </li>
-                    <li>
-                        <a href="./001.HTML학습/01.info_PJ/sub4.html" target="_blank">IT/과학 페이지</a>
-                    </li>
-                    <li>
-                        <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
-                    </li>
-                </ol>
-            </section>
+                    <!-- 2-2-1.공통 프로젝트 링크 파트 -->
+                    <article class="part pt1">
+                        <!-- 타이틀 -->
+                        <h2>🍪다같이🍪</h2>
+                        <ol>
+                            <li>
+                                <a href="./002.CSS학습/04.MediaQuery/Media01.html" target="_blank">MediaQuery PJ</a>
+                            </li>
+                            <li>
+                                <a href="./" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="./002.CSS학습/02.DisplayFlex/lotte.html" target="_blank">DisplayFlex PJ</a>
+                            </li>
+                            <li>
+                                <a href="./002.CSS학습/05.3DAni/SolarSystem2D.html" target="_blank">SolarSystem2D PJ</a>
+                            </li>
+                            <li>
+                                <a href="./002.CSS학습/05.3DAni/OpenDoor.html" target="_blank">OpenDoor PJ</a>
+                            </li>
+                        </ol>
+                    </article>
 
-            <!-- 3.CSS학습 링크 파트 -->
-            <section class="part pt2">
-                <ol>
-                    <li>
-                        <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
-                    </li>
-                    <li>
-                        <a href="./001.HTML학습/01.info_PJ/sub4.html" target="_blank">IT/과학 페이지</a>
-                    </li>
-                    <li>
-                        <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
-                    </li>
-                </ol>
-            </section>
+                    <!-- 2-2-2.개별 프로젝트 링크 파트 -->
+                    <article class="part pt2">
+                        <!-- 타이틀 -->
+                        <h2>☕혼자서☕</h2>
+                        <ol>
+                            <li>
+                                <a href="" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="" target="_blank"></a>
+                            </li>
+                        </ol>
+                    </article>
+
+                </section>
+            </div>
         </div>
+
+        <!-- 2-4. 쉐도잉 프로젝트 페이지 -->
+        <div id="sp_page" class="pbx3">
+            <div class="cont">
+                <section class="cbx">
+
+                    <!-- 2-2-1.공통 프로젝트 링크 파트 -->
+                    <article class="part pt1">
+                        <!-- 타이틀 -->
+                        <h2>🍪다같이🍪</h2>
+                        <ol>
+                            <li>
+                                <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
+                            </li>
+                            <li>
+                                <a href="./700.쉐도잉프로젝트/01.DKB_PJ/02.구현소스/index.html" target="_blank">도깨비 PJ 구현</a>
+                            </li>
+                            <li>
+                                추가중
+                            </li>
+                        </ol>
+                    </article>
+
+                    <!-- 2-2-2.개별 프로젝트 링크 파트 -->
+                    <article class="part pt2">
+                        <!-- 타이틀 -->
+                        <h2>☕혼자서☕</h2>
+                        <ol>
+                            <li>
+                                <a href="./000.복습/02.구현소스/sl_index.html" target="_blank">스토브리그 PJ</a>
+                            </li>
+                            <li>
+                                <a href="./800.커마프로젝트/Robot_PJ/avengers.html" target="_blank">영웅 PJ</a>
+                            </li>
+                            <li>
+                                <a href="./" target="_blank"></a>
+                            </li>
+                        </ol>
+                    </article>
+
+                </section>
+            </div>
+        </div>
+
+        <!-- 2-5. 실험실 페이지 -->
+        <div id="lab_page" class="pbx4">
+            <div class="cont">
+                <section class="cbx">
+
+                    <!-- 2-2-1.공통 프로젝트 링크 파트 -->
+                    <article class="part pt1">
+                        <!-- 타이틀 -->
+                        <h2>🍪다같이🍪</h2>
+                        <ol>
+                            <li>
+                                <a href="./810.실험실/01.주얼리사이트/index.html" target="_blank">주얼리 사이트</a>
+                            </li>
+                            <li>
+                                <a href="" target="_blank"></a>
+                            </li>
+                        </ol>
+                    </article>
+
+                    <!-- 2-2-2.개별 프로젝트 링크 파트 -->
+                    <article class="part pt2">
+                        <!-- 타이틀 -->
+                        <h2>☕혼자서☕</h2>
+                        <ol>
+                            <li>
+                                <a href="" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="" target="_blank"></a>
+                            </li>
+                        </ol>
+                    </article>
+
+                </section>
+            </div>
+        </div>
+
     </div>
 
-<!-- 4번 페이지 -->
-<div id="pg4" class="mybox mbx4">
 
-    <div class="pwrap">
-        <!-- 1.html학습 링크 파트 -->
-        <section class="part pt1">
-            <ol>
-                <li>
-                    <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
-                </li>
-                <li>
-                    <a href="./001.HTML학습/01.info_PJ/sub4.html" target="_blank">IT/과학 페이지</a>
-                </li>
-                <li>
-                    <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
-                </li>
-            </ol>
-        </section>
 
-        <!-- 3.CSS학습 링크 파트 -->
-        <section class="part pt2">
-            <ol>
-                <li>
-                    <a href="./001.HTML학습/01.info_PJ/index.html" target="_blank">Info PJ</a>
-                </li>
-                <li>
-                    <a href="./001.HTML학습/01.info_PJ/sub4.html" target="_blank">IT/과학 페이지</a>
-                </li>
-                <li>
-                    <a href="./006.와이어프레이밍/도깨비PJ와이어프레임.pdf" target="_blank">도깨비 PJ 와이어프레임</a>
-                </li>
-            </ol>
-        </section>
+    <!-- 3.하단영역 - 만들지 말지 고민... -->
+    <div id="info">
+        <footer class="info">
+            <address>
+            </address>
+        </footer>
     </div>
-</div>
+
 
 
 </body>
