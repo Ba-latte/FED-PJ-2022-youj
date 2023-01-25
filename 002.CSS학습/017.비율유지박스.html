@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>017.비율유지박스(Ratio Box)</title>
     <style>
+        /* 초기화 */
         html, body{
             margin: 0;
             padding: 0;
@@ -21,6 +22,11 @@
             text-align: center;
         }
 
+        /* 하단 공간 확보 위해 body에 하단 마진을 줌 (그냥 보기 좋으라고~^^) */
+        body{
+            margin-bottom: 200px;
+        }
+
         /* 박스 공통 */
         .bx{
             /* 부모 가로 크기에 대한 비율 50% */
@@ -29,13 +35,18 @@
             border: 10px ridge goldenrod;
             background: url(./images/mobum.jpg) no-repeat center/cover;
         }
+
+
+
         /* 1. 크기유지박스 */
         .bx1{
             height: 400px;
         }
+
+
+
         /* 2. 화면에 대한 비율박스 */
         .bx2{
-
             /* 뷰포트 단위가 나온 후엔 아래의 셋팅이 없어도, 보이는 화면에 대한 % 셋팅이 가능해짐! */
             height: 40vh;
 
@@ -43,6 +54,9 @@
             /* %단위를 사용하면, 감싸고 있는 html, body에 기준값인 보이는 화면 100%채우기 설정이 필요함
             ->근본적으로는 감싸고 있는 박스에 구체적인 height크기가 셋팅되어야 함! */
         }
+
+
+
         /* 3. 비율유지박스
         -정의 : 박스가 자체적인 비율을 가지고 있는 경우의 박스 */
         .bx3{
@@ -54,19 +68,9 @@
             ->위아래 패딩을 %로 셋팅하기(하지만 이렇게 하면 본 박스에 다른 셋팅을 못해(?)ㅠㅠ) */
             /* padding-top: 50%; */
 
-
-
             /* 하단 마진 (그냥 보기 좋으라고^^~) */
             /* margin-bottom: 200px; */
         }
-
-        /* 하단 공간 확보 위해 body에 하단 마진을 줌 (그냥 보기 좋으라고~^^) */
-        body{
-            margin-bottom: 200px;
-        }
-
-
-
 
         /* 하위 직계 블록박스에 패딩 탑을(위아래 중 하나 선택해서 주면 됨) %로 주면?
         -100%일경우 가로,세로 비율이 1:1인 박스를 만들 수 있다! */
@@ -91,11 +95,11 @@
         }
 
 
+        /* 4. 비율유지박스 시스템화 */
         .rbx{
             position: relative;
             /* 부모자격 필수! */
         }
-        /* 4. 비율유지박스 시스템화 */
         /* rbx -> ratio box */
         .rbx::before{
             content: '';
