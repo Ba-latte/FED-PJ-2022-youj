@@ -39,11 +39,19 @@
             // value 속성 : 입력된 값을 읽기 혹은 쓰기!
 
             console.log("입력된 값 : ", score);  // ,말고 +도 쓸 수 있음
+            console.log("데이터형 : " + typeof(score));
+            // typeof(변수) -> 데이터형을 리턴함!
+            // 숫자든 문자든 입력데이터는 string 타입 즉, 문자형 데이터임
+            // 아래 if문에서 숫자와 비교할 때 데이터형은 문자형이어도 내용이 숫자이면 브라우저에서 자동변환하여 처리함!
+            // 예전엔 Number(문자형숫자)로 변환했었음
+
 
             // 변수 만들기
 
             // 메시지 변수
             var msg;
+            // 글자색 변수
+            var fc;
 
             // 4. 메시지 만들기
             // 점수에 따른 메시지를 if문으로 작성한다!
@@ -57,19 +65,27 @@
             // (위에서부터 하나씩 내려오면서 들어가니까... 그 중 한군데에 들어가면 아예 밖으로 나와버리니까~)
             if(score >= 90){
                 msg = "매우 잘함";
+                fc = "blue";
             }
             else if(score >= 80){
                 msg = "잘함";
+                fc = "green";
             }
             else if(score >= 70){
                 msg = "보통";
+                fc = "purple";
             }
             else if(score >= 60){
                 msg = "노력요함";
+                fc = "orange";
             }
             else{
                 msg = "재시험";
+                fc = "red";
             }
+
+            console.log("글자색 : " + fc);
+
 
             // else문을 끝에 사용할 경우, 위의 조건에 모두 맞지 않으면 처리하게 됨
             // else문을 때문에 msg는 반드시 할당값을 가지게 됨!
@@ -104,6 +120,13 @@
 
             // 5. 화면 출력 : #jexp -> jexp변수
             jexp.innerText = "평가 결과는 " + msg;
+
+            // 6. 글자색 변경 :#jexp의 style 중 color를 변경
+            jexp.style.color = fc;
+            // fc는 점수대별 글자색을 할당한 변수
+
+
+
 
         } // jumsu 함수 ///////////////////////////////
 

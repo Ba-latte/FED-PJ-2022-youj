@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>017.비율유지박스(Ratio Box)</title>
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+            /* height: 100%;
+            -뷰포트 단위 없이 보이는 화면에 대한 자식 요소 %높이값을 셋팅할 때, html은 보이는 화면(window)을 기준하여 100%, body는 html을 기준하여 100% 높이값을 설정함!
+            -이때 하위 박스가 높이값 %를 설정할 때, body를 기준하게 됨
+            -> 뷰포트 단위를 사용하면 이게 필요 없어짐~ (완전편함~) */
+
+            /* html,body두개에다가 줘야함 (html은 최고조상으로 얘는 윈도우를 기준(?)으로 삼도록 세팅되어있으니까 같이 잡아야함(?)) */
+        }
+        h1, h2{
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* 박스 공통 */
+        .bx{
+            /* 부모 가로 크기에 대한 비율 50% */
+            width: 50%;
+            margin: 0 auto;
+            border: 10px ridge goldenrod;
+            background: url(./images/mobum.jpg) no-repeat center/cover;
+        }
+        /* 1. 크기유지박스 */
+        .bx1{
+            height: 400px;
+        }
+        /* 2. 화면에 대한 비율박스 */
+        .bx2{
+
+            /* 뷰포트 단위가 나온 후엔 아래의 셋팅이 없어도, 보이는 화면에 대한 % 셋팅이 가능해짐! */
+            height: 40vh;
+
+            /* height: 40%; */
+            /* %단위를 사용하면, 감싸고 있는 html, body에 기준값인 보이는 화면 100%채우기 설정이 필요함
+            ->근본적으로는 감싸고 있는 박스에 구체적인 height크기가 셋팅되어야 함! */
+        }
+        /* 3. 비율유지박스
+        -정의 : 박스가 자체적인 비율을 가지고 있는 경우의 박스 */
+        .bx3{
+            /* 1. height값 없이 높이값 만들기
+            -위아래 패딩으로 높이값을 만들 수 있다! */
+            /* padding-top: 400px; */
+
+            /* 2. 가로에 대한 비율이 변경되는 셋팅은?
+            ->위아래 패딩을 %로 셋팅하기(하지만 이렇게 하면 본 박스에 다른 셋팅을 못해(?)ㅠㅠ) */
+            /* padding-top: 50%; */
+
+
+
+            /* 하단 마진 (그냥 보기 좋으라고^^~) */
+            /* margin-bottom: 200px; */
+        }
+
+        /* 하단 공간 확보 위해 body에 하단 마진을 줌 (그냥 보기 좋으라고~^^) */
+        body{
+            margin-bottom: 200px;
+        }
+
+
+
+
+        /* 하위 직계 블록박스에 패딩 탑을(위아래 중 하나 선택해서 주면 됨) %로 주면?
+        -100%일경우 가로,세로 비율이 1:1인 박스를 만들 수 있다! */
+        .bx3>.test{
+            padding-top: 100%;
+        }
+
+        /* 위를 대체하는 방법! (위의 방법은 꼭 하위 블록 박스를 만들어 넣어야하니까 귀찮쓰...)
+        직접 블록 자식 요소를 넣는 대신 가상요소를 넣고 블록화하여 패딩탑을 %로 셋팅한다! */
+        .bx3::before{
+            content: '';
+            display: block;
+            padding-top: 56.25%;
+
+            /*
+                [비율 만들어 보기]
+            ex) 16 : 9 = 100 : x
+            -x = 9 * 100 / 16
+            -x = 56.25가 나옴
+            -'padding-top: 56.25%'를 넣기!
+            */
+        }
+
+
+        .rbx{
+            position: relative;
+            /* 부모자격 필수! */
+        }
+        /* 4. 비율유지박스 시스템화 */
+        /* rbx -> ratio box */
+        .rbx::before{
+            content: '';
+            display: block;
+            padding-top: 56.25%;
+        }
+        /* 비율유지 속박스 - 겉박스 밀착 앱솔루트 속박스
+        ->전제조건 : 겉박스(rbx)가 반드시 부모 자격이 있어야 함 (최소한 랠러티브여야 함)
+        ->목적 : 내용 요소를 비율유지 박스 안에 넣을 공간을 확보해준다!! */
+        .rbxIn{
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+
+        /* 내용 셋팅 */
+        .cat{
+            position: absolute;
+            bottom: 2%;
+            left: 5%;
+            margin: 0;
+            padding: 0;
+
+            color: #fff;
+            font-size: min(1.5vw, 20px);
+            font-weight: bold;
+            line-height: 2;
+            text-shadow: 2px 2px 2px #000;
+        }
+
+/* 현업에가면 프레임웤을 쓰니까...보통 거기에 비율유지박스도 프레임웤에 있는 대로 쓰니까...원리를 잘 모르게 되뮤ㅠㅠㅠ */
+
+
+        /**********************************************************************
+            [ 비율유지 박스를 만드는 원리 ]
+        1. 가로 크기는 %에 준하는 유동적인 셋팅
+        2. 높이값은 셋팅하지 않는다! (auto)
+        3. 가상요소를 블록화하여 패딩탑을 %로 셋팅
+        4. 앱솔루트 속박스를 만들어 컨텐츠 공간 확보
+        (단, 비율유지 박스에 부모자격 필수임!)
+        **********************************************************************/
+    </style>
+
+</head>
+<body>
+    <h1>017.비율유지박스(Ratio Box)</h1>
+
+    <h2>1. 크기유지박스</h2>
+    <div class="bx bx1"></div>
+
+    <h2>2. 화면에 대한 비율박스</h2>
+    <div class="bx bx2"></div>
+
+    <h2>3. 비율유지박스</h2>
+    <div class="bx bx3">
+        <!-- <div class="test"></div> -->
+    </div>
+
+    <h2>4. 비율유지박스 시스템화</h2>
+    <div class="bx rbx">
+        <!-- 비율유지 속박스 -->
+        <div class="rbxIn">
+            <!-- 컨텐츠 넣기 -->
+            <dl class="cat">
+                <dt>출연진</dt>
+                <dd>이제훈(김도기역)</dd>
+                <dd>이솜(강하나역)</dd>
+                <dd>김의성(장성철역)</dd>
+            </dl>
+        </div>
+    </div>
+
+
+
+
+</body>
+</html>
