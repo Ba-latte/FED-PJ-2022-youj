@@ -214,7 +214,11 @@ body{
 .cont{
     position: relative;
     /* 부모자격 - .screen */
-    height: 788px;
+
+    /* 비율 설정 - 높이값은 없애고(auto로 놔두고) asp쓰면 됨! */
+    /* height: 788px; */
+    aspect-ratio: 1200 / 788;
+
     /* 극장 배경 넣기 */
     background: url(../images/bg.jpg) no-repeat center top/100%;
 }
@@ -222,11 +226,10 @@ body{
 /* 2-1.스크린 */
 .screen{
     position: absolute;
-    top: 136px;
-    left: 256px;
-
-    width: 702px;
-    height: 398px;
+    top: 17.2%;
+    left: 21.4%;
+    width: 58.5%;
+    height: 50.5%;
     background-color: #000;
     /* 이거 색 안깔면 아이프레임 로딩전 배경색이 흰색(기본값)이라 안이쁨! */
 }
@@ -242,10 +245,10 @@ body{
 /* 2-2.예고편 선택 메뉴 */
 .mlist{
     position: absolute;
-    width: 702px;
+    width: 60%;
     left: 50%;
     transform: translateX(-49%);
-    bottom: 61px;
+    bottom: 5.4%;
 
     /* 앱솔루트 부모자격이 있는 요소의 overflow가 적용됨 */
     overflow: hidden;
@@ -259,15 +262,25 @@ body{
     justify-content: space-between;
 }
 
+/* 상위 li 두번째부터 끝까지 왼쪽 마진 주기 */
+.mlist ul>li+li{
+    margin-left: 1.5%;
+}
+
 /* 선택메뉴 상위 li */
 .mlist ul>li{
-
+    position: relative;
+    /* 부모자격 - .movtxt */
+    flex: 1;
+    /* 등분할시키기 */
+    overflow: hidden;
 }
 
 /* 포스터 이미지 */
 .mlist img{
-    width: 99px;
-    height: 140px;
+    width: 100%;
+    /* height: 140px; */
+    /* 이미지는 기본적으로 자체적인 비율을 가지고있으니까, 그거 그냥 그대로 유지해라~ ...??(?) */
 }
 
 
@@ -283,14 +296,16 @@ body{
     /* 앱솔루트 포지션 */
     position: absolute;
     top: 100%;
-    width: 99px;
-    height: 140px;
+    width: 100%;
+    height: 100%;
+    /* 부모는? - 감싸고 있는 li */
+
     text-align: center;
     background-color: rgba(0, 0, 0, 0.7);
 
     /* 글자셋팅 */
     font-family: 'Cute Font', cursive;
-    font-size: 14px;
+    font-size: min(17px, 1.2vw);
     line-height: 2;
 
     /* 트랜지션 : 속시이지 */
@@ -299,6 +314,14 @@ body{
 /* 상위 li에 마우스오버시 영화 정보 올라오기 */
 .mlist ul>li:hover .movtxt{
     top: 0;
+}
+
+
+/* 영화 정보 박스 제목만 변경하기 */
+.mlist li:first-child {
+    font-size: min(17px, 1.2vw);
+    color: aqua;
+    white-space: nowrap;
 }
 
 
