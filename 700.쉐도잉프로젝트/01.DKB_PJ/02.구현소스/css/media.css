@@ -76,15 +76,61 @@
         그럴 경우가 혹시 생길 수도 있으니까 그냥 가로사이즈를 미리 잡아버리는 것임! */
         overflow-x: hidden;
     }
+
     /* 디스플레이 없애기 */
-    .tmenu, .gnb{
+    .tmenu,
+    .smbx,
+    .gnb > ul > li > a::after,
+    .gnb{
         display: none;
     }
 
+    /* gnb메뉴 변경하기 - .top에 .on을 준 경우 적용됨 (햄버거 버튼 눌렀을 때 보이는 까만 배경을 위함) */
+    .top.on .gnb{
+        display: block;
+        position: fixed;
+        /* 메뉴를 픽스드로 고정시킴 */
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1;
+    }
+
+    /* gnb메뉴의 각 메뉴들 (ul) 방향을 세로로 만들기 + 가운데 정렬 - fxdc */
+    nav.gnb ul {
+        flex-direction: column;
+        /* 플렉스박스를 세로방향으로 바꿈 */
+        text-align: center;
+        margin-top: 15vh;
+    }
+
+    /* gnb 상위 메뉴의 글자(a) 변경하기 */
+    .gnb>ul>li>a {
+        font-size: 5vh;
+        line-height: 10vh;
+        color: #fff;
+    }
+
+    /* 로고 - 배경보다 위에 올라오게 만들기 */
+    h1.logo {
+        position: relative;
+        z-index: 2;
+    }
+
     /* 햄버거 버튼 보이기 */
-    .ham{
+    .ham {
         display: block;
         /* 원래 버튼은 인라인요소지만, 앱솔루트 주면 블록이 된다~~ */
+    }
+    /* 햄버거 버튼 상위.top에 클래스on 줄 경우, x버튼으로 모양이 바뀌기 */
+    .top.on .ham {
+        z-index: 3;
+        color: #fff;
+        transform: scale(1.5);
+    }
+    .top.on .ham::before {
+        content: '×';
     }
 
     /********************* 상단영역 *********************/
