@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제어문 복습</title>
+    <script>
+        /************************************************
+        함수명 : jemsu
+        기능 : 점수에 따라서 다른 평가를 출력하기
+        1.점수에 따른 메세지 출력
+        2.점수에 따른 메세지 글자색 변경
+        3.점수에 따른 칭찬스티커 보이기
+        ************************************************/
+        function jemsu(){
+        // 함수는 코드를 저장하는 공간! = 어떤 값을 가져오거나 가지고 나갈 수 있음
+
+        // 1. 호출확인
+        console.log("확인~!");
+        
+        // 2. 대상선정
+        // 2-1. 점수 입력 요소 : input#jemsu
+        var jemsu = document.querySelector("#jemsu");
+
+        // 2-2. 출력 요소 : #jexp
+        var jexp = document.querySelector("#jexp");
+
+        // 2-3. 칭찬스티커 요소 : #jshow
+        var jshow = document.querySelector("#jshow");
+
+        // 3. 입력값 읽어오기
+        var score = jemsu.value;
+        console.log("입력된 값 : " + score);
+
+
+        /************************************************
+        함수명 : initFn
+        기능 : 초기화 및 메세지 출력하기
+        ************************************************/
+        function initFn(txt){
+            // 1. 호출확인
+            console.log("초기화 함수용~");
+
+            // 2. '평가 출력'에 내용을 출력하기
+            jexp.innerText = txt;
+            
+            // 3. 글자색 초기화
+            jexp.style.color = "#000";
+
+            // 4. 칭찬스티커 초기화
+            jshow.style.backgroundPosition = "322px 0";
+
+            // 5. 입력창의 내용 지우기
+            jemsu.value = "";
+
+            // 6. 입력창에 포커스 주기
+            jemsu.focus();
+        } //// initFn() 함수 끝 /////////////////////
+
+
+        // 점수에 따라 다른 메세지를 출력하기 위해서, 입력된 값을 판별해야 함
+        // 입력된 값 체크하는 방법 : if문 사용
+        // (1) 빈 칸인지 체크하기
+        if(score.trim() === ""){
+            initFn("내용을 입력해주세요!");
+
+            return;
+        }
+        // (2) 숫자인지 아닌지 체크하기
+        else if(isNaN(score)){
+            initFn("숫자를 입력해주세요!");
+
+            return;
+        }
+        // (3) 숫자 범위가 0미만 100초과하는지 체크
+        else if(score < 0 || score > 100){
+            initFn("0 이상 100 이하의 숫자를 입력해주세요!");
+
+            return;
+        }
+
+
+        // 관련 변수 만들기
+        // 1. 메세지 변수
+        var msg;
+        // 2. 글자색 변수
+        var fc;
+        // 3. 칭찬스티커 위치 변수
+        var bgp;
+
+        // 점수에 따라서 다른 평가 메세지 출력하기 : if문 사용
+        if(score >= 90){
+            msg = "매우 잘했어요!";
+            fc = "blue";
+            bgp = "0px 0px";
+        }
+        else if(score < 90 && score >= 80){
+            msg = "잘했어요!";
+            fc = "green";
+            bgp = "-322px 0";
+        }
+        else if(score < 80 && score >= 70){
+            msg = "보통이에요!";
+            fc = "purple";
+            bgp = "-322px -322px";
+        }
+        else if(score < 70 && score >= 60){
+            msg = "노력이 필요해요!";
+            fc = "orange";
+            bgp = "0px -644px";
+        }
+        else{
+            msg = "재시험을 봐야겠어요!";
+            fc = "red";
+            bgp = "-644px -644px";
+        }
+
+
+        // 실제로 화면에 출력시키기 : jexp변수
+        jexp.innerText = "평가 결과 : " + msg;
+        
+        // 실제로 화면에 출력되는 글자색을 바꾸기 : #jexp의 스타일 중에서 컬러를 변경하면 됨
+        jexp.style.color = fc;
+
+        // 실제로 칭찬 스티커의 배경위치를 바꾸기
+        jshow.style.backgroundPosition = bgp;
+        
+        } //// jemsu() 함수 끝 /////////////////////
+
+
+
+        /*******************************************************
+        함수명 : local
+        기능 : 지역명을 입력하면 지역 국번을 안내한다
+        *******************************************************/
+        function local(){
+            // 1.호출 확인
+            // console.log("로컬 함수 확인~");
+            
+            // 2.대상선정
+            // 2-1.입력대상 : input#local
+            var tg = document.querySelector("#local");
+            // 2-2.출력대상 : #info
+            var info = document.querySelector("#info");
+            // 2-3.잘 되는지 확인해보기
+            // console.log(tg, info);
+
+            // 3.입력된 값 읽어오기
+            var txt = tg.value;
+
+            // 초기화 함수
+            function initFn(){
+                tg.value = "";
+                tg.focus();
+            }
+
+            // 관련 변수 만들기
+            var msg;
+            
+            // 4.읽어온 값을 switch case문으로 분류해서 메세지 넣기
+            switch(txt){
+                case "서울": msg = "02"; break;
+                case "경기": msg = "031"; break;
+                case "인천": msg = "032"; break;
+                case "제주": msg = "제주도 가고 싶다~~"; break;
+
+                default: msg = "esc";
+            }
+
+            // 4-1.일단 서너개의 케이스를 만들어본 후, 제대로 나오는지 확인
+            console.log("메세지 : " + msg);
+
+            // 5.화면에 보여줄 메세지 만들기 : msg변수에 최종 출력할 내용을 담아서 변경하기
+            if(msg === "esc"){
+                msg = "등록되지 않은 지역입니다!";
+                initFn();
+
+            }
+            else{
+                msg = `${txt}의 지역번호는 ${msg}입니다!`;
+            }
+            
+            // 6.화면에 보여주기 위해 만든 메세지를 출력하기!
+            info.innerText = msg;
+        } //// local() 함수 끝 ///////////////////////////
+
+
+    </script>
+    <style>
+        #jshow{
+            position: absolute;
+            top: -35px;
+            left: 150px;
+            width: 322px;
+            height: 322px;
+            background: url(./images/ifshow.jpg) no-repeat;
+            background-position: 322px 0;
+            transform: scale(.3);
+            transition: all .5s ease-in-out;
+        }
+        /* ir(배경이미지의 설명 숨기기) */
+        .ir{
+            display: block;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <h1>JS 제어문</h1>
+    <h2>1.if문 연습하기</h2>
+    <h3 id="jexp">평가 출력</h3>
+    <label for="jemsu">점수 입력 : </label>
+    <input type="text" id="jemsu" placeholder="점수를 입력하세요" maxlength="3" onkeypress="if(event.keyCode === 13){jemsu()}">
+    <button class="sbtn" onclick="jemsu()">평가하기</button>
+    
+    <!-- 칭찬 스티커 -->
+    <div id="jshow">
+        <span class="ir">칭찬스티커</span>
+    </div>
+
+    <br><br>
+    <hr>
+    
+    <h2>2.switch case문 연습하기</h2>
+    <h3 id="info">국번 안내</h3>
+    <label for="local">지역명 입력 : </label>
+    <input type="text" id="local" placeholder="지역명의 '도'를 빼고 쓰세요!" maxlength="10" onkeypress="if(event.keyCode === 13)local()">
+    <button class="sbtn" onclick="local()">국번문의</button>
+
+    <br><br>
+    <hr>
+    
+    
+</body>
+</html>
