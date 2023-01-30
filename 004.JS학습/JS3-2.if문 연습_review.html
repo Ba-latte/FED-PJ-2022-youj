@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>if문 연습 - 복습</title>
+    <style>
+        /* 타이틀 */
+        .tit{
+            text-align: center;
+            font: bold 72px/100px sans-serif;
+        }
+
+        /* 스틸컷장면 박스 */
+        .photo{
+            text-align: center;
+            background-color: thistle;
+            padding: 20px;
+            margin-bottom: 50px;
+        }
+        
+        /* 메인이미지 */
+        #scene{
+            height: 290px;
+        }
+
+        /* 선택버튼 박스 */
+        .btnbx{
+            text-align: center;
+        }
+
+        /* 버튼 공통 */
+        .btns{
+            font-size: 42px;
+        }
+
+    </style>
+    <script>
+        // html이 모두 로딩된 후 실행되도록 설정
+        // 여기서는 내장함수를 쓰기로 함 (브라우저 객체 메서드)
+        window.addEventListener("DOMContentLoaded", setEvt);
+
+        /**************************************
+            [ JS 기능 정의 ]
+        -버튼을 클릭하면 해당 이미지를 메인이미지 태그의 src속성 변경으로 바꾸기
+
+        1.이벤트 대상 : 버튼들
+        2.이벤트 종류 : 클릭
+        3.변경 대상 : 메인이미지 요소 - #scene
+        4.변경 내용 : 메인이미지의 src속성 변경 -> 이미지가 바뀌게 됨
+        **************************************/
+        
+        /***************************************************************
+            함수명 : setEvt
+            기능 : 버튼에 클릭 이벤트 설정하기
+        ***************************************************************/
+        function setEvt(){            
+            // 1.이벤트 대상 - .btns
+            var btns = document.querySelectorAll(".btns");
+            // 확인
+            console.log("버튼들 : ", btns);
+
+            // 2.이벤트 함수와 연결하기
+            // 2-1. 버튼 4개를 모두 이벤트와 연결 세팅하기
+            // 이때 for문 사용하면 됨
+            
+            // 2-2. 버튼 개수 구하기
+            var bcnt = btns.length;
+            console.log("버튼 개수 : ", bcnt);
+
+            // 2-3. for문으로 연결
+            for(var i = 0; i < bcnt; i++){
+                btns.item(i).onclick = function(){
+                    chgImg(this);
+                }; //// click함수 끝 ///////////////////////
+            }
+        } //// setEvt() 함수 끝 //////////////////////////////////////
+
+        /****************************************************************
+            함수명 : chgImg
+            기능 : 이미지 src 속성을 변경함
+        ****************************************************************/
+        function chgImg(U){
+            // 1.함수호출
+            // console.log("chg나야나");
+
+            // 2.클릭된 버튼요소의 내부글자(데이터) 읽어오기
+            var btxt = U.innerText;
+            console.log("btxt : ", btxt);
+
+            // 3.버튼별 이미지 변경하기
+            // 3-1.이미지 변경할 대상 설정하기 - #scene
+            var scene = document.querySelector("#scene");
+
+            // 4.할당될 src값 만들기 - if문 사용
+            var isrc;
+            if(btxt === "포스터"){
+                isrc = "./images/ala1.jpg";
+            }
+            else if(btxt === "장면1"){
+                isrc = "./images/ala2.jpg";
+            }
+            else if(btxt === "장면2"){
+                isrc = "./images/ala3.jpg";
+            }
+            else if(btxt === "장면3"){
+                isrc = "./images/ala4.jpg";
+            } //// if문 끝 ///////////////////////////////
+
+            // 5.setAttribute() 내장함수 이용해서 src속성 변경하기
+            scene.setAttribute("src", isrc);
+
+
+        } //// chgImg() 함수 끝 ///////////////////////////////////////
+
+
+
+
+    </script>
+</head>
+<body>
+    <h1 class="tit">if문 연습 - 복습</h1>
+    <div class="photo">
+        <img id="scene" src="./images/ala1.jpg" alt="알라딘 스틸컷">
+    </div>
+
+    <div class="btnbx">
+        <button class="btns">포스터</button>
+        <button class="btns">장면1</button>
+        <button class="btns">장면2</button>
+        <button class="btns">장면3</button>
+    </div>
+</body>
+</html>

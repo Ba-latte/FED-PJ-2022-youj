@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>switch문 연습 - 복습</title>
+    <style>
+        .tit{
+            text-align: center;
+            font: bold 50px 나눔바른펜;
+            letter-spacing: 3px;
+        }
+        .photo{
+            text-align: center;
+            background-color: darkolivegreen;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+        #coffee{
+            height: 200px;
+        }
+        .btnbx{
+            text-align: center;
+        }
+        .btns{
+            font-size: 30px;
+            font-family: 나눔스퀘어;
+            padding: 10px;
+            margin: 0 10px;
+            background-color: wheat;
+            border: 2px dashed #333;
+        }
+        .btns:hover{
+            background-color: tan;
+        }
+    </style>
+    <script>
+        window.addEventListener("DOMContentLoaded", setEvt);
+
+        function setEvt(){
+            var btns = document.querySelectorAll(".btns");
+            console.log("버튼들 : ", btns);
+
+            var bcnt = btns.length;
+            console.log("버튼 개수는? : ", bcnt);
+
+            for(var i = 0; i < bcnt; i++){
+                btns.item(i).onclick = function(){
+                    chgImg(this);
+                };
+            }
+        }
+
+        function chgImg(U){
+            var btxt = U.innerText;
+            console.log("btxt : ", btxt);
+
+            var coffee = document.querySelector("#coffee");
+
+            var isrc;
+
+            switch(btxt){
+                case "커피머신": isrc = "../imgs/coffee.png"; break;
+                case "아메리카노": isrc = "../imgs/bird.png"; break;
+                case "라떼": isrc = "../imgs/cat.png"; break;
+                case "모카": isrc = "../imgs/flower.png"; break;
+                case "바닐라라떼": isrc = "../imgs/rabbit.png"; break;
+                case "에스프레소": isrc = "../imgs/rainbow.png"; break;
+            }
+
+            coffee.setAttribute("src", isrc);
+        }
+
+
+
+    </script>
+</head>
+<body>
+    <!-- 전체 타이틀 -->
+    <h1 class="tit">switch문 연습 - 복습</h1>
+
+    <!-- 이미지 넣을 박스 -->
+    <div class="photo">
+        <img id="coffee" src="../imgs/coffee.png" alt="메인이미지-커피">
+    </div>
+
+    <!-- 선택버튼 박스 -->
+    <div class="btnbx">
+        <button class="btns">커피머신</button>
+        <button class="btns">아메리카노</button>
+        <button class="btns">라떼</button>
+        <button class="btns">모카</button>
+        <button class="btns">바닐라라떼</button>
+        <button class="btns">에스프레소</button>
+    </div>
+
+</body>
+</html>
