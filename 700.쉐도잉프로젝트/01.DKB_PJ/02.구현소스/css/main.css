@@ -19,7 +19,7 @@ body{
     /* 콤마로 구분해서 여러 배경 이미지를 넣을 수 있고,
     먼저 쓴 이미지가 위에 온다! */
     background: 
-    url(../images/bg_logo_a_01.png) no-repeat fixed 10% 20%/10%,
+    url(../images/bg_logo_a_01.png) no-repeat fixed 10% 28%/10%,
     url(../images/bg_mainvisual.jpg) no-repeat fixed center/cover;
     /* 외부 CSS에서 이미지 경로를 잡을 때 주의사항!
     ->CSS파일 위치에서 이미지를 찾아가야함! */
@@ -32,6 +32,8 @@ body{
 /*********************** 메인영역 ***********************/
 /* 메인영역 속박스 */
 .cont{
+    position: relative;
+    /* 부모자격 - #mvtxt */
     overflow: hidden;
     /* 자식요소의 위아래 마진 포함 => 헤더?와 메인?이 붙어있게 됨 */
 }
@@ -227,7 +229,7 @@ body{
 /* 등장 글자 이미지 */
 #mvtxt{
     position: absolute;
-    top: 30vh;
+    top: 15vh;
     right: 5vw;
     width: min(20vw, 327px);
 }

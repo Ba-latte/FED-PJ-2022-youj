@@ -204,6 +204,68 @@ body{
 }
 
 
+/* 영사기 박스 */
+#cam{
+    position: absolute;
+    z-index: -1;
+    /* 메뉴보다 아래로 내려가도록 함(상위박스에 주면 하위박스인 빔박스도 아래로 내려감) */
+    right: -60px;
+    bottom: -10px;
+}
+/* 영사기 이미지 */
+#cam img{
+    position: relative;
+    z-index: 1;
+    /* 영사기가 위로 오게 만들기 */
+    width: 50px;
+
+    transform: rotate(25deg);
+
+    /* 트랜지션 : 속시이지 -> 돌아올때 빔이 꺼지는 시간 기다리기 */
+    transition: all .4s ease-out .4s;
+}
+/* .gnb에 마우스오버시 영사기 회전*/
+.gnb:hover #cam img{
+    transform: rotate(0);
+    /* transition: .5s ease-in-out; -> 내가 한거 */
+    /* 마우스 오버시에는 기다림 없음 */
+    transition-delay: 0;
+}
+
+/* 빔박스 */
+.beam{
+    position: absolute;
+    top: -16px;
+    right: 20px;
+    width: 0; /* 200px; */
+    height: 70px;
+    background: url(../images/bim.png) no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+    /* outline: 2px dotted lime; */
+
+    /* 트랜지션 : 속시이지 */
+    transition: .3s ease-out;
+}
+
+/* .gnb에 마우스오버시 빔 쏘기 */
+.gnb:hover #cam .beam{
+    width: 200px;
+    /* transition: .3s ease-in-out .5s;  -> 내가 한거 */
+    transition-delay: .5s;
+    /* 선생님이 한거 - 카메라 도는 0.5s 기다림 */
+
+    /* 애니메이션 : 이시이지반방마 */
+    animation: beamAni .03s linear infinite alternate;
+}
+
+/* 빔 빛 흔들리기 애니 키프레임 */
+@keyframes beamAni {
+    to{
+        opacity: 0.5;
+    }
+} /* 키프레임 끝 */
+
 
 
 
