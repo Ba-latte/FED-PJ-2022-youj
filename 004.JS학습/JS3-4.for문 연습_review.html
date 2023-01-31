@@ -23,16 +23,74 @@
 
         /* 고양이가 들어갈 상자 박스 */
         .bx{
-            border: 1px solid #000;
+            border: 15px ridge sienna;
+            min-height: 250px;
+            /* 최소 높이를 주면, 설정 높이를 유지하다가 내용이 많아질 때 높이값이 늘어남! */
+        }
+        /* 상자 안에 들어가는 이미지의 사이즈 줄이기 */
+        .bx img{
+            width: 120px;
         }
     </style>
+
+    <!-- JS 코드 구역 -->
+    <script>
+        // html이 모두 로딩된 다음에 실행하도록 만드는 구역!
+        window.addEventListener("DOMContentLoaded", loadFn);
+
+        /*********************************************************
+            함수명 : loadFn
+            기능 : 로딩 후 바로 실행하는 코드 구역 만듦
+        *********************************************************/
+        function loadFn(){
+            // 1.로딩 함수 호출 확인
+            console.log("로딩 완료!");
+
+            // 2.대상 선정
+            // 2-1.이벤트 대상 : .cat
+            var cat = document.querySelectorAll(".cat");
+            // 2-2.변경 대상 : .bx
+            var bx = document.querySelector(".bx");
+            // 2-3.리셋 버튼 : .rbtn
+            var rbtn = document.querySelector(".rbtn");
+
+            // console.log("cat : " , cat , ", bx : " , bx , ", rbtn : " , rbtn);
+
+            // 3.이벤트 세팅하기
+            // 3-1.이벤트 종류 : click
+            // for문으로 버튼 개수만큼 돌아서 세팅하기
+            for(var i = 0; i < cat.length; i++){
+                // 반복 조건 : 0 ~ cat의 개수보다 작을 동안 1씩 증가하면서 돌기
+                // console.log("돌아봐!", i);
+
+                // (1)고양이 이미지마다 클릭 설정하기
+                cat[i].onclick = function(){
+                    // 가) 클릭된 이미지에 설정한 'data-cnt'값 읽어오기
+                    var cnt = this.getAttribute("data-cnt");
+
+                    // 나) 박스에 고양이 넣기
+                    // 그냥 할당 연산자인 '='만 쓰면, 값만 바뀜! -> 대입연산자 '+='로 기존 데이터에 추가로 더하게 해줘야 함
+                    for(var j = 0; j < cnt; j++){
+                        bx.innerHTML += `<img src="../imgs/cat.png" alt="고양이">`;
+                    } //// for문 끝 //////////////////////
+                }; //// onclick 이벤트 끝 //////////////
+
+            } //// for문 끝 ///////////////////////////
+
+        } //// loadFn() 함수 끝 /////////////////////////
+
+
+        // 4.리셋버튼 세팅하기
+        
+    </script>
+
 </head>
 <body>
     <h1>상자에 고양이 집어 넣기 - for문 연습</h1>
 
-    <img src="../imgs/cat.png" alt="고양이" class="cat" title="나를 클릭하면 1마리씩 들어갈거야!">
-    <img src="../imgs/cat.png" alt="고양이" class="cat" title="나를 클릭하면 5마리씩 들어갈거야!">
-    <img src="../imgs/cat.png" alt="고양이" class="cat" title="나를 클릭하면 10마리씩 들어갈거야!">
+    <img src="../imgs/cat.png" alt="고양이" class="cat" title="나를 클릭하면 1마리씩 들어갈거야!" data-cnt="1">
+    <img src="../imgs/cat.png" alt="고양이" class="cat" title="나를 클릭하면 5마리씩 들어갈거야!" data-cnt="5">
+    <img src="../imgs/cat.png" alt="고양이" class="cat" title="나를 클릭하면 10마리씩 들어갈거야!" data-cnt="10">
     
     <!-- 상자 안 고양이 리셋 버튼 -->
     <button class="rbtn">리셋</button>
