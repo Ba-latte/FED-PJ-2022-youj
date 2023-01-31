@@ -102,3 +102,51 @@ html,body{
     text-decoration-style: double;
 }
 
+
+/* 구분 테이블 박스 */
+.gubun{
+    width: 1000px;
+    margin: 0 auto;
+    /* outline: 1px dashed red; */
+    margin-bottom: 100px;
+
+    overflow: hidden;
+    /* 자식 float 감싸기 */
+    /* 오버플로우히든 - 플로팅에 의해 부모박스가 납작하게 망가지는 것을 방지하기 위함 */
+}
+
+/* 구분 테이블 */
+table#gubun{
+    font-size: 20px;
+    border: 1px solid #999;
+
+    /* 오른쪽 끝으로 보내기 */
+    float: right;
+
+    /* td(테이블 셀)에 사이간격 주기 */
+    border-collapse: separate;
+    /* border-spacing: 20px 50px; */
+    border-spacing: 10px;
+
+    /* 셀 사이 간격 */
+    /* border-spacing: 가로 세로;
+    border-spacing: 양방향; */
+}
+
+/* 구분 테이블 td */
+#gubun td{
+    padding: 10px;
+}
+
+/* 구분테이블 첫번째 tr의 첫번째 td의 오른쪽 점선 넣기 */
+#gubun tr:first-child td:first-child{
+    border-right: 1px dotted #999;
+}
+
+/* 구분 테이블 두번째 tr부터 끝까지 td 위쪽 보더 점선 넣기 */
+#gubun tr+tr td{
+    border-top: 4px dotted #999;
+}
+/* tr+tr = 첫번째 tr의 형제 tr부터 쭉 = 두번쨰 tr부터 쭉 */
+
+

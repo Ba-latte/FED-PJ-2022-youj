@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>for문 연습 - 복습</title>
+    <style>
+        /* 타이틀 */
+        h1{
+            text-align: center;
+        }
+
+        /* 고양이 이미지 */
+        .cat{
+            cursor: pointer;
+            border: 3px dashed thistle;
+        }
+
+        /* 고양이 이미지 마우스 오버시 보더색 변경 */
+        .cat:hover{
+            border: 3px dashed indianred;
+        }
+
+        /* 고양이가 들어갈 상자 박스 */
+        .bx{
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>상자에 고양이 집어 넣기 - for문 연습</h1>
+
+    <img src="../imgs/cat.png" alt="고양이" class="cat" title="나를 클릭하면 1마리씩 들어갈거야!">
+    <img src="../imgs/cat.png" alt="고양이" class="cat" title="나를 클릭하면 5마리씩 들어갈거야!">
+    <img src="../imgs/cat.png" alt="고양이" class="cat" title="나를 클릭하면 10마리씩 들어갈거야!">
+    
+    <!-- 상자 안 고양이 리셋 버튼 -->
+    <button class="rbtn">리셋</button>
+
+    <!-- 상자 박스 -->
+    <div class="bx"></div>
+</body>
+</html>

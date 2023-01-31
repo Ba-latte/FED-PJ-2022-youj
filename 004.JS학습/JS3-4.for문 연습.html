@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>for문 연습1 - 파란상자에 미니언즈 집어넣기</title>
+    <style>
+        /* 미니언즈 이미지 */
+        .mini {
+            cursor: pointer;
+            /* 손가락모양 */
+            border: 5px dotted #fff;
+        }
+
+        /* 마우스오버시 보더색 변경 */
+        .mini:hover {
+            border-color: red;
+        }
+
+        /* 파란색 가방 */
+        .Bcase {
+            border: 20px ridge blue;
+            min-height: 250px;
+            /* 최소높이를 주면 설정높이를 유지하다가
+            내용이 많아지면 높이값이 늘어남! */
+        }
+
+        .Bcase img {
+            width: 150px;
+            /* 크기줄임 */
+        }
+    </style>
+
+    <!-- JS코드구역 -->
+    <script>
+        // html이 모두 로딩된 다음에 실행하도록 만드는 구역! //////////
+        window.addEventListener("DOMContentLoaded", loadFn);
+        // 로드 이벤트 : load / DOMContentLoaded
+        // 로드 : 이미지나 비디오까지 전부다 로딩 기다림 / 돔 : html코드만 로딩되면 됨
+
+        /***********************************************************
+            함수명 : loadFn
+            기능 : 로딩 후 바로 실행하는 코드 구역
+        ***********************************************************/
+        function loadFn(){
+            // 1.로딩 함수 호출 확인
+            console.log("로딩완료!");
+
+
+            // 2.대상 선정
+            // 2-1.이벤트 대상 : .mini
+            var mini = document.querySelectorAll(".mini");
+            // 2-2.변경 대상 : .Bcase
+            var Bcase = document.querySelector(".Bcase");
+            // 2-3.리셋버튼 : .rbtn
+            var rbtn = document.querySelector(".rbtn");
+            // 2-4.전체 개수표시 대상 : .stxt span
+            var stxt = document.querySelector(".stxt span");
+
+            // console.log(mini, Bcase);
+
+            
+            // 3.이벤트 세팅하기
+            // 3-1.이벤트 종류 : click
+            // for문으로 버튼 개수만큼 돌아서 세팅하기
+            // for(시; 한; 증){코드}
+            for(var i = 0; i < mini.length; i++){
+                // 반복 조건 : 0부터 시작 mini개수보다 작을 동안 1씩 증가하면서 돈다
+                // console.log("돌아!", i);
+                // 1.미니언즈 이미지마다 클릭 설정하기
+                mini[i].onclick = function(){
+                    // 바깥 for문의 i는 최종 결과의 값만 내부에 찍힌다
+                    // 즉, i값이 하나씩 전달되지 않는다! (참고로 알아둘것!)
+                    // console.log("for문 변수 : ", i);
+                    // (그래서 아래에this를 쓰는 이유도 마찬가지임. i가 최종결과만 찍히니까!)
+
+
+                    // 1.클릭된 이미지의 data-cnt값 읽어오기
+                    var cnt = this.getAttribute("data-cnt");
+                    // this 키워드 : 이벤트 설정된 요소 자신을 말함!
+                    // getAttribute(속성명) : 속성값 읽어오기 (document 내장 함수)
+                    // alert("나는 몇개?" + cnt); -> 호출 확인해보기
+
+
+                    // 2.파란상자에 미니언즈 넣기
+                    // += 대입연산자로 기존데이터에 더하게 해줘야 함!! 
+                    // (그냥 할당연산자만 쓰면 하나만 할당해서 변수에 저장되므로, 항상 1개만 저장되어 있게 됨!)
+                    // for문으로 반복 개수만큼 미니언즈 넣기
+                    // for(시;한;증){코드}
+                    for(var j = 0; j < cnt ; j++){
+                        Bcase.innerHTML += `<img src="./images/Minions.png" alt="미니언즈">`;
+                    } //// for문 끝 /////////////////////////////
+
+
+                    // 3.for문으로 미니언즈를 모두 추가 후, 현재 개수 표시 함수 호출
+                    showCnt();
+
+                }; //// click 이벤트 함수 끝 /////////////////////
+
+                // mini.item(순번)
+                // mini[순번]
+
+            } //// for문 끝 ///////////////////////
+
+
+            // 4.리셋버튼 세팅하기
+            // 대상 : 이벤트 대상 - rbtn / 변경 대상 - Bcase
+            // 변경 내용 : Bcase의 내용 지우기
+            rbtn.onclick = function(){
+                // 1.호출확인
+                console.log("다 지워~!");
+                
+                // 2.파란상자 내용 다 지우기
+                Bcase.innerHTML = "";
+                
+                // 3.개수 표시 초기화
+                stxt.innerText = "0";
+
+            }; //// click 이벤트 함수 끝 /////////////////////////
+
+
+            // 리셋버튼 디자인 변경
+            rbtn.style.fontSize = "40px";
+            rbtn.style.margin = "10px";
+
+
+            // 5.현재 미니언즈 개수 표시하기
+            // 대상선정 : 2-4번에 써둠
+            // 할당형 함수를 만들어서 미니언즈를 추가할 때마다(=클릭할때마다) 이 함수를 호출하게 한다
+            var showCnt = function(){
+                // 1.호출확인
+                console.log("지금 몇개?");
+                
+                // 2.Bcase안에 있는 미니언즈 이미지 개수 읽어오기
+                var cnt = Bcase.querySelectorAll("img").length;
+
+                // 3.표시 요소에 개수 출력하기 - .stxt span -> stxt
+                stxt.innerText = cnt;
+            }; //// showCnt 함수 -변수에 함수를 할당하면 변수가 함수가 됨! //////////////////////
+            
+
+
+        } //// loadFn() 함수 끝 ///////////////////////////////////
+
+
+    </script>
+
+</head>
+
+<body>
+    <h1>for문 연습1 - 파란상자에 미니언즈 집어넣기</h1>
+    <!-- data-cnt는 각 미니언즈를 몇개씩 넣을지에 대한 정보값이다 -->
+    <img src="./images/Minions.png" alt="미니언즈" class="mini" title="나를 클릭하면 한개씩 가방에 들어갈꼬얌~!" data-cnt="1">
+    <img src="./images/Minions.png" alt="미니언즈" class="mini" title="나를 클릭하면 다섯개씩 가방에 들어갈꼬얌~!" data-cnt="5">
+    <img src="./images/Minions.png" alt="미니언즈" class="mini" title="나를 클릭하면 열개씩 가방에 들어갈꼬얌~!" data-cnt="10">
+    <!--
+        [ 데이터를 저장하기 위한 속성 사용하기 ]
+    -개발자가 임의로 만들수 있는 속성은 시작할 때 data- 로 쓴다!
+    -형식 : <요소 data-내가만든이름 = "값">
+
+    -->
+
+    <!-- 현재 미니언즈 개수 표시 -->
+    <h2 class="stxt">현재 미니언즈 그룹 개수 : <span>0</span>개</h2>
+
+    <!-- 리셋을 한다면 이렇게...! -->
+    <button class="rbtn">리셋</button>
+
+    <!-- 파란상자 -->
+    <div class="Bcase"></div>
+
+</body>
+
+</html>

@@ -125,13 +125,41 @@
                     </td>
                     <!-- 
                         [ 테이블 colspan 속성 ]
-                    -같은 tr안에 있는 td셀들을 합칠 때
+                    -같은 tr안에 있는 td셀들을 합칠 때 (가로방향)
                     -column 컬럼(기둥) + span 스팬(범위)
                     -합칠 td의 개수만큼의 숫자를 쓴다
                     -->
                 </tr>
             </tfoot>
         </table>
+
+        <!-- 구분 테이블 박스 -->
+        <div class="gubun">
+            <table class="tbl" id="gubun">
+                <tr>
+                    <td rowspan="4">구분</td>
+                    <td>월화 : 월화드라마</td>
+                    <!--
+                        [ 테이블 rowspan 속성 ]
+                    -같은 tr안에 있는 td셀들을 합칠 때 (세로방향 - 위아래)
+                    -row 로우(줄) + span 스팬(범위)
+                    -합칠 td의 개수만큼의 숫자를 쓴다
+                    -->
+                </tr>
+                <tr>
+                    <!-- <td>구분</td> -->
+                    <td>수목 : 수목드라마</td>
+                </tr>
+                <tr>
+                    <!-- <td>구분</td> -->
+                    <td>금토 : 금토드라마</td>
+                </tr>
+                <tr>
+                    <!-- <td>구분</td> -->
+                    <td>토일 : 토일드라마</td>
+                </tr>
+            </table>
+        </div>
 
 
 
