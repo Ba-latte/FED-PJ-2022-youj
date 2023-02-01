@@ -30,7 +30,57 @@
         *******************************************************************/
         
         // 1.대상선정
-        
+        // 1-1.이벤트 대상 : button
+        var btns = document.querySelectorAll("button");
+        // 1-2.변경 대상 : forCls
+        // ->버튼으로부터 찾기로 했으므로 미리 변수 선언 안하려고 함!
+
+        // console.log(btns);
+
+        // 2.이벤트 설정 및 기능 구현
+        for(var i = 0; i < btns.length; i++){
+            
+            // 2-1.이벤트 설정하기
+            btns.item(i).onclick = function(){
+                
+                // (1)버튼요소 텍스트 읽어와서 변수로 선언하기
+                var btxt = this.innerText;
+                console.log(btxt);
+
+                // (2)버튼별 for문 옵션 적용하기 : 출력하고자 하는 .forCls 찾아서 변수 선언하기
+                var tg = this.parentElement.querySelector(".forCls");
+                console.log("출력할 요소 : ", tg);
+
+                // (3)이미지 출력하기 : 이미지의 이름이 01부터 010까지니까 이를 활용하기 위해서 j를 1부터 시작하게 만들면 됨
+                
+                // 그런데, 계속 버튼을 클릭하면 계속 추가되니까 딱 한번만 추가되도록 초기화 시켜줘야 함
+                // (3-1)초기화
+                tg.innerHTML = "";
+
+                // (3-2)for문으로 이미지 넣기
+                for(var j = 1; j <= 10; j++){
+                    
+                    // 가) 2번과 9번 빼고 돌리기
+                    if(btxt === "for문옵션1" && (j === 2 || j === 9)) continue; 
+                    
+                    // 나) 5번까지만 돌리기
+                    if(btxt === "for문옵션2" && j === 6) break;
+
+                    // 다) 6번부터 돌리기
+                    if(btxt === "for문옵션3" && (j < 6)) continue;
+
+                    // 라) 1~3, 8번 빼고 돌리기
+                    if(btxt === "for문옵션4" && (j <= 3 || j === 8)) continue;
+
+                    // 마) 홀수만 빼고 돌리기
+                    if(btxt === "for문옵션5" && (j%2 === 1)) continue;
+
+                    // 이미지 넣을 대상은? => .forCls를 담은 tg변수
+                    tg.innerHTML += `<img src="./images/num/num_0${j}.png" alt="숫자 이미지">`;
+                } /////////// for문 끝 /////////////////
+                
+            }; //////// click 이벤트 함수 끝 /////////////
+        } //////// for문 끝 ///////////////
 
 
 
