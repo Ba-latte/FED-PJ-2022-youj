@@ -112,7 +112,11 @@
                         // 라고 해보려고 했는데 안된다~~~ 다음에 생각해보자~~~^^
 
                         // 선생님이 만든거!
-                        if(btxt==="for문옵션연습"&&(2 <= j&&j <=4)||j===9) continue;
+                        if(btxt==="for문옵션연습1"&&((2 <= j&&j <=4)||j===9)) continue;
+
+                        // (4)짝수만 빼고 돌리기
+                        if(btxt==="for문옵션연습2" && j%2===0) continue;
+                        // 위에서 조건에 걸러지면 아래까지 안 올 수 있으니까! 괄호 잘 감싸서 거기서만 조건식이 쓰일 수 있도록 관리하기 ㅠㅠㅋㅋㅋㅋㅋㅋㅋ
 
 
                         // 이미지 넣을 대상은? .forCls를 담은 tg변수
@@ -162,7 +166,14 @@
     
     <div>
         <h2>2~4, 9빼고 돌리기</h2>
-        <button>for문옵션연습</button>
+        <button>for문옵션연습1</button>
+        <br><br>
+        <div class="forCls"></div>
+    </div>
+
+    <div>
+        <h2>짝수만 빼고 돌리기</h2>
+        <button>for문옵션연습2</button>
         <br><br>
         <div class="forCls"></div>
     </div>
