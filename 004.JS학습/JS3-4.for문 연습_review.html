@@ -53,6 +53,8 @@
             var bx = document.querySelector(".bx");
             // 2-3.리셋 버튼 : .rbtn
             var rbtn = document.querySelector(".rbtn");
+            // 2-4.고양이 마리수 확인 : .stxt span
+            var stxt = document.querySelector(".stxt span");
 
             // console.log("cat : " , cat , ", bx : " , bx , ", rbtn : " , rbtn);
 
@@ -67,20 +69,56 @@
                 cat[i].onclick = function(){
                     // 가) 클릭된 이미지에 설정한 'data-cnt'값 읽어오기
                     var cnt = this.getAttribute("data-cnt");
-
+                    
                     // 나) 박스에 고양이 넣기
                     // 그냥 할당 연산자인 '='만 쓰면, 값만 바뀜! -> 대입연산자 '+='로 기존 데이터에 추가로 더하게 해줘야 함
                     for(var j = 0; j < cnt; j++){
                         bx.innerHTML += `<img src="../imgs/cat.png" alt="고양이">`;
+                        
                     } //// for문 끝 //////////////////////
+
+                    // 다) 고양이 모두 추가한 후에 현재 마리수 표시하는 함수 호출하기
+                    showCat();
+
                 }; //// onclick 이벤트 끝 //////////////
 
             } //// for문 끝 ///////////////////////////
 
+
+            // 4.리셋버튼 세팅하기
+            rbtn.onclick = function(){
+                // 상자 안의 고양이 없애기
+                bx.innerHTML = "";
+
+                // 마리수 없애기
+                stxt.innerText = "0";
+                
+            }; //// 리셋버튼 click 이벤트 함수 끝 ////////////////
+
+
+            // 리셋버튼 디자인 변경하기
+            rbtn.style.fontSize = "30px";
+            rbtn.style.margin = "10px";
+
+
+
+            // 5.현재 상자 안의 고양이 마리수 표시하기 - 할당형 함수 활용해서 클릭할 때마다 이 함수 호출하게 하면 됨
+            // 5-1.대상선정 : 2-4번에 써둠
+            var showCat = function(){
+                // 1.호출 확인
+                // console.log("지금 몇마리?");
+
+                // 2.bx안에 있는 고양이 이미지 개수 읽어오기 - cnt변수 만들어서 거기에 이미지 개수(길이) 할당하기
+                var cnt = bx.querySelectorAll("img").length;
+                
+
+                // 3.표시 요소에 마리수 출력하기
+                stxt.innerText = cnt;
+
+            }; //////// showCat 함수 끝 //////////////////
         } //// loadFn() 함수 끝 /////////////////////////
 
 
-        // 4.리셋버튼 세팅하기
         
     </script>
 
@@ -94,6 +132,9 @@
     
     <!-- 상자 안 고양이 리셋 버튼 -->
     <button class="rbtn">리셋</button>
+
+    <!-- 현재 상자 안의 고양이 마리수 표시하기 -->
+    <h2 class="stxt">현재 상자 안의 고양이는 몇마리? <span>0</span>마리!</h2>
 
     <!-- 상자 박스 -->
     <div class="bx"></div>
