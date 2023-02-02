@@ -128,3 +128,10 @@ https://empiempi.me/
 https://thinkdance.ca/
 1) 전체적인 효과, 디자인 모두 선생님 마음에 듬...!
 2) 원페이지로 구성함
+
+7. kommigraphics (에이전시)
+https://kommigraphics.com/
+1) 마우스 포인터 따라다니는 원 - JS 실험실
+    + 마우스오버시 원 크기 확대
+2) 마우스오버시 색상모드 변경 CSS 적용 - JS 실험실
+3) 마우스오버시 이미지 확대 (CSS임)

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS 실험실 1: 따라다니는 원</title>
+    <style>
+        html, body, h1{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            margin: 0;
+
+            width: 100vw;
+            height: 100vh;
+            /* 보이는 화면으로 바디 확장 */
+        }
+
+        .mover{
+            position: fixed;
+            /* 보이는 화면에서 움직이게 픽스드 줌 */
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: rgba(255, 0, 0, 0.514);
+
+            /* 트랜지션 : 속시이지 - 마우스 따라다니는 것을 만을 때에는 이징을 반드시 ease-out을 줘야함 (따라다니는 반응이 시작할 때 바로 따라서 움직여야 하니까!) */
+            transition: all .3s ease-out;
+        }
+    </style>
+    <!-- JS 코딩 구역 -->
+    <script>
+        /********************************************************************
+            1. xy좌표 위치 알아내기
+            2. 따라다닐 원에다가 좌표값 주기
+            3. 마우스포인터의 시작위치(꼭지점)로 원형의 위치 이동시켜주기 (지금은 살짝 오른쪽 아래에 가 있음)
+        ********************************************************************/
+        // 로딩 구역
+        window.addEventListener("load", function(){
+            // 호출 확인
+            console.log("로딩완료");
+
+            // 움직일 대상 : 돌아다닐 원 - .mover
+            var mover = document.querySelector(".mover");
+
+            // 이벤트 대상  : body
+            document.body.onmousemove = function(){
+                // body는 쿼리셀렉터로 안 불러도 됨 (바로 언급 가능~)
+                
+                // 마우스포인터 위치 알아내기
+                // x좌표 : event.pageX
+                // y좌표 : event.pageY
+                console.log("x : ", event.pageX, "\n y : ", event.pageY);
+
+                // mover에게 위치값으로 이동하는 세팅하기
+                // mover의 중앙 위치 보정 : 좌표값-자기크기의 절반
+                mover.style.top = (event.pageY-15)+"px";
+                mover.style.left = (event.pageX-15)+"px";
+
+            }; ///////////////// mousemove 이벤트 함수 끝 ///////////////
+
+
+            // 이벤트 종류 : mousemove (마우스가 대상 위에서 움직일 때 발생하는 이벤트)
+
+
+        }); ///////////////////////////// 로딩 구역 끝 //////////////////////////////////////
+    </script>
+</head>
+<body>
+    <h1>마우스 포인터 따라다니는 원 만들기</h1>
+    
+    <!-- 돌아다니는 원 -->
+    <div class="mover"></div>
+    
+</body>
+</html>
