@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JS 실험실 1: 따라다니는 원</title>
     <style>
+        
+        /**************************************** 
+        [ CSS에서 변수 사용하기 ]
+        
+        1. 변수 셋팅법
+        :root{
+            --변수명1: 값1;
+            --변수명2: 값2;
+            --변수명3: 값3;
+        }
+        
+        2. 변수 호출 사용법
+        var(--변수명)
+        
+        ->>> 변수는 언제 사용하나?
+        - 같은 값이 여러부분에서 사용될때
+        미디어쿼리 등에서 변경이 필요한 경우
+        변수값만 변경하면 복잡한 값변경이 대체됨!
+        
+        ****************************************/
+
+        /* CSS 변수 처리 - mover의 가로,세로값을 변수로 처리해보기로 함 */
+        :root{
+            --msz: 50px;
+        }
+        
         html, body, h1{
             margin: 0;
             padding: 0;
@@ -20,13 +46,77 @@
         .mover{
             position: fixed;
             /* 보이는 화면에서 움직이게 픽스드 줌 */
-            width: 30px;
-            height: 30px;
+            z-index: 1;
+            /*********************************************
+                [ z-index 무버에 주는 기준 ]
+            -오버시 위에 와야 하므로, 가장 높게 준 z-index보다 크게 준다!
+            -일반 요소 0 보다 크게 함!
+            (맨 아래 코딩했으므로, 다른 z-index와 같은 값을 줘도 위에 올 수 있다)
+            *********************************************/
+            width: var(--msz);
+            height: var(--msz);
             border-radius: 50%;
-            background-color: rgba(255, 0, 0, 0.514);
+            background-color: aqua;
+
+            /*******************************************************************
+                [ mix-blend-mode 속성 ]
+            -겹쳐지는 요소의 색상을 섞어서 디스플레이 해주는 처리 속성
+            1.밝은 색 섞기(screen 계열)
+            2.어두운 색 섞기(darken 계열)
+            -참고 사이트 : https://developer.mozilla.org/ko/docs/Web/CSS/mix-blend-mode
+            *******************************************************************/
+            /* 겹치는 색상처리 블랜딩 모드 속성 */
+            mix-blend-mode: exclusion;
 
             /* 트랜지션 : 속시이지 - 마우스 따라다니는 것을 만을 때에는 이징을 반드시 ease-out을 줘야함 (따라다니는 반응이 시작할 때 바로 따라서 움직여야 하니까!) */
-            transition: all .3s ease-out;
+            transition: all .25s ease-out;
+        }
+
+        /* 컨텐츠 박스 */
+        .cont{
+            position: relative;
+            /* z-index: 99999; */
+            /* -> (((중요!!!)))mover와 z-index로 위치관계 비교를, 내부의 a요소와 하려면, 부모박스에 z-index를 주지 않아야! 비교할 수 있다! */
+            /* 즉, 위로 올려야 할 필요가 있는 놈!에게 z인덱스를 줘야지, 겉박스에 주면 안된다는 의미임 */
+            display: flex;
+        }
+        .cont>div{
+            position: relative;
+            flex: 1;
+            text-align: center;
+        }
+        .cont>div>img{
+            width: 100%;
+            height: 100%;
+            /* 비율 유지하면서 꽉 채우기 */
+            object-fit: cover;
+        }
+
+        /* 컨텐츠 a링크 -보통 링크 걸린 a를 타겟으로 많이 잡음 */
+        .cont>div>a{
+            position: absolute;
+            /* mover보다 위에 오도록 z-index 주기!
+            -보통 a요소는 포지션이 없으면 z-index가 적용 안 됨!
+            -만약 포지션이 없다면, 랠러티브라도 주도록 한다!
+            (근데 여기서는 앱솔루트가 있기 때문에, 줄 필요 없음~)
+            -지금 mover의 z-index는 1이므로 이것보다 크게 하면 됨
+            */
+            z-index: 2;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            /* 가로 중앙 이동시켜서 정렬시키기 */
+
+            color: #fff;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 0 5px #000;
+            white-space: nowrap;
+        }
+        
+        .cont>div>a:hover{
+            color: #f00;
         }
     </style>
     <!-- JS 코딩 구역 -->
@@ -44,25 +134,76 @@
             // 움직일 대상 : 돌아다닐 원 - .mover
             var mover = document.querySelector(".mover");
 
+            // mover 크기의 절반 계산하기
+            var gap = mover.clientWidth/2;
+            console.log("mover의 width : ", gap);
+
+            // [ 자바스크립트 요소의 크기 구하기 (패딩값까지 포함) ]
+            // 가로크기 : 요소.clientWidth
+            // 세로크기 : 요소.clientHeight
+
+
+
             // 이벤트 대상  : body
+
+            // 이벤트 종류 : mousemove (마우스가 대상 위에서 움직일 때 발생하는 이벤트)
+
             document.body.onmousemove = function(){
                 // body는 쿼리셀렉터로 안 불러도 됨 (바로 언급 가능~)
                 
                 // 마우스포인터 위치 알아내기
                 // x좌표 : event.pageX
                 // y좌표 : event.pageY
-                console.log("x : ", event.pageX, "\n y : ", event.pageY);
+                // console.log("x : ", event.pageX, "\n y : ", event.pageY);
+
+                // 위치값 보정하기 (gap은 mover 크기의 절반)
+                var posx = event.pageX-gap;
+                var posy = event.pageY-gap;
 
                 // mover에게 위치값으로 이동하는 세팅하기
                 // mover의 중앙 위치 보정 : 좌표값-자기크기의 절반
-                mover.style.top = (event.pageY-15)+"px";
-                mover.style.left = (event.pageX-15)+"px";
+                mover.style.top = posy+"px";
+                mover.style.left = posx+"px";
 
             }; ///////////////// mousemove 이벤트 함수 끝 ///////////////
 
 
-            // 이벤트 종류 : mousemove (마우스가 대상 위에서 움직일 때 발생하는 이벤트)
+            
 
+            // a요소에 마우스오버시 원 크게 하기!
+            // 대상 : .cont a -> .pt
+            var pt = document.querySelectorAll(".pt");
+            // console.log(pt); -> pt 잡힌거 확인하기
+
+            // for문으로 모든 a 요소에 이벤트 설정하기
+            for(var i = 0; i < pt.length; i++){
+                // 마우스 오버시 -> mouseenter
+                pt[i].onmouseenter = function(){
+                    // mover가 커지게 함
+                    mover.style.transform = "scale(2)";
+                }; ////////////// mouseenter 이벤트 함수 끝 //////////////
+
+                // 마우스 아웃시 - > mouseleave
+                pt[i].onmouseleave = function(){
+                    // mover가 원래 크기로 변경
+                    mover.style.transform = "scale(1)";
+                }; /////////// mouseleave 이벤트 함수 끝 //////////////
+
+            } ///////////// for문 끝 ///////////////////
+
+            /**********************************************************
+                [ 마우스 오버 / 아웃 이벤트 ]
+            1.오버시 이벤트
+                1) mouseover - 요소 위에 올라갈 때 발생
+                2) mouseenter - 요소 경계선 안으로 들어갈 때 발생
+
+            2.아웃시 이벤트
+                1) mouseout - 요소를 벗어날 때 발생
+                2) mouseleave - 요소 경계선 밖으로 나갈 때 발생
+
+            -너무 많은 이벤트가 중복 발생할 때엔 (이벤트 더블링 문제) 경계선을 이벤트 발생 기준으로 잡는 엔터/리브를 쓰도록 권고함
+
+            **********************************************************/
 
         }); ///////////////////////////// 로딩 구역 끝 //////////////////////////////////////
     </script>
@@ -70,7 +211,29 @@
 <body>
     <h1>마우스 포인터 따라다니는 원 만들기</h1>
     
-    <!-- 돌아다니는 원 -->
+    
+
+    <!-- 컨텐츠 박스 -->
+    <section class="cont">
+        <div>
+            <img src="../images/dress/1.jpg" alt="dress">
+            <a href="#" class="pt">This is Ur New Dress!</a>
+        </div>
+        <div>
+            <img src="../images/dress/2.jpg" alt="dress">
+            <a href="#" class="pt">This is Ur New Dress!</a>
+        </div>
+        <div>
+            <img src="../images/dress/3.jpg" alt="dress">
+            <a href="#" class="pt">This is Ur New Dress!</a>
+        </div>
+        <div>
+            <img src="../images/dress/4.jpg" alt="dress">
+            <a href="#" class="pt">This is Ur New Dress!</a>
+        </div>
+    </section>
+
+    <!-- 돌아다니는 원 - 이게 html상 위에 있으면, 먼저 만들어져서... 뒤에 만들어진 애들이 더 높은 위치를 차지하므로, 얘는 위에서 돌아다녀야 하니까 아래로 내려줌-->
     <div class="mover"></div>
     
 </body>
