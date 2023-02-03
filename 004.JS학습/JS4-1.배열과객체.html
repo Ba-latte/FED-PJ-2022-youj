@@ -533,68 +533,118 @@
         // 그래서 이걸 로드구역(지역?) 밖으로 빼내서 '전역함수'로 만들어주었음! (그러면 다른 지역에서도 쓸 수 있게 됨)
 
         // 즉, 다른 영화 객체에서 호출하고 있으므로, 로드구역 바깥으로 옮겨서 전역함수로 변경함
+
         /*************************************************************************************
-                함수명 : playMv
-                기능 : 영화 예고편 화면에 띄우기
-             *************************************************************************************/
-             var playMv = function(mvcode){ // mvcode는 예고편 아이디
-                // 예고편 동영상용 박스 변수
-                var mvbx = document.querySelector("#mvbx");
-                // console.log(mvbx);
+        함수명 : playMv
+        기능 : 영화 예고편 화면에 띄우기
+        *************************************************************************************/
+        var playMv = function(mvcode){ // mvcode는 예고편 아이디
+            // 예고편 동영상용 박스 변수
+            var mvbx = document.querySelector("#mvbx");
+            // console.log(mvbx);
 
-                // 1. 함수 호출 확인
-                console.log("플레이어!", mvcode);
+            // 1. 함수 호출 확인
+            console.log("플레이어!", mvcode);
 
-                // 2. 영화 박스에 아이프레임 넣기
-                // 대상 : #mvbx -> mvbx
-                mvbx.innerHTML = `
-                    <div id="mv">
-                        <!-- 유튜브 아이프레임 -->
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${mvcode}?autoplay=1" allow="autoplay" style="border:none"></iframe>
+            // 2. 영화 박스에 아이프레임 넣기
+            // 대상 : #mvbx -> mvbx
+            mvbx.innerHTML = `
+                <div id="mv">
+                    <!-- 유튜브 아이프레임 -->
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${mvcode}?autoplay=1" allow="autoplay" style="border:none"></iframe>
 
-                        <!-- 닫기버튼 -->
-                        <button class="cbtn">×</button>
-                    </div>
-                `;
-                    // 아이프레임의 동영상이 실행되자마자 자동으로 실행되게 하려면! src=""안에 '?autoplay=1'이라고 쓰고, allow="autoplay"라고도 <>안에 써있어야 함!
+                    <!-- 닫기버튼 -->
+                    <button class="cbtn">×</button>
+                </div>
+            `;
+            // 아이프레임의 동영상이 실행되자마자 자동으로 실행되게 하려면! src=""안에 '?autoplay=1'이라고 쓰고, allow="autoplay"라고도 <>안에 써있어야 함!
 
-                    // 자바스크립트로 삽입한 동영상 박스(#mv)에 CSS 설정하기 - 위에 코드 만들어지면서 실제로 생긴 것들임!!
-                    var mv = document.querySelector("#mv");
-                    var msy = mv.style;
+            // 자바스크립트로 삽입한 동영상 박스(#mv)에 CSS 설정하기 - 위에 코드 만들어지면서 실제로 생긴 것들임!!
+            var mv = document.querySelector("#mv");
+            var msy = mv.style;
 
-                    msy.position = "fixed";
-                    msy.top = "50%";
-                    msy.left = "50%";
-                    msy.transform = "translate(-50%, -50%)";
-                    msy.width = "700px";
-                    msy.height = "450px";
-                    msy.backgroundColor = "#000";
+            msy.position = "fixed";
+            msy.top = "50%";
+            msy.left = "50%";
+            msy.transform = "translate(-50%, -50%)";
+            msy.width = "700px";
+            msy.height = "450px";
+            msy.backgroundColor = "#000";
 
-                    // 닫기버튼 CSS 세팅하기
-                    var cbtn = document.querySelector(".cbtn");
-                    var csy = cbtn.style;
+            // 닫기버튼 CSS 세팅하기
+            var cbtn = document.querySelector(".cbtn");
+            var csy = cbtn.style;
 
-                    csy.position = "absolute";
-                    csy.top = "0";
-                    csy.right = "-70px";
-                    csy.width = "50px";
-                    csy.height = "50px";
-                    csy.border = "none";
-                    // 버튼에 기본 보더 있는거 없애기
-                    csy.color = "#fff";
-                    csy.backgroundColor = "blue";
-                    csy.fontSize = "40px";
-                    csy.fontWeight = "bold";
-                    csy.borderRadius = "50%";
-                    csy.cursor = "pointer";
-                    csy.lineHeight = "50px";
+            csy.position = "absolute";
+            csy.top = "0";
+            csy.right = "-70px";
+            csy.width = "50px";
+            csy.height = "50px";
+            csy.border = "none";
+            // 버튼에 기본 보더 있는거 없애기
+            csy.color = "#fff";
+            csy.backgroundColor = "blue";
+            csy.fontSize = "40px";
+            csy.fontWeight = "bold";
+            csy.borderRadius = "50%";
+            csy.cursor = "pointer";
+            csy.lineHeight = "50px";
 
-                    // 닫기버튼 클릭시 #mv 자체를 제거하기 (그러면 창이 닫히는 것처럼 느껴짐!)
-                    cbtn.onclick = function(){mv.remove();};
-                    // remove() 메서드 : 돔DOM에서 요소를 삭제하는 메서드! (내장 함수임)
+            // 닫기버튼 클릭시 #mv 자체를 제거하기 (그러면 창이 닫히는 것처럼 느껴짐!)
+            cbtn.onclick = function(){mv.remove();};
+            // remove() 메서드 : 돔DOM에서 요소를 삭제하는 메서드! (내장 함수임)
 
+            /********************************************** 
+            ※ 정리 :
+            ________________________________
 
-            }; /////////////// playMv 함수 (할당형 익명함수) 끝 //////////////////
+            배열값 설정
+            const 변수명 = [값1,값2,...];
+            _________________________________
+
+            배열값 호출
+            변수명[순번] -> 순번은 0부터
+            _________________________________
+
+            객체값 설정
+            const 변수명 = {속성:값,속성:값,...}
+            ___________________________________
+
+            객체값 호출
+
+            변수명[속성명]
+            -> 속성명을 따옴표로 싼 "문자형"임
+            (만약 변수형 속성명이어도 이렇게 부를땐
+            따옴표로 반드시 싸야한다!)
+
+            또는
+
+            변수명.속성명
+            -> 속성명이 반드시 변수형 이어야함!
+            -> 속성명이 문자형이도 변수형에 적합하면, 이와 같이 사용가능
+
+            ____________________________________
+
+            참고) 💥 내장객체를 new키워드 없이 바로 할당하는 방식을 '리터럴 방식'이라고 부른다. 이 방식을 추천함!
+            예) let str = ""
+                let arr = []
+                let obj = {}
+
+            비교) 선언해서 하는 방법
+                let str = new String();
+                let arr = new Array();
+                let obj = new Object();
+
+            -위나 아래나 선언할 때 둘다 사용 가능함
+            -단, 위아래를 섞어서 쓰는 것은 비추천!
+            -좋은 방법은 위의 방식임! 위쪽의 방식을 추천함!! (리터럴 방식)
+
+            💥아... 썜.. 저 여기도 모르겠어옄ㅋㅋㅋㅋ 네..? 언제 저희가 저런걸 배웠어요.,..?ㅠㅠㅠㅠㅠㅠㅠ
+            
+
+            **********************************************/
+
+        }; /////////////// playMv 함수 (할당형 익명함수) 끝 //////////////////
     </script>
 </head>
 
