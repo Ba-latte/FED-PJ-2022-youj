@@ -19,7 +19,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>도깨비 PJ - 로그인 페이지</title>
-
+        <!-- 폰트 어썸 CDN CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
         <!-- 외부 CSS 불러오기 -->
         <link rel="stylesheet" href="./css/login.css" />
         <!-- 미디어쿼리 불러오기 : 반드시 하단에 작성해야 함!! (덮어써야 하니까) -->
@@ -166,7 +167,64 @@
                 <h2 class="stit">Log In</h2>
                 <!-- 2-2. 컨텐츠 박스 -->
                 <section class="scont">
-                    
+                    <!--
+                        [ form 요소 ]
+                    -입력 데이터를 서버로 전송하기 위한 요소
+                    -요즘은 폼 태그를 여러개로 나눠서 쓰기도 함 (비동기...어쩌고...때문에 페이지 전체가 날아가는거 말고..)
+                    -속성
+                    1.action : 전송할 서버 처리 페이지 (백엔드 속성? 들어가 있음)
+                    2.method : post, get이 있음
+                        1)post : post전달 방식
+                        -페이지에 숨겨서 전송함
+                        -보안 중요한 민감한 데이터 처리시 사용
+                        2)get : get전달 방식
+                        -url뒤에 '키=값' 이렇게 쌍으로 전달하는 방식
+                        -보안성은 떨어짐 (정보가 공개되어도 상관 없는 경우에 많이 사용)
+                        -페이지 데이터 세팅 등에 사용됨
+                    -->
+                    <form action="process.php" method="post">
+
+                        <!-- 아이디 박스 -->
+                        <div class="minput">
+                            <label for="mid">아이디</label>
+                            <input type="text" name="mid" id="mid" maxlength="10" placeholder="아이디를 입력해주세요">
+                            <!-- : 라벨의 for로 날아가서 연결되는 부분은 id임. 여기서 name을 작성하는 이유는! 백엔드 개발자들이 이 속성을 이용해서 서버쪽에서 작성하기 때문. 우리는 ajax?? 에이젝스?를 사용해서 약간 다르게 해볼 예정(?) -->
+                            <!-- 쌤왈 : name속성은 서버쪽 사용 용도로 작성함 (id명과 같은 이름을 많이 쓴다) -->
+                        </div>
+
+                        <!-- 비번 박스 -->
+                        <div class="minput">
+                            <label for="mpw">비밀번호</label>
+                            <input type="password" name="mpw" id="mpw" maxlength="10" placeholder="비밀번호를 입력해주세요">
+                        </div>
+
+                        <!-- 버튼 박스 -->
+                        <div class="btnbx">
+                            <input type="submit" id="sbtn" value="LOGIN">
+                            <!-- input의 type이 submit이면! form요소 안의 모든 입력 요소를 target페이지(action값으로 적어둔 곳)로 전송하는 기능을 가진 버튼임 -> 눌러보면 페이지를 싹 들고 날라가는데, 우리는 지금 제대로 연결한게 없어서 에러 400번대가 나옴!! 신기!! ㅇ0ㅇ -->
+                        </div>
+
+                        <!-- 기타 링크 -->
+                        <div class="addbx">
+                            <span>
+                                <input type="checkbox" id="chkbx" name="chkbx">
+                                <label for="chkbx" class="fa-regular fa-circle-check"></label>
+                                <!-- label은 인풋모양 변형을 위해 만든 태그, 글씨는 스팬 공간에 씀 -->
+                                <label for="chkbx">아이디 저장</label>
+                            </span>
+                            <span>
+                                <a href="#">아이디찾기</a>
+                            </span>
+                            <span>
+                                <a href="#">비밀번호찾기</a>
+                            </span>
+                            <span>
+                                <a href="#">회원가입</a>
+                            </span>
+                            <!-- 위의 찾기 페이지들은 서버와 연동되어야 하기 때문에 실제로 만들지 않을 예정 -->
+                        </div>
+
+                    </form>
                 </section>
             </main>
         </div>

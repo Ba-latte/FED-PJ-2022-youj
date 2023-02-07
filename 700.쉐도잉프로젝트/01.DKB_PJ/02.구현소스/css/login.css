@@ -30,6 +30,8 @@
 
 /* 2-2.컨텐츠 박스 */
 .scont{
+    position: relative;
+    /* 부모자격 - .btnbx */
     max-width: 700px;
     min-height: 275px;
     margin: 0 auto;
@@ -44,3 +46,128 @@
     /* : 박스 크기에 보더,패딩 포함시키기 */
 }
 
+
+/* 입력창 공통 라벨 */
+.minput label{
+    /* 크기값 디자인 적용 위해 인라인블록으로 만들기 */
+    display: inline-block;
+    width: 150px;
+    text-align: center;
+
+    font-size: 2rem;
+    font-weight: bold;
+    color: #555;
+    line-height: 3.6rem;
+}
+/* 입력양식 공통 */
+.minput input{
+    width: 320px;
+    height: 36px;
+    border: 1px solid #777;
+    border-radius: 5px;
+
+    font-size: 1.8rem;
+    /* 입력창 안의 폰트 사이즈 조정함 */
+    
+    padding-left: 15px;
+    /* : 입력창 안의 글자가 너무 왼쪽 벽에 붙어서 나와서, 조절 위해 패딩을 줌 */
+    
+    box-sizing: border-box;
+    /* 박스가 커져서, 박스 크기 내가 준 대로 유지하게 만들기 - bxb */
+}
+
+/* 비밀번호 박스 */
+.scont div:nth-child(2){
+    margin-top: 20px;
+    /* : 아이디와 비번박스가 너무 붙어있어서 사이 간격 좀 띄우기 */
+}
+
+/* 인풋창에 포커스 가면 아웃라인이 생김 -> 제거하기
+-모든 브라우저에 기본 포커스 아웃라인 세팅됨 */
+input:focus{
+    outline: none;
+}
+
+/* 버튼영역 */
+.btnbx{
+    position: absolute;
+    /* 부모는? - .scont에 부모자격을 줘야함 */
+    top: 60px;
+    right: 60px;
+}
+
+/* 서브밋 버튼 */
+#sbtn{
+    width: 113px;
+    height: 92px;
+    border: 1px solid #888;
+    border-radius: 5px;
+
+    /* 배경 그라데이션 */
+    background-image: linear-gradient(to bottom, #ddd, #555);
+
+    color: #fff;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px #555;
+}
+
+/* 기타링크 박스 */
+.addbx{
+    text-align: center;
+    margin-top: 50px;
+    font-size: 1.6rem;
+
+    /* 빨리 클릭한다고 더블클릭돼서 영역이 잡히는 것 방지하기 -> 이거 넣으면 아예 드래그해서 영역 잡는 것도 불가하게 됨 */
+    user-select: none;
+}
+
+/* 체크박스 라벨 숨기기 */
+.addbx input{
+    /* vertical-align: -1px; */
+    /* : 이런식으로 세로 정렬할 수 있음 -> 그런데 여기서는 어짜피 숨겨둘 것이므로 주석해둠 */
+    display: none;
+}
+
+/* 체크박스 라벨을 체크박스로 만들기 - 체크박스 아이콘을 라벨에 넣기 */
+.addbx input+label{
+    display: inline-block;
+    /* 디자인 적용시키기 위해 디스플레이:인라인블록 줌 */
+    vertical-align: -1px;
+    /* : 글씨와 맞게 세로 정렬시키기 */
+    width: 20px;
+    height: 20px;
+    color: #fa0028;
+
+    /* outline: 1px solid red; */
+}
+
+/* fw를 900으로 바꾸면 아이콘 모양이 바뀜! 클래스를 따로 부여하지 않아도 되니까, 그냥 fw를 바꾸는 식으로 할 예정 */
+
+/* 체크박스 체크시 아이콘 변경 */
+.addbx input:checked+label{
+    font-weight: 900;
+    /* : 체크된 상태의 아이콘으로 바꿔주기 (두께만 변경하면 됨) */
+}
+
+/* "아이디 저장" 텍스트를 클릭해도 체크박스에 체크가 되도록 만들고 싶다면!
+-아이디저장이라는 텍스트를 라벨태그로 감싸고 for속성에 똑같은 chkbx를 주면 됨
+-디자인은 input+label이라서 인풋의 바로 다음의 라벨만!! 선택되므로 편하게 라벨 태그로 감싸도 됨 */
+
+/* 기타링크 구분선 넣기 */
+/* span+span = 앞에 스팬이 있는 스팬 선택 */
+.addbx span+span::before{
+    content: '|';
+    margin: 0 15px;
+}
+
+/* 기타링크 a요소 */
+.addbx a{
+    text-decoration: none;
+    color: #000;
+}
+
+.addbx a:hover{
+    color: #fa0028;
+    text-decoration: underline;
+    text-decoration-style: double;
+}
