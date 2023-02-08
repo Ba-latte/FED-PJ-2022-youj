@@ -17,6 +17,9 @@
     /* 최소 높이 수정 */
     min-height: 600px;
     /* : 로그인화면의 높이가 너무 높아서, 적당히 한 화면에 다보이도록 수정함 */
+    
+    padding: 0 5px 30px;
+    /* : 하단영역과 너무 붙어있어서, 사방에 패딩 주기 (가로 오토라서 늘어나지 않고, 최소높이만 줬기 때문에 커지면 자동으로 커질 것이라 예상) */
 }
 
 /* 2-1.타이틀 */
@@ -33,7 +36,7 @@
     max-width: 700px;
     min-height: 275px;
     margin: 0 auto;
-    padding: 60px 15px;
+    padding: 30px 50px;
 
     background-color: #fff;
     border-radius: 10px;
@@ -43,4 +46,122 @@
     box-sizing: border-box;
     /* : 박스 크기에 보더,패딩 포함시키기 */
 }
+
+/* 리스트 ul */
+.scont ul{
+    font-size: 2rem;
+    /* html 10px * 2 = 20px */
+    font-weight: bold;
+    color: #333;
+}
+
+/* 리스트 li */
+.scont li{
+    position: relative;
+    /* 부모자격 - .msg */
+
+    height: 50px;
+    line-height: 50px;
+    /* 하이트를 밀었는데 lh를 안주면 자기 박스 위에 딱 붙어있기 때문에 높이값 만큼 준 것임 */
+
+    /* outline: 2px dotted red; */
+}
+
+/* 라벨 공통 타이틀(.itit) - 요소가 통일되어있지 않아서 클래스로 잡음 */
+.itit{
+    display: inline-block;
+    width: 200px;
+}
+
+/* 메시지박스 - 각 입력부분의 제목 바로 밑에, 관련 메시지 등장시키기 (에러면 빨간색/맞으면 녹색) */
+.msg{
+    position: absolute;
+    /* 부모는? - .scont li */
+    top: 35px;
+    left: 0;
+
+    height: 15px;
+    line-height: 15px;
+
+    font-size: 10px;
+    color: red;
+
+    white-space: nowrap;
+    /* : 줄바꿈 금지 */
+}
+
+/* 메시지 글자색 변경 클래스 */
+.msg.on{
+    color: green;
+}
+
+/* 입력박스 공통 */
+.scont input[type=text],
+.scont input[type=password]{
+    width: 340px;
+    height: 36px;
+    font-size: 2rem;
+    border: 1px solid #777;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+/* 라디오 버튼 */
+.scont input[type=radio]{
+    height: 20px;
+    width: 20px;
+    vertical-align: -4px;
+}
+
+/* 이메일 앞 주소 */
+#email1{
+    width: 170px;
+}
+/* 이메일 선택 박스 (드롭다운박스 혹은 콤보박스) */
+#seleml{
+    width: 146px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 2rem;
+}
+/* 이메일 뒷주소 */
+/* 라벨 숨기기 */
+.ee{
+    display: none;
+}
+#email2{
+    width: 136px;
+    float: right;
+    /* 오른쪽으로 위치시키기 : 옆으로 흘러가라고! */
+    margin-top: 5px;
+    margin-right: 44px;
+    /* 벽에 너무 붙어있어서 조금 떨어지게 만들기 */
+
+    /* 처음에 숨겨뒀다가, "직접입력"선택한 상태일때만 보이게 하기 */
+    display: none;
+}
+
+/* 가입하기 버튼 */
+#btnj{
+    position: absolute;
+    top: 5px;
+    right: 44px;
+
+    width: 113px;
+    height: 40px;
+
+    border: 1px solid #777;
+    border-radius: 5px;
+    background-image: linear-gradient(to bottom, #ddd, #555);
+
+    color: #fff;
+    text-shadow: 1px 1px 1px #555;
+
+    /* a태그가 아니라서 커서가 포인터가 아니므로, 모양 바꾸기 */
+    cursor: pointer;
+}
+/* 보통 선생님이 세팅 주는 순서 : 포지션 위치 크기 순! */
+
+
+
 

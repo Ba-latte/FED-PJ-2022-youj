@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02. 화면전환 효과</title>
+    <style>
+        /* 1. 초기화 */
+        html, body, h1{
+            margin: 0;
+            padding: 0;
+        }
+
+
+        /* 3. 페이지 전환 효과용 가림막 */
+        body::after{
+            content: '';
+            display: block;
+            position: fixed;
+            /* 픽스드 주는 이유는?! */
+
+            z-index: 999;
+            /* 항상 위에 오는 장치 */
+
+            top: 0;
+            left: 0;
+            /* 위치 조정 */
+
+            width: 100vw;
+            height: 0;   /* 변경요소 */
+            /* 가림막 크기 지정 */
+
+            background-color: lightseagreen;
+
+            /* 트랜지션 : 속시이지 */
+            transition: all .8s ease-in-out;
+        }
+
+
+        /* 4. (1단계) body.on일때 body의 가상요소 after 적용시키기 : 위에서 아래로 내려오기 */
+        body.on::after{
+            height: 100vh;
+        }
+
+        /* 5. (2단계) body.go일때 body의 가상요소 after 적용시키기 : 현재화면에서 아래로 내려가기 */
+        body.go::after{
+            top: 100%;
+            height: 0;
+        }
+
+
+        /* 2. 페이지 디자인 주기 */
+        .pg{
+            /* width: 100vw; */
+            /* : 오히려 가로스크롤바가 살짝 생김!
+            아무것도 안 쓰면 auto로 알아서 채움
+            if)만약 주고싶다면, 100%를 주면 됨 그러면 가로스크롤이 안 생김 */
+            /* 쌤왈 : 단위를 100vw로 잡을 경우, DT에서 가로스크롤이 약간 생긴다. 이유는 100vw가 스크롤바를 포함하기 때문임. 모바일에서는 스크롤바트랙이 없기 때문임! 따라서, 화면 꽉채우는 크기를 주고 싶다면 100%를 주거나 안 주면 auto이므로 안 주는 게 좋다! 
+            (100퍼와 오토의 차이는! 100%는 패딩을 주면 패딩이 컨텐츠 영역안에 차지 안하고!!!!! 바깥으로 늘어나고, 오토는 안쪽으로 말려들어간다는 차이임) */
+            height: 100vh;
+        }
+
+        .pg h1{
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            /* : 가운데 오게 함 */
+            /* 포지션 랠러티브로 가운데 오기를 하면 랠러티브라서 박스가 끝까지 감!
+            앱솔루트를 준 경우, 판타롱스타킹이라서 박스가 딱붙어버리고~ 부모자격도 줘야하기때문에 손이 많이 감 */
+            text-align: center;
+            font-size: 8vw;
+        }
+        .pg h2{
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            font-size: 8vw;
+        }
+
+
+
+    </style>
+
+    <!-- JS 코드 구역 -->
+    <script>
+
+        /* 6. 타임아웃으로 일정시간 뒤 작동하도록 함수 세팅하기 */
+        // : setTimeout(함수, 시간)
+        setTimeout(()=>{
+            // (1) 호출 확인
+            console.log("1단계 작동");
+
+            // (2) 대상 선정 : body
+            let tg = document.body;
+            // : body는 특별한 애라서 쿼리셀렉터로 선택 안 해도 됨!
+
+            tg.classList.add("on");
+            // : 소괄호()안의 클래스를 추가하기
+
+            // (3) 2단계 : .go넣기
+            setTimeout(() => {
+
+                // "글자가 안 바뀌니까 아쉽네~ 글자 바뀌기 기능 추가!"
+                // 자체 글자 변경
+                document.querySelector(".pg h1").innerText = "짜잔잔잔짠✨";
+
+                tg.classList.add("go");
+                // : 소괄호()안의 클래스를 추가하기
+
+            }, 1000);
+            // : 자스로 가상요소를 직접 건들 수 없지만, 클래스가 부여된 가상요소는 선택 가능함 (=간접 선택)
+
+
+        }, 2000); /////////////// setTimeout() 함수 끝 ///////////////////
+
+
+
+    </script>
+</head>
+<body>
+    <!-- 감싸는 박스 : 2페이지 모두 감쌈 -->
+    <div class="wrap">
+        <!-- 전체 페이지 가득 채운 화면 : 가로세로 꽉 채움 -->
+        <div class="pg">
+            <h1>This is First One!</h1>
+            <p>
+                가상요소를 만들고 
+            </p>
+        </div>
+
+        <div class="pg">
+            <h1>This is Second One!</h1>
+        </div>
+    </div>
+</body>
+</html>
