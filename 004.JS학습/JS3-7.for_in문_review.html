@@ -84,7 +84,10 @@
             // 호출확인
             console.log("로딩완료");
             /* DOM 선택 함수 */
-            
+            const qs = x => document.querySelector(x);
+            const qsa = x => document.querySelectorAll(x);
+
+
             /******************************************************** 
                 [ 구현내용 ]
                 - 버튼을 클릭하면 해당 영화의 정보를 화면에 보여준다!
@@ -95,8 +98,89 @@
                 - 변경내용: 
                     대상의 각 내용에 맞게 객체로부터 정보를 셋팅함!
             ********************************************************/
-
+            // 1.대상 선정,할당하기
+            // 1-1.이벤트 대상 : .button
+            const btns = qsa(".btns button");
+            console.log(btns);
             
+            // 2.이벤트 대상에 클릭 이벤트 설정하기
+            // 2-1.for문으로 버튼들을 하나씩 꺼내기
+            for(let x of btns){
+
+                // 2-2.꺼낸 대상에 클릭 이벤트 설정하기
+                x.onclick = () => {
+                    
+                    // 클릭된 대상의 글자를 읽어와서, 그 글자와 맞는 객체의 속성을 연결해야함
+
+                    // 2-3.클릭된 버튼의 글자를 읽어오기
+                    // : 읽어온 글자를 저장할 변수를 만들어서 할당해야함
+                    let btxt = x.innerText;
+                    // console.log(btxt);
+
+                    // 2-4.버튼의 글자와 "동일한 속성 값"을 읽어와서 변수에 할당하기
+                    // : 객체에서 읽어들인 속성값을 저장할 변수를 만들어서 할당해야함 + 읽어들인 속성값은 버튼의 글자와 동일해야함
+                    let data = mvi[btxt];
+                    // console.log("객체의 속성값: ", data);
+
+                    // 2-5.변경할 요소에 맞게 데이터 넣기 - for in문 사용하기
+                    // : for(변수 in 객체){코드}
+                    for(let y in data){
+                        // console.log("y:",y);
+                        
+                        // 2-6.각 속성명에 해당하는 데이터를 html에 삽입하기 - 각 케이스에 맞게 넣어야 하니까 switch문 활용
+                        switch(y){
+                            case "포스터": qs(".photo").innerHTML=`<img src="${data[y]}" alt="${data[y]}의 포스터">`; break;
+                            case "제목": qs(".tit").innerText="🎫영화 제목: "+data[y]; break;
+                            case "개요": qs(".sum").innerText="🎫장르: "+data[y]; break;
+                            case "감독": qs(".dir").innerText="🎫감독: "+data[y]; break;
+                            case "출연": qs(".act").innerText="🎫출연 배우: "+data[y]; break;
+                        } /////////////// switch문 끝 ////////////////
+
+
+                        // 3.영화 한마디 넣기
+                        // : 객체의 속성명이 "문구"인 값을 가져와서 한글자씩 잘라서 span 태그로 감싸서 해당하는 요소에 넣기
+                        // ->객체의 속성명이 "문구"라면~하게 한다는 거니까 if문 사용
+                        if(y === "문구"){
+                            
+                            // 3-1.데이터 담기
+                            // : 비교하려면 데이터를 변수에 담아서 그 변수를 비교해야함(?)
+                            // ->"문구"도 하나의 객체니까 객체를 호출할때 쓰는 방법으로 불러야 함
+                            let txt = data[y];
+                            // console.log("y객체의 속성값: ",txt);
+                            
+                            // 3-2.태그로 감싼 글자를 넣을 변수 만들기
+                            // : 문자를 담을 수있게 string 초기화 하기
+                            let tagtxt = "";
+                            
+                            // 3-3.문구 데이터를 for of문으로 하나씩 잘라내서 tagtxt에 넣기
+                            for(let z of txt){
+                                // console.log("한글자씩: ", z);
+                                
+                                if(z===" "){
+                                    tagtxt += "&nbsp;";
+                                }
+                                else{tagtxt += `
+                                <span>${z}</span>
+                                `;}
+                                
+                                // console.log("누적해서 담은 텍스트: ", tagtxt);
+                            } ///////////// for of문 끝 //////////////
+                            
+                            // 3-4. tagtxt에 누적해서 담은 값을 출력할 요소에 삽입하면 됨
+                            qs(".show").innerHTML = tagtxt;
+                            
+
+                            // 4."영화 한마디"박스 보이게 하기
+                            qs(".showtit").style.display = "block";
+
+                        } //////////// if문 끝 ////////////
+
+                    } ///////////// for문 끝 ////////////////
+
+                }; ///////////// 클릭 이벤트 끝 ////////////
+
+
+            } ///////////// for문 끝 //////////
 
 
 
