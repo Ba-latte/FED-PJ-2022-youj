@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>객체를 위한 for문</title>
+    <title>객체를 위한 for문 -> 사실 안써도 된다!</title>
     <style>
         h1,.btns,.show{
             text-align: center;
@@ -130,40 +130,28 @@
                     // console.log("할당객체: ", data);
 
 
-                    // (3)해당 요소에 데이터 넣기 - for in문 사용
-                    // for(변수 in 객체){코드}
-                    // -변수에 속성명이 담긴다!
-                    for(let z in data){
-                        // z는? 뭐지? -> 속성명이 됨!
-                        // 그럼 속성값은 어떻게 가져오지? 객체명[z]
-                        // console.log(z, data[z]);
+                    // (3)해당 요소에 데이터 넣기 - 직접 이름 불러서 선택 가능함
 
-                        // 각 속성명에 해당하는 데이터 세팅하기!
-                        // : switch문으로 분기하기
-                        switch(z){
                             // 1.포스터 넣기 - .photo
-                            case "포스터": qs(".photo").innerHTML=`<img src="${data[z]}" alt="${btxt}의 포스터">`; break;
+                            qs(".photo").innerHTML=`<img src="${data["포스터"]}" alt="${btxt}의 포스터">`;
                             // 2.제목 넣기 - .tit
-                            case "제목": qs(".tit").innerText="★영화명:"+data[z]; break;
+                            qs(".tit").innerText="★영화명:"+data["제목"];
 
                             // 3.장르 넣기 - .sum
-                            case "개요": qs(".sum").innerText="★장르:"+data[z]; break;
+                            qs(".sum").innerText="★장르:"+data["개요"];
 
                             // 4.감독 넣기 - .dir
-                            case "감독": qs(".dir").innerText="★감독:"+data[z]; break;
+                            qs(".dir").innerText="★감독:"+data["감독"];
 
                             // 5.배우 넣기 - .act
-                            case "출연": qs(".act").innerText="★배우:"+data[z]; break;
-
-                        } ////////////////// switch문 끝 ///////////////////
+                            qs(".act").innerText="★배우:"+data["출연"];
 
 
                         // (4)영화한마디 넣기 - for_of문으로 문자데이터 잘라서 넣기
                         // : 한글자씩 span태그로 감싸서 해당 요소에 넣음
-                        if(z==="문구"){
 
                             // (4-1)데이터 담기
-                            let txt = data[z];
+                            let txt = data["문구"];
                             console.log("문구데이터:",txt);
 
                             // 태그로 감싼 새로운 데이터를 넣을 변수 만들기
@@ -195,11 +183,6 @@
                             // qs(".showit").style.display = "block";
                             qs(".showtit").style.display="block";
 
-                        } //////////////// if문 끝 /////////////////
-
-
-
-                    } ////////////// for in 문 끝 ////////////////
 
                 }; ////////////////// click 이벤트 함수 끝 ////////////////
             } ///////////// for of문 끝 //////////////
