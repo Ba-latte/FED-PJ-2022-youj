@@ -17,6 +17,26 @@ body{
     /* --변수명 : 변수명은 내 마음대로 쓸 수 있음 */
 }
 
+
+/* 작동 버튼 */
+.btngo{
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-size: 40px;
+    border-radius: 10px;
+    border: 1px solid peru;
+
+    cursor: pointer;
+}
+
+.btngo:hover{
+    background-color: lime;
+}
+
+
 /* 큐브 */
 .cube{
     position: absolute;
@@ -136,6 +156,15 @@ body{
 .cube-ani{
     /* 애니메이션 : 이시이지반방마 */
     animation: cubeAni 4s linear infinite;
+
+    /* 애니메이션 처음에 멈춰있기 */
+    animation-play-state: paused;
+}
+
+/* 큐브 회전 클래스 + .on => 애니메이션 작동하기 */
+.cube-ani.on{
+    /* 두 클래스가 동시에 먹혔으면 중괄호{}안이 실행됨 */
+    animation-play-state: running;
 }
 
 /* 큐브 회전 키프레임 */
