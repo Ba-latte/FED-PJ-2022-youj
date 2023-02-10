@@ -22,6 +22,27 @@ html, body, h1, h2, ul{
     padding: 0;
 }
 
+/* 스크롤바 디자인 클래스 */
+/* -webkit- 밴더사명(크롬, 사파리) 접두어 사용함! */
+/* (참고: 접두어의 종류로는 -ms-(ie), -o-(오페라), -moz-(파이어폭스) 가 있음) */
+/* 클래스명 scbar */
+.scbar::-webkit-scrollbar{
+    /* 전체 스크롤바 크기(폭임)변경 */
+    width: 5px;
+}
+
+.scbar::-webkit-scrollbar-thumb{
+    /* 스크롤바 변경 */
+    background-color: #ddd;
+    border-radius: 3px;
+}
+
+.scbar::-webkit-scrollbar-track{
+    /* 스크롤바트랙 (스크롤바가 다니는 길) 변경 */
+    background-color: #555;
+    border-radius: 3px;
+}
+
 body{
     height: 100vh;
     background-image: linear-gradient(to bottom, #777 30%, #ccc 70%);
@@ -232,42 +253,6 @@ body{
     /* 주의사항 - 돌리고 민거랑 / 밀고 돌린거랑 결과물이 달라짐 */
 }
 
-/* 큐브 회전 클래스 - 먼저 클래스 만들고 html가서 클래스 주기 */
-.cube-ani{
-    /* 애니메이션 : 이시이지반방마 */
-    animation: cubeAni 4s linear infinite;
-
-    /* 애니메이션 처음에 멈춰있기 */
-    animation-play-state: paused;
-}
-
-/* 큐브 회전 클래스 + .on => 애니메이션 작동하기 */
-.cube-ani.on{
-    /* 두 클래스가 동시에 먹혔으면 중괄호{}안이 실행됨 */
-    animation-play-state: running;
-}
-
-/* 큐브 회전 키프레임 */
-@keyframes cubeAni {
-    to{
-        /* x축 양의 방향으로, y축 음의 방향으로 회전 돌리기 */
-        transform: rotateX(370deg) rotateY(-330deg);
-        /**************************************************************************
-                [ 회전 돌릴 때 계산 ]
-            x축 양의 방향으로 10도에서 출발
-            1.양의 방향(같은 방향인거지) 360도 + 10도 = 370도
-            2.음의 방향(반대 방향인거지) -360도 + 10도 = -350도
-        ____________________________________________________________________
-            y축 양의 방향으로 30도에서 출발
-            1.양의 방향(같은 방향인거지) 360도 + 30도 = 390도
-            2.음의 방향(반대 방향인거지) -360도 + 30도 = -330도
-        **************************************************************************/
-
-        /* z축 회전도 적용할 수 있음 */
-        /* transform: rotateX(370deg) rotateY(-330deg) rotateZ(360deg); */
-    }
-}
-
 
 /* 4.도시정보박스 */
 .cbx{
@@ -322,6 +307,9 @@ p.cinfo{
 
     padding: min(10px, 2vw);
     font-size: min(16px, 1vw);
-    line-height: min(28px, 1.5vw);
+    line-height: min(28px, 1.9vw);
     background-color: rgba(0, 0, 0, 0.295);
+
+    /* 내용이 넘칠 때만 세로 스크롤바 자동 생성하도록 만들기 */
+    overflow: auto;
 }

@@ -6,7 +6,45 @@
 /* 모바일 미디어쿼리 */
 @media only screen and (max-width:950px) {
 
-   
-}
+    /* 1. 메뉴박스 위치를 하단으로 변경하기 */
+    .city {
+        top: auto;
+        right: auto;
+        /* 기존에 줬던 위치값 속성은 auto로 바꿔야 적용 해제됨! 그러고 나서 다른 속성을 부여해야 함!! */
+        bottom: 3vw;
+        left: 3vw;
+        width: 94vw;
+        
+        /* 메뉴를 위쪽으로 올리기 */
+        z-index: 1;
+    }
 
-/* 미디어쿼리  */
+    .city ul{
+        display: flex;
+        width: auto;
+        /* : 기존의 가로값 날려버리기 위해 width: 오토 씀 */
+    }
+
+    .city li{
+        flex: 1;
+        /* 등분할 주기 */
+    }
+
+    /* 2. 큐브 크기 변경하기 */
+    :root{
+        --csz: 65vw;
+    }
+
+    /* 3. 도시설명박스 */
+    h2.cname {
+        line-height: 10vw;
+        font-size: 6vw;
+    }
+    p.cinfo {
+        height: calc(100% - 10vw);
+        font-size: 4vw;
+        line-height: 5vw;
+    }
+
+
+} /* 미디어쿼리  */
