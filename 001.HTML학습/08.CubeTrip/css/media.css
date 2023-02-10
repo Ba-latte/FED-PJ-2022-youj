@@ -14,27 +14,31 @@
         bottom: 3vw;
         left: 3vw;
         width: 94vw;
-        
+
         /* 메뉴를 위쪽으로 올리기 */
         z-index: 1;
     }
-
     .city ul{
         display: flex;
         width: auto;
         /* : 기존의 가로값 날려버리기 위해 width: 오토 씀 */
     }
-
     .city li{
         flex: 1;
         /* 등분할 주기 */
     }
+    /* li에 마우스오버시 메뉴가 움직이는 거(트랜스폼) 없애기 */
+    .city li:hover{
+        transform: none !important;
+    }
+
 
     /* 2. 큐브 크기 변경하기 */
     :root{
         --csz: 65vw;
     }
 
+    
     /* 3. 도시설명박스 */
     h2.cname {
         line-height: 10vw;

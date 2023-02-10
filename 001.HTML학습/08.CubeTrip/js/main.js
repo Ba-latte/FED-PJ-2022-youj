@@ -35,8 +35,12 @@ function loadFn(){
 
 
             // 🌷7. 도시정보 박스 숨기기 (트랜지션 없애주기!!!!!) - 초기화시키라는 뜻임
-                cbx.style.opacity = "0";
-                cbx.transition = "none";
+            cbx.style.opacity = "0";
+            cbx.transition = "none";
+            // 도시정보 부분에 스크롤이 생길 경우, 아래까지 내려서 본 다음에 다른 도시로 가면 스크롤위치가 내려가 있는 문제 발생
+            // -> 그래서 스크롤 위치 맨위로 셋팅하기
+            cinfo.scrollTo(0,0);
+            // : scrollTo(가로스크롤위치,세로스크롤위치) -> 스크롤 이동 메서드!
 
             // 2-2. 메뉴 텍스트 읽기
             let mtxt = x.innerText;
