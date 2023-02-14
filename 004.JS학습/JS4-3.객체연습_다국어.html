@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>다국어 메뉴(객체의 활용)</title>
+    <style>
+        html,
+        body,
+        h1,
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        /*탑영역*/
+        #top {
+            position: relative;
+            /*부모자격*/
+            width: 1000px;
+            margin: 0 auto;
+            /*outline: 1px dashed red;*/
+        }
+
+        /*로고*/
+        #logo {
+            text-align: center;
+        }
+
+        #logo img {
+            height: 40px;
+            margin-top: 50px;
+        }
+
+        /*선택박스*/
+        .sel {
+            position: absolute;
+            right: 0;
+            font-size: 24px;
+        }
+
+        /*GNB메뉴*/
+        #gnb {
+            width: 1000px;
+            margin-top: 30px;
+            border: 2px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        #gnb ul {
+            list-style: none;
+            /*블릿없앰*/
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        #gnb ul::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        #gnb li {
+            float: left;
+            width: 200px;
+        }
+
+        #gnb a {
+            display: block;
+            width: 100%;
+            color: #333;
+            text-decoration: none;
+            text-align: center;
+            font: bold 32px/80px Verdana, "맑은 고딕";
+        }
+
+        #gnb a:hover {
+            color: #f00;
+            text-decoration: overline;
+        }
+
+        /*컨텐츠 영역*/
+        #cont {
+            width: 1000px;
+            margin: 0 auto;
+            padding-top: 10px;
+            text-align: center;
+        }
+
+        #cont img {
+            width: 800px;
+        }
+
+        /*회사정보*/
+        #info {
+            width: 1000px;
+            margin: 10px auto;
+            border: 2px solid #ccc;
+            color: #333;
+            text-align: center;
+            font: bold 18px/80px Verdana, "맑은 고딕";
+        }
+
+        #info address {
+            font-style: normal;
+            /*주소요소 기본 이탤릭 해제*/
+        }
+    </style>
+    <script>
+        ///// 전역변수 구역 ///////
+        // 언어별 메뉴 글자 셋팅하기 ///
+        const lang = {
+            //한국어
+            "ko": {
+                "메뉴": ["홈", "남성용", "여성용", "게시판"],
+                "주소": "서울시 강남구 청담동 34-22 JJ빌딩 94호, 대표: 제임스 홍"
+            },
+            //영어
+            "en": {
+                "메뉴": ["Home", "Men", "Women", "Board"],
+                "주소": "94, JJ Building, 34-22, Cheongdam-dong, Gangnam-gu, Seoul, Representative: James Hong"
+            },
+            //일본어
+            "ja": {
+                "메뉴": ["ホーム", "男性用", "女性", "掲示板"],
+                "주소": "ソウル市江南区清潭洞34-22 JJビル94号、代表：ジェームズホン"
+            },
+            //중국어
+            "ch": {
+                "메뉴": ["家", "对于男人", "女用", "公告栏"],
+                "주소": "首尔特别市江南区清潭洞34-22 JJ大厦94"
+            },
+            //스페인어
+            "es": {
+                "메뉴": ["Casa", "Hombres", "Mujeres", "Anuncios"],
+                "주소": "94, JJ Building, 34-22, Cheongdam-dong, Gangnam-gu, Seúl, Representante: James Hong"
+            }
+        }; ///////// lang 객체 ///////
+
+        ////////////// 로드구역 ////////////////////////
+        window.addEventListener("load", () => {
+
+            console.log("로딩완료!");
+
+            // 대상선정
+            // (1) 이벤트 대상: .sel
+            const sel = document.querySelector(".sel");
+
+            // (2) 변경 대상: GNB메뉴 -> #gnb a 여러개!!!
+            const menu = document.querySelectorAll("#gnb a");
+            
+            // (3) 변경 대상: 메인 이미지 -> #cont img
+            const mimg = document.querySelector("#cont img");
+
+            // (4) 변경 대상: 하단 회사정보 -> #info address
+            const info = document.querySelector("#info address");
+
+            // 확인
+            // console.log(sel,menu,mimg,info);
+            
+            ////////////////////////////////////////////////
+            // 1. 선택박스 선택변경시 change이벤트에 따라 변경
+            // 이벤트 대상: .sel -> sel 변수
+            // 이벤트 종류: change
+            // 변경대상: 메뉴, 메인이미지, 하단정보
+            /////////////////////////////////////////////////
+
+            sel.onchange = (e)=>{
+            // sel.onchange = function(){
+                
+                // 🌷1. 선택값 읽기
+                // 화살표함수에서는 this대신 event.currentTarget를 씀
+                let opt = e.currentTarget.value;
+                // let opt = event.currentTarget.value;
+                // let opt = this.value;
+
+                // e를 쓰는 이유!
+                // event는 이벤트 객체(이벤트 관련 속성, 메서드들 가지고 있음)
+                // event 객체를 전달변수형태로 사용할 수도 있다
+                // 요소.on이벤트명 = function(전달변수){}
+                // 여기서 전달변수가, event에서 전달하는 변수임
+                // 변수명을 보통 e, evt로 많이 씀
+                
+                // console.log("선택값: ", opt);
+                // : this 키워드는 익명 함수일 때 적용됨! (화살표함수 안에서는 못 쓴다!)
+                // ->>화살표함수에서는 this대신에 event.currentTarget을 쓰면 된다
+
+
+                // 🌷2. 다국어 언어코드에 따른 객체값 세팅하기
+                let data = lang[opt];
+
+                // console.log("선택값: ", opt, data);
+
+                // 🌷3. 메뉴 변경하기
+                // 대상 : menu 변수
+                // : forEach()사용
+                menu.forEach((ele, idx)=>{
+                    // ele : 각 메뉴의 a요소, idx : 요소의 순번
+                    ele.innerText = data["메뉴"][idx];
+
+                }); ///////////////////// forEach문 끝 /////////////////////////
+
+                
+                // 🌷4. 메인이미지 변경하기
+                // 대상 : mimg변수
+                // src속성값 변경하기
+                // 코드명 = 이미지명과 같음
+                mimg.setAttribute("src", `images/${opt}.jpg`);
+                // setAttribute(속성명, 값);  -> js 내장 함수임 이걸 이용해서 하는 방법이 있고 아래의 방법도 있음
+
+                // mimg.src=`images/${opt}.jpg`;
+                // : 요소.속성명 = 값; 방식도 있음
+
+                // 🌷5. 하단주소 변경하기
+                // 대상 : info 변수
+                // : innerText로 글자 변경하면 됨
+                info.innerText = data["주소"];
+                // ->> 객체 데이터 중 "주소" 속성의 값을 info에 넣으면 됨!
+                // ※innerText말고도 textContent?? 라는 것도 있는 데 지금은 이너텍스트를 하면 됨...(?)
+
+                
+
+            }; /////////////////////// change 끝 ////////////////////
+
+        }); ////////// 로드구역 ////////////////////////
+    </script>
+
+
+</head>
+
+<body>
+    <!--탑영역-->
+    <header id="top">
+        <!--로고-->
+        <h1 id="logo">
+            <img src="images/logoM.png" alt="로고">
+        </h1>
+        <!--다국어선택옵션박스-->
+        <select class="sel">
+            <option value="ko">Korea</option>
+            <option value="en">English</option>
+            <option value="ja">Japanese</option>
+            <option value="ch">Chinese</option>
+            <option value="es">Spanish</option>
+        </select>
+        <!--GNB메뉴-->
+        <nav id="gnb">
+            <ul>
+                <li>
+                    <a href="">홈</a>
+                </li>
+                <li>
+                    <a href="">남성용</a>
+                </li>
+                <li>
+                    <a href="">여성용</a>
+                </li>
+                <li>
+                    <a href="">게시판</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!--컨텐츠영역-->
+    <section id="cont">
+        <img src="images/ko.jpg" alt="fashion">
+    </section>
+    <!--회사정보영역-->
+    <footer id="info">
+        <address>
+            서울시 강남구 청담동 34-22 JJ빌딩 94호, 대표: 제임스 홍
+        </address>
+    </footer>
+
+
+
+
+</body>
+
+</html>
