@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS실험실 02 - 글자 등장 액션 1편</title>
+    <script>
+        //////////////////// 로드 구역 /////////////////////////////
+        window.addEventListener("DOMContentLoaded", ()=>{
+
+            /**************************************************
+                [구현 내용]
+            -글자를 박스에 넣고, 하나씩 날아오면서 등장
+            1.대상선정 : .stage
+            **************************************************/
+
+            // 1.대상선정 : .stage
+            const stage = document.querySelector(".stage");
+            // console.log(stage);
+
+            // 2.데이터 변수 할당하기
+            // 데이터 = 우리가 넣을 글자
+            const mytxt = "무궁화꽃이 피었습니다";
+
+            // 3.데이터 글자 한글자씩 태그로 감싸기
+            // for of문 쓰기
+
+            // 3-1.한글자씩 담을 공간 만들기
+            let hcode = "";  // 코드 저장 변수임
+            // 3-6.글자 순번을 담을 공간 만들기 - 1번글자, 2번글자 이런식으로...
+            let idx = 0;    // 순번 변수
+
+            // 3-2.for of문으로 한글자씩 잘라서 코드 저장 변수에 넣기(축적)
+            for(let x of mytxt){
+                // 3-4. 띄어쓰기일 경우 어떻게 처리할지 결정하기 (여기서는 공백을 특수문자로 조금 더 띄어쓰게 만들었음)
+                if(x==="") x = "&nbsp;&nbsp;&nbsp;";
+
+                // 3-3. 글자 담기 (대입연산자로 넣기)
+                hcode += `
+                <span style="transition-delay: ${idx*0.1}s">
+                    ${x}
+                </span>`;
+                // : 여기서 0.1보다 더 숫자를 키우면 시간차이가 더 생김
+
+                // 3-7.순번 변수 증가시키기 - 그래야 for of문이 돌면서 숫자 1씩 증가함
+                idx++;
+
+            } ///////////////// for of문 끝 ///////////////////
+
+            // 3-5. 확인하기
+            console.log(hcode);
+
+            // 4.스테이지 박스에 글자 넣기
+            stage.innerHTML = hcode;
+
+            // 5.일정시간 후 스테이지박스에 클래스"on"울 주고 애니 작동하도록 만들기
+            setTimeout(()=>{
+                stage.classList.add("on");
+            }, 2000);
+
+
+        }); ////////////////// 로드 구역 끝 ////////////////////////
+    </script>
+
+
+    <style>
+        body{
+            background-color: darkslateblue;
+        }
+
+        /* 글자 스테이지 */
+        .stage{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            outline: 2px dashed yellow;
+
+            /* 글자설정 */
+            font-size: 3vw;
+            color: #fff;
+
+            /* 줄바꿈 불가 설정 */
+            white-space: nowrap;
+        }
+
+
+        /* 글자 개별박스 세팅 */
+        .stage span{
+            display: inline-block;
+            /* 트랜스폼 적용 위해서 인라인블록을 줌 (인라인요소는 트랜스폼이 적용 안 됨! - 이미지는 제외) */
+            transform: translate(500%, -500%);
+            /* 현재위치로부터 이동 */
+            opacity: 0;
+            /* 투명도 0으로 만들어서 투명하게 만들기 */
+
+            /* 트랜지션 : 속시이지 */
+            transition: .8s ease-in;
+            /* 여기서 지연시간이 중요하기 때문에 자스에게 주도록 함!!! */
+        }
+        /*
+        ->>아래처럼 한글자씩 지연시간 주기엔 너무 노가다임!!
+        .stage span:nth-child(2){
+            transition-delay: 2s;
+        }
+        */
+
+        /* 스테이지로 들어오기 - 상단에 .on을 주면 아래에 있는 span이 전부다 이 적용이 먹히도록 함 */
+        .stage.on span{
+            transform: translate(0, 0);
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="stage">
+
+    </div>
+</body>
+</html>
