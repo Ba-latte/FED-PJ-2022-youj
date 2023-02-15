@@ -122,6 +122,7 @@
     /* : a는 인라인이라 디자인 먹으라고 블록지정 */
     padding: 7px 10px;
     padding-right: 19px;
+    background-color: #fff;
     color: #747474;
 }
 
@@ -145,12 +146,61 @@
 
     text-align: center;
 }
+
 /* 1-3. GNB박스 */
 .gnb{
     min-height: 46px;
     /* : 그래야 밀고 나가서 아래쪽으로 사이즈가 커짐! */
     padding: 0 30px;
 }
+
+/* GNB ul박스 */
+.gnb ul{
+    /* 플렉스 박스 */
+    display: flex;
+    /* 진행방향 정렬 */
+    justify-content: center;
+
+    /* 아랫줄로 줄바꿈 가능하게 만들기 */
+    flex-wrap: wrap;
+    /* : 원래 래핑박스가 아닌데, 래핑박스로 만들어서, 좁아지면 플렉스가 적용된 하위요소가 아래로 떨어지게 만듦 */
+
+    /* 사이간격 속성 - gap: 위아래 양쪽;
+    ->숫자를 하나만 쓰면 양방향이 모두 같은 수치로 세팅됨! flex에서 사용됨, float:left에서는 안됨! */
+    gap: 0px 45px;
+    /* li에 패딩으로 사이간격을 부여하지 않고, 부모요소인 flex박스에서 gap속성으로 줌! */
+
+}
+
+/* GNB의 li 리스트 */
+.gnb li{
+    /* padding-right: 45px; */
+    /* : 사이간격을 패딩대신 갭을 주기로 함 (ul에 있음) */
+
+    font-family: 'Roboto Condensed', sans-serif;
+    /* 글씨체는 상속되므로, 아래쪽까지 적용되는데, 돋보기모양은 아래쪽에서 상세하게 세팅잡아두었기 때문에 우선순위에서 강하므로, 돋보기는 자기가 세팅한 글씨체가 유지됨 */
+    line-height: 40px;
+}
+/* GNB의 마지막 li인 돋보기 디자인 세팅 */
+.gnb li:last-child{
+    padding: 0;
+}
+.gnb li:last-child a{
+    font-weight: bold;
+    padding-top: 2px;
+}
+
+/* GNB a요소 공통 */
+.gnb a{
+    /* 트랜지션 : 속시이지 */
+    transition: color .2s linear;
+}
+
+/* 마우스오버시 a요소 */
+.gnb a:hover{
+    color: red;
+}
+
 
 /**************************************** 2. 메인영역 ****************************************/
 .cont{
