@@ -39,8 +39,11 @@
             margin: 0;
 
             width: 100vw;
-            height: 100vh;
+            /* height: 100vh; */
             /* 보이는 화면으로 바디 확장 */
+
+            height: 300vh;
+            /* 세로 스크롤 생기게 만들어보기 (clientX,Y로 바꾸고 확인하기 위함) */
         }
 
         .mover{
@@ -154,11 +157,16 @@
                 // 마우스포인터 위치 알아내기
                 // x좌표 : event.pageX
                 // y좌표 : event.pageY
-                // console.log("x : ", event.pageX, "\n y : ", event.pageY);
+                // console.log("x : ", event.clientX, "\n y : ", event.clientY);
+                console.log("x : ", event.clientX, "\n y : ", event.clientY);
 
                 // 위치값 보정하기 (gap은 mover 크기의 절반)
-                var posx = event.pageX-gap;
-                var posy = event.pageY-gap;
+                // var posx = event.pageX-gap;
+                // var posy = event.pageY-gap;
+                var posx = event.clientX-gap;
+                var posy = event.clientY-gap;
+                // ->> pageX,Y를 쓰고 싶다면! 이는 전체 웹문서에서의 위치이므로, .mover의 포지션을 fixed가 아닌 absolute로 해주면 망가지지 않고 잘 작동된다!!
+                // ->>> clientX,Y는 브라우저 화면에서의 위치이므로, .mover의 포지션이 fixed일 때 잘 작동된다!
 
                 // mover에게 위치값으로 이동하는 세팅하기
                 // mover의 중앙 위치 보정 : 좌표값-자기크기의 절반
@@ -168,6 +176,23 @@
             }; ///////////////// mousemove 이벤트 함수 끝 ///////////////
 
 
+            //////////////// body영역 바깥으로 나가면 따라다니는 원이 사라지고, 들어오면 나타나게 만들기 /////////////////
+
+            // 🌷1. 영역 안으로 들어오면 등장
+            document.body.onmouseenter = ()=>{
+
+                mover.style.display = "block";
+
+            }; ////////////////////// body영역 안으로 들어오면 등장하게 만들기 끝 //////////////////////////
+
+            // 🌷2. 영역 바깥으로 나가면 사라짐
+            document.body.onmouseleave = ()=>{
+
+                mover.style.display = "none";
+
+            }; ////////////////////// body영역 바깥으로 나가면 사라지게 만들기 끝 //////////////////////////
+
+            //////////////// body영역 바깥으로 나가면 따라다니는 원이 사라지고, 들어오면 나타나게 만들기 /////////////////
             
 
             // a요소에 마우스오버시 원 크게 하기!
