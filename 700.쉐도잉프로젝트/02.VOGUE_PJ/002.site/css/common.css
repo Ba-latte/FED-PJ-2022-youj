@@ -3,6 +3,13 @@
 /* 보그 PJ 공통 모듈 CSS - common.css */
 
 /**************************************** 1. 상단영역 ****************************************/
+/* 겉박스 */
+#top{
+    position: relative;
+    z-index: 1;
+    /* : 메인과 하단의 겉박스에 약한 미색을 배경색으로 넣어주니까, z인덱스가 낮아져서 그림자가 아래쪽으로 내려가서 가려져서 안보이는 문제 발생함! 그래서 z인덱스 1을 높여주는데, 이걸 먹히게 만들려면 포지션:랠러티브 이상을 부여해야 함! 그래서 랠러티브를 줌! */
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.13);
+}
 .top{
     /* 최소높이 */
     min-height: 206px;
@@ -212,4 +219,49 @@
 .info{
     /* 최소높이 */
     min-height: 286px;
+    background-color: #000;
+    padding: 70px;
+
+    /* 박스크기유지 */
+    box-sizing: border-box;
+
+    /* 글씨체 공통 */
+    font-family: "Roboto", nbg;
+}
+
+/* 3-1. 하단로고 */
+.blogo{
+    text-align: center;
+}
+
+/* 3-2. 회사주소 */
+.addr{
+    color: #747474;
+    text-align: center;
+    font-size: 11px;
+    font-style: normal;
+    /* address 요소의 기본값인 이탤릭체 해제하기 */
+    margin: 20px 0 10px;
+    /* : 마진이 바깥으로 밀어내는 성질이 있으니까, 마진으로 사이간격을 줌! */
+}
+
+/* 3-3. 하단링크 */
+.blink{
+    /* 플렉스 박스 - 자식들 옆으로 흘러가게 만들기 */
+    display: flex;
+    /* 진행방향 정렬 - 중앙 */
+    justify-content: center;
+    /* 사이간격 주기 - 갭은 위아래 양쪽임 */
+    gap: 0 12px;
+    /* 플렉스박스 줄바꿈가능하게 만들기 - 플랙스 랩핑박스 */
+    flex-wrap: wrap;
+}
+.blink a{
+    color: #747474;
+    font-size: 13px;
+    /* margin: 0 6px; */
+}
+/* 마지막 링크만 두껍게 만들기 */
+.blink li:last-child a{
+    font-weight: bold;
 }

@@ -1,6 +1,41 @@
 @charset "utf-8";
 /* 태양계 2D 애니메이션 CSS - solar2D.css */
 
+
+
+/* 
+    [ 변수 설정하기 ]
+- css에서도 변수를 설정해서 쓸 수 있음
+:root{
+    --변수명1: 값1;
+    --변수명2: 값2;
+}
+
+    [ 변수 호출해서 사용하기 ]
+var(--변수명)
+
+    [ 변수는 언제 사용하나? ]
+-같은 값이 여러부분에서 사용될 때
+-미디어쿼리 등에서 변경이 필요한 경우, 변수값만 변경하면 복잡한 값 변경이 필요 없어짐!
+
+*/
+
+
+:root{
+    /* 태양 크기 */
+    --sunsz: 250px;
+    /* 지구 크기 */
+    --esz: 80px;
+    /* 달 크기 */
+    --msz: 40px;
+    /* 목성 크기 */
+    --jsz: 150px;
+    /* 토성 크기 */
+    --ssz: 160px;
+    /* 명왕성 크기 */
+    --psz: 50px;
+}
+
 html,body{
     margin: 0;
     padding: 0;
@@ -24,9 +59,9 @@ body{
 }
 
 /* 공사중 표시 */
-body *{
+/* body *{
     outline: 1px dashed lightblue;
-}
+} */
 
 
 
@@ -39,8 +74,8 @@ body *{
     left: 50%;
     transform: translate(-50%, -50%);
 
-    width: 250px;
-    height: 250px;
+    width: var(--sunsz);
+    height: var(--sunsz);
 }
 
 /* 태양 박스 */
@@ -48,39 +83,32 @@ body *{
     position: absolute;
     top: 0;
     left: 0;
-    width: 250px;
-    height: 250px;
+    width: var(--sunsz);
+    height: var(--sunsz);
+    /* 원형으로 박스 만들어주기 */
+    border-radius: 50%;
+
+    /* 원형 바깥쪽으로 글로우효과 주기 */
+    box-shadow: 0 0 60px 10px orange;
+
+    /* 얘가 늘어났다 줄어들었다 할거라서 이미지가 커졌다 작아짐! 그래서 오버플로우 히든을 주는 것임->근데 모양이 육각형?처럼 막 깨져 그래서 원형으로 만들어줘야함 */
+    overflow: hidden;
 }
 /* 태양이미지 */
 #sun img{
     width: 100%;
     height: 100%;
+
+    /* 애니메이션 : 이시이지반방마 */
+    animation: flame 40s linear infinite alternate;
 }
 
-/* 
-    [ 변수 설정하기 ]
-- css에서도 변수를 설정해서 쓸 수 있음
-:root{
-    --변수명1: 값1;
-    --변수명2: 값2;
-}
-
-    [ 변수 호출해서 사용하기 ]
-var(--변수명)
-
-    [ 변수는 언제 사용하나? ]
--같은 값이 여러부분에서 사용될 때
--미디어쿼리 등에서 변경이 필요한 경우, 변수값만 변경하면 복잡한 값 변경이 필요 없어짐!
-
-*/
-:root{
-    /* 지구 크기 */
-    --esz: 80px;
-    /* 목성 크기 */
-    --jsz: 150px;
-    /* 명왕성 크기 */
-    --psz: 50px;
-}
+/* 태양이 이글거리는 애니메이션 키프레임 */
+@keyframes flame {
+    to{
+        transform: scale(1.5);
+    }
+} /* flame 키프레임 끝 */
 
 
 /* 지구 박스 */
@@ -119,6 +147,31 @@ var(--변수명)
 } /* earth 키프레임 끝 */
 
 
+/* 달 박스 */
+#moon{
+    position: absolute;
+    top: calc(50% - var(--msz)/2);
+    left: calc(50% - var(--msz)/2);
+
+
+    width: var(--msz);
+    height: var(--msz);
+    background: url(../images/moon.png) no-repeat 0/100% 100%;
+    animation: moon 4s linear infinite;
+}
+
+/* 달 회전 키프레임 */
+@keyframes moon {
+    from{
+        transform: rotate(0deg) translateX(80px) rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg) translateX(80px) rotate(-360deg);
+    }
+} /* moon 키프레임 끝 */
+
+
+
 /* 목성 박스 */
 #jupiter{
     position: absolute;
@@ -144,6 +197,46 @@ var(--변수명)
         transform: rotate(360deg) translateX(400px) rotate(-360deg);
     }
 } /* jupiter 키프레임 끝 */
+
+
+
+/* 토성 박스 */
+#saturn{
+    position: absolute;
+    top: calc(50% - var(--ssz)/2);
+    left: calc(50% - var(--ssz)/2);
+
+
+    width: var(--ssz);
+    height: var(--ssz);
+    
+    /* 애니메이션 : 이시이지반방마 */
+    animation: saturn 45s linear infinite;
+}
+/* 토성은 가로로 기니까, 가상요소를 줘서 박스를 가로 늘려줘서 원래 크기로 만들어주기 */
+#saturn::before{
+    content: '';
+    position: absolute;
+    width: 160%;
+    height: 100%;
+    top: 0;
+    left: -30%;
+    /* 가로가 160퍼니까 반나누면 양쪽 30퍼씩 가져가서...어쩌고..저쩌고..응... */
+    
+    background: url(../images/saturn.png) no-repeat 0/100% 100%;
+}
+
+/* 토성 회전 키프레임 */
+@keyframes saturn {
+    from{
+        transform: rotate(0deg) translateY(-460px) rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg) translateY(-460px) rotate(-360deg);
+    }
+} /* saturn 키프레임 끝 */
+
+
 
 /* 명왕성 박스 */
 #pluto{
