@@ -1,6 +1,10 @@
 @charset "utf-8";
 /* 태양계 3D 애니메이션 CSS - solar3D.css */
 
+/* 웹폰트 */
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text:wght@900&display=swap');
+
+
 
 :root{
     /* 태양 크기 */
@@ -47,6 +51,55 @@ body{
 
 
 
+
+/* 타이틀 */
+.tit {
+    position: relative;
+    z-index: 1;
+    /* 행성들보다 위 */
+
+    margin: 0;
+    padding: 0;
+    /* h1의 기본마진,패딩 없앰 */
+    font-family: 'Big Shoulders Stencil Text', cursive;
+    color: #fff;
+    font-size: 80px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+/* 축소확대 버튼 */
+.tit2 {
+    font-size: 20px;
+}
+
+.tit2 a {
+    text-decoration: none;
+    color: #fff;
+    margin: 0 20px;
+}
+
+/* 마우스 오버시 또는 class="on"인 경우 */
+.tit2 a:hover,
+.tit2 a.on {
+    color: aqua;
+}
+
+/* 태양계박스 축소확대용 부모박스 */
+.scbx{
+    position: relative;
+    top: 34%;
+    /* 트랜지션: 속시이지 */
+    transition: transform 2s ease-in-out;
+
+}
+
+
+
+
+
+
+
 /************************************** ⭐⭐태양계 박스⭐⭐ **************************************/
 /* 태양계 박스가 전체 부모가 되고, 이 태양계 박스를 3D변형으로 기울일 것임! */
 #solar{
@@ -63,7 +116,7 @@ body{
     /* 기본값은 flat(2D)임 */
 
     /* x축을 기준으로 기울임 */
-    transform: rotateX(75deg);
+    transform: rotateX(65deg);
     /* : 전체 화면 뒤쪽으로 기울어짐
     x축 중앙선 기준으로 상단(본래 박스의 위쪽부분)은 화면 뒤, 하단은 화면 앞으로 나온 것이라 보면 됨 */
 }
@@ -74,7 +127,7 @@ body{
     top: 50%;
     left: 50%;
     /* 트랜스폼은 한 군데에 모두 다 세팅해야함! */
-    transform: translate(-50%, -50%) rotateX(-75deg);
+    transform: translate(-50%, -50%) rotateX(-65deg);
     /* 아무런 조치를 안 하면 태양이 태양계박스(#solar)와 함께 75도 누워 있으므로, x축으로 75도 반대 방향으로 세워줘야 태양이 똑바로 서있어 보인다! */
 
     width: var(--sunsz);
@@ -144,7 +197,7 @@ body{
     background-size: 100% 100%;
     
     /* 행성의 부모가 기울어져있으므로, 반대로 행성을 세워주기 */
-    transform: rotateY(-75deg) scale(3);
+    transform: rotateY(-65deg) scale(3);
     /* : 이미 행성이 회전하고 있는데 2가지 회전으로 돌고 있어서 "축 반전"이 발생함 -> 그래서 x축이 아닌 y축을 세워야한다! */
     /* 축반전 : x/y축이 뒤바뀐 효과를 말함 */
 }
@@ -186,6 +239,10 @@ body{
 /* 지구행성 세팅 */
 #earth .planet{
     background-image: url(../images/earth.png);
+
+    /* 그림자 애니메이션 : 이시이지반방마 */
+    animation: shadowAni 20s linear infinite;
+
 }
 
 
@@ -213,11 +270,11 @@ body{
 /* 목성회전 키프레임 */
 @keyframes jupiter {
     from{
-        transform: rotate(0deg) translateY(-500px) rotate(0deg);
+        transform: rotate(0deg) translateX(-500px) rotate(0deg);
         /* 맨처음에 출발할 때 너무.. 전부 다 한 줄에서 출발 하는 거 같아서 트랜스레이트 y로 바꾼 것임 */
     }
     to{
-        transform: rotate(360deg) translateY(-500px) rotate(-360deg);
+        transform: rotate(360deg) translateX(-500px) rotate(-360deg);
     }
 } /* jupiter 키프레임 끝 */
 
@@ -225,6 +282,9 @@ body{
 /* 목성행성 세팅 */
 #jupiter .planet{
     background-image: url(../images/jupiter.png);
+
+    /* 그림자 애니메이션 : 이시이지반방마 */
+    animation: shadowAni 30s linear infinite;
 }
 
 
@@ -273,6 +333,21 @@ body{
     background: url(../images/saturn.png) no-repeat 0/100% 100%;
 }
 
+/* 토성 그림자 애니는 가상요소::after에게! */
+#saturn .planet::after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    transform: scale(0.69);
+
+    /* 그림자 애니메이션 : 이시이지반방마 */
+    animation: shadowAni 40s linear infinite;
+}
+
 
 
 
@@ -300,10 +375,10 @@ body{
 /* 명왕성회전 키프레임 */
 @keyframes pluto {
     from{
-        transform: rotate(0deg) translateY(800px) rotate(0deg);
+        transform: rotate(0deg) translateX(-800px) rotate(0deg);
     }
     to{
-        transform: rotate(360deg) translateY(800px) rotate(-360deg);
+        transform: rotate(360deg) translateX(-800px) rotate(-360deg);
     }
 } /* pluto 키프레임 끝 */
 
@@ -311,9 +386,33 @@ body{
 /* 명왕성행성 세팅 */
 #pluto .planet{
     background-image: url(../images/pluto.png);
+    
+    /* 그림자 애니메이션 : 이시이지반방마 */
+    animation: shadowAni 50s linear infinite;
 }
 
 
 
 
 
+
+
+/* 그림자 애니 키프레임 */
+@keyframes shadowAni {
+    0%{
+        box-shadow: inset 18px 2px 8px rgba(0, 0, 0, 0.671);
+    }
+    25%{
+        box-shadow: inset 2px 35px 8px rgba(0, 0, 0, 0.671);
+    }
+    50%{
+        box-shadow: inset -40px 2px 8px rgba(0, 0, 0, 0.671);
+    }
+    75%{
+        box-shadow: inset -10px -58px 23px rgba(0, 0, 0, 0.671);
+    }
+    100%{
+        box-shadow: inset 18px 2px 8px rgba(0, 0, 0, 0.671);
+    }
+    
+} /* 키프레임 끝 */
