@@ -144,6 +144,31 @@ font-family: 'Roboto Condensed', sans-serif;
     color: #fff;
 }
 
+/* 4. 스크롤 등장 액션 클래스 */
+.scAct{
+    transform: translateY(20%);
+    opacity: 0;
+    transition: 1s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+/* 등장 클래스+.on !!주의!! 붙여쓸것!! */
+.scAct.on{
+    transform: translateY(0);
+    opacity: 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* 글자 숨김 클래스(IR배경이미지 설명 등  숨기기) */
 .ir {
