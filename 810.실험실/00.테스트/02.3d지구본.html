@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>서브페이지-3d지구본</title>
+    </head>
+    <style>
+        html,
+        body,
+        h1,
+        h2,
+        h3,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .wrap iframe {
+            width: 500px;
+        }
+
+        h3.stit {
+            position: absolute;
+            top: 40%;
+            left: 8.4%;
+            color: #fff;
+            font-size: 30px;
+        }
+
+        p.txt {
+            position: absolute;
+            top: 47%;
+            left: 8%;
+            color: #fff;
+        }
+
+        h1.tit {
+            position: absolute;
+            color: #fff;
+            top: 28%;
+            left: 8%;
+            font-size: 80px;
+        }
+    </style>
+    <body>
+        <div id="tit">
+            <h1 class="tit">Earth</h1>
+        </div>
+        <div id="stit">
+            <h3 class="stit">subTitle</h3>
+        </div>
+        <div id="txt">
+            <p class="txt">
+                Our home planet is the third planet from the Sun, and the only place we know of so far that’s inhabited by living things.
+                <br>
+                While Earth is only the fifth largest planet in the solar system, it is the only world in our solar system with liquid water on the surface. Just slightly larger than nearby Venus, Earth is the biggest of the four planets closest to the Sun, all of which are made of rock and metal.
+                <br>
+                The name Earth is at least 1,000 years old. All of the planets, except for Earth, were named after Greek and Roman gods and goddesses. However, the name Earth is a Germanic word, which simply means “the ground.”
+            </p>
+        </div>
+        <div class="wrap">
+            <iframe src="https://solarsystem.nasa.gov/gltf_embed/2392" frameborder="0"> </iframe>
+        </div>
+    </body>
+</html>
