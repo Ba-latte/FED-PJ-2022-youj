@@ -17,14 +17,19 @@
         }
 
         body {
-            width: 100vw;
+            width: 100%;
             height: 100vh;
         }
-
-        .wrap iframe {
-            width: 500px;
+        /* 타이틀 */
+        h1.tit {
+            position: absolute;
+            color: #fff;
+            top: 28%;
+            left: 8%;
+            font-size: 80px;
+            color: #43aaed;
         }
-
+        /* 부제 */
         h3.stit {
             position: absolute;
             top: 40%;
@@ -32,36 +37,47 @@
             color: #fff;
             font-size: 30px;
         }
-
-        p.txt {
+        /* 전문 */
+        p.contTxt {
             position: absolute;
             top: 47%;
             left: 8%;
+            width: 25vw;
+
             color: #fff;
+            text-shadow: 1px 1px #000;
         }
 
-        h1.tit {
-            position: absolute;
-            color: #fff;
-            top: 28%;
-            left: 8%;
-            font-size: 80px;
+        .wrap {
+            width: 100%;
+            height: 100%;
         }
+        .wrap iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+
     </style>
     <body>
         <div id="tit">
             <h1 class="tit">Earth</h1>
         </div>
         <div id="stit">
-            <h3 class="stit">subTitle</h3>
+            <h3 class="stit">Our home planet</h3>
         </div>
-        <div id="txt">
-            <p class="txt">
-                Our home planet is the third planet from the Sun, and the only place we know of so far that’s inhabited by living things.
-                <br>
-                While Earth is only the fifth largest planet in the solar system, it is the only world in our solar system with liquid water on the surface. Just slightly larger than nearby Venus, Earth is the biggest of the four planets closest to the Sun, all of which are made of rock and metal.
-                <br>
-                The name Earth is at least 1,000 years old. All of the planets, except for Earth, were named after Greek and Roman gods and goddesses. However, the name Earth is a Germanic word, which simply means “the ground.”
+        <div id="contTxt">
+            <p class="contTxt">
+                Our home planet is the third planet from the Sun, and the only place we know of so far that’s inhabited
+                by living things.
+                <br />
+                While Earth is only the fifth largest planet in the solar system, it is the only world in our solar
+                system with liquid water on the surface. Just slightly larger than nearby Venus, Earth is the biggest of
+                the four planets closest to the Sun, all of which are made of rock and metal.
+                <br />
+                The name Earth is at least 1,000 years old. All of the planets, except for Earth, were named after Greek
+                and Roman gods and goddesses. However, the name Earth is a Germanic word, which simply means “the
+                ground.”
             </p>
         </div>
         <div class="wrap">
