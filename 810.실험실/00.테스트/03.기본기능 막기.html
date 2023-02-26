@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    h2{
+        text-align: center;
+    }
+    #login-form{
+        margin: 50px;
+        text-align: center;
+    }
+    .hidden{
+        display: none;
+    }
+</style>
+<!-- JS -->
+<script>
+
+    window.addEventListener("DOMContentLoaded", ()=>{
+
+    const loginForm = document.querySelector("#login-form");
+    const loginInput = document.querySelector("#login-form input");
+    const greeting = document.querySelector("#greeting");
+    // 클래스 hidden을 add()와 remove()에서 두번 쓰게 되었으니, 변수에 담는 게 좋다!
+
+    // 자주 사용하게되는 string을 변수에 담아 저장하기
+    const HIDDEN_CLASSNAME = "hidden";
+    const USERNAME_KEY = "username";
+    // 여기서 대문자로 쓴 이유는 그냥 관습같은 것임!
+    // 일반적으로 string만 포함된 변수는 대문자로 표기하고, string을 저장하고 싶을 떄 사용한다
+    // (loginForm과 같은 중요한 정보를 담은 게 아니라서 대문자로 작성함)
+
+
+    function onLoginSubmit(event){
+        event.preventDefault();
+
+        const username = loginInput.value;
+        
+        loginForm.classList.add(HIDDEN_CLASSNAME);
+
+        // localStorage에 username을 저장시켜두기
+        // localStorage.setItem("key 이름", 속성 이름)
+        localStorage.setItem(USERNAME_KEY, username);
+
+        // greeting.innerText = "Hello " + username;
+        // greeting.innerText = `Hello ${username}`;
+        // greeting.classList.remove(HIDDEN_CLASSNAME);
+        // 위 두 줄의 코드를 줄여서 아래처럼 씀
+        paintGreetings(username);
+    }
+
+
+    // greeting.innerText...와 greeting.classList...가 2번 반복되니까, 이것도 함수로 만들어서 저장하는 게 나을듯 함
+    function paintGreetings(username){
+        greeting.innerText = `Hello ${username}`;
+        greeting.classList.remove(HIDDEN_CLASSNAME);
+    }
+
+
+    // localSorage에 저장한 값을 불러와서 확인해보기
+    const savedUsername = localStorage.getItem(USERNAME_KEY);
+    console.log(savedUsername);
+
+
+    if(savedUsername === null){
+        // 숨겨뒀던 로그인 창 꺼내기
+        loginForm.classList.remove(HIDDEN_CLASSNAME);
+        // 제출버튼 작동시키기
+        loginForm.addEventListener("submit", onLoginSubmit);
+        console.log("작동하니?");
+    }
+    else {
+        // h1에 저장한 인사 보여주기 + .hidden 빼주기
+        paintGreetings(savedUsername);
+    }
+    
+
+
+
+
+    // loginForm.addEventListener("submit", onLoginSubmit);
+
+
+
+    });
+</script>
+<body>
+    <h2>로그인 공부</h2>
+    <form id="login-form" class="hidden">
+        <!-- 폼 요소의 action의 속성이 뭐지? -->
+        <input required type="text" maxlength="15" placeholder="이름을 입력하세요" >
+        <!-- 인풋 요소의 required 속성이 뭐지? -->
+        <input type="submit" value="Log In">
+    </form>
+    <h1 id="greeting" class="hidden"></h1>
+</body>
+</html>
