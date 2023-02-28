@@ -77,6 +77,12 @@ window.addEventListener("DOMContentLoaded", ()=>{
             } ////////////// else if /////////////
             // 기타 내부 시스템에서 페이지 이동할 경우 여기서 처리함
             else{
+
+                // 메인페이지 이동일 경우, html?code=m 을 보내주자!
+                // atxt가 tvN로고일 경우, 뒤에 ?code=m을 붙여주기로 함! (이게 넘어온다는 것은, 내부에서 건드린다는 뜻임!)
+                location.href = url + ".html" + (atxt==="tvN로고"?"?code=m":"") ;
+
+
                 /* 
                 [ 페이지 이동하는 방법 ]
                 1.현재창으로 열기
@@ -90,7 +96,6 @@ window.addEventListener("DOMContentLoaded", ()=>{
                 -이 기능을 활용해서 새창으로 띄우는 것임
                 */
                 
-                location.href = url + ".html";
             } ////////////// else ////////////////
 
             // a요소의 기본기능인 이동 기능을 막는다!
