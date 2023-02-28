@@ -1,4 +1,88 @@
 @charset "utf-8";
-
 /* 내비게이션 유형 06 : 공통 CSS - common.css */
 
+
+@import url(./reset.css);
+/* 웹폰트 CDN */
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Noto+Sans+KR&display=swap');
+/* font-family: 'Noto Sans KR', sans-serif; */
+
+
+/* 공사중 표시 */
+body *{
+    outline: 1px dashed red;
+}
+
+/* 중앙 속박스 */
+.ibx{
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
+/* 1.상단영역 */
+#top{
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #222;
+}
+.top{
+    min-height: 350px;
+}
+/* 1-1.탑메뉴 영역 */
+.tmenu{
+    height: 80px;
+}
+/* 1-2.GNB 영역 */
+.gnb{
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.gnb>ul{
+    /* 플렉스 박스 */
+    display: flex;
+    gap: 0 40px;
+}
+.gnb>ul>li>a{
+    color: #ccc;
+}
+
+/* 하위메뉴 */
+.smenu{
+    display: flex;
+    position: absolute;
+    width: 1300px;
+    background-color: #fff;
+    display: none;
+}
+
+/* 📢임시로 첫번째 메뉴만 보이게 함!! */
+.gnb>ul>li:first-child .smenu{
+    display: flex;
+}
+
+/* 서브메뉴 타이틀 */
+.smenu h2{
+    width: 166px;
+    padding: 20px;
+    font-weight: normal;
+}
+/* 타이틀 */
+.smenu h2 div{
+    font-size: 25px;
+    margin-bottom: 15px;
+}
+/* 전체보기 */
+.smenu h2 a{
+    font-size: 14px;
+}
+
+/* 서브메뉴(최하위 메뉴) */
+.swrap{
+    display: flex;
+    width: 100%;
+    padding: 20px;
+}
+
+/* 서브 각 박스 (dl) */
+.swrap dl{
+    width: 200px;
+}
