@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시계만들기</title>
+</head>
+<script>
+    window.addEventListener("DOMContentLoaded", loadFn);
+
+    function loadFn(){
+        const clock = document.querySelector("h2");
+
+        function getClock(){
+            const date = new Date();
+            const hours = String(date.getHours()).padStart(2, "0");
+            const minutes = String(date.getMinutes()).padStart(2, "0");
+            const seconds = String(date.getSeconds()).padStart(2, "0");
+
+            clock.innerText = `${hours}:${minutes}:${seconds}`;
+        }
+
+        getClock();
+
+        setInterval(getClock, 1000);
+
+
+    }
+</script>
+<body>
+    <form class="hidden" id="login-form"></form>
+    <h2 id="clock">00:00:00</h2>
+    <h1 id="greeting"></h1>
+</body>
+</html>
