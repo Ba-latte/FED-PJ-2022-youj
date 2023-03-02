@@ -30,12 +30,14 @@ function loadFn(){
     const stit = document.querySelector(".stit");
     // (2) 서브 메뉴
     const lnb = document.querySelector(".lnb");
-    // (3) 컨텐츠 상위 박스(카테고리 클래스 넣기)
+    // (3) 내용 타이틀
+    const contit = document.querySelectorAll(".icont h2");
+    // (4) 컨텐츠 상위 박스(카테고리 클래스 넣기)
     const cont = document.querySelector(".cont");
-    // (4) title요소 (타이틀 내용에 카테고리명을 앞에다가 넣기)
+    // (5) title요소 (타이틀 내용에 카테고리명을 앞에다가 넣기)
     const titag = document.querySelector("title");
 
-    // console.log(stit, lnb, cont, titag);
+    // console.log(stit, lnb, contit, cont, titag);
 
     // 2. 메뉴 데이터 (sinfo 변수)객체에서 카테고리값 선택하기
     const mdata = sinfo[pm];
@@ -50,10 +52,58 @@ function loadFn(){
     // stit.innerText = mdata["제목"];
 
     // (2) lnb 메뉴 넣기
+    // 대상 : .lnb -> lnb변수
+    // 코드 넣기 : <ul><li><a href="#">메뉴</a></li></ul>
+    // 조건 : mdata["메뉴"] 값이 "없음"dlaus lnb를 지우고, 아니면 배열값으로 메뉴가 있으므로, 배열만큼 위의 ul>li>a 코드를 넣어준다!
 
-    // (3) 컨텐츠 박스에 pm과 같은 이름의 class 넣기
-    cont.classList.add(pm.replace(" & ", "-"));
+    // 메뉴값 담기
+    let mvalue = mdata["메뉴"];
+    
+    if(mvalue === "없음"){
+        lnb.remove();
+        // : lnb 태그를 제거하는 것임! (remove())
+    }
+    else{ // 메뉴가 배열에 있음!
+        let temp = "<ul>";
+        // 임시 변수 만들기 : 담아둘 공간 만들어 두는 것임
+
+        // 메뉴 배열만큼 돌아서 코드 생성하기
+        mvalue.forEach((val)=>{ // val은 배열값!
+            temp += `
+                <li>
+                    <a href ="#">${val}</a>
+                </li>
+            `;
+        }); ///////////////////// forEach() 문 끝 ///////////////////////
+
+        temp += "</ul>";
+
+        // lnb 박스에 html 넣기!
+        lnb.innerHTML = temp;
+    }
+
+    // (3) 내용 타이틀 넣기 : contit 변수
+    // - h2 개수 만큼 순번대로 mdata["타이틀"][순번]
+    // - h2 돌릴 때 for of말고 forEach()메서드로 사용할것임!
+    // forEach((요소, 순번, 배열전체)=>{코드});
+    contit.forEach((ele, idx)=>{
+        ele.innerHTML = mdata["타이틀"][idx];
+    }); ////////////////////// forEach() 끝 //////////////////////////
+
+    // (4) 컨텐츠 박스에 pm과 같은 이름의 class 넣기
+    cont.classList.add(mdata["경로"]);
+    // "경로"속성의 값이 실제 클래스명과 일치함!
+
+    // 아래처럼 써도 됨
+    // cont.classList.add(pm.replace(" & ", "-"));
     // replace(바뀔 값, 바꿀 값);
 
 
+    // (5) 탭메뉴 출력 title요소 데이터 넣기
+    // 기존 값을 살려서, 기존 값의 앞에 "제목" 속성값을 넣어준다!
+    // 대상 : title요소 -> titag변수
+    titag.innerText = mdata["제목"] + titag.innerText;
+
+
+    
 } //////////////////////// loadFn 함수 끝 ///////////////////////
