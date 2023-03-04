@@ -41,11 +41,18 @@ const quotes = [
     },
 ];
 
+const imgs = [
+    "img1.jpg",
+    "img2.jpg",
+    "img3.jpg",
+];
+
 
 window.addEventListener("DOMContentLoaded", ()=>{
 
     const quote = document.querySelector("#quote span:first-child");
     const author = document.querySelector("#quote span:last-child");
+    const bg = document.body;
     
     // console.log(quotes[0]);
     
@@ -53,10 +60,13 @@ window.addEventListener("DOMContentLoaded", ()=>{
     // console.log(quotes[Math.floor(Math.random()*quotes.length)]);
     
     const todaysQuote = quotes[Math.floor(Math.random()*quotes.length)];
+    const todaysbgi = imgs[Math.floor(Math.random()*imgs.length)];
     
     console.log(todaysQuote);
     
     quote.innerText = todaysQuote.quote;
     author.innerText = todaysQuote.author;
+
+    bg.style.background = `url(../../../imgs/${todaysbgi}) no-repeat center/cover`;
 
 });
