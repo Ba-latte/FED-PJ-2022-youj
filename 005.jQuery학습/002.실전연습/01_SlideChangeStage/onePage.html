@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>One Page Scroll</title>
+    <script src="./js/js-autoScroll.js"></script>
     <style>
         html,
         body{
             margin: 0;
             padding: 0;
+            /* 휠 1번 움직일 때마다 1페이지씩 이동하기 위해 스크롤 없앰(?) */
+            /* overflow: hidden; */
+        }
+        html{
+            scroll-behavior: smooth;
         }
         /* 공통셋팅 */
         a{
@@ -89,6 +95,10 @@
             /* 부모는? .top */
             top: 40px;
             right: 2%;
+        }
+        .gnb ul{
+            /* 플렉스 박스 */
+            display: flex;
         }
         .gnb li{
             margin: 0 7px;
