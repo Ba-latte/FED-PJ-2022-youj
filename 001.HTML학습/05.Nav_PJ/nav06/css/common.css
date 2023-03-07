@@ -2,7 +2,6 @@
 /* 내비게이션 유형 06 : 공통 CSS - common.css */
 
 
-@import url(./reset.css);
 /* 웹폰트 CDN */
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Noto+Sans+KR&display=swap');
 /* font-family: 'Noto Sans KR', sans-serif; */

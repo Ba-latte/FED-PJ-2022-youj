@@ -291,7 +291,7 @@ function loadFn(){
     **********************************************************/
     function pageAction(seq){ // seq는 변경 순번
         // 1.호출 확인
-        console.log("액션!: ", seq);
+        // console.log("액션!: ", seq);
 
         // 2.변경대상 스타일 속성 선택하기
         let sty = minfo[seq].style;
