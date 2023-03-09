@@ -13,6 +13,14 @@ $(()=>{ // 위의 코드를 줄이면 이렇게 줄일 수 있음!
 	// 글자크기를 72px 빨간색 글자로 트랜지션 주시오.
 	// transition: all .4s
     
+    $("p, #nav li").click((e)=>{
+        $(e.currentTarget).text("나야나~!")
+        .css({
+            fontSize:"72px",
+            color:"red",
+            transition:"all .4s"
+        });
+    });
 	
 	
 	

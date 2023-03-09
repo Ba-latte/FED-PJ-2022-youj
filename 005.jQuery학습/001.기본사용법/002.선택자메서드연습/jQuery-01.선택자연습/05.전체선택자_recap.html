@@ -10,6 +10,13 @@ $(document).ready(function(e) {
     // 미션: body를 클릭하면 모든 요소를 선택하여(*) 
 	// 인터넷으로 검색한 이미지 주소를 배경이미지로 설정하여 width: 200px, height: 200px 로 설정하시오.
 	
+  $("body").click(()=>{
+    $("body *").css({
+      background:"url(https://kukka-2-media-123.s3.amazonaws.com/media/catalog/product/images/d1aff174-14ca-429f-b6cf-6c132d0aed49.jpg) no-repeat top/cover",
+      width:"200px",
+      height:"200px"
+    });
+  });
 	
 	
 });//jQuery실행구역
