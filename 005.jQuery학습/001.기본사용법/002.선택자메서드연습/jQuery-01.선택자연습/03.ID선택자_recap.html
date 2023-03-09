@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title> ID 선택자  </title>
+<!-- jQuery library -->
+<script src="../jquery-3.6.3.min.js"></script>
+<!-- 이징과 색상 애니메이션을 위해 제이쿼리 UI 넣기 -->
+<script src="../jquery-ui.min.js"></script>
+<script>
+$(document).ready(function(e) {
+
+
+  /************************************************************
+    [ 제이쿼리 글자넣기 메서드 : text() ]
+  -$(선택자).text(넣을 글자).css()
+  -같은 선택요소 뒤에 제이쿼리 메서드를 이어서 코딩하는 방법을 "메서드 체인"이라 한다
+  -주어가 하나! 나는 밥을 먹고 공부를 했다!
+
+    [ 제이쿼리 애니메이션 메서드 : animate() ]
+  -animate({CSS 설정}, 시간, 이징, 함수)
+  (1) CSS 설정 : CSS 요소 변경
+  (2) 시간 : 1/1000초 (단위 안 씀) -> 시간 생략할 경우, 기본값인 400이 들어감
+  (3) 이징 : 제이쿼리 이징 (참고사이트 : https://easings.net/ko)
+  -이징은 반드시 제이쿼리 UI가 있어야함!
+  (4) 함수 : 콜백함수임 (애니메이션 후에 실행되는 함수임! 일을 시키고 싶으면 뒤에 콜백함수를 쓰면 됨)
+
+    [ 애니메이션 속성 세팅시 주의사항 ]
+  -animate()는 비교하기 위해서 초기값이 필요한 경우도 있음 (border가 그러함!)
+  ->>배경이나 보더 속성 변경시에 개별 속성을 세팅해놔야 적용됨
+  예)
+    [배경색]
+    {background:"red"} (X) -> {backgroundColor:"red"} (O)
+    [보더]
+    border는 초기값 세팅 후
+    {borderWidth:"10px", borderColor:"orange"}
+    ->보더 스타일은 애니메이션 대상이 아님! (초기값에 세팅함!)
+
+    [ 애니메이션 지연 메서드 : delay() ]
+  -delay(시간) : 시간은 1/1000초
+  -애니메이션 메서드 앞에서 작동함
+  ->>animate(), fadeIn(), slideDown() 등 앞에서 작동함
+  -트렌지션과 애니메이션을 같이 주면 안됨
+  ************************************************************/
+
+
+
+  // 미션: h2요소를 클릭하면
+  $("h2").click(()=>{
+    // 1. 아이디가 sub인 요소의 글자를 "이승기" 라고 쓰고 배경색은 노란색, 글자색은 파란색, 테두리는 1px 녹색 , 글자크기 42px로 변경하시오.
+    $("#sub").text("이승기").css({
+      border:"1px solid black"
+    }).animate({
+      backgroundColor:"yellow",
+      color:"blue",
+      borderColor:"green",
+      fontSize:"42px"
+    }, 800);
+    
+    // 2. 아이디가 main인 요소의 글자를 "공유"라고 쓰고 배경색은 파란색, 글자색은 흰색, 테두리는 3px 노란색, 글자크기는 52px로 변경하시오.
+    $("#main").text("공유").css({
+      border:"1px solid black"
+    })
+    .delay(1000)
+    .animate({
+      backgroundColor:"blue",
+      color:"white",
+      borderWidth:"3px",
+      borderColor:"yellow",
+      fontSize:"52px"
+    }, 800);
+
+    // 3. 아이디가 total인 요소의 글자를 "싸랑해요~!"라고 쓰고 배경색은 검은색, 글자색은 빨간색, 테두리는 2px 보라색, 글자크기는 152px로 변경하시오.
+    $("#total").text("싸랑해요~!")
+    .css({
+      border:"1px solid black"
+    })
+    .delay(2000)
+    .animate({
+      backgroundColor:"black",
+      color:"red",
+      borderWidth:"2px",
+      borderColor:"purple",
+      fontSize:"152px"
+    }, 800);
+  });
+
+    
+
+    
+
+	// 위의 세가지 아이디를 1초 간격으로 애니메이션 설정하시오(transition) - 기본은 "all .8s 지연시간"
+	
+	// 텍스트 변경하는 jQuery 메서드
+	// $(선택자).text(글자)
+	
+	
+	
+	
+	
+	
+	
+});//jQuery실행구역
+</script>
+</head>
+  
+<body>
+
+<div id="container">
+
+ <header>
+   <h2> 여기를 클릭하세요~!</h2>
+ </header>
+
+ <nav>
+   <ul class="list">
+       <li id="sub">One</li>
+       <li id="main">Two</li>
+       <li id="total">Three</li>
+  </ul>
+ </nav>
+
+</div>
+
+<!---------- jQuery code Start ---------->
+
+<script>
+
+</script>
+
+</body>
+</html>
+
