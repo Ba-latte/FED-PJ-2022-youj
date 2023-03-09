@@ -4,15 +4,64 @@
 <meta charset="utf-8">
 <title> 그룹 선택자  </title>
 <!-- jQuery library -->
-<script src="jquery-1.7.2.min.js"></script>
+<script src="../jquery-3.6.3.min.js"></script>
 <script>
-$(document).ready(function(e) {
+// $(document).ready(function(e) { // 제이쿼리의 로딩구역은 이렇게 생겼어!
+$(()=>{ // 위의 코드를 줄이면 이렇게 줄일 수 있음!
     // 미션: p태그 또는 #nav li 태그를 클릭하면
 	// 클릭된 것만 글자를 나야나~! 라고 바꾸고
 	// 글자크기를 72px 빨간색 글자로 트랜지션 주시오.
 	// transition: all .4s
-	
-	
+    
+	// 1. 이렇게 바로 코드 넣기 $().click(()=>{});
+    // 2. 함수를 넣고, 그 함수를 바깥에 따로 만들어두기 $().click(aaa);
+    // function aaa(){}
+    // 3. 변수에 담아서 쓰기 const aaa = $();
+    // aaa.click();
+    // aaa.addEventListener("click"); -> 이렇게 제이쿼리와 js를 섞어서 쓸 수 없음!!
+
+    $("p, #nav li").click(function(){
+        $(this).text("나야나~!").css({
+            fontSize:"72px",
+            color:"red",
+            transition:"all .4s"
+        })
+    });
+    
+    // 🎈질문!! 만약에 하나 클릭했을 때 클릭된 하나만 바뀌는게 아니라!! 하나 클릭했을 때 전부 다 바꾸고 싶다면??
+    // ->> 아래처럼! 전체를 다 잡아서 $()안에 넣어주면 된다~
+    // $("p, #nav li").click(function(){
+    //     $("p, #nav li").text("나야나~!").css({
+    //         fontSize:"72px",
+    //         color:"red",
+    //         transition:"all .4s"
+    //     })
+    // });
+    
+
+    // 🎈만약 자스로 만들려면 어떻게 해야할까??
+    // ->> 아래처럼 복잡하고 길어진다~~
+    // const aaa = document.querySelectorAll("p, #nav li");
+    // console.log(aaa);
+    // aaa.forEach((ele)=>{
+    //     ele.addEventListener("click", ()=>{
+    //         event.currentTarget ->> 이런식으로 길게 복잡하게 한다~~~~
+    //     });
+    // });
+
+
+    // 🎈선생님이 한 코드
+    // $("p, #nav li").click((e)=>{
+    //     // 익명함수의 '나자신' -> this
+    //     // 화살표함수의 '나자신' -> e.currentTarget
+    //     $(e.currentTarget)
+    //     .text("나야나~!")
+    //     .css({
+    //         fontSize:"72px",
+    //         color:"red",
+    //         transition:"all .4s"
+    //     }); /////////// css //////////////
+    // }); /////////// click ///////////////
 	
 	
 	
@@ -30,6 +79,33 @@ $(document).ready(function(e) {
 
  <nav>
   <ul id="nav">
+   <li>One</li>
+   <li>Two</li>
+   <li>Three</li>
+   <li>One</li>
+   <li>Two</li>
+   <li>Three</li>
+   <li>One</li>
+   <li>Two</li>
+   <li>Three</li>
+   <li>One</li>
+   <li>Two</li>
+   <li>Three</li>
+   <li>One</li>
+   <li>Two</li>
+   <li>Three</li>
+   <li>One</li>
+   <li>Two</li>
+   <li>Three</li>
+   <li>One</li>
+   <li>Two</li>
+   <li>Three</li>
+   <li>One</li>
+   <li>Two</li>
+   <li>Three</li>
+   <li>One</li>
+   <li>Two</li>
+   <li>Three</li>
    <li>One</li>
    <li>Two</li>
    <li>Three</li>
