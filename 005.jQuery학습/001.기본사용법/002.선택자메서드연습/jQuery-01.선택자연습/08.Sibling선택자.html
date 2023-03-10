@@ -4,11 +4,86 @@
 <meta charset="utf-8">
 <title> Sibling(+) 선택자 </title>
 <!-- jQuery library -->
-<script src="jquery-1.7.2.min.js"></script>
+<script src="../jquery-3.6.3.min.js"></script>
 <script>
 $(document).ready(function(e) {
-    // 미션: #first를 클릭하면 다음에 있는 형제요소인 li의 글자가 42px로 커지면서 margin-left값이 50px로 변경되게 하시오. 트랜지션 설정도 하시오.
-	
+   // 🎈미션: ".first를 클릭하면 다음에 있는 형제요소인 li의 글자"가 42px로 커지면서 margin-left값이 50px로, 글자색은 red로 변경되게 하시오. 트랜지션 설정도 하시오. (this키워드 살리기)
+
+
+	// 🎈 내가 한 답
+   // $(".first").on("click",function(){
+   //    $("+li", this).css({
+   //       fontSize:"42px",
+   //       marginLeft:"50px",
+   //       color:"red",
+   //       transition:".5s"
+   //    });
+   // });
+
+
+	// 🎈 쌤 답1
+   // $(".first").on("click",function(){
+   //    $("+li", this)
+   //    // 클릭된 요소 -> this
+   //    // 다음 형제 요소 -> +요소
+      
+   //    .css({
+   //       fontSize:"42px",
+   //       marginLeft:"50px",
+   //       color:"red",
+   //       transition:`
+   //          font-size .5s,
+   //          color 2s .5s,
+   //          margin-left 2s .5s
+   //       `
+   //    });
+   // });
+
+	// 🎈 주의사항
+   // $(".first").on("click",function(){
+   //    $(".first+li")
+   //    // 이렇게 하면 한번에 전부 다 적용됨
+   //    .css({
+   //       fontSize:"42px",
+   //       marginLeft:"50px",
+   //       color:"red",
+   //       transition:`
+   //          font-size .5s,
+   //          color 2s .5s,
+   //          margin-left 2s .5s
+   //       `
+   //    });
+   // });
+   
+
+
+	// 🎈 쌤 답2
+   $(".first").on("click",function(){
+      
+      // 🎈 다른 방법들
+      $(this).next()
+      // next() : 다음 형제 요소 선택하는 트래버싱 메서드!
+      // 참고: prev()는 이전 형제 요소 선택!
+   
+      .css({
+         fontSize:"42px",
+         marginLeft:"50px",
+         color:"red",
+         transition:`
+            font-size .5s,
+            color 2s .5s,
+            margin-left 2s .5s
+         `
+      });
+   });
+
+
+
+
+
+
+
+
 	
 	
 });//jQuery실행구역

@@ -4,10 +4,79 @@
 <meta charset="utf-8">
 <title> Siblings(~) 틸드 선택자 </title>
 <!-- jQuery library -->
-<script src="jquery-1.7.2.min.js"></script>
+<script src="../jquery-3.6.3.min.js"></script>
 <script>
 $(document).ready(function(e) {
-    //미션: li중 하나를 클릭하면  그 뒤의 형제요소의 li들이 모두 width: 500px, height: 300px로 변경되고 배경이미지를 넣으시오.(배경이미지는 웹경로로 넣고 트랜지션 설정도 하시오.)
+    //🎈미션: li중 하나를 클릭하면  그 뒤의 형제요소의 li들이 모두 width: 500px, height: 300px로 변경되고 배경이미지를 넣으시오.(배경이미지는 웹경로로 넣고 트랜지션 설정도 하시오.)
+	// 🎈웹 경로 : https://blog.kakaocdn.net/dn/yPj9Y/btq1OL12XZ2/aEbuFx8IsVLqNRr7KZS0p0/img.png
+
+	// 🎈내가 쓴 답
+	// $("li").on("click", function(){
+	// 	$("~", this)
+	// 	.css({
+	// 		background:"url(https://blog.kakaocdn.net/dn/yPj9Y/btq1OL12XZ2/aEbuFx8IsVLqNRr7KZS0p0/img.png) no-repeat center/cover",
+	// 		width:"500px",
+	// 		height:"300px",
+	// 		transition:".5s"
+	// 	});
+	// });
+
+	const li = $("li");
+
+	li.css({
+		width:"100px",
+		height:"50px"
+	});
+
+	// 🎈쌤이 쓴 답1
+	li.on("click", function(){
+		$("~li", this)
+		// 틸드(~) : 다음형제들 선택자 (css적인 선택방법임!)
+		.css({
+			background:"url(https://blog.kakaocdn.net/dn/yPj9Y/btq1OL12XZ2/aEbuFx8IsVLqNRr7KZS0p0/img.png) no-repeat center/cover",
+			width:"500px",
+			height:"300px",
+			transition:"1s ease-in-out"
+		});
+	});
+	
+
+	// 🎈알아두기!
+	// 크기 설정 트랜지션 적용하려면, 초기값이 필요하다!
+	// 왜냐? 기본값이 auto라서~
+	// 즉, 기본값이 auto인 것들은 다 초기값이 필요하다! auto는 트랜지션이 먹히지 않기 때문에!
+	// ->>그래서 위쪽에 초기값을 설정해둔것임!
+	
+	// 🎈쌤이 쓴 답2
+	// li.on("click", function(){
+	// 	$(this).nextAll()
+	// 	// nextAll() : 다음형제들 선택하는 트래버싱 메서드!
+	// 	.css({
+	// 		background:"url(https://blog.kakaocdn.net/dn/yPj9Y/btq1OL12XZ2/aEbuFx8IsVLqNRr7KZS0p0/img.png) no-repeat center/cover",
+	// 		width:"500px",
+	// 		height:"300px",
+	// 		transition:"1s ease-in-out"
+	// 	});
+	// });
+
+
+	// 🎈추가 미션 : li중 클릭된 요소의 다음 형제 요소부터 특정 순번까지만 선택하는 방법은?
+	// li.on("click", function(){
+	// 	// ->> li:nth-child(-n+순번)
+	// 	// $("~li:nth-child(-n+5)", this)
+
+	// 	// 🎈또다른 방법은?
+	// 	$(this).nextUntil("li:nth-child(5)")
+	// 	// nextUntil() : 다음형제들 중 특정순번까지만 선택하기
+	// 	// ->선택자순번은 빠진다! 즉, 그 앞까지만 선택함!!
+
+	// 	.css({
+	// 		background:"url(https://blog.kakaocdn.net/dn/yPj9Y/btq1OL12XZ2/aEbuFx8IsVLqNRr7KZS0p0/img.png) no-repeat center/cover",
+	// 		width:"500px",
+	// 		height:"300px",
+	// 		transition:"1s ease-in-out"
+	// 	});
+	// });
 	
 	
 	
