@@ -8,7 +8,19 @@
 <script>
 $(document).ready(function(e) {
     //미션: li중 하나를 클릭하면  그 뒤의 형제요소의 li들이 모두 width: 500px, height: 300px로 변경되고 배경이미지를 넣으시오.(배경이미지는 웹경로로 넣고 트랜지션 설정도 하시오.)
-	
+	// 🎈웹 경로 : https://blog.kakaocdn.net/dn/yPj9Y/btq1OL12XZ2/aEbuFx8IsVLqNRr7KZS0p0/img.png
+
+	$("li").click((e)=>{
+		$("~li", e.currentTarget)
+		.css({
+			width:"500px",
+			height:"300px",
+			background:"url(https://blog.kakaocdn.net/dn/yPj9Y/btq1OL12XZ2/aEbuFx8IsVLqNRr7KZS0p0/img.png) no-repeat center/cover",
+			transition:"1s ease-in-out"
+		})
+	});
+
+	// 🎈추가 미션 : li중 클릭된 요소의 다음 형제 요소부터 특정 순번까지만 선택하는 방법은?
 	
 	
 });//jQuery실행구역

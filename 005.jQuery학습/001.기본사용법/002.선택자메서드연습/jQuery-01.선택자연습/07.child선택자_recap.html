@@ -9,7 +9,16 @@
 $(document).ready(function(e) {
     // 미션: #container 를 클릭하면 이것의 직계자식인 p태그의 배경색을 노란색, 글자색은 녹색, 글가크기는 42px, 테두리는 5px 점선 빨간색으로 설정하시오!
 		
-		
+		$("#container").click((e)=>{
+      $(">p", e.currentTarget).css({
+        backgroundColor:"yellow",
+        color:"green",
+        fontSize:"42px",
+        borderWidth:"5px",
+        borderStyle:"dotted",
+        borderColor:"red"
+      })
+    });
 	
 	
 	
