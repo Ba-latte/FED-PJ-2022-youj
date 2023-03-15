@@ -46,24 +46,34 @@ window.addEventListener("DOMContentLoaded", () => {
         } //////////////////// else : 왼쪽버튼 클릭 //////////////////////////
     }; ///////////////////// goSlide 함수 /////////////////////////
 
+    // 버튼요소 : .abtn
+    const abtn = document.querySelectorAll(".abtn");
+    // 📌for문 돌려서 하나로 끝내기
+    abtn.forEach((ele, idx)=>{
+        ele.onclick = ()=>{
+            // 1.슬라이드함수 호출
+            goSlide(idx);
+            // 2.자동호출 지우기
+            clearAuto();
+        }; ////////////// click //////////////////
+    }); ////////////////// forEach //////////////////////////
 
 
+    // // 📌오른쪽 버튼 클릭시 ////////////////////////////
+    // document.querySelector(".rb").onclick = () => {
+    //     // 1.슬라이드함수 호출
+    //     goSlide(1)
+    //     // 2.자동호출 지우기
+    //     clearAuto();
+    // }; /////////////////// click //////////////////////
 
-    // 📌오른쪽 버튼 클릭시 ////////////////////////////
-    document.querySelector(".rb").onclick = () => {
-        // 1.슬라이드함수 호출
-        goSlide(1)
-        // 2.자동호출 지우기
-        clearAuto();
-    }; /////////////////// click //////////////////////
-
-    // 📌왼쪽 버튼 클릭시 /////////////////////////////
-    document.querySelector(".lb").onclick = () => {
-        // 1.슬라이드함수 호출
-        goSlide(0)
-        // 2.자동호출 지우기
-        clearAuto();
-    }; /////////////////// click //////////////////////
+    // // 📌왼쪽 버튼 클릭시 /////////////////////////////
+    // document.querySelector(".lb").onclick = () => {
+    //     // 1.슬라이드함수 호출
+    //     goSlide(0)
+    //     // 2.자동호출 지우기
+    //     clearAuto();
+    // }; /////////////////// click //////////////////////
 
 
     // 인터발함수 지우기위한 변수
@@ -87,7 +97,7 @@ window.addEventListener("DOMContentLoaded", () => {
     autoSlide();
 
 
-    
+
     /************************************ 
         함수명: clearAuto
         기능: 인터발함수를 지우고 다시셋팅
