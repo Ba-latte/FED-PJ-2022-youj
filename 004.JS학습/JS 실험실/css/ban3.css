@@ -1,0 +1,207 @@
+@charset "utf-8";
+/* JS 실험실 03. 배너 스타일3 CSS 드래그배너 - ban3.css */
+
+html, body, h1{
+    margin: 0;
+    padding: 0;
+}
+
+/* 페이지 클래스 */
+.page{
+    position: relative;
+    /* 부모자격 */
+    width: 100%;
+    /* 그래도 가로스크롤이 생긴다면, width를 100vw로 해서임..!
+    데스크탑에서 vw는 스크롤바 포함하기 때문에...
+    가로스크롤바가 스크롤바 트랙의 너비만큼 생김....
+    이때, 이 가로스크롤바를 없애려면,... auto상태로 두거나... 100%단위로 세팅해야 한다...  */
+    height: 100vh;
+
+    overflow: hidden;
+    /* 가로스크롤 안 생기게 숨김 */
+}
+/* : 화면 꽉 차게 만듦 */
+
+
+img {
+    border: none;
+}
+
+/*링크걸린 이미지 테두리 없앰*/
+
+
+ul,
+ol {
+    /*3무*/
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+/**************************************/
+
+#container {
+    /*최상위부모*/
+    position: relative;
+    width: 1381px;
+    margin: 0px auto;
+}
+
+#container>header {
+    position: relative;
+    width: 100%;
+    height: 222px;
+}
+
+
+/* 타이틀 */
+.tit{
+    text-align: center;
+    padding: 20px;
+}
+
+
+/* 배너 전체 박스 */
+.banbx {
+    /*슬라이드부모*/
+    position: absolute;
+    /* 부모가 누구? .page */
+    
+    top: 50%;
+    transform: translateY(-50%);
+    /* : 세로 중앙 정렬 */
+    left: 25vw;
+    /* : 가운데 오도록 조정 */
+
+    width: 50vw;
+    aspect-ratio: 1/0.7;
+    /* : 가운데 있는 배너는 비율유지가 되어야 함! 그래서 비율유지박스 줌 */
+    
+    /* border: 2px solid red; */
+    box-sizing: border-box;
+
+    outline: 5px dotted blue;
+}
+
+#slide {
+    display: flex;
+    /* 플렉스박스!!! */
+    gap: 0 5vw;
+    /* : 이미지마다 사이 간격 떨어지게 만듦 */
+
+    /*사진을 싸고 있는 슬라이드*/
+    position: absolute;
+    top: 0;
+    left: -220%;
+    /* : 배너 2장을 앞쪽으로 나가도록 만듦! (왜 2장이야? 1장은 앞쪽에 살짝 보이잖아~ 그러니까 아예 화면 바깥으로 나가있는 다른 1장을 지워야지!
+    그리고 원래는 -200%라고 해야하지만, 얘는 가로폭(gap)이 5%가 양쪽에 세팅되어 있어서 하나당 10%인 것을 두번 더해서 220%가 된것임!! */
+    width: 100%;
+    height: 100%;
+}
+
+/* 슬라이드 드래그 기능을 위해 선택/드래그 금지! */
+#slide *{
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+#slide li {
+    flex-shrink: 0;
+    /* 부모박스크기만큼 줄어들지 않음 -> 0 */
+    flex-basis: 100%;
+    /* 가로크기를 부모박스 크기에 맞춤! */
+    /* height 값은 flex박스 자식요소에서
+    등분할시 자동 100%임! */
+
+    outline: 2px dashed red;
+
+    filter: blur(2px) brightness(70%);
+    transform: scale(1);
+
+    transition: .4s ease-in-out;
+}
+
+#slide li:nth-child(3){
+    filter: blur(0) brightness(100%);
+    transform: scale(1.05);
+
+}
+
+#slide li img {
+    /*이미지는 박스에 맞춤!*/
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 이미지 비율유지 채우기! */
+}
+
+/*이동버튼*/
+.abtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    /*Y축 중앙이동*/
+}
+
+/*왼쪽버튼*/
+.ab1 {
+    left: 50px;
+}
+
+/*오른쪽버튼*/
+.ab2 {
+    right: 50px;
+}
+
+/*블릿버튼*/
+.indic {
+    display: flex;
+    /* 플렉스박스 */
+    position: absolute;
+    bottom: 50px;
+    left: 80px;
+}
+
+.indic li {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.indic li img {
+    position: absolute;
+    /*이미지 겹치게*/
+}
+
+.indic li img:last-child {
+    /*회색이미지만 투명하게*/
+    opacity: 0;
+}
+
+/*회색블릿이미지가 보이게하는 class*/
+.indic li.on img:last-child {
+    /*회색이미지만 투명하게*/
+    opacity: 1;
+    /*우선적용!*/
+}
+
+#container>aside {
+    position: relative;
+    width: 467px;
+    height: 564px;
+    float: left;
+}
+
+#container>footer {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    background-color: #ccc;
+    clear: both;
+    /*float해제*/
+    font-size: 9px;
+    color: #fff;
+    text-align: center;
+    box-sizing: border-box;
+    padding-top: 10px;
+}
