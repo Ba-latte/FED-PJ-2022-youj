@@ -433,6 +433,7 @@ function goDrag(obj) {
         goWhere(obj);
         // ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
 
+
     });
     // (3) 마우스 움직일 때
     obj.addEventListener("mousemove", dMove);
@@ -499,8 +500,13 @@ function goWhere(obj){ // obj : 드래그 대상(슬라이드 요소임)
     // 3-3.제자리로 돌아가기
     else{
         console.log("제자리로!");
+        
+        // 기준값 left로 다시 보내기
         obj.style.left = -tgPoint + "px";
         // : 현재 드래그 대상이 드래그되어서 움직인 left 위치값을 'tgPoint'변수에 담아두었기 때문에, 그것만큼 마이너스 붙여서 되돌아가면 됨
+
+        // 트랜지션 줘서 부드럽게 움직이게 만들기
+        obj.style.transition = "left .2s ease-in-out";
     }
 
 
