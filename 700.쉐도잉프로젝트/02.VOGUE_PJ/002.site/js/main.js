@@ -112,7 +112,18 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
 
 
+    // 상단이동버튼(.tbtn) 클릭시 상단이동하기
+    // 부드러운 스크롤 pos 스크롤 위치값 업데이트 필요함!
+    tbtn.onclick = (e)=>{
+        // 기본이동 막기
+        e.preventDefault();
+        
+        // 부드러운 스크롤 전역 스크롤 값을 0으로 변경하여 위치값 일치시키기!
+        pos = 0;
 
+        // 위치 이동하기
+        window.scrollTo(0,0);
+    }; /////////////// click ////////////////////
 
 
 
