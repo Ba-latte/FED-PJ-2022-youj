@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <title> Filtering </title>
 <!-- jQuery library -->
-<script src="jquery-1.7.2.min.js"></script>
+<script src="../jquery-3.6.3.min.js"></script>
+<script src="../jquery-ui.min.js"></script>
 <script>
 $(document).ready(function(e) {
 	// first() 메서드 : 선택요소가 집합일때 그 중 첫번째 요소
@@ -16,19 +17,43 @@ $(document).ready(function(e) {
 	// 미션: #main을 클릭할때 각 미션을 수행하라!
 	$("#main").click(function(){
 		// 1. p태그를 찾아 그 중 첫번째 요소의 배경색 red
-		
+		$("p").first().css({backgroundColor:"red"});
+
 		// 2. p태그를 찾아 그 중 마지막 요소의 배경색을 yellow
-		
+		$("p").last().css({backgroundColor:"yellow"});
+
 		// 3. p태그 중 2번째 요소를 선택하여 margin-top값을 100px로 transition 0.4초로 설정하시오.
-		
-		// 4. div 중 클래스가 middle인 요소를 찾아 margin-top값을 200px, height값을 200px,
-		// 배경색을 lime 색으로 transition 주시오.
-				
+		$("p").eq(1).animate({marginTop:"100px"}, 400);
+
+		// 4. div 중 클래스가 middle인 요소를 찾아 margin-top값을 200px, height값을 200px, 배경색을 lime 색으로 transition 주시오.
+		// $(".middle").css({marginTop:"200px", height:"200px", backgroundColor:"lime", transition:".8s"});
+		$("div").filter(".middle") // 선택된 div 중에서 .middle가 있는 애를 선택하는 것임 (div 자손요소 중에서 찾는 게 아님!)
+		.css({transition:".8s ease-out", marginTop:"200px", height:"200px", backgroundColor:"lime"});
+		// 현재 버전에서는 트랜지션을 맨 처음에 쓰면 먹힌다고 함...
+
 		// 5. div 중에서 p태그를 포함하는 요소를 선택하여 border를 10px ridge blue로 설정하시오.
+		$("div").has("p").css({border:"10px ridge blue"});
 		
 		
 		
 	});//////// click /////////////////
+
+	/*
+		[ 6. is()메서드 ]
+	-선택요소의 클래스/아이디/요소 여부를 판단함!
+	ex) $("p").is(".my") -> 선택된 p요소의 클래스가 .my 인가?
+	->>맞으면 true, 틀리면 false가 나옴
+	-보통 저렇게 p를 직접쓰지 않음 (100개가 있으면 어쩌려고) 약간 간접적으로 사용함
+	->>$("p").click(function(){$(this).is(".my")}) -> 이런식으로 많이 씀
+	*/
+	// 추가미션: p태그를 클릭했을 때 클래스가 "my"인 경우, 텍스트를 "나야나!"로 변경하시오. 아닌 경우 "아님!"이라고 출력하시오.
+	$("p").click(function(){
+		// 클릭된 p요소가 .my인지 판별하기!
+		let isP = $(this).is(".my");
+		
+		if(isP) $(this).text("나야나!");
+		else $(this).text("아님!");
+	}); /////////////// click ///////////////////
 	
     
 	
@@ -49,7 +74,7 @@ $(document).ready(function(e) {
     <div class="middle">div</div>
     <p>p</p>
     <p>p</p>
-    <p>p</p>
+    <p class="my">p</p>
     <p>p</p>
     <div id = "sub">
       <p>div p</p>
