@@ -54,7 +54,7 @@ const demo = document.querySelector("#demo");
 // (3) 영화정보 출력 박스
 const mvpart = document.querySelector(".mvpart");
 
-console.log(tpart, demo, mvpart);
+// console.log(tpart, demo, mvpart);
 
 
 // 2. 제목 넣기
