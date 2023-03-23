@@ -3,12 +3,100 @@
 <head>
 <meta charset="utf-8">
 <title> html() / html(String)  </title>
-<script src="jquery-1.7.2.min.js"></script>
+<script src="../jquery-3.6.3.min.js"></script>
 	<script>
 	$(document).ready(function(){
 		
-		//미션: #main 을 클릭하면 두번째 p태그 내부에 img태그를 5개 만들고 css설정을 absolute로 하여 차례대로 left이동 애니메이션을 하시오.
-		
+		/*
+			[ html() 메서드]
+		-html 선택요소 내부에 자손요소를 삽입하거나, 읽어올 때 사용함!
+		->$(선택자).html(요소) : 요소 삽입
+		->변수 = $(선택자).html() : 태그 읽어오기
+		->JS의 innerHTML과 유사함
+		*/
+
+		//미션: #main>p 중 첫번째p를 클릭하면, 두번째 p태그 내부에 img태그를 5개 만들고 css설정을 absolute로 하여 차례대로 left이동 애니메이션을 하시오.
+		$("#main").find("p").first() // 첫번째 p요소 선택
+		.click(function(){ // 클릭 이벤트 설정
+			// 호출확인
+			console.log("나야나!");
+
+			// this는 첫번째 p요소
+			$(this) // 출발!
+			.next() // 두번째 p요소 
+			.html(` 
+			<img src="pic1.jpg" alt="이미지">
+			<img src="pic2.jpg" alt="이미지">
+			<img src="pic3.jpg" alt="이미지">
+			<img src="pic4.jpg" alt="이미지">
+			<img src="pic5.jpg" alt="이미지">
+			`) // 기존의 html내용 싹 지워지고 업뎃됨. append()나 preppend를 하면 기존 내용 살리고 앞/뒤로 들어감!!
+			.find("img") // 5개의 이미지로 주인공이 변경됨!
+			.css({
+				position:"absolute",
+				left:"0"
+			}) // css주기
+			.first() // 이미지 중 첫번째 이미지 선택!
+			.css({
+				width:"300px"
+			})
+			.next() // 두번째 이미지!
+			.css({
+				width:"250px"
+			})
+			.next() // 세번째 이미지!
+			.css({
+				width:"200px"
+			})
+			.next() // 네번째 이미지!
+			.css({
+				width:"150px"
+			})
+			.next() // 다섯번째 이미지!
+			.css({
+				width:"100px"
+			})
+			///////////// 애니메이션 주기! /////////////////
+			// 마지막 이미지에서 부모로 이동하기!
+			.parent() // 부모인 두번쨰 p 태그로 이동! 주인공이 변경됨!
+			.find("img") // 다시 5개의 이미지를 찾아서 선택하기
+			.eq(1) // 두번째 이미지 선택
+			.delay(1000) // 1초 기다리기
+			.animate({left:"300px"}, 400) // 2번째 이미지 액션!
+			.next() // 세번째 이미지 선택
+			.delay(1400) // 1.4초 후
+			.animate({left:"550px"}, 300) // 3번째 이미지 액션!
+			.next() // 네번째 이미지 선택
+			.delay(1700) // 1.4초 후
+			.animate({left:"750px"}, 200) // 4번째 이미지 액션!
+			.next() // 다섯번째 이미지 선택
+			.delay(1900) // 1.4초 후
+			.animate({left:"900px"}, 100) // 5번째 이미지 액션!
+
+			// 추가!! 짝수 이동 애니메이션
+			// 마지막 이미지로부터 다시 부모로 이동하여 선택하기!!
+			.parent().find("img:even") // 부모로 올라가서 img를 찾는데 짝수인 것들 골라서 찾아오기! (0부터 선택함~)
+			.delay(2000) // 위에 각각의 요소가 먹은 delay+액션 시간이 지난 후에 여기서의 delay가 적용될 것임! = 위의 액션시간 + 2초
+			.animate({top:"200px"}, 500) // 아래로 이동 액션 추가하기
+			// 추가!! 홀수 이동 애니메이션 : 혼자 해보기
+			.parent().find("img:odd") // 홀수 이미지(0부터)
+			.first() // 문제가 발생해서!! 홀수 중에서 첫번째 골라서 선택!!
+			.delay(2000) // 각각의 액션 시간 + 2초 기다렸다 발생하기
+			.animate({top:"-50px"}, 500) // 위로 이동 액션
+
+			// 문제 발생!! 각각 사이즈가 달라서, 애니메이트를 조정해야함!!
+
+			.parent().find("img:odd") // 홀수 이미지(0부터)
+			.last() // 문제가 발생해서!! 홀수 중에서 두번째 골라서 선택!!
+			.delay(2000) // 각각의 액션 시간 + 2초 기다렸다 발생하기
+			.animate({top:"50px"}, 500); // 위로 이동 액션
+
+
+			// html 태그 찍어보기
+			console.log("현재 html: ", $("#main").html());
+			
+
+		}); //////////////// click ////////////////////
 	
 		
 	});/////////// jQB ///////////////////////
