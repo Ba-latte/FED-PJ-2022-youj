@@ -102,7 +102,27 @@ function MakeDallyeok(){
         dates.innerHTML = hcode;
         
 
+        // 각 날짜 .date요소에 링크 설정하기
+        qsa(".date").forEach(
+            ele=>ele.onlick=()=>{
+                // 년
+                let cyear = yearTit.innerText;
+                // 월
+                let cmonth = monthTit.innerText;
+                // 일
+                let cdate = ele.innerText;
+
+                // 최종 날짜 데이터
+                let comp = cyear + "-" + addZero(cmonth) + "-" + addZero(cdate);
+                cg(comp);
+            }
+        );
+
     }; //////////////// initDallyeok //////////////////
+
+    // 0자릿수 만들기 함수
+    const addZero = x => x<10?"0"+x:x;
+    // : 보낸 숫자가 10보다 작으면 앞에 "0"을 더해서 리턴함
 
     // 할당 함수 호출은 밑에서 호출해야 함!
     initDallyeok();
@@ -116,10 +136,8 @@ function MakeDallyeok(){
         initDallyeok();
     }; //////////////////// prevCal ///////////////////////////////
     
-    // 버튼에 클릭 설정하기 ///////////////////////////////////////
-    qs(".btnL").onclick = prevCal;
-
-
+    
+    
     ////////////// 🌷(3) 다음달로 출력하기 함수 /////////////////////////////
     const nextCal = ()=>{
         // 이전 월로 변경하여 initDallyeok 함수 호출!
@@ -127,8 +145,15 @@ function MakeDallyeok(){
         curr_date.setMonth(curr_date.getMonth()+1);
         
         initDallyeok();
-    }; //////////////////// prevCal ///////////////////////////////
+    }; //////////////////// prevCal ///////////////////////////////\
+    
+
+    // 버튼에 클릭 설정하기
+    qs(".btnL").onclick = prevCal;
     qs(".btnR").onclick = nextCal;
+
+    // 각 날짜 .date요소에 링크 설정하기
+
     
 
 
