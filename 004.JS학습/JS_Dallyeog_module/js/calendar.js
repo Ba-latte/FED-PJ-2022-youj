@@ -103,7 +103,7 @@ function MakeDallyeok(sel) { // sel은 달력 넣을 요소 선택자
                 this.today.getMonth() == this.curr_date.getMonth() &&
                 this.today.getFullYear() == this.curr_date.getFullYear()
             ) {
-                hcode += `<div class="date this.today">${dset[i]}</div>`;
+                hcode += `<div class="date today">${dset[i]}</div>`;
             } else {
                 hcode += `<div class="date">${dset[i]}</div>`;
             }
@@ -246,6 +246,17 @@ function MakeDallyeok(sel) { // sel은 달력 넣을 요소 선택자
             </div>
         `;
     } /////////////////////// insertHcode 함수 끝 ///////////////////////////////
+
+
+    // (5) 날짜기간 계산하기 함수 //////////////////////////////////////////////
+    this.getDateDiff = (dt1, dt2) => {
+        const date1 = new Date(dt1); //파라미터로 들어온 string을 date 타입으로 바꿔야 날짜 계산이 가능함!
+        const date2 = new Date(dt2);
+        
+        const diffDate = date1.getTime() - date2.getTime();
+        return Math.abs(diffDate / (1000 * 60 * 60 * 24));  // abs: 절대값으로 만들기
+        // 밀리세컨 * 초 * 분 * 시 = 일(하루) 단위가 됨
+    } ///////////////////// getDateDiff 함수 끝 ///////////////////////////////
     
 
     // 버튼에 클릭설정하기 ///
