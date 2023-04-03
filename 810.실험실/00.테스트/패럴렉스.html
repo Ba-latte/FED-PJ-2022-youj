@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            width: 100%;
+        }
+        li{
+        }
+        #pg1{
+            height: 100vh;
+            background: bisque fixed;
+        }
+        #pg2{
+            height: 100vh;
+        }
+        #pg3{
+            height: 100vh;
+        }
+        .circleList{
+            height: 1400px;
+            background: beige fixed;
+        }
+        /* (4) 2페이지 배경 원 공통 세팅 */
+        .circle {
+            /* position: absolute; */
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        /* 2페이지 배경 원 개별 세팅 */
+        .cr5 {
+            top: 7.7%;
+            left: 83%;
+
+            background-color: #19833b;
+        }
+        .cr6 {
+            width: 30px;
+            height: 30px;
+            top: 34%;
+            left: 1%;
+
+            background-color: #d8693e;
+        }
+        .cr7 {
+            width: 30px;
+            height: 30px;
+            top: 22%;
+            left: 40%;
+            background-color: #e2de73;
+        }
+        .cr8 {
+            width: 60px;
+            height: 60px;
+            top: 43%;
+            left: 88%;
+            background-color: #654376;
+        }
+        .cr9 {
+            width: 90px;
+            height: 90px;
+            top: 54%;
+            left: 8%;
+            background-color: #b5416e;
+        }
+        .cr10 {
+            width: 25px;
+            height: 25px;
+            top: 66%;
+            left: 54%;
+            background-color: #19833b;
+        }
+        .cr11 {
+            width: 45px;
+            height: 45px;
+            top: 79%;
+            left: 5%;
+            background-color: #d7a7bf;
+        }
+        #test1{
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            background: lime;
+        }
+    </style>
+    <!-- <script src="../jquery-3.6.3.min.js"></script> -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.parallax-1.1.3.js"></script>
+    <script>
+        $(document).ready(function () {
+            /*
+            패럴렉스(Parallax) 플러그인
+            
+            패럴렉스 효과란?
+                - 스크롤과 동시에 배경이미지나 어떤 특정 요소가 시차를 두고 이동함에
+                따라 공간감이 느껴지게 하는 효과
+                (원경은 천천히, 중경은 조금 빠르게, 근경 아주 빠르게 설정함)
+            
+            [ 패럴렉스 플러그인 사용법 ]
+            - 배경이미지를 위치 이동시키는 플러그인
+            
+            $(선택자).parallax(배경위치,이동속도)
+            - 배경위치는 배경 이미지의 x축 위치설정(50%는 정중앙)
+            - 이동속도는 0.1~0.9 사이의 값(값이 너무 높으면 그냥 일반 배경과 같아짐)
+            
+            - 배경이미지의 기본셋팅시 fixed(고정)을 사용함!
+            
+            */
+
+            $("#test1").parallax("50%", 0.1);
+            $(".cr6").parallax("30%", 0.5);
+            $(".cr7").parallax("20%", 0.3);
+            $(".cr8").parallax("70%", 0.2);
+        }); //// jQB ////////////////////////////////////
+    </script>
+    <body>
+        <div id="pg1"></div>
+        <div id="pg2">
+            <!-- (4) 2페이지 배경 원 -->
+            <ul class="circleList">
+                <li class="circle cr5"><div id="test1"></div></li>
+                <li class="circle cr6"></li>
+                <li class="circle cr7"></li>
+                <li class="circle cr8"></li>
+                <li class="circle cr9"></li>
+                <li class="circle cr10"></li>
+                <li class="circle cr11"></li>
+            </ul>
+        </div>
+        <div id="pg3"></div>
+    </body>
+</html>
