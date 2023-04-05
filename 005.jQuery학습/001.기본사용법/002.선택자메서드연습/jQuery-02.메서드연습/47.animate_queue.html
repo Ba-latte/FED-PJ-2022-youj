@@ -3,24 +3,70 @@
 <head>
 <meta charset="utf-8">
 <title> animate_queue  </title>
-<script src="jquery-1.7.2.min.js"></script>
-<script src="jquery-ui-1.8.23.custom.min.js"></script>
+<script src="../jquery-3.6.3.min.js"></script>
+<script src="../jquery-ui.min.js"></script>
 	<script>
 		$(document).ready(function(){// jQB///
-			/*
-			큐(Queue)란?
+			/******************************************************************************
+				큐(Queue)란?
+			-애니메이션과 같은 실행 코드를 메모리에 적재하여 실행을 유지할 수 있도록 관리하는 메모리 영역
+			-한사람에게 여러가지 일을 시키면 순서대로 실행하는 것과 같음
 			
-			*/
+			******************************************************************************/
 			
 			// 미션: 클래스가 run인 버튼을 클릭하면 아이디가 box인 요소를 아래의 순서로 애니메이션 하시오.
-			// 1. 현재위치로부터 left: 400px 이동, 배경색은 red로 (2초간)
-			// 2. 현재위치로부터 top: 200px 이동, 배경색은 yellow로 (2초간)
-			// 3. 현재위치로부터 top: -100px, left: -100px 이동, 배경색을 green(2초간)
-			// 4. 현재위치로부터  top: -50px, left: -50px 이동, width: 200px, height: 200px, 배경색을 lime(2초간)
-			// 5. 배경이미지를 박스에 넣고
-			// 6. 2초후에 0.5초간 slideUp하여 사라짐.
-			
+			// 현재위치로부터 => +=, -= (대입연산자)를 사용하면 됨!
 			// 이벤트(click) 대상선정 : .run
+
+			$(".run").click(function(){
+				// 주인공 박스 : #box
+				$("#box")
+				// 1. 현재위치로부터 left: 400px 이동, 배경색은 red로 (2초간)
+				.animate({
+					left:"+=400px", 
+					backgroundColor:"red"
+				}, 2000)
+				// 2. 현재위치로부터 top: 200px 이동, 배경색은 yellow로 (2초간)
+				.animate({
+					top:"+=200px", 
+					backgroundColor:"yellow"
+				}, 2000)
+				// 3. 현재위치로부터 top: -100px, left: -100px 이동, 배경색을 green(2초간)
+				.animate({
+					top:"-=100px",
+					left:"-=100px", 
+					backgroundColor:"green"
+				}, 2000)
+				// 4. 현재위치로부터  top: -50px, left: -50px 이동, width: 200px, height: 200px, 배경색을 lime(2초간)
+				.animate({
+					top:"-=50px",
+					left:"-=50px", 
+					width:"+=200px",
+					height:"+=200px",
+					backgroundColor:"lime"
+				}, 2000, function(){
+					// 5. 배경이미지를 박스에 넣고
+					$(this).css({
+						background:"url(https://img.hankyung.com/photo/202002/BA.21654221.1-1200x.jpg) no-repeat top/cover"
+					})
+					// : 배경이미지를 넣는 것은 애니메이션 대상이 아님!! 배경이미지 넣는 것은 css로 넣어야하고, css는 바로 실행되므로 처음부터 이미지가 들어가있게됨!!
+					// ->> 이것을 애니메이션의 콜백함수로 담아서 실행하면 애니실행 후 콜백함수가 실행되는 것임!
+
+					// ⭐결론 : css는 바로실행하므로 콜백함수 구역에 넣는다!⭐
+				})
+				// 6. 2초후에 0.5초간 slideUp하여 사라짐.
+				.delay(2000).slideUp(500, function(){
+					// slideUp이 끝난 후 style속성을 지워서 초기화시키기
+					$(this).attr("style", "");
+				});
+				// : 슬라이드업도 애니메이션이니까! 앞에 딜레이 쓸 수 있음! 앞에 딜레이를 써서 2초란 지연시간을 쓴 후 슬라이드업을 쓰면 됨
+
+				// ⭐처음상태로 리셋하고 싶으면,, 어떻게 하나?!
+				// ->> 모든 애니메이션이 끝난 다음에 콜백함수 쓸 수 있으니까 콜백함수를 이용해서 지금까지 쓴 style속성을 지워서 초기화시키면됨
+
+
+			});
+			
 		
 			
 			
