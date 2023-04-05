@@ -11,12 +11,7 @@ body {
     /* 휠 1번 움직일 때마다 1페이지씩 이동하기 위해 스크롤 없앰(?) */
     overflow: hidden;
 }
-html {
-    /* 부드러운 스크롤 적용!(스크롤애니메이션) */
-    /* ->스크롤 이동시간, 이징 가속도는 조절할 수 없다!
-->>제이쿼리 코딩으로 이것을 조절할 예정임!!!! */
-    scroll-behavior: smooth;
-}
+/* ⭐제이쿼리 스크롤 이동 애니시 scroll-behavior:smooth를 적용하지 않는다!⭐ */
 /* 공통셋팅 */
 a {
     text-decoration: none;
