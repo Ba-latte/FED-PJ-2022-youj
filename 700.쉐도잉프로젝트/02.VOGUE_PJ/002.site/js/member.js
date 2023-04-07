@@ -29,15 +29,30 @@ $(()=>{
     .blur(function(){
         // console.log("블러!");
 
+        // 0.공백 제거 처리 함수
+        // get rid of space -> 공백을 제거하라!
+        const groSpace = cv => cv.replace(/\s/g,"");
+        // 원형 : (cv)=>{return cv.replace(/\s/g,"")};
+        // 정규식 : 슬래쉬(/) 사이에 표현함, \s 는 스페이스문자임
+        // 정규식도 객체래,,
+        // 참고사이트 : https://www.w3schools.com/jsref/jsref_obj_regexp.asp
+        // 해석 : 스페이스문자(공백문자)를 모두 (g:global-전역) 찾아서 없애시오(빈 공백으로 변경)
+
+
         // 1.방금 블러가 발생한 요소의 id는?
         let cid = $(this).attr("id"); // -> attr(속성명) 속성명 하나만 쓰면 속성 찾아옴(getAttribute와 같음)
         // cid는 current id(현재 아이디) 줄임말!
         
         // 2.블러가 발생한 요소의 입력 값은?
-        let cv = $(this).val().trim();
+        // let cv = $(this).val().trim();
+        // -중간공백제거 함수 추가한 것 : groSpace($(this).val());
+        // 근데 이름은 중간 공백 줘야함! 즉, 거기는 트림만 써야함! ->> 삼항연산자로 해결하기
+        let cv = cid==="mnm" ? $(this).val().trim() : groSpace($(this).val());
+        // ->> cid가 mnm이니? 응 : 아니
         // cv는 current value (현재값)란 뜻
         // val() : input요소의 값(value)을 읽기/쓰기용
         // trim() : 앞/뒤 공백 제거 (공백만 있을 때도 공백 지워버림)
+        // groSpace() : 전체 공백 제거 함수 (위에서 작성함)
 
         // 2-1.서비스 차원으로 공백 제거된 데이터를 다시 입력창에 넣어줌
         $(this).val(cv); // val()에다가 값을 넣으면 그 값이 반영됨
