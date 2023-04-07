@@ -105,7 +105,7 @@ prot[1] = 0;
     기능 : 메뉴 클릭시 메뉴 변경과 페이지 이동
 ******************************************/
 this.chgMenu = ()=>{
-    console.log("나 클릭!", this, event.currentTarget, idx);
+    // console.log("나 클릭!", this, event.currentTarget, idx);
     // this 키워드는 생성자 함수의 객체를 가리킴!
     // 따라서 이벤트 발생 자신은 event.currentTarget 라고 해야 함!
 
