@@ -2,7 +2,9 @@
 
 
 // 🔥자동스크롤 불러오기
-import AutoScroll from "./jquery-autoScroll.js";
+// import AutoScroll from "./jquery-autoScroll.js";
+import AutoScroll from "./jquery-autoScroll-class.js";
+
 
 
 
@@ -23,3 +25,5 @@ console.log("기존 이징: ", autoSc.easing);
 // 이징변경
 autoSc.easing = "easeInOutQuint";
 console.log("변경 이징: ", autoSc.easing);
+
+
