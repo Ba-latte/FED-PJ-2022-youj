@@ -84,6 +84,50 @@
 
             }); //////////// draggable ///////////////
 
+            // [ 커스터마이징 요구사항 반영하기 ]
+
+            // 💛1.드래그시 포스트잇 이미지 변경하기
+            // (1)드래그 시작이벤트 발생시 이미지 변경 위해 클래스 .invert 넣기
+            // 드래그 시작 이벤트: dragstart
+            // 제이쿼리 메서드 : on("이벤트명", 함수)
+            dg.on("dragstart", function(){
+                // 대상 : 끌고다니는 나 자신
+                $(this).addClass("invert");
+                
+            }); ///////////// dragstart 이벤트 //////////////
+
+            // (2)드래그 끝날 때 이벤트 발생시 이미지 변경 위해 클래스 .invert 빼기
+            // 드래그 종료 이벤트: dragstop
+            // 제이쿼리 메서드 : on("이벤트명", 함수)
+            dg.on("dragstop", function(){
+                // 대상 : 끌고다니는 나 자신
+                $(this).removeClass("invert");
+
+            }); ///////////// dragstop 이벤트 //////////////
+
+
+            // 💛2.드롭 대상박스에 드롭될 때 동영상 보여주기
+            // droppable() 메서드 : 드롭되는 요소 처리하는 메서드
+            // 이벤트 대상 : .dropshow
+
+            $(".dropshow").droppable({
+                drop:function(evt, ele){
+                    // evt : 이벤트 전달 변수 / ele : 드롭 관련 객체
+                    console.log("나 빠졌다~~");
+
+                    // 1.드롭영역의 배경 이미지 변경하기
+                    // 드롭된 요소 : ele.draggable
+                    let isrc = ele.draggable.find("img").attr("src");
+                    console.log(isrc);
+
+                    $(this).css({
+                        // 여기서 this는 드롭박스 나 자신임!
+                        background:`url(${isrc})`
+                    })
+                }
+            }); ////////////// droppable 이벤트 /////////////////
+
+
 
 
 

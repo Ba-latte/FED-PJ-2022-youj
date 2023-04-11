@@ -93,16 +93,20 @@ window.addEventListener("DOMContentLoaded", ()=>{
         // 값 확인하기
         // cg("박스1: "+retVal(scAct[0]));
 
+        // if(mobsts) return; ->> 이렇게 쓰면 이 함수의 아래쪽 모든 건 건들지 않고 바로 리턴되버리니까~ 우리는 아래에 showIt 써야하기 때문에ㅠㅠ 딱 필요한 부분에만 적용시킨것임
+
         // 현재 스크롤 위치 확인하기
         scTop = window.scrollY;
         // cg(stop);
         
         // ⭐5.상단영역 슬림메뉴 적용하기 (만약 scTop가 100보다 같거나 크다면, on클래스 추가하고, 그외에는 on클래스 제거해라)
-        if(scTop >= 100) topA.classList.add("on");
+        // !mobsts = 0일때(=DT일때만) 적용
+        if(scTop >= 100 && !mobsts) topA.classList.add("on");
         else topA.classList.remove("on");
-
+        
         // ⭐6.상단 이동버튼 보이기/숨기기
-        if(scTop >= 300) tbtn.classList.add("on");
+        // !mobsts = 0일때(=DT일때만) 적용
+        if(scTop >= 300 && !mobsts) tbtn.classList.add("on");
         else tbtn.classList.remove("on");
 
         // 스크롤등장 요소 개수만큼 for문으로 돌리기
