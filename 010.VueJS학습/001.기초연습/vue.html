@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue JS 기초</title>
+    <!-- 뷰JS 스탠드얼론 버전 가져오기! -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        window.addEventListener("DOMContentLoaded",
+        ()=>{
+
+            console.log("로딩완료!");
+
+            // new Vue() -> 이렇게 만드는 순간 Vue객체가 인스턴스화 된다(뷰 객체가 인스턴스로 메모리에 생성된다는 말임)
+            // = 선택 대상 요소가 가상DOM으로 메모리상 변경 가능하다
+            // 1. 텍스트 바인딩 ////////////////////////////////
+            new Vue({
+                // 🔥1.el은 적용할 요소(element)를 담는 속성임 (정해져있는 속성임)
+                el: "#app1", // 얘를 이렇게 선택해서 잡아들여오는 순간 가상돔이 된대
+                // 🔥2.data는 사용할 데이터를 셋업하는 속성
+                data: {
+                    message: "나는 뷰JS를 잘 쓰는 프론트엔드 개발자다!",
+                    yo: "요"
+                }
+
+            }); //////////////// Vue ////////////////
+
+            // 2. 반복 렌더링 //////////////////////////////
+            
+            // 3. 이벤트 사용하기 ////////////////////////
+            
+
+
+            // 4. 입력 양식과 동기화하기 /////////////////
+            
+
+        }); ////////////// 로드구역 ////////////////////
+
+    </script>
+</head>
+<body>
+    <h1>Vue JS 기초연습</h1>
+
+    <hr>
+
+    <h2>1. 텍스트 바인딩(binding->데이터넣기!)</h2>
+    <div id="app1">
+        <p> {{message}} </p>
+        <!-- 
+            {{}} : 중복 중괄호는 콧수염 표시자라고 한다(Mustasch)
+            이 부분이 VueJS 데이터를 넣는 자리임
+            -이렇게 만들면 그냥 html코딩하는것처럼 만들고 if문 for문도 그냥 머라머라 속성을 쓰면 된대.. 태그처럼 쓰면 끝난대..
+        -->
+    </div>
+
+    <hr>
+
+    <h2>2. 반복 렌더링</h2>
+    <div id="app2">
+        
+    </div>
+
+    <hr>
+
+    <h2>3. 이벤트 사용하기</h2>
+    <div id="app3">
+        
+    </div>
+
+    <hr>
+
+    <h2>4. 입력 양식과 동기화하기</h2>
+    <div id="app4">
+        
+    </div>
+
+    <hr>
+
+    <h2>5. 조건분기</h2>
+    <div id="app5">
+        
+    </div>
+
+
+    
+</body>
+</html>
