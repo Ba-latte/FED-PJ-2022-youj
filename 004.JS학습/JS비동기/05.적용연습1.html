@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Promise 적용연습1</title>
+        <script>
+
+            function 화면뿌려(이거){
+                document.getElementById("show").innerHTML += 이거 + "<br>";
+            }
+
+            ///////////// 로드 구역 ///////////////////
+            window.addEventListener("load", ()=>{
+                
+                // 제이슨 데이터를 로딩하여 읽은 후 데이터를 활용하도록 Promise를 적용한다!
+
+                // 1.변수 = new Promise((성공함수)=>{코드})
+                // 프라미스코드에 XMLHttpRequest객체로 제이슨 로딩하기
+                const myProm = new Promise((prFn)=>{ // prFn : 성공함수를 말함
+                    // (1)XMLHttpRequset() 객체 인스턴스 생성하기
+                    let ajax = new XMLHttpRequest();
+
+                    // (2)비동기 파일 요청하기(json파일)
+                    ajax.open("GET", "./defaultSettings.json");
+                    // ->> ⭐제이슨 파일은 응답형식(responseType)을 "json"으로 설정하는 게 필수임!!!!!⭐
+                    ajax.responseType = "json";
+
+                    // (3)결과 리턴 onload 이벤트 함수 구역 만들기
+                    ajax.onload = function(){
+
+                        console.log(ajax.status);
+
+                        if(ajax.status === 200){
+
+                            // 프라미스 성공함수를 통하여 제이슨 데이터 전달하기
+                            // : 제이슨 안에 있는 내용을 전달하는 것임
+                            prFn(ajax.response);
+                            // responseType을 "json"으로 설정했으므로! 결과값이 제이슨으로 전달됨
+
+                        } ///////////// if : 상태값이 200(성공)인 경우 /////////////////
+                        else{
+
+                            console.log(ajax.statusText);
+                            // statusText : 상태값이 텍스트형으로 찍음
+
+                        } ///////////// else : 실패인 경우 ///////////////////
+
+                    }; //////////////////// onload 함수 구역 //////////////////////
+
+                    // (4)비동기 요청 보내기 : send()
+                    ajax.send();
+
+
+                }); /////////// myProm 인스턴스 ////////////////
+
+
+                // 2.프라미스변수.then((성공전달변수)=>{코드})
+                // 성공한 제이슨 로딩 파일을 전달 받아 활용하기
+                myProm.then(success=>{ // success : 성공시 전달변수를 말함
+                    console.log("전달 파일 찍기: ", success);
+                }); ///////////////////// 프라미스 then 메서드 ////////////////////////
+
+
+
+
+
+
+
+
+
+
+            }); ///////////////// 로드 구역 ////////////////////////
+
+
+
+
+
+
+            
+        </script>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap");
+            body {
+                background-image: linear-gradient(to bottom, #494949, gray);
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                text-align: center;
+            }
+            #show {
+                font-family: "Gamja Flower", cursive;
+                font-size: 4vw;
+                background-image: linear-gradient(to bottom, lightgreen, pink, orangered, aquamarine);
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-repeat: no-repeat;
+                font-weight: bold;
+            }
+            #doc{
+                width: 50%;
+                height: 50vh;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="show"></div>
+        <div id="doc"></div>
+    </body>
+</html>
