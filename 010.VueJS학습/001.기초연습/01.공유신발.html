@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01.공유신발 - 뷰 사용해보기</title>
+    <!-- 뷰JS 스탠드얼론 버전 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <!-- 제이쿼리 라이브러리 CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <!-- 제이쿼리 UI CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script>
+        /////////////////////////// jQB ////////////////////////////////
+        $(()=>{
+            // 1.뷰JS 인스턴스 생성하기 (vm:뷰모델 줄임말, 변수명으로 많이 쓴대)
+            const vm = new Vue({
+                // 1.대상 선정
+                el: "#vapp",
+                // 대상은 꼭 아이디 요소일 필요는 없음
+                // 그렇지만 클래스나 일반 요소를 쓰면, 만나는 첫번째 대상만 적용하므로 주의할 것!
+
+                // 2.데이터 설정
+                data: {
+                    // 1.제목 데이터
+                    bigtit: "공유가 신고 다닌다는!",
+                    // 2.내용 데이터
+                    contxt: `
+                        나의 느낌! 니가 아니까!
+                        <h2>오늘도 공유는 멋집니다~!</h2>
+                        <img src="https://mblogthumb-phinf.pstatic.net/MjAyMDA0MjVfMTAx/MDAxNTg3ODE5MDEzNTA5.p3hCGnZHNY3jPLMhrHy1aXH9t20SLMsdfbnQMAbzY-wg.xfA_E3X5uMPOq3zabKoaITYGZXKkgw5TxEtMjPUmCsAg.PNG.thirdsky30/CropArea0002.png?type=w800" alt="공유">
+                    `
+                    
+                },
+
+                // 3.메서드 설정
+                methods: {
+                    // myFn: function(){}, -> 일반형
+                    // myFn: ()=>{}, -> 화살표함수형
+                    // myFn(){}, -> 메서드형 : ES6에서 화살표 함수를 더 축약해서 이렇게 쓸 수 있도록 함
+
+                },
+
+                // 4."제이쿼리는 어디에 쓰나?"
+                // 뷰JS 인스턴스 생성 라이프사이클에서 가상돔과 실제돔이 연결,생성된 시점에서 실제돔을 컨트롤하는 제이쿼리를 사용함
+                // -> mounted:function(){코드구역}
+                mounted: function(){
+                    // mounted시 자동 실행되는 구역임! 이 안에서 제이쿼리를 쓰면 됨
+                    // 바깥에다 함수 만들어놓고 이 구역 안에다가 호출시켜도 무방함
+                    // 펑션구역임 (그래야 함수 실행하지)
+
+
+
+                } //////////////////// mounted function 구역 //////////////////
+
+            }); ///////////////// vn Vue /////////////////////
+
+
+
+
+
+        }); //////////////////// jQB ///////////////////////////////
+    </script>
+    <style>
+        /* 뷰 대상박스 */
+        #vapp{
+            width: 700px;
+            padding: 20px;
+            border: 1px dashed darkblue;
+            border-radius: 20px;
+            margin: 0 auto;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- 뷰JS 대상 요소 -->
+    <div id="vapp">
+        <!-- 1.제목 -->
+        <!-- <h1 class="tit"> {{bigtit}} </h1> 👉이렇게 하지 않고 아래처럼 디렉티브를 써서 사용할 수도 있음 -->
+        <h1 class="tit" v-text="bigtit"></h1>
+        <!-- <h1 class="tit" v-html="bigtit"></h1> -->
+        <!--
+            [ v-text 디렉티브 ]
+            -해당요소의 데이터를 텍스트로 넣는 디렉티브 속성
+            -머스테쉬 출력은 v-text 출력과 같음 (얘는 콤비네이션(?)할때,,그러니까 섞어 쓸 때는 편히 쓸 수 있다는 장점이 있음)
+
+            [ v-html 디렉티브 ]
+            -해당요소의 데이터를 태그로 넣는 디렉티브 속성
+
+        -->
+        <!-- 2.내용 -->
+        <p v-html="contxt"></p>
+        <!-- 3.상품리스트 -->
+        <div class="gwrap">
+            <ol>
+                <li></li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
