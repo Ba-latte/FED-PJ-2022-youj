@@ -144,6 +144,10 @@ font-family: 'Roboto Condensed', sans-serif;
     color: #fff;
 }
 
+.cbx h2 small {
+    font-size: 14px;
+}
+
 /* 4. 스크롤 등장 액션 클래스 */
 .scAct{
     transform: translateY(20%);
