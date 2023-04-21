@@ -22,7 +22,7 @@ function loadFn(){
     const winH = window.innerHeight;
     console.log("winH: ", winH);
 
-    // 5.패럴렉스 수치 범위 : 움직일 값 설정 (움직일 범위 값을 정해주는 것임)
+    // 5.패럴렉스 수치 범위 : 움직일 값 설정 (움직일 범위 값을 정해주는 것임) -> 100보다 200이 더 많이움직임!
     const setH1 = 100;
     const setH2 = 200;
 
@@ -38,7 +38,7 @@ function loadFn(){
 
 
         // 패럴렉스 범위 : 윈도우 높이값 ~ 0까지
-        // 화면에서 완전히 사라질때 범위는 0이 아니고 요소의 높이값 만큼 마이너스된다!
+        // 화면에서 완전히 사라질때 범위는 0이 아니고 요소의 높이값 만큼 마이너스된다! (적당히 마이너스 값 줘서 요소 전체가 다 올라갈 때까지 작동하도록 할 수도 있음)
         if(elpos < winH && elpos > 0){
             // 대상 요소의 transform Y축 이동 : 트랜스폼이 없을 때엔 랠러티브를 줘서 이동했지만 지금은 트랜스폼으로 이동하는 게 대세!
             // 🌈🌈위치 이동의 계산 원리🌈🌈
@@ -67,16 +67,34 @@ function loadFn(){
 
     // 8.스크롤 이벤트 함수 만들기
     window.addEventListener("scroll", ()=>{
-        // 요소 변수에 담기
-        let elpos = retVal(tg1[2]);
+        // moveEl(위치값, 요소, 정한범위)
+        
+        // 대상1 : 글자박스 패럴렉스 호출
+        tg1.forEach(ele=>moveEl(retVal(ele), ele, setH2));
 
-        // 테스트 - 3번째 텍스트 위치값
-        console.log(elpos);
-
-
+        // 대상1 : 아이콘박스 패럴렉스 호출
+        tg2.forEach(ele=>moveEl(retVal(ele), ele, setH1));
 
     }); /////////////////// scroll 이벤트 //////////////////////
 
 
+    // 스크롤 바를 직접 잡고 움직일시 부드러운 스크롤 위치값 업데이트
+    window.addEventListener("mouseup", ()=>{
+        // 이것 안 하면 다시 스크롤시 튐!
+        pos = window.scrollY;
+    });
+    window.addEventListener("keyup", ()=>{
+        // 이것 안 하면 다시 스크롤시 튐!
+        pos = window.scrollY;
+    });
+    
+    // 로딩시 맨 위로 이동하기
+    setTimeout(() => {
+        // 맨위로 이동
+        window.scrollTo(0,0);
+        // 부드러운 스크롤 위치값 반영 (안하면 다음번 스크롤시 아까 위치로 스크롤이 튐!)
+        pos = 0;
+    }, 100);
+    
 
 } //////////////////////// loadFn 함수 /////////////////////////////////
