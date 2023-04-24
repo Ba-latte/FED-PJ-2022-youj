@@ -286,10 +286,12 @@ const clearAuto = ()=> {
     clearTimeout(banAgain);
 
     banAgain = setTimeout(banAutoSlide,3000);
+    console.log("클리어!!");
 }; //////////////////// clearAuto 함수 /////////////////
 
 // 배너 이동시 자동 넘김 지우기 세팅
-slide.on("mousemove dragstart dragstop", clearAuto);
+// 드래그가 있어야 천천히 드래그하는 도중에 혼자 훅 넘어가지 않음!!
+slide.on("drag dragstart dragstop", clearAuto);
 
 // 자동 넘김 인터발 세팅하기 //////////////////////
 // 변수에 담아 정지하기 ///////
