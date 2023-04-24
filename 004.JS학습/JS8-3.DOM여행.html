@@ -73,12 +73,19 @@
                                         console.log(isNow);
                                         if (isNow) return;
                                         // 마지막 노드와 같으면 return
-                                        cele = ele;
+                                        // cele = ele;
                                         ele.classList.remove("on");
+                                        // 😂😂바로 다음것을 on으로 변경하면 forEach문에서 다음 요소 돌때 다시 on이 걸리게 되고 if문에 들어오게 됨
+                                        // 그래서 계속 걸리는 것임
+                                        // ->>해결책 : setTimeout()으로 시간차를 조금 주어서 이따가 넣어주면 됨
+                                        setTimeout(()=>
+                                        ele.nextElementSibling.classList.add("on")
+                                        , 10);
+                                        
                                     }
                                 }); //// forEach //////
-                            if (!isNow)
-                                cele.nextElementSibling.classList.add("on");
+                            // 😂😂if (!isNow)
+                                // cele.nextElementSibling.classList.add("on");
                                 // nextElementSibling : 선택한 요소의 다음요소
                                 // "element"가 들어가 있어야 구체적으로 요소를 선택함!
                             break;

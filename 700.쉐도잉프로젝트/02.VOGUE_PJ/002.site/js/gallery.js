@@ -20,31 +20,31 @@ $(() => {
             nextEl: ".swiper-button-next", // 다음버튼 요소설정
             prevEl: ".swiper-button-prev", // 이전버튼 요소설정
         },
-        autoplay: {
-            // 자동넘김설정
-            delay: 2000, // 시간간격(1/1000초)
-            disableOnInteraction: false,
-            // 상호작용(건드리는 것!)이 없으면 다시 재시작(false일때)
-        },
+        // autoplay: {
+        //     // 자동넘김설정
+        //     delay: 2000, // 시간간격(1/1000초)
+        //     disableOnInteraction: false,
+        //     // 상호작용(건드리는 것!)이 없으면 다시 재시작(false일때)
+        // },
         // 사이즈별 슬라이드 개수, 간격 동적 변경 세팅하기
         // Responsive breakpoints
-        breakpoints: {
-            // when window width is >= 200px
-            200: {
-                slidesPerView: 1,
-                spaceBetween: 0,
-            },
-            // when window width is >= 700px
-            700: {
-                slidesPerView: 2,
-                spaceBetween: 10,
-            },
-            // when window width is >= 1000px
-            1000: {
-                slidesPerView: 3,
-                spaceBetween: 20,
-            },
-        },
+        // breakpoints: {
+        //     // when window width is >= 200px
+        //     200: {
+        //         slidesPerView: 1,
+        //         spaceBetween: 0,
+        //     },
+        //     // when window width is >= 700px
+        //     700: {
+        //         slidesPerView: 2,
+        //         spaceBetween: 10,
+        //     },
+        //     // when window width is >= 1000px
+        //     1000: {
+        //         slidesPerView: 3,
+        //         spaceBetween: 20,
+        //     },
+        // },
     });
 
 
