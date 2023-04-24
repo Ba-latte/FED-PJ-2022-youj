@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS8-3. DOM여행</title>
+    <style>
+        .stage {
+            border: 3px dotted blue;
+            padding: 20px;
+        }
+
+        .stage ul {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .stage ul.on {
+            background-color: pink;
+        }
+
+        .stage li {
+            width: 50px;
+            height: 50px;
+            border: 5px dashed red;
+            border-radius: 50%;
+            margin: 0 10px;
+        }
+
+        .stage li.on {
+            background: lime url(images/num/num_05.png) no-repeat center/cover;
+        }
+    </style>
+    <script>
+        /* 돔 여행 : 앞,뒤,부모,자식 이리저리 왔다갔다 하는 거야~ 제이쿼리에서 next()이런 메서드의 내부는 이렇게 생겼을 거야! */
+        window.addEventListener("load", () => {
+            let stage = document.querySelector(".stage");
+            let tgs = stage.querySelectorAll("li");
+            let btns = document.querySelectorAll(".btns button");
+            btns.forEach((ele) => {
+                ele.onclick = () => {
+                    console.log(ele.innerText);
+                    let txt = ele.innerText;
+                    let cele;
+                    let isNow;
+
+                    if(stage.querySelector("ul").classList.contains("on") && txt!=="부모로"){
+                        stage.querySelector("ul").classList.remove("on");
+                        tgs[0].classList.add("on");
+                    }
+
+
+                    switch (txt) {
+                        case "맨앞으로":
+                            tgs.forEach(
+                                (ele) => {
+                                    if (ele.classList.contains("on")) {
+                                        ele.classList.remove("on");
+                                    }
+                                }); //// forEach //////
+                                tgs.item(0).classList.add("on");
+                            break;
+                        case "뒤로":
+                            tgs.forEach(
+                                (ele) => {
+                                    if (ele.classList.contains("on")) {
+                                        // 요소.isSameNode(비교할 요소)
+                                        // 해당 요소와 괄호안의 비교할 요소와 같으면 true, 같지 않으면 false를 리턴함
+                                        isNow = ele.isSameNode(tgs.item(tgs.length - 1))
+                                        console.log(isNow);
+                                        if (isNow) return;
+                                        // 마지막 노드와 같으면 return
+                                        cele = ele;
+                                        ele.classList.remove("on");
+                                    }
+                                }); //// forEach //////
+                            if (!isNow)
+                                cele.nextElementSibling.classList.add("on");
+                                // nextElementSibling : 선택한 요소의 다음요소
+                                // "element"가 들어가 있어야 구체적으로 요소를 선택함!
+                            break;
+                        case "앞으로":
+                            // 👀우리는 눈으로 보면 몇번째에 on이 있는지 알지만, 기계는 모르니까 for문 돌면서 체크해야함
+                            tgs.forEach(
+                                (ele) => {
+                                    if (ele.classList.contains("on")) {
+                                        
+                                        isNow = ele.isSameNode(tgs.item(0));
+                                        console.log(isNow);
+                                        if (isNow) return;
+                                        // 첫번째 요소가 같으면 return함
+                                        cele = ele;
+                                        ele.classList.remove("on");
+                                        ele.previousElementSibling.classList.add("on");
+                                        // previousElementSibling : 이전 요소를 선택함
+                                    }
+                                }); //// forEach //////
+                            break;                            
+                        case "맨뒤로":
+                            tgs.forEach(
+                                (ele) => {
+                                    if (ele.classList.contains("on")) {
+                                        ele.classList.remove("on");
+                                    }
+                                }); //// forEach //////
+                                tgs.item(tgs.length - 1).classList.add("on");
+                                // length - 1 : 길이에서 1을 빼면 맨 마지막이 나옴
+                            break;
+                        case "부모로":
+                            tgs.forEach(
+                                (ele) => {
+                                    if (ele.classList.contains("on")) {
+                                        ele.classList.remove("on");
+                                        ele.parentElement.classList.add("on");
+                                        // parentElement : 부모 요소 선택함
+                                    }
+                                }); //// forEach //////
+                            break;
+                    } ////// switch ////
+                }; //////// click /////
+            }); ///// forEach //////////
+        }); /////////// load ///////////////////
+    </script>
+</head>
+
+<body>
+    <div class="stage">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li class="on"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+
+    </div>
+    <div class="btns">
+        <button>맨앞으로</button>
+        <button>앞으로</button>
+        <button>뒤로</button>
+        <button>맨뒤로</button>
+        <button>부모로</button>
+    </div>
+
+
+</body>
+
+</html>

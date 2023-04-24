@@ -39,6 +39,25 @@ $(".gnb a").click(chgMenu);
 // 대상 : .indic a
 $(".indic a").click(chgMenu);
 
+// 키보드 이벤트발생시 업데이트
+// 1. Page Up(33) / Up Arrow (38) 
+// 2. Page Down(34) / Down Arrow (40) 
+$(document).keydown((e)=>{
+    // 이전페이지이동
+    if(e.keyCode===33 || e.keyCode===38){
+        pno--;
+        if (pno === -1) pno = 0;
+        movePg();
+    }
+    // 다음페이지이동
+    else if(e.keyCode===34 || e.keyCode===40){
+        pno++;
+        if (pno === pgcnt) pno = pgcnt - 1;
+        movePg();
+    }
+}); ///////////// keydown ////////////////
+
+
 
 
 // 새로고침시 스크롤위치를 계속 잡아두고 있기 때문에 세팅은 1번으로 바뀌는데 위치는 그대로임;; -> 바꿔야함
@@ -135,7 +154,8 @@ function chkCrazy(seq){ //// seq : 관리 변수 순번
 *******************************************************/
 function movePg(){
     // ⭐대상 : html, body -> 2개를 모두 잡아야 공통적으로 적용됨!!(모든 브라우저에서 적용되게 하려면~)⭐
-    $("html, body").animate({
+    $("html, body").stop().animate({
+        // stop()를 추가해주면 중간에 중복되는 것들은 지워지고 맨 마지막만 살려서 적용시킴(이러지 않으면 광클처럼 호출한 게 메모리에 쌓이게 됨)
         scrollTop: ($(window).height()*pno) + "px"
     }, 800, "easeInOutBack", showEle);
     // 이동 후 콜백함수 (요소 등장 함수) 호출하기
