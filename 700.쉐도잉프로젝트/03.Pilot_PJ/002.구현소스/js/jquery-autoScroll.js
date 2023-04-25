@@ -135,53 +135,101 @@ function autoScroll(){
     
     /*******************************************************
         함수명 : movePg
-        기능 : 페이지 이동
+        기능 : 페이지 이동 애니메이션
     *******************************************************/
     function movePg(){
         // ⭐대상 : html, body -> 2개를 모두 잡아야 공통적으로 적용됨!!(모든 브라우저에서 적용되게 하려면~)⭐
         $("html, body").animate({
             scrollTop: ($(window).height()*pno) + "px"
-        }, 800, "easeInOutBack", showEle);
-        // 이동 후 콜백함수 (요소 등장 함수) 호출하기
-    
-        // 대상 : GNB메뉴, 인디케이터 메뉴
+        }, 800, "easeInOutBack", actPage
+        // 이동 후 콜백함수 호출
+        );
+
+        // 대상: GNB메뉴 , 인디케이터 메뉴
         gnb.eq(pno).addClass("on").siblings().removeClass("on");
         indic.eq(pno).addClass("on").siblings().removeClass("on");
     
     } ///////////////// movePg 함수 ///////////////////////
     
     
+    /**************************************************************
+        [ 페이지 등장 액션 요소 적용하기 ]
+    -이벤트 적용 시점 : 페이지 도착 후(애니 후 콜백)
+    -이벤트 대상 : 각 페이지 동일
+    (1).page .imgc : 이미지 파트
+    (2).page .txtc h2 a : 타이틀 파트
+    -변경 내용 : 스타일시트 아래 항목 변경
+        (1)변경값
+        transform: rotate(45deg);
+        opacity: 0;
+        transition: 1s 1s; ->> 타이틀만 지연시간을 주기
+        (2)고정값
+        transform-origin: left top;
+        display: inline-block; ->> a요소만 주면 됨
+    **************************************************************/
     
-    
-    // 등장할 요소 초기화
-    minfo.css({
-        opacity: 0,
-        transform: "translate(-50%, 50%)",
-        transition: ".6s ease-out"
-    }); //////////// css //////////////////
-    
-    
-    /*******************************************************
-        함수명 : showEle
-        기능 : 페이지 이동 후 요소 등장하기
-    *******************************************************/
-    function showEle(){
-        // .minfo 페이지별 등장하기
-        pg.eq(pno).find(".minfo").css({
-            opacity: 1,
-            transform: "translate(-50%, -50%)",
-        }) /////////// css ////////////////
-        .parents(".page").siblings().find(".minfo").css({
+    /***************************************************************
+        함수명 : initSet
+        기능 : 등장요소 처음 상태 세팅
+    ***************************************************************/
+    function initSet(){
+        
+        // 1.초기화하기 //////////////////////
+        // 대상선정 : .imgc
+        $(".imgc").css({
+            transform: "rotate(45deg)",
+            transformOrigin: "-10% -10%",
             opacity: 0,
-            transform: "translate(-50%, 50%)",
-            transition: ".6s ease-out"
-        });;
-    } //////////////////// showEle 함수 ///////////////////////
+            transition: "1s ease-in-out",
+        }); /////////////// css ////////////////
+        // 대상선정 : .txtc a
+        $(".txtc a").css({
+            
+            transform: "rotate(45deg)",
+            transformOrigin: "-100% -100%",
+            opacity: 0,
+            transition: "1s ease-in-out .5s",
+            display: "inline-block",
+        }); //////////// css ///////////////
+    } /////////////////////////// initSet 함수 ///////////////////////////////////
+
+    // 초기화함수 최초 호출하기
+    initSet();
     
-    // 최초 호출하기
-    setTimeout(showEle, 1000);
+    
+    /********************************************************
+        함수명 : actPage
+        기능 : 페이지 도착 후 등장 애니메이션
+    ********************************************************/
+    function actPage(){ 
+        // 이동후 확인
+        console.log("액숀~!!",pno);
+
+        // pno가 0 또는 4가 아니면 액션 작동!
+        if(pno !== 0 || pno !== 4){
+            // 대상선정 : 해당 순번의 .page 아래 .imgc 와 txtc a임
+            $(`.page:eq(${pno}) .imgc, .page:eq(${pno}) .txtc a`)
+            .css({
+                transform: "rotate(0deg)",
+                transformOrigin: "left top",
+                opacity: 1,
+            }); /////////////// css ////////////////
+        } //////////////// if : 0 또는 4가 아닌 경우 /////////////////////
+
+        // 첫페이지일 때 초기화 하기!
+        if(pno === 0) initSet();
+    
+    } ///////////// actPage 함수 ////////////
+    
+
+
+
+
     
 } ///////////////////////// autoScroll ////////////////////////////////
 
+
+
 // 전체 함수 내보내기
 export default autoScroll;
+
