@@ -1,6 +1,13 @@
 @charset "utf-8";
 /* 쇼핑몰 갤러 CSS - small.css */
 
+/* 웹폰트 CDN */
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Ubuntu&display=swap');
+body{
+    font-family: 'Nanum Gothic','Ubuntu', sans-serif;
+}
+
+
 /* 타이틀 */
 .tit {
     text-align: center;
@@ -41,6 +48,8 @@
 
     /* 이미지 확대시 넘치는 이미지 숨기기 */
     overflow: hidden;
+    
+    cursor: pointer;
 }
 
 /* 그리드 갤러리 이미지 */
@@ -104,6 +113,7 @@
 
 
 
+
 /* IR 클래스 */
 .ir {
     display: block;
@@ -120,7 +130,6 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(255, 255, 255, 0.9);
-
     display: none;
     /* 처음에 안보임 */
 }
@@ -182,29 +191,163 @@
     left: 50%;
     transform: translate(-50%, -50%);
     /* 정중앙이동 */
-
+    width: 60vw;
     height: 60vmin;
     /* vmin은 보이는 화면에서 가로/세로중 작은쪽기준! */
-
-    /* display: none; */
-    /* 처음에 보임 */
+}
+#imbx h1 {
+    font-size: 20px;
+}
+/* 속박스 : flex박스 */
+.inx {
+    display: flex;
+    height: 100%;
+}
+/* 속박스 하위 2개의 section 등분할시킴 */
+.inx > section {
+    flex: 1;
+    border: 4px double gray;
 }
 
 /* 큰 이미지 */
-#imbx img {
+.gimg img {
+    width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
+/* 할인된 경우 원래 가격 지움표시 클래스 */
 .del {
     text-decoration: line-through;
-    color: green;
+    color: orange;
 }
 
+/* 세일상품 표시 가상요소 */
+.sale::after{
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 60px;
+    margin-top: -98px;
+    margin-left: -35px;
+    background: url(../img_gallery/sale.png) no-repeat 0/100% 100%;
+}
 
+/*신상품 상세정보 영역*/
+.gdesc {
+    padding: 15px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+.gdesc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 80%;
+    margin-left: 20px;
+}
+.gdesc ol > li {
+    width: 100%;
+    font-family: "Nanum Gothic";
+    font-size: 12px;
+    line-height: 3.5vh;
+}
+.gdesc ol > li > span:first-child {
+    /*각항목 타이틀*/
+    display: inline-block;
+    width: 70px;
+    font-size: 14px;
+}
+.gdesc ol > li:nth-child(3) {
+    border-bottom: 1px solid #ccc;
+}
 
+/*이미지 정렬 공통*/
+.gdesc ol > li img {
+    vertical-align: middle; /*인라인 태그 정렬 세로중앙*/
+    margin: 0 4px;
+}
 
+/*상품명*/
+.gdesc #gtit {
+    font-size: 24px;
+}
+/*상품가격*/
+.gdesc #gprice {
+    font-size: 24px;
+    color: #ff4e08;
+}
 
+/****버튼 구역*****/
+.btn {
+    width: 30%;
+    aspect-ratio: 3/1.2;
+    font: 1vw "Ubuntu";
+    color: #fff;
+    background-color: #666;
+    vertical-align: top;
+    cursor: pointer;
+    border-radius: 15px;
+}
+.btn1 {
+    /*구매버튼*/
+    background-color: #ff4e08;
+}
 
+/*상세이미지 박스*/
+.dimgs {
+    position: relative;
+    width: 1440px;
+    padding: 50px 0;
+    margin: 0 auto;
+}
+.dimgs > img {
+    /*이미지 공통*/
+    width: 49%;
+    height: 49%;
+    margin: 0.5%;
+    outline: 1px solid #ccc;
+}
+
+/*상품 수량에 따른 계산 박스*/
+#sum {
+    width: 25px;
+}
+.chg_num {
+    display: inline-block;
+    width: 18px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    vertical-align: -4px;
+}
+.chg_num img {
+    cursor: pointer;
+}
+.tot {
+    font-size: 24px !important;
+}
+#total {
+    color: #fc0206;
+    font-weight: bold;
+}
+
+/* 스크롤바 디자인 클래스 */
+.scbar::-webkit-scrollbar {
+    /* 전체 스크롤바 크기변경 */
+    width: 7px;
+}
+.scbar::-webkit-scrollbar-thumb {
+    /* 스크롤바 */
+    background-color: #555;
+    border-radius: 5px;
+}
+.scbar::-webkit-scrollbar-track {
+    /* 스크롤바 트랙 */
+    background-color: #ddd;
+    border-radius: 5px;
+}
 
 /* 1100px이하 미디어쿼리 시작 */
 @media screen and (max-width: 1100px) {

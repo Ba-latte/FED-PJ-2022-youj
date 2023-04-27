@@ -23,7 +23,15 @@
     <!-- 그리드 레이아웃 박스 -->
     <div class="grid">
         <!-- 😂😂여기가 부모입니다😂😂 -->
-        <list-comp v-for="(n, i) in 50" v-bind:key="n" v-bind:haha="n" v-bind:myseq="i" v-bind:endlet="'WD'" v-on:hull="goMsg" v-on:gotkimchi="ovMsg" v-bind:data-num="n"></list-comp>
+        <list-comp 
+        v-for="(n, i) in 50" 
+        v-bind:key="n" 
+        v-bind:haha="n" 
+        v-bind:myseq="i" 
+        v-bind:endlet="'WD'" 
+        v-on:hull="goMsg" 
+        v-on:gotkimchi="ovMsg" 
+        v-bind:data-num="n"></list-comp>
     </div>
 
     <!-- 큰 이미지 보기 박스 -->
