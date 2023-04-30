@@ -57,6 +57,7 @@ Vue.component("list-comp", {
         insComma(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
+        
         // 부모 이벤트 호출 전달하기 : $emit()메서드 사용함!
         goPapa() {
             // $emit(부모가 만든 이벤트명)
@@ -86,7 +87,7 @@ new Vue({
         },
         ovMsg() {
             // console.log("이렇게?? 오버??");
-        },
+        }
     },
 }); //////////////////// Vue 인스턴스 ///////////////////////////
 
@@ -112,9 +113,19 @@ new Vue({
         let nowNum = 1;
         // 공유(하는)가격 변수
         let orgprice = 0;
+        // 공유 전체수량변수
+        let tot = 1;
+        // 공유하는 전체수량/입력창 초기화
+        const initTot = ()=>{
+            tot = 1;
+            $("#sum").val(1);
+        }; //////////////// initTot ////////////////////
 
         // 1. 갤러리 리스트 클릭시 큰이미지박스 보이기
         $(".grid>div").click(function(){
+
+            // 0.전체수량 초기화
+            initTot();
 
             // (1)클릭된 이미지 경로 읽어오기
             let isrc = $(this).find("img").attr("src");
@@ -145,34 +156,38 @@ new Vue({
             // 1. [ 가격 계산을 위한 원가격 세팅 ]
             orgprice = tg.find("h3>span:first").attr("data-price"); 
 
-            // 1-1. 세일 적용일 경우 세일 가격으로 업데이트!!
-            if(tg.find("h3>span:first").is(".del")){
-                orgprice = Math.round(orgprice * 0.7)
+            // 2. 세일적용여부
+            let isSale = tg.find("h3>span:first").is(".del");
+
+            // 3. 세일 적용일 경우 세일 가격으로 업데이트!!
+            if(isSale){
+                orgprice = Math.round(orgprice * 0.7);
             } ///////////////// if : 세일 적용된 제품일 경우 //////////////////////////
             
             console.log("원가격", orgprice);
 
 
-            // (2)상품명을 큰 박스에 넣기
+            // 4. 상품명을 큰 박스에 넣기
             $("#gtit, #gcode").text(tg.find("h2").text());
 
-            // (3)상품가격을 큰 박스에 넣기
-            // 세일일 경우와 아닌 경우를 나누기!!
-            // 세일일 때
-            if(tg.find("h3 span").first().is(".del")){
-                $("#gprice, #total").html(
-                    insComma("<small>30% 세일가</small>" + orgprice) + "원"
-                    // tg.find("h3 span").last().text()
-                );
+            // 5. 상품가격을 큰 박스에 넣기
+            // (1)원가격에 표시
+            $("#gprice").html(insComma(orgprice) + "원");
+            // (2)토탈가격에 표시 : 원가 * 개수
+            $("#total").html(insComma(orgprice * tot) + "원");
+
+            // 6. 세일일 때 추가 문구 넣기
+            if(isSale){
+                $("#gprice").prepend("<small>30% 세일가</small>");
             } ////////////////////// if : h3 span태그 중 첫번째 놈이 .del이니? //////////////////
-            // 세일이 아닐 때
-            else{
-                $("#gprice, #total").text(
-                    insComma(orgprice) + "원"
-                    // tg.find("h3 span").first().text()
-                );
-            } //////////////// else : h3 span태그 중 첫번째 놈이 .del이 아닌 경우 ///////////////////////
+
         } //////////////////////// setVal 함수 ///////////////////////////
+
+
+        //🌈🌈정규식함수(숫자 세자리마다 콤마해주는 기능)🌈🌈
+        function insComma(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
         
 
         // 2.닫기 버튼 클릭시 큰이미지박스 숨기기
@@ -186,8 +201,13 @@ new Vue({
         // 3.이전/다음 버튼 클릭시 이미지 변경하기
         $(".abtn").click(function(e){
             // console.log("맞아?");
+
+            // 0.전체수량 초기화
+            initTot();
+
+            // 1.기본이동 막기
             e.preventDefault();
-            
+
             // 오른쪽 버튼 여부
             let isB = $(this).is(".rb");
 
@@ -245,9 +265,52 @@ new Vue({
             } ////////////////// else : 감소일 때 ///////////////////////
 
             // 4.가격 표시하기
+            // 수량을 전역 변수에 할당하여 setVal()에 반영함!
+            tot = isV;
+            setVal();
 
 
         }); ////////////////// click /////////////////////  
+
+
+
+        /***************************************************
+            수량 직접입력 기능 구현
+        1.숫자만 입력(0이상)
+        2.입력즉시 합계 출력
+        3.빈값 금지
+        ***************************************************/
+        // 대상: #sum
+        // 이벤트: keyup(입력즉시 반응)
+        $("#sum").keyup(function(){
+            // 0.요소 자신
+            let ele = $(this);
+            // 1.입력된 값 : input요소는 val()메서드로!
+            let txt = ele.val();
+            // 2.숫자가 아닌 경우: isNaN() - 숫자가 아니면 true / 숫자면 false
+            // -조건 : 숫자가 아니거나 1 미만이거나 빈 값이면 !
+            // -소숫점 방지 : txt.indexOf(".")!== -1
+            // 문자열.indexOf(".") -> 점문자가 없으면 -1임 (!== 않으면 의미) -> 점문자가 없지 않으면 -> 점문자가 있으면!
+            if(isNaN(txt) || txt < 1 || txt === "" || txt.indexOf(".")!== -1){
+                initTot(); // 초기화
+            } ///// if /////
+            // 3.숫자인 경우 tot업뎃 + setVal()호출하기
+            else{
+                tot = txt;
+                if(txt>=100){
+                    alert("100개 이상인 경우 \n 쇼핑몰에 직접 전화주세요~! \n Tel:02-000-000");
+                }
+
+                // 숫자 앞에 0을 넣으면 없애기!
+                // 문자형 숫자를 숫자형으로 변환하면 된다!
+                ele.val(Number(txt));
+            } //// else /////
+
+            // 4.계산 수행
+            setVal();
+
+            console.log("직접입력: ", txt);
+        })
 
 
     } //////////// mounted 함수 구역 ///////////////////
