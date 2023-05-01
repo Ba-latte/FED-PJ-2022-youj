@@ -24,7 +24,12 @@ function autoScroll(){
     // 배너초기화 적용함수 : 리사이즈 할 때 dt라면 초기화하기
     const callInit = ()=>{
         // 모바일 아니면 초기화
-        if(!mob) initSet();
+        if(!mob){ 
+            // 초기화 함수 호출
+            initSet();
+            // 중간페이지일 경우 초기화 제외(지우기)
+            $(".page").eq(pno).find(".imgc, .txtc a").attr("style", "");
+        }
         // 모바일이면 초기화 세팅 지우기
         else{
             // 이미지와 텍스트에 들어있는 style속성 다 지우기
