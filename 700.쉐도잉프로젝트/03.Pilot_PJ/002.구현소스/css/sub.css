@@ -6,3 +6,41 @@
 @import url(core.css);
 @import url(common.css);
 
+
+/* 서브페이지 넘치는 자식요소 보이게 하기 */
+html, body{
+    overflow: visible;
+}
+
+
+/* 배너박스 */
+#ban{
+    height: 100vh;
+}
+
+/* 스와이퍼 디자인 설정 */
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.swiper {
+    margin-left: auto;
+    margin-right: auto;
+}
