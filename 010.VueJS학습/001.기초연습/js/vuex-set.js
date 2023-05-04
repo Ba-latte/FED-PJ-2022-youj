@@ -15,13 +15,13 @@ Vue.component("top-area", {
     <header>
         <ul class="gnb">
             <li>
-                <a href="#">서울</a>
+                <a href="#" v-on:click="chgData('서울')">서울</a>
             </li>
             <li>
-                <a href="#">부산</a>
+                <a href="#" v-on:click="chgData('부산')">부산</a>
             </li>
             <li>
-                <a href="#">제주</a>
+                <a href="#" v-on:click="chgData('제주')">제주</a>
             </li>
         </ul>
     </header>
@@ -30,7 +30,15 @@ Vue.component("top-area", {
         return{}
     },
     methods:{
-        
+        // 스토어 변수 업데이트 메서드
+        chgData(pm){
+            console.log("업데이트!", pm);
+            // 이자리에서 바로 스토어 변수를 업데이트한다!!
+            // 1. 이미지 변수 : imgsrc
+            store.state.imgsrc = store.state.cityData[pm].이미지;
+            // 2. 도시설명 변수 : desc
+            store.state.desc = store.state.cityData[pm].설명;
+        }
     }
 }); //////////////// 상단영역 컴포넌트 //////////////////
 
@@ -107,7 +115,31 @@ new Vue({
             txt:"도시 소개에 오신 것을 환영합니다."
         }
         );
-    },
+    }, //////////////// created 구역 ///////////////////
+    // 제이쿼리는 DOM에 직접 작용하므로 mounted에 구현함
+    mounted(){
+        // 링크 클릭시 a에 클래스 on 주기
+        $(".gnb a").click(function(){
+            $(this).addClass("on")
+            .parent().siblings().find("a").removeClass("on");
+
+            // 박스 애니
+            showBx();
+        }); /////////////// click ///////////////////
+
+        // 이미지와 설명박스 순서대로 나타나기
+        function showBx(){
+            $("main img").css({opacity:0})
+            .delay(500).stop()
+            .fadeTo(400, 1);
+
+            $("main p").css({opacity:0})
+            .delay(1000).stop()
+            .fadeTo(400, 1);
+        } /////////////////// showBx //////////////////////
+
+
+    }, //////////////// mounted 구역 ////////////////
 }); //////////////// 뷰 인스턴스 ////////////////////
 
 
