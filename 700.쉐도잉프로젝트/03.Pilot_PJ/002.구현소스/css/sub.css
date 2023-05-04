@@ -11,6 +11,10 @@ html,
 body {
     overflow: visible;
 }
+body{
+    overflow-x: hidden;
+    /* 넘치는 자식요소 숨기기 + 자식마진 포함하기 */
+}
 
 /* 배너박스 */
 #ban {
@@ -47,7 +51,7 @@ body {
 /* 1. 신상품 컨텐츠 박스 */
 .c1 {
     background: url(../images/newarrival_bg.png) no-repeat top/auto 134%;
-    overflow: hidden;
+    /* overflow: hidden; */
     /* 넘치는 자식요소 숨기기 + 자식마진 포함하기 */
 
     aspect-ratio: 5/2.2;
@@ -63,9 +67,9 @@ body {
 }
 
 /* 신상품 박스 */
-/* .flowbx {
-    margin-bottom: 300px;
-} */
+.flowbx {
+    /* margin-bottom: 300px; */
+}
 /* 움직일 리스트 박스 */
 .flist {
     position: relative;
@@ -131,4 +135,18 @@ body {
     border-bottom: 20px solid #101629;
     /* 삼각형 */
     /* border-top: 20px solid #101629;역삼각형 */
+}
+
+
+/* 컨텐츠 영역2 - 스페셜 영역 */
+.c2{
+    height: 50vh;
+    background: url(../images/gong.jpg) no-repeat fixed center top/cover;
+    text-align: center;
+}
+.c2tit{
+    font: bold 5rem/50vh UB;
+    letter-spacing: 5px;
+    color: #fff;
+    text-shadow: 3px 3px 3px #000;
 }
