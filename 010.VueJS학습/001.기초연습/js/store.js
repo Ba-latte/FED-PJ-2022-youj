@@ -27,6 +27,23 @@
 -참고 : 뷰엑스 관리흐름도 https://docs.google.com/document/d/1xT3IMlWO_kY7pJqNJSDpI4IPe6BtpfoYq9r5M5_YiRE/edit
 
 
+    [ 뷰엑스 스토어 메서드 호출 방법 ]
+1.actions 내부 메서드 호출 : dispatch("메서드명", 전달변수)
+2.mutations 내부 메서드 호출 : commint("메서드명", 전달변수)
+-전달변수는 하나만 보낼 수도 있고, 여러개를 보내고 싶을 때엔 객체로 만들어서 전달하면 됨
+-actions와 mutations 내부의 메서드는 다음과 같은 형태로 구성됨
+actions / mutations : {
+    메서드명(첫번째변수, 두번째변수){
+        
+    }
+    👉첫번째 변수는
+        mutation의 경우 뷰엑스 스토어의 state 변수가 자동으로 들어옴 (뮤테이션은 데이터 변경이 목적)
+        actions의 경우 뷰엑스 스토어의 전체 객체가 들어옴 (미리 불러와서 프리세팅하는 것이 목적)
+    👉두번째 변수는 호출시 전달한 값이 들어옴 
+    (호출한 곳에서 실어 보낸 값이 들어옴)
+}
+
+
 ex) 예시 코드
 new Vuex.Store({
     state:{
@@ -85,21 +102,27 @@ const store = new Vuex.Store({
 
 
     }, /////////// state 구역 ///////////
-    // (2)데이터 변경 메서드 구역
+    // (2)데이터 변경 메서드 구역 : 호출시 commit() 사용!
     mutations:{
         // 초기 데이터 셋업 메서드
-        initSet(state, param){
-            console.log("데이터변경! 초기화!");
-            // state.imgsrc = param; // 👉 파라미터로 단일값을 보낸 경우
+        initSet(헐, param){
+            console.log("데이터변경! 초기화 : ", 헐);
+            // 헐.imgsrc = param; // 👉 파라미터로 단일값을 보낸 경우
             // 파라미터가 객체일 경우 (=데이터가 다수일 경우)
 
             // 이미지데이터 셋업
-            state.imgsrc = param.url;
+            헐.imgsrc = param.url;
             // 설명데이터 셋업
-            state.desc = param.txt;
+            헐.desc = param.txt;
 
         }, ///////////////// initSet 메서드 /////////////////////
     },
+    // (3)백엔드 관련 코딩 비동기 처리 메서드 구역 : 호출시 dispatch() 사용!
+    actions:{
+        myAct(헝, 벙){
+            console.log("나의 액션: ", 헝, 벙);
+        }
+    }
     
 }); /////////////////////////// 뷰엑스 스토어 인스턴스 /////////////////////////////////////
 
