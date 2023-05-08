@@ -51,7 +51,7 @@ Vue.component("top-area", {
 // ex) store.stae.imgsrc
 Vue.component("main-area", {
     // 컴포넌트 영역은 뷰JS에서 해석되는 부분이므로 뷰엑스 스토어의 변수 sotre를 전역 표시 $store라고 표기해야 유효함 (즉, 에러가 없음)
-    // 더 정확한 문법은 'this.@store'라고 써야 하지만 이 파일이 일반 js에서 실행되므로 변수할당된 뷰js 인스턴스 영역 안에서 실행되므로 인스턴스 자신을 가리키는 this를 쓰지 않아도 자동적으로 this가 붙은 것으로 처리해줌
+    // 더 정확한 문법은 'this.$store'라고 써야 하지만 이 파일이 일반 js에서 실행되므로 변수할당된 뷰js 인스턴스 영역 안에서 실행되므로 인스턴스 자신을 가리키는 this를 쓰지 않아도 자동적으로 this가 붙은 것으로 처리해줌
     template:`
     <main>
         <img v-bind:src="$store.state.imgsrc" alt="지역 이미지">
