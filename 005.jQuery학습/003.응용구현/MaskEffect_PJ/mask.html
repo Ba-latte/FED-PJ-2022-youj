@@ -16,13 +16,16 @@
 
         /* 전체부모박스 */
         .wrap {
-            position: absolute;
+            /* position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%); */
+            position: relative;
+            /* 부모자격 */
             width: 1007px;
             height: 455px;
             outline: 1px solid red;
+            margin: 0 auto;
         }
 
         /* 1. 배경고정이미지박스 */
@@ -30,7 +33,7 @@
             position: absolute;
             width: 1007px;
             height: 455px;
-            background: url(./images/main2.jpg) no-repeat fixed;
+            background: url(./images/main2.jpg) no-repeat fixed center top;
         }
 
         /* 2. 마스크효과이동박스 */
@@ -40,7 +43,7 @@
             /* 얼굴중앙위치조정 */
             width: 1007px;
             height: 455px;
-            background: url(./images/main1.jpg) no-repeat fixed;
+            background: url(./images/main1.jpg) no-repeat fixed center top;
 
             /* 트랜지션 */
             transition: left .4s ease-out;
@@ -55,7 +58,34 @@
     </style>
     <script src="js/jquery-1.8.1.min.js"></script>
     <script src="js/jquery-ui-1.10.4.min.js"></script>
-    
+    <script>
+        ////////////////////////////// jQB ////////////////////////////////////////
+        $(()=>{
+            // 세개의 박스 중 가장 위에 있는 박스가 이벤트 대상(#cover)박스임
+            $("#cover").mousemove(function(e){
+                // 1.마우스 커서 이동시 x축 값
+                let posx = e.offsetX;
+                // pageX, pageY는 보이는 화면의 왼쪽 끝이 기준위치임
+                // 그런데 offsetX는 선택한요소 내부의 위치가 기준임. 즉 부모박스(.wrap) 내부에서의 왼쪽 끝 기준임
+                console.log(posx);
+
+                // 2.움직일 대상 : #mask
+                $("#mask").css({
+                    left: -posx*1.2 + "px"
+                    // *1.2 는 마우스를 가운데인 코에 두면 이미지가 가운데에 위치하는 게 아니라 살짝 옆에 있어서 그 걸 조정하기 위해 곱함
+                })
+                ///////////// mousemove이벤트 /////////////////////////
+                
+            })
+            // 2.움직일 대상 : #mask
+            .mouseout(function(){
+                $("#mask").css({
+                    left: "-546px"
+                    // 마우스가 바깥으로 빠져나가면 가운데에 있도록 만들기
+                })
+            }); ///////////// mouseout이벤트 /////////////////////////
+        }); ///////////////////////////// jQB ////////////////////////////////////////
+    </script>
 </head>
 
 <body>
