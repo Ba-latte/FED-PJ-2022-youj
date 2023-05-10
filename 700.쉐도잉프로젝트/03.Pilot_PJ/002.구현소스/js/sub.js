@@ -8,7 +8,10 @@ import comData from "./tempData/data-common.js";
 import subData from "./tempData/data-sub.js";
 // 신상정보 가져오기
 import sinsang from "./gdsData/sinsang.js";
-
+// 뷰엑스 스토어 JS 가져오기
+import store from "./store.js";
+// ⭐중요!!! 반드시 메인으로 쓰는 js파일 한 군데에서 불러와서 써야지만 상태관리됨!!⭐
+// ->>이 js파일에 Vue 인스턴스 생성코드가 같이 있어야한다!
 
 let swiper;
 
@@ -23,6 +26,8 @@ Vue.component("ban-comp", {
 // Vue.component(내가지은요소명, {옵션});
 new Vue({
     el:"#cont",
+    store, // ⭐뷰엑스 스토어 등록 필수⭐
+
 }); ////////////////////////// 서브영역 뷰 인스턴스 /////////////////////////////
 // 👆윗줄에 제일 먼저 쓴 이유 : 제이쿼리코딩이 먹히려면 먼저 얘네가 있어야하기 때문에 제일 윗줄에 써준것임
 
@@ -44,6 +49,7 @@ Vue.component("foot-comp", {
 // new Vue({옵션});
 new Vue({
     el: "#top",
+    store, // ⭐뷰엑스 스토어 사용하려면 등록필수⭐
     data: {},
     // mounted 실행구역 : DOM 연결 후
     mounted: function () {
@@ -69,6 +75,12 @@ new Vue({
 
         // 스크롤리빌 플러그인 적용 호출
         $.fn.scrollReveal();
+
+        // 전체 메뉴 클릭시 전체 메뉴창 닫기
+        $(".mlist a").click(()=>$(".ham").trigger("click"));
+        // $(선택요소).trigger(이벤트명)
+        // ->> 선택 요소의 이벤트를 강제 발생시킨다 (제이쿼리전용)
+        // 참고사항 : JS에서의 클릭이벤트 강재 발생법은 document.querySelector(요소).click(); 이다
         
     },
     // created 실행구역 : DOM 연결 전
