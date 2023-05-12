@@ -18,12 +18,17 @@ let swiper;
 
 // #### 서브영역 메뉴 뷰 템플릿 세팅하기 ####
 // Vue.component(내가지은요소명, {옵션});
+// 1.배너파트 컴포넌트
 Vue.component("ban-comp", {
     template: subData.banner,
-}); ////////////////////////// 상단영역 Vue component /////////////////////////////
+}); ////////////////////////// ban 컴포넌트 /////////////////////////////
+
+// 2.컨텐츠1 영역 컴포넌트
+Vue.component("cont1-comp", {
+    template: subData.cont1,
+}); //////////////////////// cont1 컴포넌트 ///////////////////////////
 
 // #### 서브영역 뷰 인스턴스 세팅하기 ####
-// Vue.component(내가지은요소명, {옵션});
 new Vue({
     el:"#cont",
     store, // ⭐뷰엑스 스토어 등록 필수⭐
@@ -39,6 +44,7 @@ new Vue({
 Vue.component("top-comp", {
     template: comData.tareaSub,
 }); ////////////////////////// 상단영역 Vue component /////////////////////////////
+
 
 // #### 하단영역 메뉴 뷰 템플릿 세팅하기 ####
 Vue.component("foot-comp", {
