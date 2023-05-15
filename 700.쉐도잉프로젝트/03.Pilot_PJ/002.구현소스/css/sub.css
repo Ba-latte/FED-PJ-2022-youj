@@ -157,6 +157,17 @@ body {
     background: url(../images/sub/men/02.special.png) no-repeat fixed center top/cover;
     text-align: center;
 }
+/* 신상품 배경이미지 카테고리 클래스추가 */
+.c2.men{
+    background-image: url(../images/sub/men/02.special.png);
+}
+.c2.women{
+    background-image: url(../images/sub/women/02.special.png);
+}
+.c2.style{
+    background-image: url(../images/sub/style/02.special.png);
+}
+/* 타이틀 */
 .c2tit {
     font: bold 5rem/50vh UB;
     letter-spacing: 5px;
@@ -185,11 +196,11 @@ body {
     /* 등분할 영역까지가 0%이고 양수는 영역침범 */
 }
 /* 컨텐츠영역4 이미지 */
-.c4 img {
+/* .c4 img {
     object-fit: fill;
-    /* width: auto; */
-    /* right: -26%; */
-}
+    width: auto;
+    right: -26%;
+} */
 
 /* 컨텐츠영역4 글자 */
 .c4 .txtc .tm {

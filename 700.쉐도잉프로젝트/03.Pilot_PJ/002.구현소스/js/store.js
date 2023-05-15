@@ -7,10 +7,10 @@ const store = new Vuex.Store({
             "남성":{
                 // 남성메뉴
                 menu: [
-                    'NEW ARRIVAL',
-                    'WINDBREAKER',
-                    'BEACH STYLE',
-                    'SPORT STYLE'
+                    "NEW MEN'S ARRIVAL",
+                    "WINDBREAKER",
+                    "BEACH STYLE",
+                    "SPORT STYLE"
                 ],
                 // 배너 개수
                 cnt:3,
@@ -20,10 +20,10 @@ const store = new Vuex.Store({
             "여성":{
                 // 여성메뉴
                 menu: [
-                    'NEW ARRIVAL',
-                    'SPORTY FASHION',
-                    'FREE STYLE',
-                    'COMFORTABLE STYLE'
+                    "NEW WOMEN'S ARRIVAL",
+                    "SPORTY FASHION",
+                    "FREE STYLE",
+                    "COMFORTABLE STYLE"
                 ],
                 // 배너 개수
                 cnt:3,
@@ -33,10 +33,10 @@ const store = new Vuex.Store({
             "스타일":{
                 // 스타일메뉴
                 menu:[
-                    'NEW ARRIVAL',
-                    'GOLF LIFE',
-                    'CAMPING STYLE',
-                    'SPORT STYLE'
+                    "SPECIAL SUMMER STYLE",
+                    "GOLF LIFE",
+                    "CAMPING STYLE",
+                    "SPORT STYLE"
                 ],
                 // 배너 개수
                 cnt:5,
@@ -45,19 +45,15 @@ const store = new Vuex.Store({
             },
         },
         // 공통처리 메뉴 변수
-        menu: [
-            'NEW ARRIVAL',
-            'WINDBREAKER',
-            'BEACH STYLE',
-            'SPORT STYLE'
-        ],
+        menu: [],
         // 공통 처리 배너 개수 변수
-        cnt: 3,
+        cnt: 0,
         // 공통 처리 카테고리명 변수
-        cat:"men",
+        cat:"",
     },
     // state 데이터 변경 메서드 구역
     mutations:{
+
         // 데이터 변경 셋업 메서드
         chgData(dt, pm){
             // dt-state데이터, pm-전달값
