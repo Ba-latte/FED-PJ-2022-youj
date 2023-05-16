@@ -67,7 +67,7 @@ const store = new Vuex.Store({
         // 데이터 변경 셋업 메서드
         chgData(dt, pm){
             // dt-state데이터, pm-전달값
-            console.log("데이터 변경: ", pm);
+            console.log("데이터 변경!!!11: ", pm);
             // pm에 객체 데이터 속성명이 전달됨 (남성, 여성, 스타일)
 
             // 1.해당 카테고리 개수 업데이트
