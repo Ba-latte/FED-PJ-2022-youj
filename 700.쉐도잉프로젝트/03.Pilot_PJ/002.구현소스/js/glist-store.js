@@ -58,12 +58,15 @@ const store = new Vuex.Store({
 
         // more 변수 업데이트 메서드
         updateMore(dt, pm){
-            dt.mnum = pm;
+            // mnum은 모어 범위스 : += 로 여러번 모어 진행하기
+            dt.mnum += pm;
             // mnum-more의 범위 수
             // pm-업데이트할 전달된 숫자
 
-            // 업데이트 후 모어버튼 없애기
-            dt.mbtn = false;
+            // 업데이트 후 모어버튼 없애기 (한계수(제품 총 갯수)를 넘으면 없어지게 하기)
+            if(dt.mnum>=25){
+                dt.mbtn = false;
+            }
         }, ///////////////// updateMore 메서드 //////////////
     },
 }); //////////////// 뷰엑스 스토어 /////////////////////////////////
