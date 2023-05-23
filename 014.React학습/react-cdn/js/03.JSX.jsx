@@ -101,10 +101,139 @@ const myele4 = (
 // ->> 그게 바로 위의 'JSX 태그요소 작성시 여러줄일 경우' 에서 지원되는 스타일 1)과 2)임!
 // ->> 근데 CDN에서는 2)의 React.Fragment라고 써야함
 
+
 // 출력방식 1번 사용한 경우) 네번째 div요소에 출력하기
 ReactDOM.render(myele4, document.querySelectorAll("#root>div")[3]);
 
 
 
+// 5번에는 내가 원하는 태그를 출력해보기
+
+const mydata = [
+    {
+        idx: 1,
+        name: "김밥",
+        birth: "91.11.23"
+    },
+    {
+        idx: 2,
+        name: "김말이",
+        birth: "97.03.14"
+    },
+    {
+        idx: 3,
+        name: "순대",
+        birth: "04.06.29"
+    },
+    {
+        idx: 4,
+        name: "튀김",
+        birth: "10.10.01"
+    },
+];
+
+// map(value, index, array)을 사용한 태그 생성하기
+// map(배열값, 순번, 배열객체전체 자기자신)
+// -파라미터 구성은 forEach() 메서드와 유사함
+const mylist = mydata.map(val => 
+    <ul>
+        <li>{val.idx}</li>
+        <li>{val.name}</li>
+        <li>{val.birth}</li>
+    </ul>
+);
+
+const myele5 = 
+    <React.Fragment>
+        <h1>냐미 리스트</h1>
+        {mylist}
+    </React.Fragment>
+
+// 출력방식 1번 사용한 경우) 다섯번째 div요소에 출력하기
+ReactDOM.render(myele5, document.querySelectorAll("#root>div")[4]);
+
+
+
+
+
+
 /**********************************************************************************
+
+    [ JSX는 홀로태그라도 끝에 닫기를 해줘야 함 ]
+ex)<br> 👉 <br/>
+<input type="text"> 👉 <input type="text" />
+    
 **********************************************************************************/
+const myele6 = <input type="text" value="홀로 태그는 스스로 닫아라!" />;
+
+// 출력방식 1번 사용한 경우) 여섯번째 div요소에 출력하기
+ReactDOM.render(myele6, document.querySelectorAll("#root>div")[5]);
+
+
+
+
+
+
+/**********************************************************************************
+
+    [ JSX에서 속성 클래스는 className으로 표기함 ]
+ex)<태그명 class="클래스명">
+-class는 JS에서 키워드이므로 사용 못함
+-대신에 classNmae이라고 아래처럼 써야함
+ex)<태그명 classNmae="클래스명">
+
+**********************************************************************************/
+const myele7 = <h1 className="myclass">className 속성으로 클래스 세팅해야함</h1>
+
+// 출력방식 1번 사용한 경우) 일곱번째 div요소에 출력하기
+ReactDOM.render(myele7, document.querySelectorAll("#root>div")[6]);
+
+
+
+
+
+
+
+/**********************************************************************************
+
+    [ JSX에서 조건문 사용하기 - if문 ]
+-리액트는 if명령문을 지원하지만 JSX 내부에서는 지원하지 않음
+why)그자리에 바로 나와야하기 때문(표현식이라서)
+-JSX에서 조건문을 사용하려면?
+->JSX 외부에서 if문을 사용하거나 아니면 내부에서 삼항연산자를 사용할 수 있음
+
+**********************************************************************************/
+// JSX 외부에서 if문 사용하기
+const x = 1000;
+let txt = "이 돈으로는 충분히 살 수 있어!";
+
+if(x < 10000){
+    txt = "돈이 부족해서 살 수 없어!";
+} //////////// if /////////////
+// : 이렇게 바깥에서 함수 처리를 한다는 것임
+
+const myele8 = 
+<div>
+    <h1>현재 내가 가진 돈은 {x}원</h1>
+    <h1>{txt}</h1>
+</div>;
+
+// 출력방식 1번 사용한 경우) 여덟번째 div요소에 출력하기
+ReactDOM.render(myele8, document.querySelectorAll("#root>div")[7]);
+
+
+
+
+// JSX 표현식에 삼항연산자 사용하기
+let time = 8;
+const myele9 = (
+    <React.Fragment>
+        <h1>지금 몇 시지? {time}시야!</h1>
+        <h1>{time > 9 ? "지금 집에 들어와!🤦‍♀️" : "더 놀다와~😊"}</h1>
+    </React.Fragment>
+);
+
+// 출력방식 1번 사용한 경우) 아홉번째 div요소에 출력하기
+ReactDOM.render(myele9, document.querySelectorAll("#root>div")[8]);
+
+
