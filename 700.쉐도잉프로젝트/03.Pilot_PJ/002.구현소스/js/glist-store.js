@@ -269,7 +269,7 @@ const store = new Vuex.Store({
             $("#cartlist")
             // (1) html 태이블 태그 넣기
             .html(`
-                <a href="#" class="cbtn cbtn2">×</a>
+                <a href="#" class="cbtn cbtn2"></a>
                 <table>
                     <caption>
                         <h1>카트 리스트</h1>
