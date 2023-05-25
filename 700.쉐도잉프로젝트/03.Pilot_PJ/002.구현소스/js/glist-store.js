@@ -87,25 +87,49 @@ const store = new Vuex.Store({
             org = JSON.parse(org);
             console.log("변환 객체(배열로 만들려고 변환시키는거야):", org);
             
-            // 3.배열뒤에 밀어넣기 메서드 : push(값)
-            org.push(dt.gdata[pm]);
-            console.log("push한 후 객체:", org);
+            
+            // 이미 선택한 상품일 경우 분기하기
+            // 저장상태 변수 : 기본값이 true로 하기
+            let save = true;
+            org.forEach(v=>{
+                // 만약에 org의 각각 값의 idx가 setData의 dt의 pm번째 gdaa의 idx와 같니?
+                // 같은 데이터인가? (idx값으로 비교)
+                // ->>v.idx는 현재 카트에 있는 아이템 순번을 말하고 dt.gdata[pm].idx는 입력하려는 새로운 아이템 idx를 말함
+                if(v.idx == dt.gdata[pm].idx){
+                    alert("이미 선택하신 상품입니다!");
+                    // 저장상태 변수를 false로 바꾸기
+                    save = false;
+                } ////////// if /////////////////
+                
+            }) /////////// forEach ////////////////
 
-            // 4.객체를 문자형으로 변환후 로컬스토리지에 반영시켜야 진짜로 반영이 됨!
-            localStorage.setItem("cart", JSON.stringify(org));
-            console.log("반영후 로칼쓰:", localStorage.getItem("cart"));
 
-            // 5.카트 애니메이션 버튼을 등장시켜 카트리스트까지 연동하기
-            this.commit('cartAni', org.length);
-            // org.length는 배열 데이터 개수를 넘김
-
-
-            // 로컬스토리지의 모든 데이터 지우기
-            // localStorage.clear();
-            // 로컬스토리지의 개별항목만 삭제하기
-            // localStorage.removeItem("cart");
-
+            // 만약에 save가 true일 때만 배열에 제품을 넣고 처리하기
+            if(save){
+                // 3.배열뒤에 밀어넣기 메서드 : push(값)
+                org.push(dt.gdata[pm]);
+                console.log("push한 후 객체:", org);
+    
+                // 4.객체를 문자형으로 변환후 로컬스토리지에 반영시켜야 진짜로 반영이 됨!
+                localStorage.setItem("cart", JSON.stringify(org));
+                console.log("반영후 로칼쓰:", localStorage.getItem("cart"));
+    
+                // 5.카트 애니메이션 버튼을 등장시켜 카트리스트까지 연동하기
+                this.commit('cartAni', org.length);
+                // org.length는 배열 데이터 개수를 넘김 (우리가 stringify한 걸 org에 할당하지 않았으니까 org는 그대로 배열형임!)
+            } //////////// if : save가 true일 경우 //////////////
+            
         }, ////////////// setDada 메서드 /////////////////////////
+        
+        
+        // 테스트 편의상 로컬스토리지 데이터 지우기
+        clearData(){
+            // 특정 변수(cart)만 지우기
+            // : 로컬스토리지의 개별항목만 삭제하기
+            localStorage.removeItem("cart");
+
+            console.log("cart 지워~!");
+        }, ///////////////// clearData 메서드 ////////////////////
 
 
         ///////////////// 장바구니 애니메이션 버튼 생성하기 ///////////////////
@@ -138,36 +162,197 @@ const store = new Vuex.Store({
             }, 1000, "easeInExpo")
             // 클릭하면 카트리스트 보이기
             .click(function(){
-                // body에 카트리스트 요소 넣기
-                $("body").append(`
-                    <section id="cartlist"></section>
-                `);
 
-                // 생성된 카트리스트에 테이블 넣기
-                $("#cartlist").html(`
-                    <a href="#" class="cbtn cbtn2">×</a>
-                    <table>
-                        <caption>
-                            <h1>카트 리스트</h1>
-                        </caption>
-                        <tr>
-                            <th>번호</th>
-                            <th>상품명</th>
-                            <th>상품코드</th>
-                            <th>단가</th>
-                            <th>수량</th>
-                            <th>합계</th>
-                            <th>삭제</th>
-                        </tr>
-                        
-                    </table>
-                `)
-            })
+                // 1. 만약 카트리스트 요소가 없으면 만들기!
+                if($("#cartlist").length==0){
+                    // tip)그냥 length라고만 하면 0이면 false / 1이상이면 true가 나옴
+                    // body에 카트리스트 요소 넣기
+                    $("body").append(`
+                        <section id="cartlist"></section>
+                    `);
+                    console.log("카트박스 만들기!");
+                } ///////////// if : 카트리스트 요소가 없는 경우 ////////////
+
+                // 데이터 바인딩하기 : 카트가 보이지 않는 상태임! (right : "-60vw")
+                store.commit("bindData", "-60vw");
+                
+            }) ///////// 카트 버튼 click /////////////
         }, ///////////// cartAni 메서드 ////////////////
 
 
+        // 카트 아이템 삭제 메서드 ///////
+        delRec(dt, pm){
+            console.log("아이템 삭제~!", pm);
+            // 1. 로컬스토리지 데이터 읽기
+            let org = localStorage.getItem("cart");
 
-    },
+            // 2. 로컬스토리지 데이터 파싱하기
+            org = JSON.parse(org);
+            console.log("삭제할 때) 구성 객체: ", org);
+
+            // 3. 삭제할 아이템 찾아서 지우기 : splice(배열순번, 지울갯수)
+            org.forEach((v, i)=>{
+                if(v.idx == pm){
+                    // 지울 아이템과 같으면 지울 것인지 물어보기 (확인 클릭시 true, 취소시 false 리턴함)
+                    if(confirm("정말정말로 지우겠습니까? 할인도 하는데?😂")){
+                        // "확인" 눌러서 true되면 해당되는 놈 지우기
+                        org.splice(i, 1);
+                    }
+                }
+            })
+
+            // 4. 로컬스토리지에 문자화하여 넣기 : stringify()
+            // : 객체를 문자형으로 변환후 로컬스토리지에 반영시켜야 진짜로 반영이 됨!
+            localStorage.setItem("cart", JSON.stringify(org));
+            console.log("삭제 후 로칼쓰:", localStorage.getItem("cart"));
+
+            // 5. 리스트 갱신하기 : 카트가 보이는 상태임 (right : "0")
+            store.commit('bindData', "0");
+
+            // 6. 카트 버튼의 툴팁 문구 업데이트하기
+            // 데이터가 없으면 지우기
+            if(org.length == 0){
+                $("#mycart").remove();
+                $("#cartlist").remove();
+            } /////////// if : 로컬스토리지에 아무것도 없을 때 /////////////
+            // 데이터 갯수 업데이트하기
+            else{
+                $("#mycart").attr("title", `${org.length}개의 상품이 카트에 있습니다👀`);
+            } //////////// else : 로컬스토리지에 하나라도 제품이 있을 때 //////////////
+
+
+        }, /////////////// delRec 메서드 ///////////////////
+
+
+        // 리스트 바인딩 메서드 //////////////////////
+        bindData(dt, pm){
+            // pm-카트박스의 right 값 전달함!!
+
+            // 로컬스토리지 데이터로 테이블 레코드 태그 구성하기
+            // : 데이터가 있어야 카트아이콘이 생성되므로 이미 데이터가 있음을 전재함!
+
+            // 1.로컬스토리지 객체데이터 가져오기 : 입력된 데이터는 문자형 객체이므로 다시 파싱하여 원래 객체로 복원한다!
+            // (1) 로컬스 데이터 읽어와서 객체화하기
+            let org = localStorage.getItem("cart");
+            org = JSON.parse(org);
+            console.log("리스트 구성 객체: ", org);
+            
+            // (2) 경우2) 데이터를 이용하여 리스트 태그 만들기 : map으로 써보기
+            let rec = org.map((v, i)=>
+                `
+                    <tr>
+                        <!-- 상품이미지 -->
+                        <td>
+                            <img src="${'images/goods/'+v.cat+'/'+v.ginfo[0]+'.png'}" style="width:50px" alt="item" />
+                        </td>
+                        <!-- 번호 : 리스트 순서 번호 -->
+                        <td>${i+1}</td>
+                        <!-- 상품명 -->
+                        <td>${v.ginfo[1]}</td>
+                        <!-- 상품코드 -->
+                        <td>${v.ginfo[2]}</td>
+                        <!-- 단가 -->
+                        <td>${v.ginfo[3]}</td>
+                        <!-- 수량 -->
+                        <td>1</td>
+                        <!-- 합계 -->
+                        <td>${v.ginfo[3]}</td>
+                        <!-- 삭제 -->
+                        <td>
+                            <button class="cfn" data-idx="${v.idx}">×</button>
+                        </td>
+                    </tr>
+                `
+            ); ///////////////// map /////////////////
+
+            // 3. 생성된 아이디가 카트리스트 요소에 테이블 넣기
+            $("#cartlist")
+            // (1) html 태이블 태그 넣기
+            .html(`
+                <a href="#" class="cbtn cbtn2">×</a>
+                <table>
+                    <caption>
+                        <h1>카트 리스트</h1>
+                    </caption>
+                    <tr>
+                        <th>상품</th>
+                        <th>번호</th>
+                        <th>상품명</th>
+                        <th>상품코드</th>
+                        <th>단가</th>
+                        <th>수량</th>
+                        <th>합계</th>
+                        <th>삭제</th>
+                    </tr>
+                    ${rec}
+                </table>
+            `) /////////// html ///////////////
+            // (2) 카트 박스 css 넣기
+            .css({
+                position:"fixed",
+                top:"0px",
+                right:pm, // "-60vw",
+                width:"60vw",
+                height:"100vh",
+                backgroundColor:"rgba(255, 255, 255, 0.8)",
+                zIndex:"9999999999",
+            })
+            .animate({
+                right:"0",
+            }, 600, "easeOutQuint")
+            // (4) table css 넣기
+            .find("table").css({
+                width:"90%",
+                margin:"50px auto",
+                fontSize:"14px",
+                borderTop:"2px solid #222",
+                borderBottom:"2px solid #222",
+                borderCollapse:"collapse",
+                // borderCollapse를 해줘야 테이블 자체 사이 간격을 없애줌!!
+                
+            })
+            // (5) td css 넣기
+            .find("td")
+            .css({
+                padding:"10px 0",
+                borderTop:"1px solid #555",
+                textAlign:"center",
+            })
+            // (6) th css 넣기
+            .parents("table")
+            .find("th")
+            .css({
+                padding:"15px 0",
+                backgroundColor:"#e5e5e5",
+                fontSize:"16px",
+            })
+            // (7) caption css 넣기
+            .parents("table")
+            .find("caption")
+            .css({
+                padding:"20px 0",
+                textDecoration:"underline",
+                textDecorationStyle:"wavy",
+                fontSize:"30px",
+            })
+            // (8) 닫기 버튼 세팅
+            $(".cbtn2").click(()=>{
+                $("#cartlist")
+                .animate({
+                    right:"-60vw",
+                }, 600, "easeOutQuint");
+            }); ////// click ///////
+            // (9) 삭제 버튼 처리 연결하기
+            $(".cfn").click(function(){
+                // 아이템 삭제 메서드 호출
+                store.commit('delRec', $(this).attr("data-idx"));
+                // 아까 아이템 등록하면서 심어둔 사용자정의 태그 data-idx 파라미터값으로 가지고 들어가기! (삭제할 idx 정보를 넘김)
+            }); ////////// click ////////
+
+        }, ///////////// bindData 메서드 ///////////////
+
+
+    }, /////////////////// methods ///////////////////////
 }); //////////////// 뷰엑스 스토어 /////////////////////////////////
 
 // 내보내기
