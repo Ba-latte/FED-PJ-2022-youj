@@ -23,7 +23,9 @@ let Glist = {
         <!-- 상품리스트박스 -->
         <div class="grid">
             <div v-for="(v,i) in $store.state.gdata" 
-            v-if="v.cat==$store.state.selnm[0] || v.cat==$store.state.selnm[1] || v.cat==$store.state.selnm[2]">
+            v-if="v.cat==$store.state.selnm[0] || v.cat==$store.state.selnm[1] || v.cat==$store.state.selnm[2]"
+            @click="$store.commit('setBtn')"
+            >
             
                 <!-- 파라미터가 있는 뷰 라우터는 이름으로 호출해야함! -->
                 <router-link v-bind:to="{name:'det', params:{id:v.idx, list:$route.path}}">
@@ -214,7 +216,7 @@ const Detail = {
                             </li>
                             <li class="tot">
                                 <span>총합계</span>
-                                <span id="total">니가계산해!</span>
+                                <span id="total">{{$store.state.gdata[$route.params.id-1].ginfo[3]}}</span>
                             </li>
                         </ol>
 
