@@ -336,6 +336,33 @@ $(function () { //// jQB2 //////////////////////////
     }); //////////// click ///////////////
 
 
+    // 2-2.소리남/안남 기능 //////////////////////
+    // 대상 : .btnsnd img
+    // 원리 : 소리가 나는지 안 나는지 속성 muted를 이용해서 반대로 전환
+    // 핵심 : 현재 소리가 안 나는지 상태를 확인함
+    $(".btnsnd img").click(function(){
+        // 1.현재 소리가 안 나는지 상태 알아오기
+        // 동영상 소리 안남 여부 속성 : muted
+        let sound = mv.get(0).muted;
+        
+        console.log("소리 안나?? : ", sound);
+
+        // 2.만약 소리가 안 나면 나도록 / 난다면 안 나오도록 하기
+        // muted 속성은 현재 소리안남 상태값을 불린으로 읽기 / 쓰기가 다 가능함
+        mv.get(0).muted = !sound;
+        // : !sound는 ture/false 전환 코드임
+
+        // 3.아이콘을 현재 소리상태로 넣기
+        // sound가 ture면 반대로 했으므로 소리남 아이콘!
+        if(sound) $(this).attr("src", "./images/speaker_blue.png");
+        else $(this).attr("src", "./images/speaker-mute_blue.png");
+
+        // 이렇게 삼항연산자로 쓸 수도 있음
+        // sound ? $(this).attr("src", "./images/speaker_blue.png") : $(this).attr("src", "./images/speaker-mute_blue.png");
+
+    }); /////////////////// click /////////////////////////
+
+
 
 
     ///// 3. 영화페이지 : 스와이퍼 적용하기 //////
