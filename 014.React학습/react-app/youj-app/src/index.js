@@ -8,4 +8,9 @@ import Ban from './dc/Ban';
 
 // 랜더링하기
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<Ban />);
+root.render(
+    <>
+        <Ban cat="main" />
+        <Ban cat="CHARACTERS" />
+    </>
+);
