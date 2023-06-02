@@ -3,8 +3,16 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {BrowerRouter, Routes, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import Characters from './dc/Characters';
+import Main from './dc/Main';
+import Comics from './dc/Comics';
+import Movies from './dc/Movies';
+import Games from './dc/Games';
+import News from './dc/News';
+import Video from './dc/Video';
 import Layout from './dc/Layout';
+import "./index.css";
 
 
 /****************************************************************************
@@ -34,17 +42,24 @@ import Layout from './dc/Layout';
 // 레이아웃 컴포넌트를 라우터에 입혀서 화면에 출력하기 때문에 스스로 내보내기를 세팅하는 것임
 export default function App(){
     return(
-        <BrowerRouter>
+        <BrowserRouter>
             <Routes>
                 {/* 🔥중요🔥 : 레이아웃 컴포넌트를 루트로 잡아줘야함 */}
                 <Route path='/' element={<Layout />}>
                     {/* 하위 라우트 세팅하기 */}
-                    
+                    {/* path대신 index만 쓰면 첫페이지임! */}
+                    <Route index element={<Main />} />
+                    <Route path='ct' element={<Characters />} />
+                    <Route path='co' element={<Comics />} />
+                    <Route path='mv' element={<Movies />} />
+                    <Route path='gm' element={<Games />} />
+                    <Route path='nw' element={<News />} />
+                    <Route path='vd' element={<Video />} />
                 </Route>
             </Routes>
-        </BrowerRouter>
+        </BrowserRouter>
     );
-}
+} //////////////////// App 컴포넌트 ////////////////////////
 
 // 랜더링하기
 const root = ReactDOM.createRoot(document.getElementById("root"));
