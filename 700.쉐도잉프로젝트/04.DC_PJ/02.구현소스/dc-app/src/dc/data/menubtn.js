@@ -11,7 +11,7 @@ const menubtn_data = [
         "isrc": "./images/menubtn2.jpg",
         "tit": "DC SHOP^GET NUTS WITH THE 1/6 SCALE BATMAN FIGURE",
         "btn": "SHOP NEW ARRIVALS",
-        "link": "/co"
+        "link": "/mv"
     },
     {
         "isrc": "./images/menubtn3.jpg",

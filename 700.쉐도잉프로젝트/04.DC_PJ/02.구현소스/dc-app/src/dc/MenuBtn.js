@@ -3,6 +3,7 @@
 // 여기서 쓸 것들만 import 하기
 import $ from 'jquery';
 import './css/menubtn.css';
+import {Link} from 'react-router-dom';
 import menubtn_data from './data/menubtn';
 
 // 제이쿼리 로드구역 함수
@@ -25,7 +26,10 @@ function MakeSlide(props){
                     <h2>{props.rec["tit"].split("^", 2)}</h2>
                 </div>
                 <div className="btnbx">
-                    <button>{props.rec["btn"]}</button>
+                    {/* 라우터를 이용한 이동은 반드시 Link를 사용하자! */}
+                    <Link to={props.rec["link"]}>
+                        <button>{props.rec["btn"]}</button>
+                    </Link>
                 </div>
             </div>
         </>
