@@ -2,11 +2,13 @@
 
 import React from "react";
 import Ban from "./Ban";
+import MenuBtn from "./MenuBtn";
 
 const Main = ()=>{
     return(
         <>
             <Ban cat="main" />
+            <MenuBtn />
         </>
     );
 }; ////////////// Main ////////////////////

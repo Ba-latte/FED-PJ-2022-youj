@@ -1,0 +1,49 @@
+@charset "utf-8";
+
+/* 메뉴 버튼 모듈용 CSS - menubtn.css */
+
+.menubtn{
+    display: flex;
+    flex-direction: column;
+
+}
+.menubtn>div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+    outline: 1px solid red;
+    box-shadow: 0 0 3px #000;
+}
+.imbx{
+
+}
+.imbx img{
+
+}
+
+.titbx h3{
+    margin: 0 0 5px;
+    padding: 5px 0;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+.titbx h2{
+    margin: 0 0 5px;
+    padding: 5px 0;
+}
+
+.btnbx button{
+    margin: 60px 0 15px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid #000;
+
+
+    font-weight: bold;
+    transition: .4s ease-in-out;
+}
+.btnbx button:hover{
+    background-color: rgb(28, 70, 148);
+    color: #fff;
+}
