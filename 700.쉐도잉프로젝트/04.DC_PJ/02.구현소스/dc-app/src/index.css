@@ -2,6 +2,9 @@
 
 /* 전체 페이지 공통 CSS - index.html 페이지 전체에 적용되므로 */
 
+/* 폰트 */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
 html, body, ul, ol, dl, dt, dd, p, figure, figcaption, h1, h2, h3, h4 {
   margin: 0;
   padding: 0;
@@ -15,4 +18,6 @@ body{
 ul, ol{
   list-style: none;
 }
+
+
 
