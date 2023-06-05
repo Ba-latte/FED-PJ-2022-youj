@@ -47,7 +47,8 @@ export default function App(){
                 {/* 🔥중요🔥 : 레이아웃 컴포넌트를 루트로 잡아줘야함 */}
                 <Route path='/' element={<Layout />}>
                     {/* 하위 라우트 세팅하기 */}
-                    {/* path대신 index만 쓰면 첫페이지임! */}
+                    {/* path대신 index만 쓰면 첫페이지임! 
+                    -> Layout의 Link to='/'에 해당하는 세팅이며 필수임! : 루트를 설정해주는 것이라서! */}
                     <Route index element={<Main />} />
                     <Route path='ct' element={<Characters />} />
                     <Route path='co' element={<Comics />} />
