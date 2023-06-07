@@ -2,9 +2,9 @@
 
 
 // 이 파트에서만 쓰는 CSS 임포트하기
-import "./css/ban.css";
+import "../css/ban.css";
 // 배너 데이터 임포트하기
-import ban_data from "./data/banner";
+import ban_data from "../data/banner";
 // 제이쿼리
 import $ from "jquery";
 

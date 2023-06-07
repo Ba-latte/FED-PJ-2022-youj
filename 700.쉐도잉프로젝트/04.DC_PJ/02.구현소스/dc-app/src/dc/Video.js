@@ -2,12 +2,13 @@
 
 import React from "react";
 import isrc from "./ImgSrc";
+import VidIntro from "./modules/VidIntro";
 
 const Video = ()=>{
     return(
         <>
             <h2>Video 페이지</h2>
-            <iframe src={isrc.video} />
+            <VidIntro pg="VIDEO" />
         </>
     );
 }; ////////////// Video ////////////////////

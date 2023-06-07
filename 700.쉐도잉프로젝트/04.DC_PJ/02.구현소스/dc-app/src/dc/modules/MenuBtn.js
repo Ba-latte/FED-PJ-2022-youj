@@ -2,9 +2,9 @@
 
 // 여기서 쓸 것들만 import 하기
 import $ from 'jquery';
-import './css/menubtn.css';
+import '../css/menubtn.css';
 import {Link} from 'react-router-dom';
-import menubtn_data from './data/menubtn';
+import menubtn_data from '../data/menubtn';
 
 // 제이쿼리 로드구역 함수
 function jqFn(){

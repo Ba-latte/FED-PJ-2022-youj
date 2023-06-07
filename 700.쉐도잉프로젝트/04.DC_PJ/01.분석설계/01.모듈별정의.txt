@@ -5,7 +5,8 @@
 [2]메뉴 버튼 모듈
     -모듈명 : MenuBtn (JS는 첫글자 대문자/CSS는 전부 소문자)
     (1) 구조정의 :
-    -Root>img Box + title Box + button Box  
+    -Root> section >img Box + title Box + button Box  
+    -섹션으로 전체를 아우르는 박스를 하나 더 만들고 그 밑의 요소들을 반복시킴
 
     (2) 객체화 :
     {
@@ -22,3 +23,24 @@
         -mouseover/mouseout 이벤트 + CSS
     2) 버튼 클릭시 페이지 이동
         -(click) + location(라우트 이동)
+
+
+[2]비디오 소개 모듈
+    -모듈명 : VidIntro (JS는 첫글자 대문자/CSS는 전부 소문자)
+    (1) 구조정의 :
+    -Root > video box(>video+img 태그) + title box(>heading + p 태그)
+
+    (2) 객체화 :
+    {
+        "vsrc": "유튜브 동영상 경로",
+        "stit": "작은 타이틀",
+        "btit": "큰 타이틀",
+        "sum": "요약 소개",
+        "desc": "설명",
+        "link": "관련 링크",
+    }
+
+    (3) 기능정의 :
+    1) 동영상 영역 클릭시 동영상 재생/멈춤
+    2) 관련 링크 새창열기
+    3) 
