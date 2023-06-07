@@ -13,7 +13,7 @@ const Main = ()=>{
             {/* 2.메뉴버튼 모듈 */}
             <MenuBtn />
             {/* 3.비디오 소개 모듈 */}
-            <VidIntro pg="main" />
+            <VidIntro pg="main" mm="" />
         </>
     );
 }; ////////////// Main ////////////////////

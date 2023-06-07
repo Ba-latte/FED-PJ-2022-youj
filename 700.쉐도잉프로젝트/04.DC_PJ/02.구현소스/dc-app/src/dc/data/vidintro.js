@@ -1,5 +1,9 @@
 // VidIntro 컴포넌트용 데이터 - vidintro.js
-
+/*
+    [ 데이터 조건 ]
+-link 속성 값 세팅시 하나의 링크만 세팅할 것!
+-링크가 있을 경우 sum 또는 desc 속성값에 단 하나의 *표시만 어디든지 넣는다!
+*/
 
 const vidintro_data = {
     "main": {
@@ -25,7 +29,7 @@ const vidintro_data = {
         "stit": "FEATURED VIDEO",
         "btit": "WELCOME TO THE DAWN OF DC - COMIC TRAILER",
         "sum": "",
-        "desc": `Welcome to the Dawn of DC! In this yearlong storytelling initiative, DC is forging the future one hero at a time with epic new series, new creative teams and new battles to fight across the DC Universe in comics including <em>Superman</em>, <em>Harley Quinn</em>, <em>Green Arrow</em> and many more. Experience the action in this trailer, featuring the incredible art of Jeff Spokes!`,
+        "desc": `Welcome to the Dawn of DC! In this yearlong storytelling initiative, DC is forging the future one hero at a time with epic new series, new creative teams and new battles to fight across the DC Universe in comics including Superman, Harley Quinn, Green Arrow and many more. Experience the action in this trailer, featuring the incredible art of Jeff Spokes!`,
         "link": "",
     },
     "MOVIES": {
@@ -33,7 +37,7 @@ const vidintro_data = {
         "stit": "FEATURED VIDEO",
         "btit": "THE FLASH – OFFICIAL TRAILER 2",
         "sum": "Watch worlds collide in trailer 2 for The Flash - Only in Theaters June 16.",
-        "desc": `Warner Bros. Pictures presents <em>The Flash</em>, directed by Andy Muschietti (the <em>IT</em> films, <em>Mama</em>). Ezra Miller reprises their role as Barry Allen in the DC Super Hero’s first-ever standalone feature film.`,
+        "desc": `Warner Bros. Pictures presents The Flash, directed by Andy Muschietti (the IT films, Mama). Ezra Miller reprises their role as Barry Allen in the DC Super Hero’s first-ever standalone feature film.`,
         "link": "",
     },
     "GAMES": {
@@ -41,8 +45,8 @@ const vidintro_data = {
         "stit": "FEATURED VIDEO",
         "btit": 'Suicide Squad: Kill the Justice League Official CO-OP GAMEPLAY - "NO MATTER THE COST"',
         "sum": "Stop The Flash and rescue Lex Luthor in the process. No matter the cost.",
-        "desc": `Suicide Squad: Kill the Justice League is available May 26, 2023 on PS5, Xbox Series X|S, and PC. Learn more: <a href="#" rel=" noopener" target="_blank">https://www.suicidesquadgame.com/en-us</a>`,
-        "link": `https://www.suicidesquadgame.com/en-us`,
+        "desc": `Suicide Squad: Kill the Justice League is available May 26, 2023 on PS5, Xbox Series X|S, and PC. Learn more: *`,
+        "link": ["https://www.suicidesquadgame.com/en-us","https://www.suicidesquadgame.com/en-us"],
     },
     "NEWS": {
         "vsrc": "",
