@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
+import $ from 'jquery';
 
 // Import Swiper styles
 import "swiper/css";
@@ -20,6 +21,20 @@ export default function SwiperVid(props) {
     // 데이터 세팅
     const sdt = swipervid_data;
 
+    // 비디오 보이기 함수
+    const showVid = (src, tit)=>{
+        // src-비디오 경로, tit-비디오 제목
+        console.log(src, tit);
+
+        // 1.아이프레임 src 넣기
+        document.querySelector(".playvid iframe").setAttribute("src", src+"?autoplay=1");
+
+        // 2.비디오 타이틀 넣기
+        $(".ifrtit").text(tit);
+
+        $(".vidbx").css({display:"block"});
+    }; ///////////////// showVid 함수 /////////////////
+
     // 리턴하기
     return (
         <>
@@ -37,7 +52,7 @@ export default function SwiperVid(props) {
                 {
                     sdt.map((v,i)=>
                         <SwiperSlide key={i}>
-                            <div className="container">
+                            <div className="container" onClick={()=>showVid(v.vsrc, v.tit)}>
                                 <div className="imgbx">
                                     <img src={v.isrc} alt={v.tit + ' ' + '동영상 이미지'} />
                                 </div>
