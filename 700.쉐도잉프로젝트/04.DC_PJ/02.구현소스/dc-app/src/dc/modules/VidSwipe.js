@@ -1,0 +1,46 @@
+// 비디오 스와이프 모듈 JS - VidSwipe.js
+
+import $ from 'jquery';
+import '../css/vidswipe.css';
+import SwiperVid from '../plugin/SwiperVid';
+
+// 제이쿼리 로드구역 함수
+function jqFn(){
+    $(()=>{
+        
+    }); ////////////// jQB //////////////
+} ///////////////////// jqFn 함수 /////////////////////
+
+
+
+// 컴포넌트
+function VidSwipe(props){
+    // props.pg - 페이지별 데이터 구분
+    // props.tit - 모듈 타이틀
+
+    return(
+        <>
+            {/* 모듈 코드 */}
+            <section className='vidswbox'>
+                {/* 1.모듈 타이틀 */}
+                <h2 className='tit'>{props.tit}</h2>
+
+                {/* 2.스와이퍼 컴포넌트 */}
+                <SwiperVid name="나는" />
+
+                {/* 3.비디오 재생창 */}
+                <section className='playvid'>
+                    <iframe src=""></iframe>
+                    <button className='cbtn'>×</button>
+                </section>
+            </section>
+
+            {/* 바깥에 빈 루트를 만들고 JS 로드 함수 포함시키기 */}
+            {jqFn()}
+        </>
+    );
+} ////////////////// VidSwipe //////////////////
+
+
+// 내보내기
+export default VidSwipe;

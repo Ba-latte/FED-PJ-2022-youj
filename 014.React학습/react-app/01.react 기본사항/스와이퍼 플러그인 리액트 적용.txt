@@ -1,0 +1,20 @@
+[ 스와이퍼 플러그인 리액트 적용하기 ]
+-https://swiperjs.com/
+
+1.Demos에서 내가 원하는 유형 찾기
+(js로 할 때에는 오픈 뉴 윈도우눌러서 새창으로 띄운 후 ctrl+u로 긁음)
+
+2.React 메뉴로 소스를 보기
+(데모버전 상단에 리액트 버튼이 있음! 그거 누르면 소스 볼 수 있음)
+
+3.소스 가져오기
+(1)스와이퍼 설치하기
+npm i swiper
+-설치 후 package.json 의존성(dependencies) 파트 확인해보기
+: "swiper": "^9.3.2",
+
+(2)스와이퍼 폴더를 따로 만들기 : 스와이퍼와 관련된 것들은 다 여기에 넣을 예정 (css도 포함)
+-dc 폴더 > plugin 폴더 > SwiperVid.js 
+
+(3)SwiperVid.js에 Demos의 React 페이지에서 App.js 소스를 모두 카피해서 붙여넣기
+
