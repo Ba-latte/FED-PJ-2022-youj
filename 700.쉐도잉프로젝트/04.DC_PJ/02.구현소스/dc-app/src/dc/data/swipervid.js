@@ -1,4 +1,5 @@
-// SwiperVid 컴포넌트용 데이터 JS - swipervid.js
+// SwiperVid 컴포넌트용 데이터
+
 
 const swipervid_data = [
     {
@@ -75,5 +76,7 @@ const swipervid_data = [
     },
 ];
 
-// 내보내기
+
+
+// 데이터 내보내기
 export default swipervid_data;

@@ -2,6 +2,11 @@
 
 /* VidSwipe 모듈용 CSS - vidswipe.css */
 
+.vidswbox{
+    max-width: 1320px;
+    margin: 0 auto;
+}
+
 /* 비디오 박스 */
 .vidbx{
     position: fixed;
@@ -32,7 +37,7 @@
     height: 100%;
     border: none;
 
-    outline: 2px dashed lime;
+    /* outline: 2px dashed lime; */
 }
 
 /* 타이틀 */
