@@ -15,6 +15,17 @@ import { Navigation } from "swiper";
 // 데이터 가져오기
 import swipervid_data from "../data/swipervid";
 
+
+/* 폰트어썸 임포트 */
+import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
+
+
+
+
+
 export default function SwiperVid(props) {
     // 데이터 셋팅
     const sdt = swipervid_data;
@@ -55,6 +66,14 @@ export default function SwiperVid(props) {
                             {/* 동영상이미지영역 */}
                             <div className="vidimg">
                                 <img src={v.isrc} alt={v.tit}></img>
+                                <FontAwesomeIcon icon={faPlayCircle} 
+                                style={{
+                                    position:"absolute",
+                                    bottom:"55%",
+                                    left:"10%",
+                                    color:"#fff",
+                                    fontSize:"50px"
+                                    }} />
                             </div>
                             {/* 동영상타이틀영역 */}
                             <div className="vidtit">
