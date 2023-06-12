@@ -19,6 +19,15 @@ const ban_data = {
             "btn": "A WORLD AT STAKE",
         },
     ],
+    "main3": [
+        {
+            "src": "./images/dcmb3.jpg",
+            "tit1": "SUPERMAN WEB3 MOVIE EXPERIENCE",
+            "tit2": "",
+            "cont": `For a limited time only, own the Experience to immerse yourself in a one-of-a-kind digital world and rediscover the 1978 Richard Donner film!`,
+            "btn": "OWN NOW",
+        },
+    ],
     "CHARACTERS": [
         {
             "src":"./images/dcm23.jpg",
