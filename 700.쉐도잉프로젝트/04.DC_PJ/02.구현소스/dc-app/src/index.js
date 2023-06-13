@@ -44,8 +44,8 @@ import ScrollTop from './dc/common/ScrollTop';
 // 레이아웃 컴포넌트를 라우터에 입혀서 화면에 출력하기 때문에 스스로 내보내기를 세팅하는 것임
 export default function App(){
     return(
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-        {/* <BrowserRouter> */}
+        // <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <BrowserRouter>
             <ScrollTop /> 
             {/* 👆라우터 갱신될 때 스크롤 상단 이동 모듈 작동함!
             : 세팅 위치는 상관 없음! 위쪽이든 아래쪽이든 간에 <BrowserRouter>안에 있으면 됨 */}
