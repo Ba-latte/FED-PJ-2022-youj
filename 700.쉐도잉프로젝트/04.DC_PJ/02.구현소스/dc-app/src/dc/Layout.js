@@ -113,7 +113,7 @@ const Layout = ()=>{
                 <nav className="gnb">
                     <ul>
                         <li>
-                            <Link to='/'><Logo /></Link>
+                            <Link to='/main'><Logo gb="top" /></Link>
                         </li>
                         {
                             gnb_data.map((v, i)=>

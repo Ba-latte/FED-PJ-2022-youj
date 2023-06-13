@@ -44,7 +44,8 @@ import ScrollTop from './dc/common/ScrollTop';
 // 레이아웃 컴포넌트를 라우터에 입혀서 화면에 출력하기 때문에 스스로 내보내기를 세팅하는 것임
 export default function App(){
     return(
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
+        {/* <BrowserRouter> */}
             <ScrollTop /> 
             {/* 👆라우터 갱신될 때 스크롤 상단 이동 모듈 작동함!
             : 세팅 위치는 상관 없음! 위쪽이든 아래쪽이든 간에 <BrowserRouter>안에 있으면 됨 */}
@@ -55,6 +56,7 @@ export default function App(){
                     {/* path대신 index만 쓰면 첫페이지임! 
                     -> Layout의 Link to='/'에 해당하는 세팅이며 필수임! : 루트를 설정해주는 것이라서! */}
                     <Route index element={<Main />} />
+                    <Route path='main' element={<Main />} />
                     <Route path='ct' element={<Characters />} />
                     <Route path='co1' element={<Comics sub="0" />} />
                     <Route path='co2' element={<Comics sub="1" />} />
