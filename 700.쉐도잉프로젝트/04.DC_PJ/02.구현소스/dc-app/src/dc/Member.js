@@ -93,6 +93,9 @@ function Member(){
             let memData = localStorage.getItem("mem-data");
             console.log("로컬쓰 : ", memData);
 
+            // 📢기존 아이디가 있으면 상태값 false로 업데이트
+            let isOK = true;
+
             // 로컬스토리지가 null이 아닌 경우
             if(memData) {
                 console.log("통과시 : ", memData);
@@ -110,15 +113,21 @@ function Member(){
                         // (2)아이디 에러 상태값 업데이트해주기
                         setUserIdError(true);
                         
+                        // (3)존재 여부 업데이트
+                        isOK = false;
                     } //////////// if : 기존 아이디와 같은 경우 ////////////
-                    else{
-                        // 메시지 변경하기 : 처음 메시지로 변경하기
+
+                    // 기존 아이디가 없으면 들어가기!
+                    if(isOK){
+                        console.log("바깥");
+                        // 메시지 변경 : 처음 메시지로 변경
                         setIdMsg(msgId[0]);
-                        // (1)아이디 에러 상태값 업데이트해주기
+                        // 아이디 에러 상태값 업데이트
                         setUserIdError(false);
-                        
-                    } //////////// else : 기존에 없는 아이디일 경우 ////////////
-                })
+                    }
+                });
+
+                
 
             } ///////////////////// if : null이 아닌 경우 /////////////////////
             else{
@@ -323,7 +332,7 @@ function Member(){
                                 // "훌륭한 아이디네요"일 경우
                                 // : 아이디 에러가 false일 떄 출력하기
                                 // 고정 데이터 배열 msgId 세번째 값 출력하기
-                                !userIdError && (
+                                !userIdError && userId && (
                                     <div className='msg'>
                                     <small style={{color:"green", fontSize:"10px"}} >
                                         {msgId[2]}
