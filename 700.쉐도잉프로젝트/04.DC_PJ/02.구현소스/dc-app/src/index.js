@@ -3,7 +3,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {Routes, Route, HashRouter} from 'react-router-dom';
 import "./index.css";
 import Characters from './dc/Characters';
 import Main from './dc/Main';
@@ -45,7 +45,7 @@ import ScrollTop from './dc/common/ScrollTop';
 export default function App(){
     return(
         // <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <BrowserRouter>
+        <HashRouter>
             <ScrollTop /> 
             {/* 👆라우터 갱신될 때 스크롤 상단 이동 모듈 작동함!
             : 세팅 위치는 상관 없음! 위쪽이든 아래쪽이든 간에 <BrowserRouter>안에 있으면 됨 */}
@@ -68,7 +68,7 @@ export default function App(){
                     <Route path='mem' element={<Member />} />
                 </Route>
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     );
 } //////////////////// App 컴포넌트 ////////////////////////
 
