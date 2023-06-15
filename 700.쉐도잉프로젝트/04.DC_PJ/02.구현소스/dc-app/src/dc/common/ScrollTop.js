@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 // (ScrollTop는 당연히 import해야함!)
 // 현재 PJ에서는 <BrowserRouter>가 index.js에 위치함
 export default function ScrollTop(){
-    // 현재 라우터의 매핑 페이지 위치 알아내기
+    // 현재 라우터의 매핑 페이지 위치 알아내기 - pathname은 우리가 만든 거 아님!
     const { pathname } = useLocation();
 
     // 컴포넌트가 속해있는 컴포넌트에 변경이 있을 경우, 부가적으로 함께 작동되도록 액션을 주고자 할 때 사용하는 리액트 모듈이 바로 'useEffect'임
@@ -16,6 +16,11 @@ export default function ScrollTop(){
     useEffect(()=>{
         // js) 윈도우 객체를 스크롤 최상위로 이동시키는 코드
         window.scrollTo(0, 0);
+
+        // 로그인 상태를 확인! : 로컬스토리지의 "minfo"항목이 null인지 아닌지 체크함
+        console.log("useEffect: ", localStorage.getItem("minfo"));
+
+
     }, [pathname]);
     // [pathname] -> 구체적으로 어떤 페이지인지 적을 수도 있음 : ["/home", "/mv", "/cm"]
     // 여기서는 동적으로 적용되라고 현재 매핑 페이지를 받아서 할당한 변수이름을 적음!

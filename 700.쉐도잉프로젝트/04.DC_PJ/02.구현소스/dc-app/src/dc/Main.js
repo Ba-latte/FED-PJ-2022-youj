@@ -14,7 +14,7 @@ const Main = ()=>{
     return(
         <>
             {/* 1.배너 모듈 - 기본 : 랜덤 수로 데이터 선택 변경하기 */}
-            <Ban cat={"main" + Math.ceil(Math.random()*3)} />
+            <Ban cat={"main" + Math.ceil(Math.random()*4)} />
             {/* 2.메뉴버튼 모듈 */}
             <MenuBtn />
             {/* 3.비디오 소개 모듈 */}

@@ -9,12 +9,15 @@
 }
 
 .bantit{
+    max-width: 1320px;
     position: absolute;
-    bottom: 0;
-    left: 0;
+    bottom: 10%;
+    left: 10%;
     padding: 25px;
     color: #fff;
     text-shadow: 0 0 3px #000;
+
+    /* border: 1px solid red; */
 }
 /* 배너슬라이드 */
 .slider{

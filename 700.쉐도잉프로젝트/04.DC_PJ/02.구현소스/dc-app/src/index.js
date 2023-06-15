@@ -15,6 +15,7 @@ import Video from './dc/Video';
 import Layout from './dc/Layout';
 import Member from './dc/Member';
 import ScrollTop from './dc/common/ScrollTop';
+import LogIn from './dc/LogIn';
 
 
 /****************************************************************************
@@ -66,6 +67,7 @@ export default function App(){
                     <Route path='nw' element={<News />} />
                     <Route path='vd' element={<Video />} />
                     <Route path='mem' element={<Member />} />
+                    <Route path='login' element={<LogIn />} />
                 </Route>
             </Routes>
         </HashRouter>
