@@ -14,7 +14,6 @@ import News from './dc/News';
 import Video from './dc/Video';
 import Layout from './dc/Layout';
 import Member from './dc/Member';
-import ScrollTop from './dc/common/ScrollTop';
 import LogIn from './dc/LogIn';
 
 
@@ -47,9 +46,6 @@ export default function App(){
     return(
         // <BrowserRouter basename={process.env.PUBLIC_URL}>
         <HashRouter>
-            <ScrollTop /> 
-            {/* 👆라우터 갱신될 때 스크롤 상단 이동 모듈 작동함!
-            : 세팅 위치는 상관 없음! 위쪽이든 아래쪽이든 간에 <BrowserRouter>안에 있으면 됨 */}
             <Routes>
                 {/* 🔥중요🔥 : 레이아웃 컴포넌트를 루트로 잡아줘야함 */}
                 <Route path='/' element={<Layout />}>

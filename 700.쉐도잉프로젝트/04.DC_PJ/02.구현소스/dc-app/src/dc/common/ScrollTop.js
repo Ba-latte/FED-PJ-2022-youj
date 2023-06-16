@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 // 스크롤 상단이동 컴포넌트 모듈은 라우터가 세팅된 '<BrowserRouter>' 안에 '<ScrollTop />'을 호출해야 함
 // (ScrollTop는 당연히 import해야함!)
 // 현재 PJ에서는 <BrowserRouter>가 index.js에 위치함
-export default function ScrollTop(){
+export default function ScrollTop(props){ //props.sfn - 부모의 로그인 세팅 함수
     // 현재 라우터의 매핑 페이지 위치 알아내기 - pathname은 우리가 만든 거 아님!
     const { pathname } = useLocation();
 
@@ -19,6 +19,10 @@ export default function ScrollTop(){
 
         // 로그인 상태를 확인! : 로컬스토리지의 "minfo"항목이 null인지 아닌지 체크함
         console.log("useEffect: ", localStorage.getItem("minfo"));
+
+        // 부모 컴포넌트(Layout)의 로그인 세팅함수 호출하기
+        props.sfn(); // 함수 실행해야 하니까 소괄호()까지 쓰기
+        // : 만약 로컬스토리지의 "minfo"가 null이 아닌 세팅값이 있다면, 로그인 환영 메시지를 보여줌 (그리고 부가적으로, 로그아웃버튼 출력시켜주기)
 
 
     }, [pathname]);

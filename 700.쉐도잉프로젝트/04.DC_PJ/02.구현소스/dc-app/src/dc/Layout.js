@@ -3,6 +3,9 @@
 import Logo from "./Logo";
 import "./css/layout.css";
 import { Link, Outlet } from "react-router-dom";
+import { gnb_data, bmenu } from "./data/common";
+import { useState } from "react";
+import ScrollTop from "./common/ScrollTop";
 
 // 폰트어섬 임포트
 import { faCamera, faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -19,101 +22,78 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Layout = ()=>{
     
-    /* GNB 메뉴 데이터 구성하기 */
-    const gnb_data = [
-        // {
-        //     txt:"Home",
-        //     link:"/",
-        // },
-        {
-            txt:"CHARACTERS",
-            link:"/ct",
-        },
-        {
-            txt:"COMICS",
-            link:"/co1",
-            sub:[
-                {
-                    txt:"LATEST COMICS",
-                    link:"/co1",
-                },
-                {
-                    txt:"DC UNIVERSE INFINITE",
-                    link:"/co2",
-                },
-                {
-                    txt:"ALL COMICS SERIES",
-                    link:"/co3",
-                },
-            ],
-        },
-        {
-            txt:"MOVIES & TV",
-            link:"/mv",
-            sub:[
-                {
-                    txt:"DC MOVIES",
-                    link:"/mv",
-                },
-                {
-                    txt:"DC SERIES",
-                    link:"/mv",
-                },
-                {
-                    txt:"DC ON HBO MAX",
-                    link:"/mv",
-                },
-            ],
-        },
-        {
-            txt:"GAMES",
-            link:"/gm",
-        },
-        {
-            txt:"NEWS",
-            link:"/nw",
-        },
-        {
-            txt:"VIDEO",
-            link:"/vd",
-        },
-    ];
-    // 👆 지금은 메뉴가 하이라키 구조가 아니고 단층 구조, 단순 나열, 명확한 상태라서 배열로 씀
+    // 자식 컴포넌트 값 전달 테스트 함수
+    const callMe = (x)=>{
+        console.log("누구? : ", x);
+    }; ///////////////// callMe ////////////////////
 
-    /* bmenu 메뉴 데이터 구성하기 */
-    const bmenu = [
-        {
-            txt: "Privacy Policy",
-            link: "https://www.warnermediaprivacy.com/policycenter/b2c/WM/",
-        },
-        {
-            txt: "Terms",
-            link: "https://www.dcuniverseinfinite.com/terms?_gl=1*5nxhg2*_gcl_au*MTk3OTgxNzUwMi4xNjgzMTc3NDg3",
-        },
-        {
-            txt: "Ad Choices",
-            link: "https://www.warnermediaprivacy.com/policycenter/b2c/wm/",
-        },
-        {
-            txt: "Accessibility",
-            link: "https://policies.warnerbros.com/terms/en-us/#accessibility",
-        },
-        {
-            txt: "Cookie Settings",
-            link: "https://www.dc.com/#compliance-link",
-        },
-    ];
+
+
+    // 로그인 상태 Hook변수 : 로컬스토리지의 "minfo" 항목의 값을 초기 할당함
+    const [logSts, setLogSts] = useState(localStorage.getItem("minfo"));
+
+    // 로그인 환영 메시지 Hook변수
+    // : 메시지도 상태관리해줘야 그때그때 다르게 들어간다고함
+    // : 리액트만 사용해서 구현하면 알아서 타이밍 맞추는데, 돔 건드리는 코딩(제이쿼리같은거)을 같이 한다면 타이밍 맞추는데 힘들수도 있음
+    const [logMsg, setLogMsg] = useState("");
+
+    // 로그인 환영 메시지 스타일
+    const logstyle = {
+        position: "absolute",
+        left: "50%",
+        transform: "translateX(-50%)"
+        
+    }; //////////// logstyle ////////////////
+
+    // [ 로그인 세팅 함수 ] 👉 ScrollTop.js의 useEffect 함수 구역에서 호출함
+    const setLogin = ()=>{
+        // 1.로그인 Hook변수 업데이트하기
+        setLogSts(localStorage.getItem("minfo"));
+
+        // 2.만약 로컬스토리지의 값이 null이 아니면 메시지 뿌리기
+        if(localStorage.getItem("minfo")){
+            // null이면 false처리 나니까, 널이 아니면 중괄호 영역에 들어올 수 있음
+            
+            // 메시지 세팅하기 : 객체 안의 "unm"속성이 사용자 이름!
+            setLogMsg("🦇 Welcome " + JSON.parse(localStorage.getItem("minfo"))["unm"]);
+        }
+    }; //////////////// setLogin //////////////////
+
+
+    // [ 로그아웃 함수 ] 👉 LOGOUT 버튼에서 호출함
+    const logout = ()=>{
+        // 1. 로컬스토리지의 "minfo" 항목만 삭제하기 (clear하면 모든 항목이 다 지워지니 주의할 것)
+        localStorage.removeItem("minfo");
+
+        // 2. 로그인 상태 Hook 변수 업데이트하기
+        setLogSts(null); // 비어있다는 의미로 null 주는 것임! (null도 데이터의 하나임!)
+        console.log("로그아웃됨!", logSts);
+
+        
+    }; ////////////// logout ////////////////
 
 
     return(
         <>
+            <ScrollTop sfn={setLogin} /> 
+            {/* 👆라우터 갱신될 때 스크롤 상단 이동 모듈 작동함! + 로그인 세팅 함수 호출 전달하기 (자식에게 setLogin함수 전달) : 세팅 위치는 상관 없음! 위쪽이든 아래쪽이든 간에 <BrowserRouter>안에 있으면 됨 */}
             {/* 1.상단영역 */}
             <header className="top">
+
+                {/* 로그인 환영 메시지 : 조건 - logSts값이 null이 아니면 */}
+                {
+                    logSts !== null &&
+                    <div className="logmsg" style={logstyle}>
+                        {logMsg}
+                    </div>
+                }
+
+
                 {/* 내비게이션 파트 */}
                 <nav className="gnb">
                     <ul>
                         <li>
-                            <Link to='/main'><Logo gb="top" /></Link>
+                            <Link to='/main'><Logo gb="top" tt={callMe} /></Link>
                         </li>
                         {
                             gnb_data.map((v, i)=>
@@ -147,12 +127,25 @@ const Layout = ()=>{
                         <li style={{marginLeft:"auto"}}>
                             <FontAwesomeIcon icon={faSearch} />
                         </li>
-                        <li>
-                            <Link to="/mem">Join Us</Link>
-                        </li>
-                        <li>
-                            <Link to="/login">LOG IN</Link>
-                        </li>
+                        {
+                            /* 회원가입, 로그인은 로그인하지 않은 상태일때만 보이게 하기 */
+                            logSts === null &&
+                            <>
+                                <li>
+                                    <Link to="/mem">Join Us</Link>
+                                </li>
+                                <li>
+                                    <Link to="/login">LOG IN</Link>
+                                </li>
+                            </>
+                        }
+                        {
+                            /* 로그아웃버튼은 로그인 상태일때만 보이게 하기 */
+                            logSts !== null &&
+                            <li>
+                                <a href="#" onClick={logout}>LOG OUT</a>
+                            </li>
+                        }
                     </ul>
                 </nav>
             </header>
@@ -165,7 +158,7 @@ const Layout = ()=>{
             <footer className="info">
                 <ul>
                     <li>
-                        <Logo gb="bottom" />
+                        <Logo gb="bottom" tt={callMe} />
                     </li>
                     <li>
                         <ol className="bmenu">
