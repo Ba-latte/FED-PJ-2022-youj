@@ -6,6 +6,7 @@ import Ban from "./modules/Ban";
 const Characters = ()=>{
     return(
         <>
+            {/* 배너 */}
             <Ban cat="CHARACTERS" />
         </>
     );

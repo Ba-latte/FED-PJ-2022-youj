@@ -2,6 +2,7 @@
 
 import React from "react";
 import Ban from "./modules/Ban";
+import CatSwipe from "./modules/CatSwipe";
 import MenuBtn from "./modules/MenuBtn";
 import VidIntro from "./modules/VidIntro";
 import VidSwipe from "./modules/VidSwipe";
@@ -21,7 +22,8 @@ const Main = ()=>{
             <VidIntro pg="main" mm="" />
             {/* 4.비디오 스와이프 모듈 */}
             <VidSwipe pg="main" tit="LATEST TRAILERS, CLIPS & MORE" />
-            {/* 5.메뉴 스와이프 모듈 */}
+            {/* 5.캐릭터 메뉴 스와이프 모듈 */}
+            <CatSwipe tit="WHO'S WHO: THE JUSTICE LEAGUE" />
             {/* 6.배너 모듈 - 캐릭터 */}
             <Ban cat="CHARACTERS" />
             {/* 7.메뉴 스와이프 모듈 */}

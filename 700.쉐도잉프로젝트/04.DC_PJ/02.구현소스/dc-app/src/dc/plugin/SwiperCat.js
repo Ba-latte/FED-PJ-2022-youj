@@ -13,6 +13,7 @@ import "./swipercat.css";
 import { Navigation } from "swiper";
 // 데이터 가져오기
 import cat_data from "../data/cat";
+import { Link } from "react-router-dom";
 
 
 
@@ -20,6 +21,7 @@ import cat_data from "../data/cat";
 export default function SwiperCat(props) {
     // 데이터 셋팅
     const sdt = cat_data;
+    console.log(sdt);
 
     return (
         <>
@@ -31,11 +33,11 @@ export default function SwiperCat(props) {
                 modules={[Navigation]}
                 // 스와이퍼 사이즈별 슬라이드 개수 변경
                 breakpoints={{
-                    700: {
-                        slidesPerView: 2,
+                    500: {
+                        slidesPerView: 3,
                     },
-                    1000: {
-                        slidesPerView: 4,
+                    800: {
+                        slidesPerView: 5,
                     },
                     1200: {
                         slidesPerView: 7,
@@ -44,26 +46,37 @@ export default function SwiperCat(props) {
                 className="mySwiper">
                 {sdt.map((v, i) => (
                     <SwiperSlide key={i}>
-                        <section className="swinbx" 
-                        onClick={()=>showVid(v.vsrc,v.tit)}>
-                            {/* 동영상이미지영역 */}
-                            <div className="vidimg">
-                                <img src={v.isrc} alt={v.tit}></img>
-                                <FontAwesomeIcon icon={faPlayCircle} 
-                                style={{
-                                    position:"absolute",
-                                    bottom:"55%",
-                                    left:"10%",
-                                    color:"#fff",
-                                    fontSize:"50px"
-                                    }} />
-                            </div>
-                            {/* 동영상타이틀영역 */}
-                            <div className="vidtit">
-                                <h4>{v.cat}</h4>
-                                <h3>{v.tit}</h3>
-                            </div>
-                        </section>
+                        <Link to="/det" 
+                        state={
+                            {
+                                cname: v.cname,
+                                cdesc: v.cdesc,
+                                facts: v.facts
+                            }
+                        }>
+                            {/*
+                                1. to속성에 루트(/)표시를 넣어야 함!
+                                -이유 : 우리는 /main을 굳이 만들어 쓰기 때문에, 그냥 들어갈 때엔 상관 없지만 로고를 클릭했을 때 /main이 루트 뒤에 표시되므로! 굳이 루트를 표시해줘야함
+
+                                2. "/det" 라우터 컴포넌트 페이지 호출 시 state 속성값으로 객체를 보내서 값 전달하기
+                                -Link로 데이터 전달할 때에 관한 필기 내용은 13번 참고
+                                -cname : 캐릭터 이름 전달하는 '속성명'이고 값은 v.cname으로 캐릭터 명을 보냄
+                                -cdesc : 캐릭터 설명
+                                -facts : 캐릭터 명세
+
+                                3. 페이지인 Details.js 컴포넌트에 페이지에서 나타나야 할 데이터 항목을 데이터 속성명과 같은 이름으로 세팅하여(알아보기 쉬우라고) 라우터 전달 state 객체에 담아서 보내기!
+                            */}
+                            <section className="swinbx" >
+                                {/* 캐릭터 이미지 영역 */}
+                                <div className="catimg">
+                                    <img src={v.tmsrc} alt={v.cname} />
+                                </div>
+                                {/* 캐릭터 이름 영역 */}
+                                <div className="cattit">
+                                    <h3>{v.cname}</h3>
+                                </div>
+                            </section>
+                        </Link>
                     </SwiperSlide>
                 ))}
             </Swiper>
