@@ -125,7 +125,9 @@ const Layout = ()=>{
                         }
                         {/* 마진레프트 : 오토! -> 자동으로 끝으로 가게 함(?) */}
                         <li style={{marginLeft:"auto"}}>
-                            <FontAwesomeIcon icon={faSearch} />
+                            <Link to='/sch'>
+                                <FontAwesomeIcon icon={faSearch} />
+                            </Link>
                         </li>
                         {
                             /* 회원가입, 로그인은 로그인하지 않은 상태일때만 보이게 하기 */
