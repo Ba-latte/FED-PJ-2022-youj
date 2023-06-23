@@ -55,7 +55,7 @@ const Layout = ()=>{
             // null이면 false처리 나니까, 널이 아니면 중괄호 영역에 들어올 수 있음
             
             // 메시지 세팅하기 : 객체 안의 "unm"속성이 사용자 이름!
-            setLogMsg("🦇 Welcome " + JSON.parse(localStorage.getItem("minfo"))["unm"]);
+            setLogMsg("😎 Welcome " + JSON.parse(localStorage.getItem("minfo"))["unm"]);
         }
     }; //////////////// setLogin //////////////////
 
