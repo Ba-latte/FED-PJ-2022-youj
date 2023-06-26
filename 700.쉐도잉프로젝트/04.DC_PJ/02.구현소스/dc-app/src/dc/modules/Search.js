@@ -19,16 +19,33 @@ function jqFn(){
 } ///////////////////// jqFn 함수 /////////////////////
 
 
+// 최초 원본 데이터 정렬을 오름차순으로 변경하기
+// 주의사항 : 컴포넌트 내부에 포함시키지 말 것!
+// why) 배열의 정렬 정보가 컴포넌트에 포함될 경우 정렬 변경이 되지 않음 (그 정보가 남아있어서 업데이트를 못 시킨다고 함)
+// 👉 따라서 컴포넌트 바깥의 위쪽에서 데이터 정렬이 변경된 원본 배열을 만들어준 것을 컴포넌트 내부에서 사용하도록 하면 기존 정렬의 변경이 반영됨!
+cat_data.sort((x, y)=>{
+    return x.cname === y.cname ? 0 : x.cname > y.cname ? 1 : -1;
+})
 
 // 컴포넌트
 function Search(){
+    // 최초 원본 데이터 정렬을 오름차순으로 변경하기
+    // cat_data.sort((x, y)=>{
+    //     return x.cname === y.cname ? 0 : x.cname > y.cname ? 1 : -1;
+    // })
+    // 이렇게 하면 아래에서 만든 소팅이 적용 안 돼ㅠ! 👉 그러니까 바깥쪽에다가 두기!
+    // 다른건 상관없는데 소팅만 이런 특징이 있음!
+
+
+
+
 
     // 데이터 선택하기
     // 👉 데이터 정렬을 반영하기 위해 정렬 상태값을 같이 설정해주도록 함!
     // 👉 데이터 구성 : [배열데이터, 정렬상태값]
     // 👉 그래서 정렬 상태값을 업데이트 해서 바뀌는 거라고 알려주면 됨
     // 👉 여기서 최초의 정렬 상태값을 2로 함
-    // 👉 이렇게 설정하는 이유 :Hook 상태관리는 데이터 정렬만 변경될 경우, 배열 데이터가 변경되지 않은 것으로 인식함. 그래서 배열로 묶어주면 전체를 한 세트라고 생각하고 그 세트 안의 일부가 바뀌면 바뀐거라 생각하기 때문에 묶어주는 것임
+    // 👉 이렇게 설정하는 이유 :Hook 상태관리는 데이터 정렬만 변경될 경우, 배열 데이터가 변경되지 않은 것으로 인식함. 그래서 배열로 묶어주면 전체를 한 세트라고 생각하고 그 세트 안의 일부가 바뀌면 바뀐거라 생각하기 때문에 묶어주는 것임 (커플링)
     // 정렬 상태값 : 0-오름차순, 1-내림차순 2-정렬전(처음 그 상태)
     let [sdt, setSdt] = useState([cat_data, 2]);
     // sdt[0] : 배열 데이터만 가져가고 싶으면 0번째를 선택하기!
@@ -150,6 +167,106 @@ function Search(){
     }; //////////////// sortList 함수 ///////////////
 
 
+    // [ 체크박스 요소 수집하기 ] ///////////////////////
+    // 숨겨둔 체크박스 요소 수집하기
+    let chkele = document.querySelectorAll(".chkhdn");
+
+
+    // [ 체크박스 검색함수 ] ///////////////////////
+    // : 컴포넌트가 function 어쩌고 이런식으로 함수형으로 쓰니까,,, 그냥 구분해주려고... 할당형으로 쓴다고 함(?)
+    const chkSearch = (e)=>{
+        // 1. 체크박스 아이디 구해오기 : 검색항목의 값(ALIGNMENT의 값으로 쓸 예정)
+        let cid = e.target.id;
+        // 2. 체크박스 체크/언체크 여부 확인하기 : checked 속성을 쓰면 됨 (true/false가 리턴됨)
+        let chked = e.target.checked;
+
+        console.log("체크박스 아이디 : ", cid, "체크여부 : ", chked);
+
+        // 임시 변수 만들기 : 기존에 입력된 데이터 가져오기
+        // 👉 계속 데이터 변경해서 sdt에 담아왔기 때문에 아래에서 뭔가 작업하기 전에 기존의 데이터를 다른 곳에 담아두는 것임
+        let temp = sdt[0];
+        console.log("기존에 저장해둔 데이터 : ", temp);
+
+        // 결과 집합 담을 변수 만들기
+        let newList = [];
+
+        // 3. 체크박스에 체크된 개수 세기 : 1개 초과시 배열합치기를 할 예정임!
+        let num = 0;
+        chkele.forEach(v=>{if(v.checked) num++;});
+        console.log("체크 개수 : ", num);
+
+
+
+        // 4. 체크박스 체크에 따른 분기
+        // (1)체크 여부가 true일 때 해당 검색어로 검색하기
+        if(chked){
+            // 현재 데이터를 변수에 담기 (만약 한번 키워드 검색한 결과를 또 검색하려면 이렇게 원본데이터 ㄱ자ㅕ오면 안된다고 함)
+            let nowdt = cat_data.filter(v=>{
+                if(v.alignment===cid) return true;
+                // : true인 것만 필터가 수집해서 nowdt에 담도록 하기
+            }); /////////// filter ///////////
+
+            // 체크 개수가 1 초과일 때 배열 합치기
+            // 💥무조건 합치기 하면 적용이 안 됨! if로 구분해서 합쳐줘야 적용이 된다고 함💥
+            if(num > 1){
+                // 스프레드 연산자(...) 사용하기! : react cdn 파일 > 00.js es6 문법 체크하기에 관련 내용 있음!
+
+                // 기존 데이터(temp) + 새로운 데이터(nowdt) 합치기
+                newList = [...temp, ...nowdt];
+
+            } /////////////// if : 1 초과일 때 /////////////
+            else{
+                // 위에서 만들어둔 결과 집합 변수에다가 현재 데이터 담은 변수의 값을 할당하여 반영하기
+                newList = nowdt;
+            } ////////// else : 체크 개수가 1일 때 ////////////////
+
+
+        } ////////////// if : chked가 true일 때 ////////////////
+        // (2) 체크 여부가 false일 때 데이터 지우기
+        else{
+            console.log("지울 데이터 : ", cid);
+            // 오리지널 for문 쓰는 경우 
+            // 데이터지울 때 forEach를 쓰면 문제가 생김
+            // 스플라이스로 지울 땐 꼭 무조건 반드시!!!!! for문 오리지널문을 써야 함!!!!!!!
+            for(let i = 0; i < temp.length; i++){
+                // 조건은 체크박스 풀린 값
+                if(temp[i].alignment === cid){
+
+                    // 배열 지우기 메서드 : splice(순번, 개수)
+                    temp.splice(i, 1);
+                    
+                    
+                    // 💥중요!! splice로 지우면 배열 항목 자체가 삭제되므로 for문 돌 때 개수가 줄어들기 때문에 다음번호를 지울 때 ++을 --처리해줘야 함
+                    // ex) 2번 데이터 지우면, 2번 데이터의 자리에 3번 데이터가 오므로 "++"해서 3번자리로 가버리면 2번자리에 온 3번데이터 검사하지 못함!
+                    i--;
+
+
+                    // delete temp[i]; 👉 이거 쓸 때 조심하기
+                    /****************************************************************************
+                        [ delete 사용할 때의 주의사항 ]
+                    delete 배열 지우기는 배열의 값만 지우고 그 값은 undefined 처리 된다
+                    따라서 리스트 처리시 에러가 날 수 있음
+                    이 경우에 꼭 배열 주소 전체를 삭제하는 splice를 사용하도록 한다
+                    ****************************************************************************/
+                } ////////// if : i번째의 기존데이터의 alignment 항목의 값이 cid와 동일하다면 ///////////
+            } /////////////// for문 //////////////////
+
+            // 결과 처리하기 : 삭제 처리된 temp를 결과에 넣기!
+            newList = temp;
+
+        } //////////// else : 체크박스 false일 때 ////////////////
+        
+
+
+        // 5. 검색 결과 리스트를 업데이트하기
+        // Hook 데이터 변수 업데이트하기
+        setSdt([newList], 2);
+        // 데이터 건수 변수 업데이트하기
+        setTot(newList.length);
+
+    }; ///////////////////// chkSearch 함수 ///////////////////////
+
+
 
 
     return(
@@ -169,6 +286,49 @@ function Search(){
                     {/* 입력창 */}
                     <input id='schin' type='text' 
                     placeholder='Filter by Keyword' onKeyUp={enterKey} />
+                </div>
+                {/* 체크박스 구역 */}
+                <div className='chkbx'>
+                    <ul>
+                        <li>
+                            <h2>
+                                ALIGNMENT
+                                <span className='spbtn'>＋</span>
+                            </h2>
+                            {/* 체크박스 리스트 */}
+                            <ol>
+                                <li>
+                                    Heroes
+                                    {/*
+                                        데이터에 가보면 'ALIGNMENT'항목에 hero가 있는데 이걸 검색하게 하기 위해 id를 hero로 해줌
+                                        체크박스 체크/언체크하면 온체인지 이벤트가 바뀜!
+                                    */}
+                                    <input type='checkbox'
+                                    id='hero'
+                                    className='chkhdn'
+                                    onChange={chkSearch} />
+                                    {/* 실제로는 라벨을 클릭하면 체크박스가 바뀌니까 라벨 추가해주기 (라벨의for속성 htmlfor로 바뀜~ id랑 똑같은 이름으로 연결~) */}
+                                    <label htmlFor='hero' className='chklb'></label>
+                                </li>
+                                <li>
+                                    It's Complicated
+                                    <input type='checkbox'
+                                    id='comp'
+                                    className='chkhdn'
+                                    onChange={chkSearch} />
+                                    <label htmlFor='comp' className='chklb'></label>
+                                </li>
+                                <li>
+                                    Villains
+                                    <input type='checkbox'
+                                    id='villain'
+                                    className='chkhdn'
+                                    onChange={chkSearch} />
+                                    <label htmlFor='villain' className='chklb'></label>
+                                </li>
+                            </ol>
+                        </li>
+                    </ul>
                 </div>
             </div>
             {/* 2. 결과리스트박스 */}
