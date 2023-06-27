@@ -2,7 +2,7 @@
 
 import Logo from "./Logo";
 import "./css/layout.css";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { gnb_data, bmenu } from "./data/common";
 import { useState } from "react";
 import ScrollTop from "./common/ScrollTop";
@@ -28,6 +28,9 @@ const Layout = ()=>{
     }; ///////////////// callMe ////////////////////
 
 
+    // 라우터를 이용하여 데이터 보내기 : 라우터 이동메서트 세팅하기
+    const goNav = useNavigate();
+    
 
     // 로그인 상태 Hook변수 : 로컬스토리지의 "minfo" 항목의 값을 초기 할당함
     const [logSts, setLogSts] = useState(localStorage.getItem("minfo"));
@@ -71,6 +74,43 @@ const Layout = ()=>{
 
         
     }; ////////////// logout ////////////////
+
+
+
+    // [ 검색창 보이기 함수 ] ///////////////////
+    const showSearch = ()=>{
+        // 1. a요소 숨기기
+        document.querySelector(".searchingGnb+a").style.opacity = "0";
+
+        // 2. 검색창 보이기 + 포커스 넣기
+        let tg = document.querySelector(".searchingGnb");
+        tg.style.display = "block";
+        tg.querySelector("input").focus();
+
+
+    }; ////////////// showSearch 함수 //////////////////
+
+
+    // [ 입력창에서 엔터키를 누르면 검색 함수 호출하기 ] //////////////////////
+    const enterKey = (e)=>{
+        // JS 오리지널 문법에서 엔터키는 13번?이었음
+
+        // 이벤트의 key가 엔터키일 때 검색 함수(schList) 호출하도록 if문으로 제어하기
+        if(e.key === 'Enter') goSearch();
+    }; //////////////// enterKey 함수 /////////////////////
+
+
+
+    // [ 검색 페이지로 검색어와 함께 이동하기 ] /////////////////////////////
+    const goSearch = ()=>{
+        // 검색어 읽어오기
+        let kw = document.querySelector(".searchingGnb input").value;
+        console.log("검색어 : ", kw);
+
+        // 라우터 이동하기 : 전달값(검색어) 가져가기
+        goNav('/res',{state:{keyword:kw}});
+
+    }; //////////////////// goSearch 함수 //////////////////////
 
 
     return(
@@ -125,9 +165,24 @@ const Layout = ()=>{
                         }
                         {/* 마진레프트 : 오토! -> 자동으로 끝으로 가게 함(?) */}
                         <li style={{marginLeft:"auto"}}>
-                            <Link to='/sch'>
+                            {/* 검색 입력 박스 */}
+                            {/* 검색박스 */}
+                            <div className='searchingGnb'>
+                                {/* 검색버튼 돋보기아이콘 */}
+                                <FontAwesomeIcon 
+                                icon={faSearch}
+                                className='schbtnGnb'
+                                title='Open search'
+                                onClick={goSearch}
+                                />
+                                {/* 입력창 */}
+                                <input id='schinGnb' type='text' 
+                                placeholder='Filter by Keyword' onKeyUp={enterKey} />
+                            </div>
+                            {/* 검색기능 링크 : 클릭시 검색창 보이기! */}
+                            <a href="#" onClick={showSearch} >
                                 <FontAwesomeIcon icon={faSearch} />
-                            </Link>
+                            </a>
                         </li>
                         {
                             /* 회원가입, 로그인은 로그인하지 않은 상태일때만 보이게 하기 */

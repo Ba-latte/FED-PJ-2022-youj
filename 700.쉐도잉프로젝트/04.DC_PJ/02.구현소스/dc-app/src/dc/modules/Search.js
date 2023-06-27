@@ -1,7 +1,7 @@
 // Search 모듈 JS - Search.js
 
 import $ from 'jquery';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // CSS
 import '../css/search.css';
 import cat_data from '../data/cat';
@@ -28,7 +28,7 @@ cat_data.sort((x, y)=>{
 })
 
 // 컴포넌트
-function Search(){
+function Search(props){ // props.skw - 서치키워드
     // 최초 원본 데이터 정렬을 오름차순으로 변경하기
     // cat_data.sort((x, y)=>{
     //     return x.cname === y.cname ? 0 : x.cname > y.cname ? 1 : -1;
@@ -267,6 +267,31 @@ function Search(){
     }; ///////////////////// chkSearch 함수 ///////////////////////
 
 
+
+
+    // 🔥 Layout 페이지에서 검색해 들어와서, 검색어가 있는 경우에 검색함수 호출하기!!
+    // : 검색함수는 검색어 입력창으로부터 검색어를 가져가므로, 넘어온 검색어는 검색 입력창에 넣은 후 검색함수를 호출하면 됨
+    // (여기의 룰이 '여기에 있는 검색입력창 -> 입력 -> 검색결과' 보여주기 이기 때문에!!)
+    const linkSearch = ()=>{
+        console.log("링크 검색어 : ", props.skw);
+
+        // 빈값 체크하기 : 검색어가 빈값이 아닌 경우
+        if(props.skw != ""){
+            // 1. 검색창 원상복구하기
+            document.querySelector(".searchingGnb").style.display = "none";
+            document.querySelector(".searchingGnb+a").style.opacity = "1";
+
+            // 2. 검색페이지 검색창에 키워드 넣기
+            document.querySelector(".searching input").value = props.skw;
+
+            // 3. 검색함수 호출하기
+            schList();
+        } ///////////// if : 검색어가 빈값이 아닌 경우 ///////////////
+
+    }; ////////////////////// linkSearch 함수 ////////////////////////////
+
+    // 🔥 검색어가 있을 때 검색함수 호출은 페이지 로딩 후 체크해주는 useEffect를 활용한다!
+    useEffect(linkSearch, []);
 
 
     return(

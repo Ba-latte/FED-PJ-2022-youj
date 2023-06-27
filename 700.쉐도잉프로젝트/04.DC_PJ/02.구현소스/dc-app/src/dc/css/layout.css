@@ -95,6 +95,46 @@ h1{
 }
 
 
+
+/* GNB 검색입력창 박스 */
+.searchingGnb{
+    width: 250px;
+    height: 40px;
+
+    position: absolute;
+    left: -230px;
+    top: 9px;
+    z-index: 1;
+    line-height: 41px;
+
+    border-radius: 20px;
+    background-color: #efefef;
+    box-sizing: border-box;
+    padding: 0 5px;
+
+    /* 처음에 안 보이게 만들기 */
+    display: none;
+}
+.searchingGnb input{
+    font-size: 15px;
+    width: 77%;
+    margin-top: 5px;
+    margin-left: 10px;
+    background-color: transparent;
+    border: none;
+}
+.searchingGnb input:focus{
+    outline: none;
+}
+.schbtnGnb{
+    cursor: pointer;
+    margin-top: 9px;
+    margin-left: 10px;
+}
+
+
+
+
 /* 메인영역 */
 
 

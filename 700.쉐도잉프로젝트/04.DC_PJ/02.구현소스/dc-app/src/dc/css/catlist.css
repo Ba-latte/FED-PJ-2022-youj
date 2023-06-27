@@ -25,3 +25,8 @@
     white-space: nowrap;
     padding: 15px;
 }
+
+.clist a{
+    color: black;
+    text-decoration: none;
+}

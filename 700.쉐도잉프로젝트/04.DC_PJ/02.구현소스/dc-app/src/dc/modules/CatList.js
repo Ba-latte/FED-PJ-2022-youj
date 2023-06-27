@@ -1,6 +1,8 @@
 // CatList 모듈 JS - CatList.js
 
 import $ from 'jquery';
+import { Link } from 'react-router-dom';
+// CSS 불러오기
 import '../css/catlist.css';
 
 // 제이쿼리 로드구역 함수
@@ -26,8 +28,17 @@ function CatList(props){
                     
                     sdt.map((v, i)=>
                         <li key={i}>
-                            <img src={v.tmsrc} alt={v.cname} />
-                            <h3>{v.cname}</h3>
+                            <Link to="/det" 
+                            state={
+                                {
+                                    cname: v.cname,
+                                    cdesc: v.cdesc,
+                                    facts: v.facts
+                                }
+                            }>
+                                <img src={v.tmsrc} alt={v.cname} />
+                                <h3>{v.cname}</h3>
+                            </Link>
                         </li>
                     )
                 }
