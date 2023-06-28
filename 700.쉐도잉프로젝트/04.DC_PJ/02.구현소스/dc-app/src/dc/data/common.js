@@ -59,6 +59,10 @@ const gnb_data = [
         txt:"VIDEO",
         link:"/vd",
     },
+    {
+        txt:"OPINION",
+        link:"/board",
+    },
 ];
 // 👆 지금은 메뉴가 하이라키 구조가 아니고 단층 구조, 단순 나열, 명확한 상태라서 배열로 씀
 

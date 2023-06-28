@@ -31,7 +31,7 @@ function Result(props){ // props.skw - 전달키워드
     return(
         <>
             {/* 모듈 코드 */}
-            <h2>Search Result</h2>
+            <h2 className='tit' style={{textAlign:"center", padding:"30px 0"}}>Search Result</h2>
             {/* Layout 페이지에서 검색결과값을 보낼 경우, 받아서 skw로 전달해주기 */}
             <Search skw={kw} />
             {/* 바깥에 빈 루트를 만들고 JS 로드 함수 포함시키기 */}

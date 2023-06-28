@@ -200,7 +200,7 @@ function Search(props){ // props.skw - 서치키워드
         // 4. 체크박스 체크에 따른 분기
         // (1)체크 여부가 true일 때 해당 검색어로 검색하기
         if(chked){
-            // 현재 데이터를 변수에 담기 (만약 한번 키워드 검색한 결과를 또 검색하려면 이렇게 원본데이터 ㄱ자ㅕ오면 안된다고 함)
+            // 현재 데이터를 변수에 담기 (만약 한번 키워드 검색한 결과를 또 검색하려면 이렇게 원본데이터 가져오면 안된다고 함)
             let nowdt = cat_data.filter(v=>{
                 if(v.alignment===cid) return true;
                 // : true인 것만 필터가 수집해서 nowdt에 담도록 하기
