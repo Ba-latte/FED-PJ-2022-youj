@@ -43,7 +43,7 @@ export default function SwiperCat(props) {
                         slidesPerView: 7,
                     },
                 }}
-                className="mySwiper">
+                className="mySwiper2">
                 {sdt.map((v, i) => (
                     /* 저스티스 리그 캐릭터는 idx = 1부터 7까지 : v.idx가 7보다 같거나 작은 데이터만 뿌려라! */
                     Number(v.idx) <= 7 &&
@@ -69,13 +69,13 @@ export default function SwiperCat(props) {
 
                                     3. 페이지인 Details.js 컴포넌트에 페이지에서 나타나야 할 데이터 항목을 데이터 속성명과 같은 이름으로 세팅하여(알아보기 쉬우라고) 라우터 전달 state 객체에 담아서 보내기!
                                 */}
-                                <section className="swinbx" >
+                                <section className="swinbx2" >
                                     {/* 캐릭터 이미지 영역 */}
-                                    <div className="catimg">
+                                    <div className="catimg2">
                                         <img src={v.tmsrc} alt={v.cname} />
                                     </div>
                                     {/* 캐릭터 이름 영역 */}
-                                    <div className="cattit">
+                                    <div className="cattit2">
                                         <h3>{v.cname}</h3>
                                     </div>
                                 </section>

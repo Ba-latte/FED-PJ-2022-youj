@@ -2,6 +2,7 @@
 
 import Logo from "./Logo";
 import "./css/layout.css";
+import $ from 'jquery';
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { gnb_data, bmenu } from "./data/common";
 import { useState } from "react";
@@ -113,6 +114,27 @@ const Layout = ()=>{
     }; //////////////////// goSearch 함수 //////////////////////
 
 
+    // 햄버거 버튼 클릭시 메뉴 등장하기 ///////////////
+    const chgMenu = ()=>{
+        // let topA = $(".top");
+        // // 제이쿼리 is 메서드! : 있는지 없는지 확인 후 t/f 리턴
+        // let isOn = topA.is(".on");
+
+        // // on클래스가 있으면 제거하기
+        // if(isOn) topA.removeClass("on");
+        // // 없으면 추가하기
+        // else topA.addClass("on");
+
+        // 토글 클레스 메서드로 on 클래스를 추가/제거하기
+        $(".top").toggleClass("on");
+
+    }; ///////////////// chgMenu 함수 /////////////////
+
+    // 메뉴 클릭시 닫기 부가 기능 함수
+    const rmCls = ()=>$(".top").removeClass("on");
+
+
+
     return(
         <>
             <ScrollTop sfn={setLogin} /> 
@@ -137,7 +159,9 @@ const Layout = ()=>{
                         </li>
                         {
                             gnb_data.map((v, i)=>
-                                <li key={i}>
+                            // Link 컴포넌트에 다른 이벤트 걸면 에러 발생함! 그러니까 위의 li에 이벤트를 거는 것임! 이래도 가능함! (이벤트 버블링 때문!)
+                            // chgMenu는 토글로 클래스 추가/제거 기능만 있으니까 그냥 이 함수 씀~
+                                <li key={i} onClick={rmCls}>
                                     <Link to={v.link}>{v.txt}</Link>
                                     {/* console.log(v.sub) */}
                                     {/* v.sub가 없으면 undefined! */}
@@ -189,10 +213,10 @@ const Layout = ()=>{
                             logSts === null &&
                             <>
                                 <li>
-                                    <Link to="/mem">Join Us</Link>
+                                    <Link to="/mem" onClick={rmCls}>Join Us</Link>
                                 </li>
                                 <li>
-                                    <Link to="/login">LOG IN</Link>
+                                    <Link to="/login" onClick={rmCls}>LOG IN</Link>
                                 </li>
                             </>
                         }
@@ -200,10 +224,12 @@ const Layout = ()=>{
                             /* 로그아웃버튼은 로그인 상태일때만 보이게 하기 */
                             logSts !== null &&
                             <li>
-                                <a href="#" onClick={logout}>LOG OUT</a>
+                                <a href="#" onClick={rmCls}>LOG OUT</a>
                             </li>
                         }
                     </ul>
+                    {/* 햄버거 버튼 */}
+                    <button className="hambtn" onClick={chgMenu}></button>
                 </nav>
             </header>
             {/* 2.메인영역 */}

@@ -1,6 +1,6 @@
 ///  게시판 모듈 - Board.js
 import $ from 'jquery';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import "./css/board.css";
 /* 제이슨 불러오기 */
 import orgdata from "./data/data.json";
@@ -24,7 +24,7 @@ function Board(){
 
 // 2. 로컬스토리지 변수를 설정하여 할당하기
 localStorage.setItem("bdata", JSON.stringify(jsn));
-console.log("로컬스:", localStorage.getItem("bdata"));
+// console.log("로컬스:", localStorage.getItem("bdata"));
 
 // 3. 로컬스토리지 데이터를 파싱하여 게시판 리스트에 넣기
 // 3-1. 로컬 스토리지 데이터 파싱하기
@@ -77,7 +77,7 @@ function bindList(pgnum){ // pgnum - 페이지번호
         } //////////// if ////////////
     } /////////// for 문 ///////////////
     
-    console.log("코드:", blist);
+    // console.log("코드:", blist);
 
     // 2. 리스트 코드 테이블에 넣기
     $("#board tbody").html(blist);
@@ -127,58 +127,216 @@ function bindList(pgnum){ // pgnum - 페이지번호
 
 } /////////////// bindList함수 ///////////////
 
-const callFn = () => bindList(1);
+
+
+// 로그인 상태 체크 함수 ////////////
+const chkLogin = ()=>{
+    // 로컬스토리지의 'minfo'가 있는지 체크하기
+    let chk = localStorage.getItem("minfo");
+
+    // 로컬스토리지에 minfo가 있으면(true) log상태 Hook에 true값 업데이트하기
+    if(chk) setLog(true);
+    else setLog(false);
+
+    console.log("로그인 상태 : ", log, " / 모드 : ", bdmode);
+
+}; //////////////// chkLogin 함수 ////////////////
+
+
+// 게시판 모드별 상태 구분 Hook 변수 만들기
+// 모드 구분값 : CRUD(Create/Read/Update/Delete)
+// C : 글쓰기 / R : 글읽기 / U : 글수정 / D : 글삭제 👉 D는 U에 포함시켜서 안 씀!
+// 상태추가하기! L : 글목록 (맨 처음 상태값임)
+const [bdmode, setBdmode] = useState('L');
+
+
+
+// 로그인 상태 Hook 변수 만들기 ////////
+// 상태값 : false - 로그아웃상태 / true - 로그인상태
+const [log, setLog] = useState(false);
+
+
+// 모드 전환 함수 //////////////////
+const chgMode = (e)=>{
+    // 기본이동 막기(하위의 a요소!)
+    e.preventDefault();
+
+    // 하위 요소의 글자 읽어오기
+    let txt = $(e.target).text();
+    console.log("버튼 : ", txt);
+
+    // 모드 변경
+    if(txt == 'Write') setBdmode('C');
+    else if(txt == 'List') {setBdmode('L');};
+    // 주의! bd모드를 L로 바꿀 경우, bindList()가 안 됨...! 그래서 글 내역이 안 뜸...!
+
+    // 리스트 태그를 로딩구역에서 일괄 호출하기 : 로딩구역을 만들고 그 안에서 불러줌으로써 html이 다 뿌려진 후에 리스트함수 호출해서 글들이 죽 뜨게 함
+    // : 리스트 태그가 출력되었을 때 적용되도록 함
+    $(()=>bindList(1));
+
+}; ///////////////// chgMode 함수 /////////////////
+
+
+
+
+
+// 로딩 체크 함수 : useEffect에서 호출함!! ///////
+const callFn = () => {
+    // tip) 상태 체크하는 함수는 한 군데에다가 모아서 해주고 그것들은 모아둔 함수를 useEffect에서 호출하면 됨
+
+
+    // 리스트 상태일때만 호출!
+    if(bdmode == 'L') bindList(1);
+
+    // 로그인상태 체크함수 호출!
+    chkLogin();
+
+}; //////////////// callFn 함수 ////////////////
+
+
+// 로딩체크함수 호출하기
 useEffect(callFn,[]);
 
 
     return(
         <>
         {/* 모듈코드 */}
-        {/* 게시판 리스트 */}
-        <table className="dtbl" id="board">
-            <caption>
-                OPINION
-            </caption>
-            {/* 상단 컬럼명 표시영역 */}
-            <thead>
-                <tr>
-                    <th>Number</th>
-                    <th>Title</th>
-                    <th>Writer</th>
-                    <th>Date</th>
-                    <th>Hits</th>
-                </tr>
-            </thead>
+        {/* 1.게시판 리스트 : 게시판 모드 'L'일때 출력하기 */}
+        {
+            bdmode == 'L' &&
+            <table className="dtbl" id="board">
+                <caption>
+                    OPINION
+                </caption>
+                {/* 상단 컬럼명 표시영역 */}
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Title</th>
+                        <th>Writer</th>
+                        <th>Date</th>
+                        <th>Hits</th>
+                    </tr>
+                </thead>
 
-            {/* 중앙 레코드 표시부분 */}
-            <tbody>
-                <tr>
-                    <td colspan="5">There is no data.</td>
-                </tr>
-            </tbody>
+                {/* 중앙 레코드 표시부분 */}
+                <tbody>
+                    <tr>
+                        <td colSpan="5">There is no data.</td>
+                    </tr>
+                </tbody>
 
-            {/* 하단 페이징 표시부분 */}
-            <tfoot>
-                <tr>
-                    <td colspan="5" className="paging">
-                         {/* 페이징번호 위치  */}
-                    </td>
-                </tr>
-            </tfoot>
+                {/* 하단 페이징 표시부분 */}
+                <tfoot>
+                    <tr>
+                        <td colSpan="5" className="paging">
+                            {/* 페이징번호 위치  */}
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        }
+
+        {/* 2.글쓰기 테이블 : 게시판모드 'C'일때만 출력하기 */}
+        {
+            bdmode == 'C' &&
+            <table class="dtblview">
+                <caption>OPINION</caption>
+                <tbody>
+                    <tr>
+                        <td width="100">
+                            Name
+                        </td>
+                        <td width="650">
+                            <input type="text" name="name" size="20" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Emial
+                        </td>
+                        <td>
+                            <input type="text" name="email" size="40" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Title
+                        </td>
+                        <td>
+                            <input type="text" name="subject" size="60" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Content
+                        </td>
+                        <td>
+                            <textarea name="content" cols="60" rows="10"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
         </table>
+        }
 
         <br />
+
+        {/* 버튼 그룹 박스 */}
         <table className="dtbl btngrp">
+            <tbody>
             <tr>
                 <td>
-                    <button>
-                        <a href="list.php">List</a>
-                    </button>
-                    <button className="wbtn">
-                        <a href="write.php">Write</a>
-                    </button>
+                    {
+                        // 리스트모드(L) : Write버튼
+                        bdmode == 'L' && log &&
+                        <>
+                            <button onClick={chgMode}>
+                                <a href="#">Write</a>
+                            </button>
+                        </>
+                    }
+                    {
+                        // 글쓰기모드(C) : Submit버튼 + List버튼
+                        bdmode == 'C' &&
+                        <>
+                            <button onClick={chgMode}>
+                                <a href="#">Submit</a>
+                            </button>
+                            <button onClick={chgMode}>
+                                <a href="#">List</a>
+                            </button>
+                        </>
+                    }
+                    {
+                        // 글읽기모드(R) : List버튼 + Modify버튼(수정모드버튼)
+                        bdmode == 'R' &&
+                        <>
+                            <button onClick={chgMode}>
+                                <a href="#">List</a>
+                            </button>
+                            <button onClick={chgMode}>
+                                <a href="#">Modify</a>
+                            </button>
+                        </>
+                    }
+                    {
+                        // 글수정모드(U) : Submit버튼 + Delete버튼 + List버튼
+                        bdmode == 'U' &&
+                        <>
+                            <button onClick={chgMode}>
+                                <a href="#">Submit</a>
+                            </button>
+                            <button onClick={chgMode}>
+                                <a href="#">Delete</a>
+                            </button>
+                            <button onClick={chgMode}>
+                                <a href="#">List</a>
+                            </button>
+                        </>
+                    }
                 </td>
             </tr>
+            </tbody>
         </table>
         {/* 빈루트를 만들고 JS로드함수포함 */}
         {jqFn()}
