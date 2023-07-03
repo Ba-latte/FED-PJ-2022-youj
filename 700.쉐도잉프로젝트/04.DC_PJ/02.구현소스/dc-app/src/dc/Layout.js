@@ -223,8 +223,8 @@ const Layout = ()=>{
                         {
                             /* 로그아웃버튼은 로그인 상태일때만 보이게 하기 */
                             logSts !== null &&
-                            <li>
-                                <a href="#" onClick={rmCls}>LOG OUT</a>
+                            <li onClick={rmCls}>
+                                <a href="#" onClick={logout}>LOG OUT</a>
                             </li>
                         }
                     </ul>
