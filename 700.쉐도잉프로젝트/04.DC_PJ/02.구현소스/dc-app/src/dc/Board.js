@@ -26,11 +26,44 @@ function jqFn() {
 } ////////////// jQFn ///////////
 
 function Board() {
+
+    // Hook 변수 구역 /////////////////////////////////////////////
+
     // [ 제이슨 파일 데이터 로컬스토리지에 넣기 ]
     // 1. 변수에 제이슨 파일 문자화 하여 불러오기
     // 상단에서 불러옴!
     // 실시간 데이터 변경 관리를 Hook변수화 하여 처리함!
     const [jsn,setJsn] = useState(org); // 초기데이터 셋팅
+
+
+    // 현재로그인 사용자 정보 : 처음에 현재로그인 정보로 세팅함!
+    const [nowmem,setNowmem] = useState(localStorage.getItem('minfo') ? JSON.parse(localStorage.getItem('minfo')) : '');
+    // 👆 비워놓으면 처음에 렌더링할 때 세팅된 값이 없어서 못 읽어옴!
+    // 👆 삼항연산자로 세팅된 경우에만 할당하도록 함!
+
+
+    // 게시판 모드별 상태구분 Hook 변수만들기 ////
+    // 모드구분값 : CRUD (Create/Read/Update/Delete)
+    // C - 글쓰기 / R - 글읽기 / U - 글수정 / D - 삭제(U에 포함!)
+    // 상태추가 : L - 글목록
+    const [bdmode,setBdmode]  = useState('L');
+
+
+    // 로그인 상태 Hook 변수 만들기 ///
+    // 상태값 : false - 로그아웃상태 / true - 로그인상태
+    const [log,setLog] = useState(false);
+
+
+    // 쓰기버튼 출력여부상태 : 로그인사용자와 글작성자 일치시 true
+    const [wtmode,setWtmode] = useState(false);
+
+    // 수정모드에서 사용할 현재글 정보 셋팅하기 : [idx, uid, tit, cont]
+    // (실제로도 임시저장했다가 뿌린다고함)
+    const [currItem,setCurrItem] = useState([]);
+
+    //////////////////////////////////////////////////////////////
+
+
 
     // 2. 로컬스토리지 변수를 설정하여 할당하기
     localStorage.setItem("bdata", JSON.stringify(jsn));
@@ -83,7 +116,7 @@ function Board() {
                 <tr>
                     <td>${i+1}</td>
                     <td>
-                        <a href="view.html?idx=${jsn[i]["idx"]}">
+                        <a href="#" data-idx="${jsn[i]["idx"]}">
                             ${jsn[i]["tit"]}
                         </a>
                     </td>
@@ -138,10 +171,47 @@ function Board() {
             // 바인딩함수 호출!(페이지번호 보냄)
             bindList($(this).text());
         }); /////////// click /////////////
+
+        // 3-6. 링크 페이지 보기
+        $("#board tbody td a").click(function(e){
+            // 기본기능 막기
+            e.preventDefault();
+
+            // 게시판 상태값 업데이트
+            setBdmode('R');
+
+            // 현재 글 번호(고유값) 읽어오기
+            let selnum = $(this).attr('data-idx');
+            
+            // 원본데이터에서 해당 idx 데이터 찾기
+            let seldt = jsn.find(x=>{ if(x.idx == selnum) return true});
+            // find()는 하나 찾으면 돌아오는 놈!
+
+            console.log(selnum,seldt);
+
+            // 현재 글쓴이(seldt.writer)와 현재 로그인한 사람(nowmem.uid)가 같으면 수정하기 버튼 상태값을 true로 업데이트하기 아니면 false
+            // (작성자와 아이디가 같은 경우 게시판 모드 바꿔서 write버튼 보이게 하기)
+            if(seldt.writer === nowmem.uid) setWtmode(true);
+            else setWtmode(false);
+
+            $(()=>{
+                $(".readone .name").val(seldt.writer);
+                $(".readone .subject").val(seldt.tit);
+                $(".readone .content").val(seldt.cont);
+                console.log(nowmem.unm,seldt.tit);
+
+                // 수정모드로 이동시 읽기에서 기본데이터 세팅하여 재사용목적!!!
+                // 저장순서 : 글 idx, 글쓴이 아이디, 글제목, 글내용
+                setCurrItem([seldt.idx,seldt.writer,seldt.tit,seldt.cont]);
+
+            });
+
+        }); ///////////// click /////////////
+
+
     } /////////////// bindList함수 ///////////////
 
-    // 현재로그인 사용자 정보
-    let [nowmem,setNowmem] = useState('');
+
 
     /// 로그인 상태 체크 함수 //////////
     const chkLogin = () => {
@@ -161,15 +231,7 @@ function Board() {
     }; ////////// chkLogin /////////////
 
 
-    // 게시판 모드별 상태구분 Hook 변수만들기 ////
-    // 모드구분값 : CRUD (Create/Read/Update/Delete)
-    // C - 글쓰기 / R - 글읽기 / U - 글수정 / D - 삭제(U에 포함!)
-    // 상태추가 : L - 글목록
-    const [bdmode,setBdmode]  = useState('L');
 
-    // 로그인 상태 Hook 변수 만들기 ///
-    // 상태값 : false - 로그아웃상태 / true - 로그인상태
-    const [log,setLog] = useState(false);
 
     // 모드전환함수 //////////////////////
     const chgMode = e => {
@@ -189,8 +251,8 @@ function Board() {
 
             // 읽기전용 입력창에 기본정보 셋팅
             $(()=>{
-                $(".dtblview .name").val(nowmem.unm);
-                $(".dtblview .email").val(nowmem.eml);
+                $(".writeone .name").val(nowmem.unm);
+                $(".writeone .email").val(nowmem.eml);
             });
 
         } 
@@ -200,9 +262,9 @@ function Board() {
         else if(txt=="Submit" && bdmode=="C"){
 
             // 타이틀
-            let tit = $(".dtblview .subject").val();
+            let tit = $(".writeone .subject").val();
             // 내용
-            let cont = $(".dtblview .content").val();
+            let cont = $(".writeone .content").val();
 
 
             // 제목/내용 빈값 체크
@@ -214,7 +276,7 @@ function Board() {
                 // 날짜데이터처리
                 let today = new Date();
                 let yy = today.getFullYear();
-                let mm = today.getMonth();
+                let mm = today.getMonth() + 1; // 숫자 월은 +1을 해줘야 함!
                 mm = mm<10?"0"+mm:mm
                 let dd = today.getDate();
                 dd = dd<10?"0"+dd:dd
@@ -254,13 +316,79 @@ function Board() {
 
         } ////////////// 새로입력 ///////////
 
+        // (4) 수정모드(U) 일때 //////////////
+        else if(txt=="Modify"){ 
+            // 게시판 모드 상태값 업데이트
+            setBdmode('U');
+
+            // currItem 변수에 읽기모드에서 세팅한 값을 읽어온다!
+            $(()=>{
+                $(".updateone .name").val(currItem[1]);
+                $(".updateone .subject").val(currItem[2]);
+                $(".updateone .content").val(currItem[3]);
+            });
+        
+        } //////////// else if /////////////////
+
+        // (5) 수정모드(U)에서 Submit 버튼 클릭시 /////////////
+        else if(txt=="Submit" && bdmode=='U'){
+            // 1. 제목과 내용을 읽어옴(고친 내용 읽기)
+            let tit = $(".updateone .subject").val();
+            let cont = $(".updateone .content").val();
+
+            // 2. 빈 값 체크하기
+            if(tit.trim()==''||cont.trim()==''){
+                alert("Title and content are required");
+            } ////////////// if /////////////////
+            // 3. 빈 값이 아니면 해당 데이터를 찾아서 값을 변경하기
+            else{
+                // 원본 데이터인 jsn에서 idx값이 일치하는 레코드의 값 변경하기
+                jsn.find(v=>{
+                    if(v.idx==currItem[0]){
+                        v.tit = tit;
+                        v.cont = cont;
+                        return true; // 리턴시키는 거 필수임!!
+                    } /////////// if /////////////
+                }) ///////////// find ////////////////
+
+                // 4. 게시판 모드 업데이트('L')
+                setBdmode('L');
+
+                // 5. 리스트 바인딩호출
+                bindList(1);
+            } ////////////// else ///////////////
+            
+        } //////////////////// else if /////////////////////
+
+
+        // (6) 수정모드(U)에서 Delete버튼 클릭시 /////////////
+        else if(txt=="Delete" && bdmode=='U'){
+            // 확인 대화창을 띄워서 OK 클릭시 true처리한 경우
+            if(window.confirm('Are you sure you want to delete it?')){
+                // 1.원본데이터인 jsn에서 해당 항목 레코드를 찾아서 삭제함 (완전 삭제해아한다고 함)
+                // (딜리트는 공간 남겨두는 거라서 그거 쓰면 흔적이 남아서 안됨~)
+                jsn.find((v,i)=>{ // v-값, i-순번
+                    if(v.idx==currItem[0]){
+                        console.log(v.idx,currItem[0]);
+                        // delete말고 splice로 잘라내야 공간까지 없어져서 깔끔하게 지워짐!!
+                        jsn.splice(i,1);
+                        return true; // 리턴시키는 거 필수임~!!
+                    } ///////// if ////////
+                }); //////////// find //////////////
+                // 2. 게시판 모드 업데이트('L')
+                setBdmode('L');
+
+                // 3. 리스트 바인딩호출
+                bindList(1);
+            } ///////////////////////// if /////////////////////////
+        } //////////////////// else if //////////////////
+
+
+
 
         // 리스트 태그로딩구역에서 일괄호출!
         // 리스트 태그가 출력되었을때 적용됨!
         $(()=>bindList(1))
-
-
-
 
     }; ////////////// chgMode함수 ///////////////
 
@@ -277,6 +405,9 @@ function Board() {
 
     // 로딩체크함수 호출!
     useEffect(callFn, []);
+
+
+
 
     return (
         <>
@@ -319,8 +450,8 @@ function Board() {
             {/* 2. 글쓰기 테이블 : 게시판 모드 'C'일때만 출력 */}
             {
                 bdmode == 'C' &&
-                <table className="dtblview">
-                    <caption>OPINION</caption>
+                <table className="dtblview writeone">
+                    <caption>OPINION : Write</caption>
                     <tbody>
                         <tr>
                             <td width="100">
@@ -336,6 +467,74 @@ function Board() {
                             </td>
                             <td>
                                 <input type="text" className="email" size="40" readOnly />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Title
+                            </td>
+                            <td>
+                                <input type="text" className="subject" size="60" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Content
+                            </td>
+                            <td>
+                                <textarea className="content" cols="60" rows="10"></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+
+            {/* 3. 읽기 테이블 : 게시판 모드 'R'일때만 출력 */}
+            {
+                bdmode == 'R' &&
+                <table className="dtblview readone">
+                    <caption>OPINION : Read</caption>
+                    <tbody>
+                        <tr>
+                            <td width="100">
+                                Name
+                            </td>
+                            <td width="650">
+                                <input type="text" className="name" size="20" readOnly />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Title
+                            </td>
+                            <td>
+                                <input type="text" className="subject" size="60" readOnly />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Content
+                            </td>
+                            <td>
+                                <textarea className="content" cols="60" rows="10" readOnly></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+
+            {/* 4. 수정(삭제) 테이블 : 게시판 모드 'U'일때만 출력 */}
+            {
+                bdmode == 'U' &&
+                <table className="dtblview updateone">
+                    <caption>OPINION : Modify</caption>
+                    <tbody>
+                        <tr>
+                            <td width="100">
+                                Name
+                            </td>
+                            <td width="650">
+                                <input type="text" className="name" size="20" readOnly />
                             </td>
                         </tr>
                         <tr>
@@ -386,12 +585,18 @@ function Board() {
                                 </>
                             }
                             {
-                                // 읽기모드(R) : 리스트 + 수정모드버튼
+                                // 읽기모드(R) : 리스트
                                 bdmode == 'R' &&
                                 <>
                                     <button onClick={chgMode}>
                                         <a href="#">List</a>
                                     </button>
+                                </>
+                            }
+                            {
+                                // 읽기모드(R+wtmode가 true) : 수정모드버튼
+                                bdmode == 'R' && wtmode &&
+                                <>
                                     <button onClick={chgMode}>
                                         <a href="#">Modify</a>
                                     </button>
