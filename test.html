@@ -27,135 +27,20 @@
 
 
     */
-    
-    .scbar::-webkit-scrollbar{
-        width: 12px;
-    }
-    .scbar::-webkit-scrollbar-thumb{
-        background-color: #b11919;
-        border-radius: 5px;
-    }
-    .scbar::-webkit-scrollbar-track{
-        background-color: #cfcfcf;
-    }
-    
-    html,body{
-        margin: 0;
-        padding: 0;
-        height: 100%;
-    }
-    html{
-        scroll-behavior: smooth;
-    }
-    .cont{
-        background: url(./imgs/paper4.jpg) no-repeat fixed center top/cover;
-        overflow: hidden;  /* 자식 요소에다가 마진 탑을 줬더니 부모 밀어내서, 조상에다가 오버플로우 히든 줘서 숨겨버림...! */
-    }
-    .cont>div{
-        margin-bottom: 100px;
-    }
-    .top{
-        position: fixed;
-        width: 100%;
-        height: 120px;
-    }
-    #main{
-        margin-top: 100px;
-    }
-    .gnb a{
-        color: #b11919;
-        text-decoration: none;
-    }
-    .gnb ul{
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        font-size: 25px;
-        font-family: "나눔명조";
-        font-weight: bold;
-        position: relative;
-        top: 30px;
-        left: 550px;
-    }
-    .gnb li{
-        float: left;
-        padding-right: 20px;
-    }
-    .gnb ul::after{
-        content: '';
-        display: block;
-        clear: both;
-    }
-    .ctbx{
-        width: 1200px;
-        height: 800px;
-        background-color: #dddddd8f;
-        margin: 0 auto;
-    }
-    .test{
-        border: 2px dashed red;
-        position: fixed;
-        top: 20%;
-        right: -302px;
-        padding-left: 20px;
-        border-radius: 20px 0 0 20px;
-        background-color: lightcyan;
-        transition: right .4s;
-    }
-    .test:hover{
-        right: 0;
-    }
-    .test span{
-        font-weight: bold;
-        writing-mode: vertical-lr;
-        vertical-align: middle;
-    }
-    .test img{
-        width: 300px;
-        vertical-align: middle;
-    }
-    .ctbx div{
-        text-align: center;
-    }
-
     </style>
 </head>
-<body class="scbar">
-    <header class="top">
-        <nav class="gnb">
-            <ul>
-                <li><a href="#main">main</a></li>
-                <li><a href="#1p">1 page</a></li>
-                <li><a href="#2p">2 page</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main class="cont">
-
-        <div id="main">
-            <article class="ctbx">
-                <div>
-                    메인페이지 테스트 <br>
-                    아우 모르겠다~~ (‾◡◝) 헤헤헿.... <br>
-                    귀여운 고양이 이미지나 넣어야징... (～￣▽￣)
-                    <img src="./imgs/cat.png" alt="고양이">
-                </div>
-            </article>
-        </div>
-        <div id="1p">
-            <article class="ctbx">
-                <div>테스트1</div>
-            </article>
-        </div>
-        <div id="2p">
-            <article class="ctbx">
-                <div>테스트2</div>
-            </article>
-        </div>
-        <div class="test">
-            <span>옆으로 숨기기</span>
-            <img src="./imgs/img1.jpg" alt="숨겨진 이미지">
-        </div>
-    </main>
+<body>
+    
 </body>
+<script>
+    const item1 = 1;
+    const item2 = 2;
+    const item3 = 3;
+    const ten = 10;
+
+    const additem = (items) => items + ten;
+
+    console.log(additem(item1));
+
+</script>
 </html>
