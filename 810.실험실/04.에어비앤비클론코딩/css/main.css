@@ -216,3 +216,91 @@ button{
 #active-category-button .inactive-img{
     display: none;
 }
+
+
+#grid{
+    display: grid;
+}
+
+.place-image-wrapper{
+    position: relative;
+    width: 308px;
+    height: 293px;
+    border-radius: 23px;
+    overflow: hidden;
+}
+
+.place-image-wrapper img{
+    width: 500px;
+    height: 500px;
+}
+.place-image-wrapper .heart-icon{
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 16px;
+    right: 16px;
+
+    cursor: pointer;
+}
+
+.heart-icon:active{
+    transform: scale(0.7);
+    transition: transform 0.25s ease-out;
+}
+
+.description-section{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 13px;
+
+    font-size: 15px;
+    color: rgb(34, 34, 34);
+}
+
+.description-section_title{
+    font-weight: 600;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    padding: 24px 80px;
+    text-align: center;
+}
+
+.place-items-wrapper{
+    display: grid;
+    grid-template-columns: repeat(4, 308px);
+    justify-items: center;
+    align-items: center;
+    gap: 48px 24px;
+}
+
+#floating-map-button{
+    padding: 14px 19px;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 125px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    background-color: #222222;
+    border-radius: 24px;
+
+    color: #f7f7f7;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#floating-map-button:hover{
+    box-shadow: 0 0 0 1px transparent,
+    0 0 0 4px transparent,
+    0 6px 16px rgba(0, 0, 0, 0.12) !important;
+    transform: translateX(-50%) scale(1.04);
+}
