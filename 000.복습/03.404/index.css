@@ -1,0 +1,81 @@
+@charset "utf-8";
+
+body{
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#Layer_1{
+    width: 1000px;
+}
+
+#background{
+    animation: backgroundChange 4s linear infinite alternate;
+}
+
+#left-finger-1, #left-finger-2, #left-finger-3, #left-finger-4{
+    animation: appear 1s ease-out forwards;
+    transform-box: fill-box;
+}
+
+/* #person-arm-inner-shadow, */
+#person-arm-out-shadow,
+#right-arm,
+#right-hand{
+
+    animation: armShaking 2s linear infinite;
+}
+
+
+@keyframes appear {
+    0%{
+        transform: translate(10.27px, -63.77px) scale(0);
+    }
+    100%{
+        transform: translate(-0.27px, -63.77px) scale(1);
+    }
+}
+
+@keyframes armShaking {
+    0%{
+        transform: translate(-0.27px, -65px);
+    }
+    25%{
+        transform: translate(-0.27px, -64px);
+    }
+    50%{
+        transform: translate(-0.27px, -65.5px);
+    }
+    75%{
+        transform: translate(-0.27px, -64px);
+    }
+    100%{
+        transform: translate(-0.27px, -65px);
+    }
+}
+
+@keyframes backgroundChange {
+    0%{
+        fill: #68e1fd;
+    }
+    25%{
+        fill: darkblue;
+    }
+    50%{
+        fill: steelblue;
+    }
+    75%{
+        fill: teal;
+    }
+    100%{
+        fill: #68e1fd;
+    }
+}
