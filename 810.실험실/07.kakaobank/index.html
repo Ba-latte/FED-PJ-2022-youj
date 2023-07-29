@@ -6,6 +6,40 @@
     <title>Fast Bank</title>
     <link rel="stylesheet" href="./index.css">
 </head>
+<!--
+    [ 미디어 쿼리를 통해 다른 장치에서 다른 스타일 구현하기 ]
+
+1.반응형 웹 : 리스폰시블 웹
+-%와 같은 유연한 너비 단위 사용
+-사용자 장치 특성에 따른 스타일 적용을 위한 미디어 쿼리 사용
+-작은 화면에서도 가독성 높은 서체 사용
+-성능 최적화
+
+
+2.미디어쿼리
+-장치의 화면 크기, 해상도, 화면 방향등의 특성에 따라 다른 스타일 적용하게 함
+
+@media (media query) {
+해당 미디어 쿼리 조건에 적용될 스타일
+}
+
+->width, height : 뷰포트 너비, 높이
+->device-width, device-height : 장치의 너비, 높이
+->orientation : 장치방향
+->>portrait, landscape
+->resolution : 장치 해상도
+
+-많이 사용하는 것은 뷰포트 너비, 높이
+
+
+2.반응형 웹을 구현할 때의 기법
+-mobile first : 작은 뷰포트 사이즈 스타일 먼저
+-desktop first : 큰 뷰포트 사이즈 스타일 먼저
+
+
+
+
+-->
 <body>
     <div id="main-img-wrapper">
         <img width="320" src="./Lovepik_com-401339128-data-management-data-analysis-icon-free-vector-illustration-mate.png" alt="코딩 이미지">
