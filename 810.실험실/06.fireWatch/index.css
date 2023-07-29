@@ -85,6 +85,23 @@ header{
     background-color: #127374;
 }
 
+.long-text{
+    display: none;
+}
+
+.short-text{
+    display: inline;
+}
+
+@media (min-width: 880px) {
+    .long-text{
+        display: inline;
+    }
+    .short-text{
+        display: none;
+    }
+}
+
 #right-buttons{
     display: flex;
 }
@@ -120,12 +137,21 @@ header{
     letter-spacing: 10px;
 }
 
+
 #mountain-tag-wrapper{
     display: flex;
+    flex-direction: column;
     gap: 50px;
     font-size: 18px;
     font-weight: 700;
 }
+
+@media (min-width: 880px) {
+    #mountain-tag-wrapper{
+        flex-direction: row;
+    }
+}
+
 
 .mountain-content-wrapper{
     display: flex;

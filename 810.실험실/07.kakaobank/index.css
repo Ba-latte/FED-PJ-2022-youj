@@ -1,0 +1,129 @@
+@charset "utf-8";
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+    background-color: #111;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+#main-img-wrapper{
+    padding-top: 139px;
+    text-align: center;
+}
+
+#intro-main{
+    width: 300px;
+    margin: 54px auto 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    color: #fff;
+    font-size: 40px;
+    font-weight: 500;
+}
+
+#intro-main p{
+    text-align: center;
+}
+
+#join-us-text{
+    margin-top: 73px;
+    opacity: .6;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#down-arrow-icon{
+    width: 33px;
+    height: 25px;
+    animation: upAndDown 1s infinite;
+}
+
+@keyframes upAndDown {
+    0%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(-10px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+}
+
+#list-item-wrapper{
+    margin: 0 auto 500px;
+    width: 383px;
+}
+
+.list-item{
+    display: inline;
+    font-size: 48px;
+    font-weight: 600;
+}
+
+.list-item::before{
+    content: '';
+    display: inline-block;
+    width: 51px;
+    height: 53px;
+    
+    background-image: url(./dark_house.png);
+    background-size: 51px 53px;
+}
+
+
+.list-item#on{
+    color: #fff;
+}
+.list-item#on::before{
+    background-image: url(./light_house.png);
+}
