@@ -127,3 +127,109 @@ table {
 .list-item#on::before{
     background-image: url(./light_house.png);
 }
+
+.panel1-img{
+    margin-bottom: 500px;
+    position: relative;
+    height: 380px;
+    overflow: hidden;
+}
+
+#flying-santa-img{
+    height: 380px;
+    position: absolute;
+    right: 0;
+    transform: translate(150px, -13px) rotate(-40deg) rotateY(180deg);
+}
+
+
+#video-section{
+    margin-bottom: 500px;
+}
+
+#video{
+    display: block;
+    margin: 0 auto;
+    height: 350px;
+}
+
+#fixed-description{
+    width: 622px;
+    margin: 30px auto 0;
+    text-align: right;
+    color: #fff;
+    line-height: 50px;
+    font-size: 35px;
+    font-weight: 600;
+
+    transform: translateY(100px);
+    opacity: 0;
+}
+
+/* 영역이 사라져도 적용한 스타일 없어지지 않게 높이값 지정하기 */
+#bank-beyond-wrapper{
+    height: 380px;
+    padding-bottom: 300px;
+}
+
+#bank-beyond{
+    display: flex;
+    justify-content: center;
+}
+
+#white-wrapper{
+    padding-top: 80px;
+    position: relative;
+    background-color: #f7f7f7;
+    height: 1000px;
+    z-index: 1;
+}
+
+#slider-container{
+    margin: 0 auto;
+    position: relative;
+    width: 300px;
+}
+
+#slider-content-wrapper{
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+}
+
+#slider-content-wrapper::-webkit-scrollbar{
+    width: 0;
+}
+
+#slider-content{
+    display: flex;
+}
+
+#slider-image{
+    width: 300px;
+    height: 466px;
+    scroll-snap-align: center;
+}
+
+.slider-button{
+    position: absolute;
+    bottom: -110px;
+
+    font-size: 40px;
+    cursor: pointer;
+}
+
+#left-button{
+    left: 10px;
+}
+
+#right-button{
+    right: 10px;
+}
+
+#slider-index{
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+}
