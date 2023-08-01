@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Bank</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<!--
+    [ 미디어 쿼리를 통해 다른 장치에서 다른 스타일 구현하기 ]
+
+1.반응형 웹 : 리스폰시블 웹
+-%와 같은 유연한 너비 단위 사용
+-사용자 장치 특성에 따른 스타일 적용을 위한 미디어 쿼리 사용
+-작은 화면에서도 가독성 높은 서체 사용
+-성능 최적화
+
+
+2.미디어쿼리
+-장치의 화면 크기, 해상도, 화면 방향등의 특성에 따라 다른 스타일 적용하게 함
+
+@media (media query) {
+해당 미디어 쿼리 조건에 적용될 스타일
+}
+
+->width, height : 뷰포트 너비, 높이
+->device-width, device-height : 장치의 너비, 높이
+->orientation : 장치방향
+->>portrait, landscape
+->resolution : 장치 해상도
+
+-많이 사용하는 것은 뷰포트 너비, 높이
+
+
+2.반응형 웹을 구현할 때의 기법
+-mobile first : 작은 뷰포트 사이즈 스타일 먼저
+-desktop first : 큰 뷰포트 사이즈 스타일 먼저
+
+
+
+
+-->
+<body>
+    <div id="main-img-wrapper">
+        <img width="320" src="./Lovepik_com-401339128-data-management-data-analysis-icon-free-vector-illustration-mate.png" alt="코딩 이미지">
+    </div>
+    <div id="intro-main">
+        <p>이미 모두의 은행, 패스트 뱅크</p>
+        <p>함께 일해요.</p>
+        <p id="join-us-text">Join us!</p>
+        <img id="down-arrow-icon" src="./down-arrow.png" alt="아래 화살표 아이콘">
+    </div>
+    <ul id="list-item-wrapper">
+        <li class="list-item">26주 적금</li>
+        <li class="list-item">저금</li>
+        <li class="list-item">패스트 캠퍼스</li>
+        <li class="list-item">떡볶이</li>
+        <li class="list-item">치킨</li>
+        <li class="list-item">여행</li>
+        <li class="list-item">예금</li>
+        <li class="list-item">봄 여름 가을 겨울</li>
+        <li class="list-item">뮤지컬</li>
+        <li class="list-item">플레이브</li>
+        <li class="list-item">풀빌라 펜션</li>
+        <li class="list-item">순대</li>
+        <li class="list-item">패스트 캠퍼스</li>
+        <li class="list-item">튀김</li>
+        <li class="list-item">크리스마스</li>
+        <li class="list-item">아이스 아메리카노</li>
+        <li class="list-item">팥빙수</li>
+        <li class="list-item">블렌더</li>
+        <li class="list-item">뮤지컬</li>
+        <li class="list-item">전세자금 대출</li>
+        <li class="list-item">26주 적금</li>
+        <li class="list-item">트래블 월렛</li>
+        <li class="list-item">패스트 캠퍼스</li>
+        <li class="list-item">순대</li>
+        <li class="list-item">치킨</li>
+        <li class="list-item">장미</li>
+        <li class="list-item">폭염 경보</li>
+        <li class="list-item">호캉스</li>
+        <li class="list-item">로제찜닭</li>
+        <li class="list-item">초밥</li>
+    </ul>
+    <main>
+        <section class="panel1-img">
+            <img id="flying-santa-img" src="./santa_flying.png" alt="날아다니는 산타">
+        </section>
+        <section id="video-section">
+            <!-- 실질적으로 스크롤 되는 영역인 래퍼 -->
+            <div id="fixed-wrapper">
+                <video id="video" src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" muted loop type="video/mp4"></video>
+                <div id="fixed-description">
+                    <div>혁신이 만든</div>
+                    <div>압도적인 성장</div>
+                </div>
+            </div>
+        </section>
+        <div id="bank-beyond-wrapper">
+            <div id="bank-beyond">
+                <img width="315" src="./05-text.png" alt="샘플 텍스트 이미지">
+            </div>
+        </div>
+        <div id="white-wrapper">
+            <div id="slider-container">
+                <div id="slider-content-wrapper">
+                    <div id="slider-content">
+                        <img src="https://picsum.photos/id/1/600/466" class="slider-image" alt="샘플 이미지">
+                        <img src="https://picsum.photos/id/47/600/466" class="slider-image" alt="샘플 이미지">
+                        <img src="https://picsum.photos/id/89/600/466" class="slider-image" alt="샘플 이미지">
+                    </div>
+                </div>
+                <div class="slider-button" id="left-button">&lt;</div>
+                <div class="slider-button" id="right-button">&gt;</div>
+                <div id="slider-index">1/3</div>
+            </div>
+        </div>
+    </main>
+</body>
+
+<script>
+    /*
+        1. 애니메이션이 발생했으면 하는 특정 스크롤 위치 알아내기
+        2. 애니메이션이 끝났으면 하는 특정 스크롤 위치 알아내기
+        3. 스크롤 이벤트 발생하면 id on을 줘서 변하게 만들기
+        3-1. 기존에 on이 있는 경우 대비해서 초기화 하기
+        3-2. 윈도우.스크롤와이가 시작위치값보다 크고 종료위치값보다 작으면 on주기
+        4. 전체 높이값 / 아이탬 개수
+    */
+
+    const listStyleChangeStartY = 273;
+    const listStyleChangeEndY = 1585;
+
+    const listItems = document.querySelectorAll(".list-item");
+
+    const panel1Img = document.querySelector(".panel1-img");
+
+    const flyingSantaImg = document.querySelector("#flying-santa-img");
+
+    // 개당 가져야하는 스크롤 값
+    const division = (listStyleChangeEndY - listStyleChangeStartY) / listItems.length;
+    const videoPlayBack = 500;
+
+    const videoElement = document.querySelector("#video");
+    const videoSection = document.querySelector("#video-section");
+
+    const fixedWrapper = document.querySelector("#fixed-wrapper");
+
+    const fixedDescription = document.querySelector("#fixed-description");
+
+    // 화면 중간에 고정시키는 함수
+    function centerElement(elementId, video){
+        const element = document.getElementById(elementId);
+        const parent = element.parentElement;
+
+        if(window.scrollY > parent.offsetTop - ((document.documentElement.clientHeight - element.offsetHeight) / 2)){
+            // console.log("중앙 진입했으니 실행!");
+            element.style.position = "fixed";
+            element.style.top = "50%";
+            element.style.left = "50%";
+            element.style.transform = "translate(-50%, -50%)";
+
+            if(video){
+                video.currentTime = (window.scrollY - videoSection.offsetTop) / videoPlayBack;
+            }
+        }
+        else{
+            element.style.position = "relative";
+            element.style.top = "initial";
+            element.style.left = "initial";
+            element.style.transform = "initial";
+        }
+    }
+
+    videoElement.addEventListener("loadedmetadata", ()=>{
+        document.querySelector("#video-section").style.height = videoElement.duration * videoPlayBack + "px";
+    });
+
+
+    const fixedDescriptionAppearTiming = 3470;
+    const fixedDescriptionAppearEnds = 3800;
+    
+    window.addEventListener("scroll", ()=>{
+        // console.log(window.scrollY);
+
+        
+        if(document.querySelector("#on")) document.querySelector("#on").removeAttribute("id");
+
+        if(window.scrollY > listStyleChangeStartY && window.scrollY < listStyleChangeEndY){
+            // listItems[0].id = "on"
+            // console.log(listItems.length);
+            // console.log(Math.floor((window.scrollY - listStyleChangeStartY) / division));
+
+            const targetIndex = Math.floor((window.scrollY - listStyleChangeStartY) / division);
+
+            if(listItems[targetIndex]) listItems[targetIndex].id = "on";
+            
+        }
+
+        // [2] 화면 하단에 특정 요소 등장 판독 여부를 위해 하단의 값 구하기
+        // = 스크롤y는 화면의 상단 이니까 높이를 더하면 하단이 구해짐
+        const scrollYBottom = window.scrollY + document.documentElement.clientHeight;
+
+        // console.log(panel1Img.offsetTop);
+
+        if(scrollYBottom > panel1Img.offsetTop && scrollYBottom < panel1Img.offsetTop + panel1Img.offsetHeight + 100){
+            console.log("등장");
+
+            const translateX = 150 - 150 * 1.3 * (scrollYBottom - panel1Img.offsetTop) / (panel1Img.offsetHeight + 100);
+
+            const translateY = -13 + 13 * (scrollYBottom - panel1Img.offsetTop) / (panel1Img.offsetHeight + 100);
+
+            const rotationDegree = -40 + 40 * 1.7 * (scrollYBottom - panel1Img.offsetTop) / (panel1Img.offsetTop + panel1Img.offsetHeight + 100);
+
+
+            flyingSantaImg.style.transform = `translate(${translateX}px, ${translateY}px) rotate(${rotationDegree}deg) rotateY(180deg)`;
+        }
+
+
+        centerElement("fixed-wrapper", videoElement);
+
+        // 아래쪽 중앙이 넘었을 떄
+        if(window.scrollY > videoSection.offsetTop + videoSection.offsetHeight - (fixedWrapper.offsetHeight + (document.documentElement.clientHeight - fixedWrapper.offsetHeight) / 2)){
+            console.log("아래쪽 중앙 넘었을 떄");
+
+            fixedWrapper.style.position = "relative";
+            fixedWrapper.style.top = "initial";
+            fixedWrapper.style.left = "initial";
+            fixedWrapper.style.transform = `translateY(${videoSection.offsetHeight - fixedWrapper.offsetHeight}px)`;
+        }
+
+        // 원하는 영역 사이에 있을 경우 : 천천히 스타일 변경하기
+        if(window.scrollY > fixedDescriptionAppearTiming && window.scrollY < fixedDescriptionAppearEnds){
+            fixedDescription.style.transform = `translateY(${fixedDescriptionAppearEnds - window.scrollY}px)`; // 스크롤y가 커짐에 따라서 올라와야하니까 반비례 관계이고 0이 되어야하니까 빼줌
+            fixedDescription.style.opacity = (window.scrollY - fixedDescriptionAppearTiming ) / 300 // 이번엔 0에서 1로 증가해야하니까(비례)
+        }
+        // 원하는 영역 바깥에 있을 경우 : 이미 만들어진 스타일을 따르게 함
+        else if(window.scrollY > fixedDescriptionAppearEnds){
+            fixedDescription.style.transform = `translateY(0px)`;
+            fixedDescription.style.opacity = 1;
+        }
+        // 영역 전에 있을 경우 : 기존 스타일을 따르게 함
+        else{
+            fixedDescription.style.transform = `translateY(100px)`;
+            fixedDescription.style.opacity = 0;
+        }
+
+        // 텍스트 이미지 스크롤 이벤트에 따라 중앙 멈추기
+        centerElement("bank-beyond");
+
+    })
+
+    let currentImage = 0;
+
+    const sliderImages = document.querySelectorAll(".slider-image");
+
+    const sliderIndex = document.querySelector("#slider-index");
+
+    // 슬라이드 변화 감지 함수 만들기
+    const handleSlideChange = (step)=>{
+        // 보통 하나씩 움직여서 스텝을 받아옴
+        currentImage += step;
+
+        // 양끝 돌아가게 만들기
+        if(currentImage < 0){
+            currentImage = sliderImages.length -1;
+        }
+        else if(currentImage >= sliderImages.length){
+            currentImage = 0;
+        }
+
+        sliderContentWrapper.scrollLeft = sliderImages[currentImage].offsetLeft;
+        sliderIndex.innerText = `${currentImage + 1}/${sliderImages.length}`;
+    };
+
+    // 버튼 클릭했을 때 슬라이드 변화 함수에 변화할 값 넣고 호출하기
+    document.getElementById("left-button").addEventListener("click", ()=>{
+        handleSlideChange(-1);
+    });
+    document.getElementById("right-button").addEventListener("click", ()=>{
+        handleSlideChange(1);
+    });
+
+    const sliderContentWrapper = document.getElementById("slider-content-wrapper");
+
+    sliderContentWrapper.addEventListener("scroll", ()=>{
+        // console.log("배너 안 스크롤 이벤트 발생");
+
+        // currentImage 값에 따라서 스크롤을 움직이면 됨 -> 이미지 너비만큼!
+        const imageWidth = document.querySelectorAll(".slider-image")[0].offsetWidth;
+
+        currentImage = Math.round(sliderContentWrapper.scrollLeft / imageWidth);
+
+        sliderIndex.innerText = `${currentImage + 1}/${sliderImages.length}`;
+    })
+</script>
+</html>
