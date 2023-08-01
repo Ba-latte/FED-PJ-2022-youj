@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>넥스트 레벨 페어스 클론 코딩</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div class="cursor">
+        <!-- 항상 따라다니는 기본값 -->
+        <div class="cursor_default">
+            <span class="cursor_default_inner"></span>
+        </div>
+        <!-- 뒤에 따라 오는 배경 원 -->
+        <div class="cursor_trace">
+            <span class="cursor_trace_inner"></span>
+        </div>
+    </div>
+    <!-- 일정 시간 눌러야 동작하는 버튼 구현하기 -->
+    <section class="preloader shown-area">
+        <button class="preloader_btn">
+            <span class="preloader_btn_hold">Hold</span>
+        </button>
+    </section>
+
+    <!-- 동작하는 버튼이 없어진 다음에 보여줄 영역 -->
+    <section class="header hidden-area">
+        Header
+    </section>
+</body>
+
+<script>
+    document.addEventListener("mousemove", (event)=>{
+        // console.log(event);
+        // console.log("x : ", event.clientX, " / y : ", event.clientY);
+        
+        const cursorDefaultInner = document.querySelector(".cursor_default_inner");
+        const cursorTraceInner = document.querySelector(".cursor_trace_inner");
+        
+        // clientX, Y를 가지고 cursor_default_inner의 스타일 변경하기
+        cursorDefaultInner.style.top = event.clientY + "px";
+        cursorDefaultInner.style.left = event.clientX + "px";
+
+        // clientX, Y를 가지고 cursor_trace_inner의 스타일 변경하기
+        cursorTraceInner.style.top = event.clientY + "px";
+        cursorTraceInner.style.left = event.clientX + "px";
+
+    })
+
+
+    // [ 클래스를 줘서 scale이 작았다 커지게 만듦으로써 애니메이션 부여하기 ]
+    const cursor = document.querySelector(".cursor");
+
+    document.addEventListener("mousedown", ()=>{
+        cursor.classList.add("cursor--active");
+    });
+
+    document.addEventListener("mouseup", ()=>{
+        cursor.classList.remove("cursor--active");
+    });
+
+    // [ 클릭하면 물결처럼 퍼지는 원 등장하기 ]
+    function createRipple(event){
+        let ripple = document.createElement("span");
+        
+        // 클래스 부여해서 애니메이션 주기
+        ripple.classList.add("ripple");
+        
+        // DOM에 만든 요소 집어 넣기
+        cursor.appendChild(ripple);
+
+        // 마우스 커서 위치로 포지션 잡기
+        ripple.style.top = (event.clientY - (ripple.clientHeight / 2)) + "px";
+        ripple.style.left = (event.clientX - (ripple.clientWidth / 2)) + "px";
+
+        // 만들어낸 요소 없애기
+        ripple.addEventListener("animationend", ()=>{
+            cursor.removeChild(ripple);
+        });
+    }
+
+    document.addEventListener("click", ()=>{
+        // 물결처럼 퍼지는 원 만드는 함수 호출
+        createRipple(event);
+    })
+
+
+    // [ 일정시간 눌러야 동작하는 버튼 구현하기 ]
+    const preloaderBtn = document.querySelector(".preloader_btn");
+
+    // 계속 누르고 있는지 반복해서 물어봐서 얻어온 결과 담을 변수 만들기 : 돌고 있는 인터벌의 고유한 아이디를 가지고 있게 하기
+    let intervalId = null;
+
+    // 버튼 크기값 담을 변수 만들기
+    let scale = 1;
+
+    // 스케일이 어디까지 커질 것인지 한계값 만들기
+    const preloaderHideThreshold = 18;
+
+    // preloader 버튼에 스타일 설정하는 함수 만들기
+    function setPreloaderStyle(scale){
+        // scale값을 인자로 받아와서 스타일 바꾸기
+        preloaderBtn.style.transform = `scale(${scale})`;
+        
+        // 스케일이 커지면 hold 텍스트 연해지게 만들기 : scale이 1일때 투명도도 1이어야하고, scale이 커지면 투명도도 1보다 작아져야 하는데! 한계값을 넘어서지 않게 하기
+        document.querySelector(".preloader_btn_hold").style.opacity = 1 - (scale - 1) / preloaderHideThreshold;
+
+    }
+
+    // 마우스 누르고 있는 이벤트에서 함수 호출하기
+    preloaderBtn.addEventListener("mousedown", ()=>{
+        // console.log("마우스 다운!");
+
+        // 인터벌아이디에 setInterval 돌리기 : 매 10밀리초 마다 돌기
+        intervalId = setInterval(()=>{
+            console.log("버튼 크기 커지는 인터벌");
+
+            // 매 10밀리초 돌 때마다 scale을 0.175배 증가시키기
+            scale += 0.175;
+
+            // preloader 스타일 바꾸는 함수 호출하기
+            setPreloaderStyle(scale);
+
+            // scale이 정해둔 한계값을 넘어가면 보여지던 preloader영역을 숨기고 header영역을 보이게 만들기
+            // (이때 1 더한 것은 기본값에 한계값을 더한다는 의미로, 1을 쓰지 않고 threshold값을 19로 만들어도 됨 )
+            if(scale >= (1 + preloaderHideThreshold)){
+                const header = document.querySelector(".header");
+
+                document.querySelector(".preloader").classList.add("hidden-area");
+
+                header.classList.remove("hidden-area");
+                header.classList.add("show-area");
+
+                // scale이 1을 넘어섰으므로 더 커질 필요 없어서 인터벌 중지시키기
+                clearInterval(intervalId);
+            }
+        }, 10);
+    });
+
+    // 마우스를 뗐을 때 다시 작아지도록 만들기
+    preloaderBtn.addEventListener("mouseup", ()=>{
+        // console.log("마우스 업!");
+
+        // 반복해서 돌도록 만든 인터벌 함수를 지워서 리셋시키기
+        clearInterval(intervalId);
+
+        // 버튼 크기 줄이는 인터벌 만들기
+        intervalId = setInterval(()=>{
+            console.log("버튼 크기 줄어드는 인터벌");
+
+            scale -= 0.075;
+
+            setPreloaderStyle(scale);
+
+            // scale값이 음수가 되면 요소가 뒤집어지므로 1을 한계값으로 하여 멈추게 만들기
+            if(scale <= 1) clearInterval(intervalId);
+        }, 10);
+
+    });
+</script>
+</html>

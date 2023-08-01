@@ -1,0 +1,180 @@
+@charset "utf-8";
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* 기존에 있는 마우스 커서 없애기 */
+body{
+    cursor: none !important;
+    background-color: #1e4029;
+}
+
+/* 보이는 영역 */
+.shown-area{
+    display: block;
+    opacity: 1;
+}
+
+/* 안보이는 영역 */
+.hidden-area{
+    display: none;
+    opacity: 0;
+}
+
+/* 항상 뷰포트를 가득 채우는 영역 : 이 안에서 마우스가 항상 움직이게 함 */
+.cursor{
+    position: fixed;
+    /* 화면 전체에 늘 항상 있는 요소로 만들기 위해 fixed 사용 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    /* 🔥pointer-events 라는 속성을 사용해서 커서에서 일어나는 이벤트를 없애서 🔥 */
+    pointer-events: none !important;
+}
+/* 커서 모양(노란 선 동그라미) */
+/* 자스로 계속 이동시킬 예정 */
+.cursor_default_inner{
+    position: absolute;
+    /* span태그라 높이,너비값 갖기 위해 인라인-블록 설정 */
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+
+    background-color: rgba(10, 27, 16, 2.5);
+    border: 2px solid #d5a54e;
+    border-radius: 50%;
+
+    /* 요소의 좌측 상단이 시작점이라 약간 빗겨간 위치를 수정하기 */
+    transform: translate(-50%, -50%);
+}
+
+.cursor_trace_inner{
+    position: absolute;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+
+    /* 조금 느린 속도로 마우스 따라오기 */
+    transition: all .04s ease-out;
+}
+
+/* 'cursor--active'클래스 있을 때 배경 원 크기 변화하기 */
+.cursor--active .cursor_trace_inner{
+    transform: translate(-50%, -50%) scale(0.5);
+    transition: transform .3s ease;
+}
+
+.ripple{
+    position: absolute;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #d5a54e;
+    border-radius: 50%;
+
+    animation: ripple .5s ease-out forwards;
+
+    /* 커서 아래에서 물결 요소 발생하기 위함 */
+    z-index: -1;
+}
+
+/* 물결 애니메이션 키프레임 */
+@keyframes ripple {
+    0%{
+        transform: scale(0);
+        opacity: 1;
+    }
+    20%{
+        transform: scale(5);
+        opacity: 1;
+    }
+    100%{
+        transform: scale(10);
+        opacity: 0;
+    }
+}
+
+
+.preloader{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #521714;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+}
+
+.preloader_btn{
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+
+    /* 화면 정가운데 위치 : 너비,높이값 알고 있으므로 바로 계산함 */
+    margin-top: -60px;
+    margin-left: -60px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: rgb(30, 64, 41);
+    border: none;
+    color: rgb(213, 165, 78);
+}
+
+.preloader_btn_hold{
+    font-size: 19px;
+    line-height: 20px;
+    font-weight: 800;
+    letter-spacing: normal;
+}
