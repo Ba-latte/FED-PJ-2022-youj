@@ -178,3 +178,157 @@ body{
     font-weight: 800;
     letter-spacing: normal;
 }
+
+
+.header{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+.circle{
+    position: absolute;
+    display: inline-block;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, .4);
+}
+
+#circle-1{
+    top: -130px;
+    left: -130px;
+}
+#circle-2{
+    bottom: 5vh;
+    right: -230px;
+}
+
+.cube_image{
+    position: absolute;
+    opacity: .45;
+}
+
+#cube_image_1{
+    top: 15%;
+    left: 15%;
+    width: 15%;
+}
+#cube_image_2{
+    top: 55%;
+    left: 15%;
+    width: 20%;
+}
+#cube_image_3{
+    top: 20%;
+    left: 70%;
+    width: 13%;
+}
+#cube_image_4{
+    top: 60%;
+    left: 70%;
+    width: 20%;
+}
+
+.header_title{
+    position: absolute;
+    top: 30vh;
+    width: 100%;
+    font-weight: 400;
+    font-size: 7.5rem;
+    line-height: 8.625rem;
+    color: #d5a54e;
+    text-align: center;
+}
+
+.poster_parallax{
+    position: relative;
+    height: 1500px;
+}
+
+.poster-image_wrapper{
+    position: absolute;
+    width: 100%;
+}
+
+
+#poster-image_wrapper_1{
+    right: 0;
+    height: 100%;
+}
+#poster-image_wrapper_2{
+    top: 10%;
+    left: 5%;
+    height: 667px;
+}
+#poster-image_wrapper_3{
+    top: 35%;
+    right: 0;
+    height: 772px;
+}
+
+
+.poster-image{
+    position: absolute;
+    opacity: 0;
+}
+
+#poster-image_1{
+    right: 0;
+    width: 1127px;
+}
+#poster-image_2{
+    width: 100%;
+}
+#poster-image_3{
+    right: 0;
+    width: 100%;
+}
+
+
+.poster-image_state_visible #poster-image_1{
+    animation: appear-right-to-left .75s ease forwards;
+}
+
+.poster-image_state_visible #poster-image_2{
+    animation: appear-left-to-right .75s ease forwards;
+}
+
+.poster-image_state_visible #poster-image_3{
+    animation: appear-bottom-to-top .75s ease forwards;
+}
+
+
+@keyframes appear-right-to-left {
+    from{
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes appear-left-to-right {
+    from{
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes appear-bottom-to-top {
+    from{
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

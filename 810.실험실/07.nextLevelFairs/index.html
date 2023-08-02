@@ -26,7 +26,29 @@
 
     <!-- 동작하는 버튼이 없어진 다음에 보여줄 영역 -->
     <section class="header hidden-area">
-        Header
+        <span class="circle" id="circle-1"></span>
+        <span class="circle" id="circle-2"></span>
+        <img id="cube_image_1" src="./images/Lovepik_com-401467010-cube.png" alt="큐브 이미지" class="cube_image">
+        <img id="cube_image_2" src="./images/Lovepik_com-401467010-cube.png" alt="큐브 이미지" class="cube_image">
+        <img id="cube_image_3" src="./images/Lovepik_com-401467010-cube.png" alt="큐브 이미지" class="cube_image">
+        <img id="cube_image_4" src="./images/Lovepik_com-401467010-cube.png" alt="큐브 이미지" class="cube_image">
+        <h1 class="header_title">
+            <div>LAST ART</div>
+            <div>PROJECT</div>
+        </h1>
+    </section>
+    <section class="poster hidden-area">
+        <div class="poster_parallax">
+            <div id="poster-image_wrapper_1" class="poster-image_wrapper">
+                <img id="poster-image_1" src="./images/poster_image_1.png" alt="포스터 이미지" class="poster-image">
+            </div>
+            <div id="poster-image_wrapper_2" class="poster-image_wrapper">
+                <img id="poster-image_2" src="./images/poster_image_2.png" alt="포스터 이미지" class="poster-image">
+            </div>
+            <div id="poster-image_wrapper_3" class="poster-image_wrapper">
+                <img id="poster-image_3" src="./images/poster_image_3.png" alt="포스터 이미지" class="poster-image">
+            </div>
+        </div>
     </section>
 </body>
 
@@ -108,6 +130,8 @@
 
     }
 
+    const header = document.querySelector(".header");
+
     // 마우스 누르고 있는 이벤트에서 함수 호출하기
     preloaderBtn.addEventListener("mousedown", ()=>{
         // console.log("마우스 다운!");
@@ -125,12 +149,17 @@
             // scale이 정해둔 한계값을 넘어가면 보여지던 preloader영역을 숨기고 header영역을 보이게 만들기
             // (이때 1 더한 것은 기본값에 한계값을 더한다는 의미로, 1을 쓰지 않고 threshold값을 19로 만들어도 됨 )
             if(scale >= (1 + preloaderHideThreshold)){
-                const header = document.querySelector(".header");
+                
 
                 document.querySelector(".preloader").classList.add("hidden-area");
 
+                const poster = document.querySelector(".poster");
+
                 header.classList.remove("hidden-area");
+                poster.classList.remove("hidden-area");
+
                 header.classList.add("show-area");
+                poster.classList.add("show-area");
 
                 // scale이 1을 넘어섰으므로 더 커질 필요 없어서 인터벌 중지시키기
                 clearInterval(intervalId);
@@ -158,6 +187,63 @@
         }, 10);
 
     });
+
+
+    // [ header 안에 있는 요소들이 마우스 위치에 따라서 움직이게 만들기 ]
+    header.addEventListener("mousemove", (e)=>{
+        // 헤더 안에서 마우스가 얼마나 움직였냐 라는 수치가 필요함 그러지 않으면 지나치게 많이 움직이거나 할 수 있기 때문임! 그래서 굳이 헤더의 너비값을 나눠서 보정해주는 것
+        const xRelativeToHeader = e.clientX / header.clientWidth;
+        const yRelativeToHeader = e.clientY / header.clientWidth;
+
+        // 여기서 숫자 50은 가속도를 나타냄 (숫자 크기에 따라서 속도가 달라질 예정)
+        // 방향은 -를 붙이거나 안 붙이거나 해서 조정함
+        document.querySelector(".header_title").style.transform = `translate(${xRelativeToHeader * -50}px, ${yRelativeToHeader * -50}px)`;
+
+        // 원 두개 패럴랙싱
+        document.querySelector("#circle-1").style.transform = `translate(${xRelativeToHeader * -25}px, ${yRelativeToHeader * -25}px)`;
+        document.querySelector("#circle-2").style.transform = `translate(${xRelativeToHeader * 25}px, ${yRelativeToHeader * 25}px)`;
+
+        // 큐브 이미지 4개 패럴랙싱
+        document.querySelector("#cube_image_1").style.transform = `translate(${xRelativeToHeader * -15}px, ${yRelativeToHeader * -15}px)`;
+        document.querySelector("#cube_image_2").style.transform = `translate(${xRelativeToHeader * -8}px, ${yRelativeToHeader * -8}px)`;
+        document.querySelector("#cube_image_3").style.transform = `translate(${xRelativeToHeader * -20}px, ${yRelativeToHeader * -20}px)`;
+        document.querySelector("#cube_image_4").style.transform = `translate(${xRelativeToHeader * 5}px, ${yRelativeToHeader * 5}px)`;
+
+    })
+
+
+    // [ 스크롤 내렸을 때 이미지 나타나게 하기 ]
+    const observer = new IntersectionObserver((entries)=>{
+        entries.forEach((entry)=>{
+            // 엔트리가 교차...보이는 중인 경우에... 타겟 = 관찰하고 있는 요소에 클래스 부여하기
+            if(entry.isIntersecting){
+                entry.target.classList.add("poster-image_state_visible");
+            }
+        });
+    }, { threshold : 0.2 }); // 20퍼센트 이상 노출되면 적용되기
+    // 위는 이미지를 관찰하는 기계(?)만 만든 것임 이제 관찰시켜야 함
+
+    // 이제 반복문 돌려서 포스터 이미지 각각의 요소에 관찰 시작해야 함
+    document.querySelectorAll(".poster-image_wrapper").forEach((poster)=>{
+        observer.observe(poster);
+    });
+
+    const posterParallax = document.querySelector(".poster_parallax");
+
+    // [ 포스터 이미지 요소도 마우스 위치값에 따라서 패럴랙싱 되도록 만들기 ]
+    posterParallax.addEventListener("mousemove", (e)=>{
+        const xRelativeToPosterParallax = e.clientX / posterParallax.clientWidth;
+        const yRelativeToPosterParallax = e.clientY / posterParallax.clientHeight;
+        // 마우스의 x,y값 / 해당 요소의 너비,높이값으로 나눠서 서로 관여되게(?)함
+
+
+        // 포스터 이미지 2개의 스타일 변형하기
+        document.querySelector("#poster-image_wrapper_2").style.transform = `translate(${xRelativeToPosterParallax * -40}px, ${yRelativeToPosterParallax * -40}px)`;
+        document.querySelector("#poster-image_wrapper_3").style.transform = `translate(${xRelativeToPosterParallax * 40}px, ${yRelativeToPosterParallax * 40}px)`;
+
+
+    });
+
 </script>
 </html>
 
@@ -267,6 +353,78 @@ setTImeout : 특정 시간 이후에 딱 한번말 실행시키는 함수
 1.버튼도 마냥 커지는 게 아니라 한계값이 되면 버튼 사라지게 만들기 : 클래스로 컨트롤
 -처음에는 preloader가 보이는 영역이어야 하니까 .shown-area 부여
 -한계값을 넘으면 preloader영역을 안보이게 숨기고 나머지를 보이게 만들기
+
+
+
+마우스 움직일 떄 마우스 포지션을 가져올 수 있구나 하는걸 배움
+특별히 추가되는 것 없이 이것만으로 마우스 움직임에 따라서 요소를 패럴랙싱 줄 수 있음
+
+[ 스크롤을 내렸을 떄 나타나는 이미지 ]
+
+-유저가 어떤 화면을 볼 떄에만 요소를 나타냄으로써 유저가 하는 행도엥 좀 더 반응하고 있따는 느낌을 줄 수 있음
+
+1.JavaScript IntersectionObserver API
+-요소가 유저의 뷰포트에 들어왔는지, 숨겨졌는지 탐지함
+-지연 로딩 이미지, 애니메이션 발동, 유저의 활동 추적 등에 용이하게 사용됨
+
+-처음 랜더링할 떄 보이지 않는 이미지까지 랜더링하면 이제 랜더링하는데 있어서 걸리는 시간이... 오래 걸리지 않아야 하니까.. 그걸 최적화 하는 방법...
+-보이지 않는지 보이는지 이 api로 확인해서 보이지 않는 이미지는 나중에 로딩되도록 이미지 지연로딩 기능을 만들 수 있음
+
+-어떤 요소를 봤을 떄 애니메이션이 발동되게 하는 기능 만들 수 있음
+
+-유저가 어떤 화면에 몇초를 머물렀느냐, 이 요소를 본 시간이 얼마고, 몇명이 봤는지 이런 활동 추적도 가능함
+
+-성능과 관련된 최적화에 많이 쓰임
+
+-인피니트 스크롤이라는, 목록을 나타내는 화면이 있으면 한번에 화면이 다 나오는게 아니고 맨 아래에 더보기 버튼 눌러야 나타나는 것도 아니고... 적당히 화면 내려와을 때 계속 다음 페이지 보여주는 그런 기능을 만들 떄에도 이런 api 사용함
+
+-비디오 같은 것들도 화면에 보일떄쯤에 로딩하는 게.. 로딩 시간을 줄일 수 있고...!
+
+
+2. API 사용법
+2-1.요소가 화면에 들어오거나 나갈 떄 실행될 콜백 함수를 넘겨서 IntersectionObserver 객체를 만든다
+2-2.관찰하고 싶은 요소를 인자로, IntersectionObserver 객체의 observe 메서드를 호출하여 관찰을 시작한다
+2-3.콜백 함수의 단일 인자인 entries(요소의 노출 정도, 위치, 크기 등 포함)로 필요한 정보를 얻는다
+
+3.문법
+-아래와 같음
+let observer = new IntersectionObserver((entries)=>{
+  entries.forEach((entry)=>{
+    if(entry.isIntersecting){
+      // 요소가 50% 이상 보일 때 행하는 동작
+      }
+  })
+}, { threshold: 0.5 });
+
+let element = document.querySelector("#my-element");
+
+observer.observe(element);
+
+
+4.entries
+let observer = new IntersectionObserver((entries)=>{
+  entries.forEach((entry)=>{
+    entry.boundingClientRect // 관찰된 요소의 뷰포트 내 위치와 크기
+    entry.intersectionRatio // 관찰된 요소의 총 교차(화면 노출) 비율
+    entry.intersectionRect // 뷰포트 내 교차된 영역의 위치와 크기
+    entry.intersecting // 뷰포트와 현재 교차되고 있는지를 나타내는 boolean
+    entry.rootBounds // root 요소의 위치와 크기
+    entry.target // 관찰되고 있는 대상의 DOM 요소
+    entry.time // 교차가 마지막으로 확인된 시간
+  })
+}, { threshold: 0.5 });
+
+-요소의 노출 여부를 확인하는 강력한 api
+-성능 최적화, 유저 경험 향상, 유저 경험 트래킹, 활동 트래킹등에도 사용 할 수 있음
+
+
+
+[ 구현하기 ]
+
+-이미지요소를 디스플레이 넌 시켜서 안보이게 하고, 그걸 감싸고 있는 래퍼는 그대로 두고!
+-래퍼를 씌워준 이유가!
+-투명도 0이라서 측정이 안되니까 그걸 담고 있는 래퍼를 그대로 사이즈 갖게 해서 두고 래퍼로 알 수 있게 잡기 위함...
+
 
 
 -->
