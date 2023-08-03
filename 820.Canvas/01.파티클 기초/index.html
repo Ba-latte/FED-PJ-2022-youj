@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>01.파티클 기초</title>
+    <!-- dat.GUI 라이브러리 가져오기 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js" integrity="sha512-WoO4Ih0CDOSLYafy22wZD/mcJ7k0ESLqtQsFa6zFKnEUrbtuGU+GkLtVhgt93xa2qewG5gKEC6CWlN8OaCTSVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <style>
     html, body{
@@ -13,11 +15,27 @@
         overflow: hidden;
     }
     canvas{
-        background-color: orange;
+        /* 1.CSS 기본 필터 적용해보기 */
+        /* filter: blur(10px) contrast(10); */
+        /* background-color: #f7f7f7; */
+
+        /* 2.커스텀한 필터 적용하기 */
+        filter: url("#gooey");
     }
 </style>
 <body>
     <canvas></canvas>
+    <!-- 커스텀 필터 만들어서 적용하기 -->
+    <svg>
+        <defs>
+            <filter id="gooey">
+                <!-- 블러효과 -->
+                <feGaussianBlur stdDeviation="40" in="SourceGraphic" result="blur1" />
+                <!-- 대비효과 -->
+                <feColorMatrix in="blur1" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 100 -23"/>
+            </filter>
+        </defs>
+    </svg>
     <script type="module" src="./index.js"></script>
 </body>
 </html>
