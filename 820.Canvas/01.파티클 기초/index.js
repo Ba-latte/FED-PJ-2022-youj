@@ -74,5 +74,79 @@ ctx.scale(dpr, dpr);
 
 
 
+// 사각형 그리기
+// ctx.fillRect(10, 10, 50, 50);
 
-ctx.fillRect(10, 10, 50, 50);
+// [ 원 그리기 ]
+// 1.원 그리기 시작한다고 알리기
+ctx.beginPath();
+
+// 2.원 그릴 함수 부르기
+ctx.arc(100, 100, 50, 0, Math.PI / 180 * 180);
+
+// 3-3.색을 채우기전에 스타일 지정하기
+ctx.fillStyle = 'red';
+
+// 3-1.원 내부에 색 채우기
+ctx.fill();
+
+// 3-2.원 모양의 선을 그리기
+ctx.stroke();
+
+
+// 4.원을 마무리하기
+ctx.closePath();
+
+
+// [ 클래스를 써서 여러 파티클 관리하기 ]
+// 1.클래스 정의하기
+class Particle{
+    // 2.constructor로 원형 파티클을 만들 때 필요한 필수 값인 x,y값과 반지름 값을 받아오기
+    constructor(x, y, radius){
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+    }
+    // 3.원을 그리는 메서드 정의하기
+    draw(){
+        // 4.원 그리기
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI / 180 * 360);
+        ctx.fillStyle = 'black';
+        ctx.fill();
+        ctx.closePath();
+    }
+}
+
+
+// 5.위에서 정한 필수 인자 3개를 미리 변수로 정의해서 만들어두기
+const x = 100;
+const y = 100;
+const radius = 50;
+
+// 6.파티클 인스턴스 생성하기
+const particle = new Particle(x, y, radius);
+
+// 7.생성한 인스턴스 실행하기
+particle.draw();
+
+
+
+// [ 애니메이션 효과 부여하기 ]
+// 1.애니메이션 함수 정의하기
+function animate(){
+    // 2.애니메이션 프레임 만들기 : 매 프레임마다 정의한 함수 호출해서 무한으로 실행되게 함
+    window.requestAnimationFrame(animate);
+    // console.log("계속 함수 호출해서 무한 실행!");
+
+    // 4.새 프레임에서 새로 그리게 하기 위해서 초기화시켜주기
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+    // 3.생성한 인스턴스 그리기
+    particle.draw();
+    // 이렇게 하면 현재 이 위치에 계속 그림이 그려져서 덮어 씌워지고 있음
+    // 👉 이전 프레임을 지우고 새 프레임에서 새로 그리게 하기 위해서는 전체 화면을 지우는 함수를 상단에 하나 추가해서 초기화 시켜주면 됨
+}
+
+// 2.애니메이션 함수 호출하기
+// animate();
