@@ -413,5 +413,5 @@ window.addEventListener("load", ()=>{
 
 // 윈도우가 리사이즈될때마다 초기화 함수 실행하기
 window.addEventListener("resize", ()=>{
-    init();
+    // init();
 });
