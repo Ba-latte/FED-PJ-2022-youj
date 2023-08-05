@@ -1,6 +1,7 @@
 // 02.불꽃놀이 - index.js
 
 import CanvasOption from "./js/CanvasOption.js";
+import Tail from "./js/Tail.js";
 import Particle from "./js/particle.js";
 import { hypotenuse, randomNumBetween } from "./js/utils.js";
 
@@ -39,6 +40,10 @@ class Canvas extends CanvasOption {
 
         // 여러 파티클들 담을 배열 만들기
         this.particles = [];
+
+        // 꼬리 담을 배열 만들기
+        this.tails = [];
+
     }
 
     init(){
@@ -79,7 +84,25 @@ class Canvas extends CanvasOption {
             this.ctx.fillStyle = this.bgColor + '40'; // #00000040
             this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
     
-            // 메인 로직
+            // 꼬리 메인 로직
+            // 코리 만드는 함수 호출
+            if(Math.random() < 0.03) this.createTail();
+            // 업데이트,드로우 해주기
+            this.tails.forEach((tail, index) => {
+                tail.update();
+                tail.draw();
+                
+                // 꼬리의 속도가 거의 0이 되는 시점에 폭죽 터트리기
+                if(tail.vy > -0.7){
+                    // 꼬리 지우기
+                    this.tails.splice(index, 1);
+                    // 폭죽 터트리기 : 꼬리가 사라진 그 지점의 위치값을 가져가야함
+                    this.createParticles(tail.x, tail.y, tail.color);
+                }
+            });
+            
+
+            // 폭죽 메인 로직
             this.particles.forEach((particle, index) => {
                 particle.update();
                 particle.draw();
@@ -97,14 +120,30 @@ class Canvas extends CanvasOption {
         requestAnimationFrame(frame);
 
     }
+    // 꼬리 만드는 함수 만들기
+    createTail(){
+        // 양 사이드에서 20퍼센트씩 떨어진 그 사이값 중에서 랜덤하게 가져오게 하기
+        const x = randomNumBetween(this.canvasWidth * 0.2, this.canvasHeight * 0.8);
+        // const vy = -20;
+        // const vy = randomNumBetween(15, 20) * -1;
+        // 화면 높이값에 따라 바뀌는 유동적인 vy 값 만들기
+        const vy = this.canvasHeight * randomNumBetween(0.01, 0.015) * -1;
+        const color = '255, 255, 255';
+
+        this.tails.push(new Tail(x, vy, color));
+    }
 
     // 파티클 만들 함수 만들기
-    createParticles(){
+    createParticles(x, y, color){
         // 파티클의 개수
         const PATICLE_NUM = 400;
         // 동일 지점에서 파티클들이 생성되도록 for문 바깥으로 꺼냄
-        const x = randomNumBetween(0, this.canvasWidth);
-        const y = randomNumBetween(0, this.canvasHeight);
+        // const x = randomNumBetween(0, this.canvasWidth);
+        // const y = randomNumBetween(0, this.canvasHeight);
+
+        // 꼬리의 위치값 받아와서 파티클 만들때 쓰기
+        
+
         // 반복문 돌아서 파티클 만들기
         for(let i = 0; i < PATICLE_NUM; i++){
             // const x = randomNumBetween(0, this.canvasWidth);
@@ -130,7 +169,7 @@ class Canvas extends CanvasOption {
             const opacity = randomNumBetween(0.6, 0.9);
 
             // 배열에 만든 파티클 담기
-            this.particles.push(new Particle(x, y, vx, vy, opacity));
+            this.particles.push(new Particle(x, y, vx, vy, opacity, color));
         }
     }
 }

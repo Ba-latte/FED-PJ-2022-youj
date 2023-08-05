@@ -4,7 +4,7 @@ import CanvasOption from "./CanvasOption.js";
 
 
 export default class Particle extends CanvasOption{
-    constructor(x, y, vx, vy, opacity){
+    constructor(x, y, vx, vy, opacity, color){
         super();
 
         this.x = x;
@@ -21,6 +21,9 @@ export default class Particle extends CanvasOption{
 
         // 마찰
         this.friction = 0.93;
+
+        // 색상 : rgb형태여야함
+        this.color = color;
     }
     // 앞으로 파티클 다룰 때 기본적으로 사용해야할 업데이트, 드로우 함수 만들기
     update(){
@@ -44,7 +47,7 @@ export default class Particle extends CanvasOption{
     }
     draw(){
         // 원 색상 바꾸기
-        this.ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        this.ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
 
         // 원 그리는 기본 로직
         this.ctx.beginPath();

@@ -1,4 +1,3 @@
-// 캔버스 옵션 클래스 만들고 내보내기
 
 export default class CanvasOption{
     constructor(){
