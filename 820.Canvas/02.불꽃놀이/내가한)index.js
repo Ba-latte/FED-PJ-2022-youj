@@ -5,6 +5,31 @@ import Tail from "./js/Tail.js";
 import Particle from "./js/Particle.js";
 import { hypotenuse, randomNumBetween } from "./js/utils.js";
 
+// let now, delta;
+// let then = Date.now();
+
+// // 캔버스 사이즈 미리 선언
+// let canvasWidth, canvasHeight;
+
+
+// // [ ❤캔버스 옵션 클래스로 만들기❤ ]
+// class Canvas{
+//     // 1.constructor에 정의한 고정 값들 옮기기
+//     constructor(){
+//         // 기본 고정값 세팅
+//         this.canvas = document.querySelector("canvas");
+//         this.ctx = this.canvas.getContext("2d");
+
+//         this.dpr = window.devicePixelRatio;
+
+//         this.fps = 60;
+//         this.interval = 1000 / this.fps;
+
+//         // 캔버스 사이즈 담기
+//         this.canvasWidth = innerWidth;
+//         this.canvasHeight = innerHeight;
+//     }
+// }
 
 
 // CanvasOptoin 클래스를 부모 클래스로 상속받아와
@@ -152,8 +177,42 @@ class Canvas extends CanvasOption {
 
 
 
+// // 초기화함수 만들기
+// function init(){
 
 
+//     // 캔버스 사이즈 담당하는 2가지 방법으로 사이즈 조절하기
+//     // 1.고유사이즈 지정하기
+//     canvas.width = canvasWidth * dpr;
+//     canvas.height = canvasHeight * dpr;
+//     ctx.scale(dpr, dpr);
+
+//     // 2.css로 강제로 늘리거나 줄이기
+//     canvas.style.width = canvasWidth + "px";
+//     canvas.style.height = canvasHeight + "px";
+// }
+
+
+
+
+
+
+// // animate 함수 만들기 : 이제 이걸 랜더라고 할 예정
+// function render(){
+//     // fps 개념 도입해서 모든 모니터에서 동일한 움직임 보이게 하기
+//     requestAnimationFrame(render);
+    
+//     now = Date.now();
+//     delta = now - then;
+
+//     if(delta < interval) return;
+
+//     // 메인 로직 : 기본적인 fps 작업
+//     ctx.fillRect(100, 100, 200, 200);
+
+
+//     then = now - (delta % interval);
+// }
 
 
 
