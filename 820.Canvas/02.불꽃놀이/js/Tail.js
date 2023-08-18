@@ -1,14 +1,14 @@
-import CanvasOption from "./CanvasOption";
-import { randomNumBetween } from "./utils";
+import CanvasOption from "./CanvasOption.js";
+import { randomNumBetween } from "./utils.js";
 
 export default class Tail extends CanvasOption{
-    constructor(x, vy, color){
+    constructor(x, vy, colorDeg){
         super();
 
         this.x = x;
         this.y = this.canvasHeight;
         this.vy = vy;
-        this.color = color;
+        this.colorDeg = colorDeg;
         
         // this.friction = 0.97;
         this.friction = 0.985;
@@ -30,7 +30,8 @@ export default class Tail extends CanvasOption{
     }
 
     draw(){
-        this.ctx.fillStyle = `rgba(${this.color}, ${this.opacity}`;
+        // hsl에서 마지막으로 쓰인 값은 a(알파)로 투명도를 나타냄
+        this.ctx.fillStyle = `hsla(${this.colorDeg}, 100%, 65% ${this.opacity}`;
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, 1, 0, Math.PI * 2);
         this.ctx.fill();
