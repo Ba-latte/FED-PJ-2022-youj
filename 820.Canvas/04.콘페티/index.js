@@ -1,3 +1,5 @@
+import Particle from "./js/Particle.js";
+
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -6,6 +8,11 @@ const dpr = window.devicePixelRatio < 1 ? 2 : 1;
 let canvasWidth = innerWidth;
 let canvasHeight = innerHeight;
 const interval = 1000 / 60;
+
+// particles 배열
+const particles = [];
+
+
 
 // init 함수 : 처음 로드될 때, 리사이즈될 때 실행됨
 function init(){
@@ -22,20 +29,28 @@ function init(){
     canvas.height = canvasHeight * dpr;
     // 기기마다 선명도 차별 적용
     ctx.scale(dpr, dpr);
+
+
+
 }
+
+
+// 콘페티 생성 함수
+function confetti({ x, y, count, deg, colors }){
+    for(let i = 0; i < count; i++){
+        particles.push(new Particle(x, y, deg, colors));
+    }
+}
+
+
+
 
 // render 함수
 function render(){
     let now, delta;
     let then = Date.now();
 
-    const x = innerWidth / 2;
-    let y = innerHeight / 2;
-    const width = 50;
-    const height = 50;
 
-    let widthAlpa = 0;
-    let deg = 0.1;
 
     // 프레임 함수 : 리퀘스트애니메이션프레임으로 재귀적으로 계속 스스로 실행시킴 (이렇게 하면 144헤르쯔 게이밍 모니터에서 1초에 144번 실행되고 60헤르쯔 사무용 모니터에서는 1초에 60번 실행되므로 두 모니터 모두 동일하게 실행하기 위해서, fps를 적용해줘야함)
     const frame = ()=>{
@@ -50,24 +65,18 @@ function render(){
         // 매 프레임마다 지우고 시작하기
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-        widthAlpa += 0.1;
-        deg += 0.1;
-        y += 1;
 
-        // 전체 캔버스를 회전시키기
-        ctx.translate(x + width, y + height);
-        ctx.rotate(deg);
-        // 매 프레임마다 중첩되기 때문에 다시 원상복구 시키기
-        ctx.translate(-x - width, -y - height);
+        // 콘페티 생성 하기
+        for(let i = particles.length - 1; i >= 0; i--){
+            // 업데이트하기
+            particles[i].update();
 
+            // 그리기
+            particles[i].draw(ctx);
 
-        ctx.fillStyle = 'red';
-        // ctx.fillRect(x, y, width, height);
-        ctx.fillRect(x, y, width * Math.cos(widthAlpa), height * Math.sin(widthAlpa));
-
-
-        // 적용된 transform 해제하기
-        ctx.resetTransform();
+            // 투명도가 0이 된 파티클 제거하기
+            if(particles[i].opacity < 0) particles.splice(i, 1);
+        }
 
 
 
@@ -80,11 +89,26 @@ function render(){
 
 
 
+// 윈도우 클릭시 콘페티 생성 함수 호출하기
+window.addEventListener('click', ()=>{
+    // 콘페티 생성 함수 호출
+    confetti({
+        // x: canvasWidth / 2,
+        // y: canvasHeight / 2,
+        x: 0,   // 0 ~ 1
+        y: 0.5, // 0 ~ 1
+        count: 10,
+        deg: -50,
+        colors: ['#ff0000']
+    });
+});
 
-// window.addEventListener("resize", init);
 
-// window.addEventListener("load", ()=>{
-//     init();
-//     render();
-// });
+
+window.addEventListener("resize", init);
+
+window.addEventListener("load", ()=>{
+    init();
+    render();
+});
 
