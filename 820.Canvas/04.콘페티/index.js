@@ -36,9 +36,9 @@ function init(){
 
 
 // 콘페티 생성 함수
-function confetti({ x, y, count, deg, colors }){
+function confetti({ x, y, count, deg, colors, shapes, spread }){
     for(let i = 0; i < count; i++){
-        particles.push(new Particle(x, y, deg, colors));
+        particles.push(new Particle(x, y, deg, colors, shapes, spread));
     }
 }
 
@@ -50,7 +50,8 @@ function render(){
     let now, delta;
     let then = Date.now();
 
-
+    // 회전시키도록 하기 위한 deg변수
+    let deg = 0;
 
     // 프레임 함수 : 리퀘스트애니메이션프레임으로 재귀적으로 계속 스스로 실행시킴 (이렇게 하면 144헤르쯔 게이밍 모니터에서 1초에 144번 실행되고 60헤르쯔 사무용 모니터에서는 1초에 60번 실행되므로 두 모니터 모두 동일하게 실행하기 위해서, fps를 적용해줘야함)
     const frame = ()=>{
@@ -65,6 +66,29 @@ function render(){
         // 매 프레임마다 지우고 시작하기
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
+        // deg변수에 누적해서 1씩 더해서 매 프레임마다 콘페티의 각도를 바꿔서 콘페티가 회전하는 것처럼 만들기
+        // deg += 1;
+        // confetti({
+        //     x: 0.5,   // 0 ~ 1
+        //     y: 0.5, // 0 ~ 1
+        //     count: 5,
+        //     deg: 90 + deg,
+        //     spread: 1
+        // });
+        // confetti({
+        //     x: 0.5,   // 0 ~ 1
+        //     y: 0.5, // 0 ~ 1
+        //     count: 5,
+        //     deg: 225 + deg,
+        //     spread: 1
+        // });
+        // confetti({
+        //     x: 0.5,   // 0 ~ 1
+        //     y: 0.5, // 0 ~ 1
+        //     count: 5,
+        //     deg: 315 + deg,
+        //     spread: 1
+        // });
 
         // 콘페티 생성 하기
         for(let i = particles.length - 1; i >= 0; i--){
@@ -76,6 +100,8 @@ function render(){
 
             // 투명도가 0이 된 파티클 제거하기
             if(particles[i].opacity < 0) particles.splice(i, 1);
+            // 파티클의 y값이 캔버스높이값보다 커지면(=화면밖으로 나가면) 파티클 제거하기
+            // if(particles[i].y > canvasHeight) particles.splice(i, 1);
         }
 
 
@@ -98,8 +124,10 @@ window.addEventListener('click', ()=>{
         x: 0,   // 0 ~ 1
         y: 0.5, // 0 ~ 1
         count: 10,
-        deg: -50,
-        colors: ['#ff0000']
+        deg: -30,
+        // colors: ['#ff0000']
+        // shapes: ['sqaure'],
+        // spread: 1,
     });
 });
 
