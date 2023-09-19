@@ -1,3 +1,5 @@
+import Background from "./Background.js";
+
 export default class App{
     static canvas = document.querySelector('canvas');
     static ctx = App.canvas.getContext('2d');
@@ -7,6 +9,14 @@ export default class App{
     static height = 768;
 
     constructor(){
+        // 배경 불러오기 : Background 클래스를 불러와서 인스턴스 생성하기
+        // this.background = new Background();
+        this.backgrounds =[
+            new Background({ img : document.querySelector("#bg3-img"), speed: -1 }),
+            new Background({ img : document.querySelector("#bg2-img"), speed: -2 }),
+            new Background({ img : document.querySelector("#bg1-img"), speed: -4 }),
+        ];
+
         // 윈도우가 리사이즈될 때 리사이즈 함수 호출하기
         window.addEventListener('resize', this.resize.bind(this));
     }
@@ -42,8 +52,14 @@ export default class App{
 
             App.ctx.clearRect(0, 0, App.width, App.height);
 
-            App.ctx.fillRect(50, 50, 100, 100);
-            
+            // 배경이미지 생성
+            this.backgrounds.forEach(background => {
+                // 배경이미지 움직이도록 업데이트하기
+                background.update();
+                // 배경이미지 그리기
+                background.draw();
+            })
+
             
             ///////////////////////////////////////////
             then = now - (delta % App.interval);

@@ -1,0 +1,441 @@
+[ 미니게임 ]
+-이전에는 파티클 이펙트와 관련해서 파티클 애니메이션 공부했음
+-이번에는 미니게임 만들면서 캔버스와 다른 방식으로 친해지려고 함
+-마우스 클릭이벤트만 이용해서 작업 할 예정
+
+-기초뼈대 만들고
+-상태관리 필요없는 백그라운드 만들기
+-장애물 벽을 클래스로 만들기
+-player캐릭터를 클래스로 만들기
+-장애물벽과 플레이어간 충돌 감지 로직 만들기
+-코인 클래스 만들기
+-코인과 플레이어안 충돌 감지 로직 만들기
+-스코어 클래스 만들기
+-게임 상태에 따른 ui/ux 작업하기
+
+
+
+
+[ 미니게임 뼈대 만들기 ]
+-기초 뼈대 구성
+
+-인덱스.js에 바로 코드 작업했지만, 이제는 클래스형태의 앱을 만들고 그걸 인덱스.js에 임포트하는 방식으로 하기
+
+<index.html>
+-!쳐서 기본 보일러플레이트 불러와서 세팅하기
+-바디 태그에 canvas 태그 넣기
+-link태그로 css불러오기
+
+<styel.css>
+-html, body요소에 기본 세팅하기
+-w100p h100p o m0 bgc#1f1f1f df aic jcc 하기
+
+
+<index.js>
+-우선 만들어두고 여기다 바로 코딩하지 말고, App이라는 클래스 만들어서 그걸로 하기
+
+<App.js>
+-export default class App{}로 앱을 클래스로 만들기
+-컨스트럭터 사용하기 전에 그 위에 앱 전역에서 사용할 고정 상수값들을 스태틱으로 선언해주기
+-먼저 캔버스를 쿼리셀렉터로 가져와서 저장해주고, ctx도 선언해주기
+: static canvas = document.querySelector('canvas');
+static ctx = App.canvas.getContext('2d');
+-> 이렇게 스태틱으로 선언된 값을 쓸 떄에는 클래스명과 스태틱변수명으로 가져오면 됨!
+
+-이전에 우리가 많이 보일러 플레이트를 만들어서 사용한 상수값들을 넣어주기
+-dpr도 스태틱으로 넣어주기
+-인터벌로 1000 / 60으로 하고
+가로는 1024, 세로는 768로 4:3 비율로 만들어주기
+: static dpr = devicePixelRatio > 1 ? 2 : 1;
+    static interval = 1000 / 60;
+    static width = 1024;
+    static height = 768;
+
+-리사이즈 함수 만들기
+-이 함수에는 캔버스스타일 css의 사이즈와 캔버스 자체 사이즈, scale값을 넣어주기
+-캔버스 자체의 가로,세로값은 위에 정의한 값을 쓰면 됨
+: App.canvas.width = App.width * App.dpr;
+        App.canvas.height = App.height * App.dpr;
+->높은 dpr을 지원해주는 기기에서는 큰사이즈를 만들어주는데, 너무 큰사이즈로 만들지 않고 최대 2배 만큼만 크게 만들어서 적당히 선명하게 보여주면서 자원절약할 수 있게 하기
+-app.ctx.scale로 dpr을 각각 곱해줘서, 이전에 크게 만들었던 캔버스의 고유사이즈를 dpr이 1일 떄 캔버스에 그려지는 것과 동일시하게 만들어주면서도, 선명도가 차이나게 만들어주기
+->근데 이렇게하면 캔버스 크기에 차이가 있으니까 css로 캔버스 요소의 사이즈를 동일하게 맞춰주기
+
+-화면 비율이 4:3으로 정해져있으니까 css도 마찬가지로 비율을 똑같이 해주면 됨
+-css 반응형으로 만들어주기 위해
+width를 화면의 가로가 세로보다 커지면 widht를 innerHeight에 0.9를 곱한 정도로 만들어주고,
+반대로 화면의 세로가 가로보다 커지면 width를 innerwidth에 0.9를 곱한 정도로 만들어주기
+->4:3의 비율로 캔버스 스타일이 작성됨
+:        const width = innerWidth > innerHeight ? innerHeight * 0.9 : innerWidth * 0.9;
+        App.canvas.style.width = width + 'px';
+        App.canvas.style.height = width * (3 / 4) + 'px';
+
+-그리고 컨스트럭터 안에 window.addEventListner로 리사이즈될 때 방금 정한 리사이즈 함수가 실행되도록 하기
+: 
+
+-resize()만 하면 되는 게 아니고, this.resize.bind(this)라고 해줘야 방금 만든 리사이즈 함수가 실행됨
+-이유 : bind(this)를 하지 않고, 리사이즈 함수에서 콘솔.로그(this)를 출력해보면,
+지금 처음에는 this가 app클래스를 가리키고 있는데, 리사이즈하기 시작하면 window를 가리키게 됨. 기본적으로 add이벤트리스너로 등록할떄 바인드하지않으면 이벤트를 등록한 주최인 윈도우가 this로 인식하게 됨.
+=특별히 바인드 디스를 해주게 되면 현재 부모인 클래스 app이 this로 바인딩되는 것임
+
+->그럼 왜 처음에는 app이 찍힌걸까?
+: 좀아까 인덱스.js에서 윈도우가 로드되었을 때 app.리사이즈를 직접 실행해주었기 떄문임. 그 이후에 실행된 콘솔들은 app.js안에 윈도우 이벤트 리스너 리사이즈 이벤트 안에서 실행된 것이기 때문임
+->따라서 이렇게 바인드디스를 해줘서 앞으로 리사이즈 함수 내에 선언될 수 있는 this값들을 app클래스 내에 선언한 변수들이나 메서드가 인식될 수 있도록 해주기
+
+
+
+
+->잘 먹혔는지 확인 위해서 index.js로 돌아가서 const app = new App();으로 방금 만든 app클래스에서 app 인스턴스를 만들어서 가져오기!
+(물론 최상단에 임포트해야함)
+: const app = new App();
+
+-그 다음, 윈도우 로드가 끝났을 때, app.resize메서드를 실행해주기
+:window.addEventListener('load', ()=>{
+    app.resize();
+});
+
+
+->>이러면 이제 캔버스가 가로 세로의 비율에 따라서 반응형으로 잘 작동하는 것을 볼 수 있음
+
+
+
+<렌더 메서드 만들기>
+-이제 렌더 메서드를 만들어서 프레임마다 실행되는 모든 내용을 안에 넣어주기
+
+-먼저 주사율이 높은 모니터에서 더 빨리 실행되는 것을 막고, 동일하게 실행되게 하기 위해서 now, then, delta와 interval을 활용해서 만들기
+
+-렌더 함수 안에서 now, delta 변수를 선언하기
+-then을 선언하고 Date.now()를 할당하기
+-frame함수를 변수에 담아서 할당형으로 만들고, 그 안의 블록에서 리퀘스트 애니메이션 프레임 함수를 호출하고, 인자로 frame을 넣기
+:     render(){
+        let now, delta;
+        let then = Date.now();
+        const frame = ()=>{
+            requestAnimationFrame(frame);
+            
+        };
+    }
+->이렇게하면 144헤르쯔와 60헤르쯔의 모니터에서 다 다르게 실행됨
+
+-이를 막기 위해서 now = 현재시간을 저장해주고, 위에 초기화해준 then과의 차이값을 delta에 넣어주기
+: now = Date.now();
+ delta = now - then;
+
+-delta값이 interval보다 작으면 리턴시켜주고, 크면 아랫줄이 실행되게 해주면 됨
+-그러면 시간을 기준으로 프레임함수를 실행시키기 때문에 주사율이 달라도 동일하게 작동됨
+: if(delta < App.interval) return;
+
+
+-그러고나서 실행할 코드들이 모두 실행된 후 마지막에다가 then값을 교체해주기
+: then = now - (delta % App.interval);
+
+
+->이 부분이 이해가 잘 안되면 이전 영상 참고 플리즈~^^ㅋㅋㅋ
+
+
+
+-그리고 프레임 함수 바깥에서 프레임함수를 호출해서 실행하기
+: requestAnimationFrame(frame);
+
+->결과 잘 나오나 확인 위해 박스 그려보기
+-프레임함수 안에서 app.ctx.clearRect(0 , 0, 가로, 세로);로 일단 이전 프레임 전체 화면을 지우기
+: App.ctx.clearRect(0, 0, App.width, App.height);
+
+-그러고나서 app.fillRect()로 사각형 그리기
+: App.ctx.fillRect(50, 50, 100, 100);
+
+-그리고 index.js로 돌아가서 렌더함수를 실행해보기
+: app.render();
+
+->이러면 사각형이 잘 그려지는 것을 확인할 수 있음
+
+
+
+
+
+[ 백그라운드 배경 클래스 만들기 ]
+-항상 배경이 뒤에서 애니메이션되면서 디폴트로 움직일 수 있도록 먼저 작업해보기
+
+-assets폴더 만들고 거기에 이미지 옮겨두기
+
+-구글에 itch.io 사이트를 검색해서 들어가보면, 많은 게임 개발자들의 작품을 모아둔 인디게임 유통 사이트임
+-html5로 만든 게임들도 볼 수 있음
+-상단에 브라우즈 게임 탭>assets 탭을 들어가보면 2d게임을 만들 때 유용한 자료들이 많이 있음
+-플레이어의 스프라이트 이미지를 애니메이션 시키기 위한 스프라이트png이미지 에셋같은것도 여기서 잘 찾아보면 무료로 괜찮은 에셋들을 다운받을 수 있음
+
+-에셋에 대한 설명, 예시 이미지가 있고 이 에셋을 통해서 구현할 수 있는 애니메이션도 확인 가능함
+-맨 하단에 내려보면 다운로드 버튼이 있고, 클릭해보면 다운했을 때 무료일떄 다운받을 수 있는 미리보기용 맛보기 파일이 있고, 유료로 다운받을 수 있는 집 파일이 있음
+
+-본격적으로 2d 웹게임 개발에 관심 있따면 여기서 다운받으면 됨
+
+-다운받아서 열어보면 그리드 형태로 된 png이미지들도 있고, 오브젝트파일에는 맵을 그릴 때 쓸 수 있는 다양한 에셋들이 포함되어 있음
+
+-참고로 우리가 사용할 배경화면도 여기서 다운받음
+
+-레이어로 구성된 여러 이미지를 겹쳐서 애니메이션 효과를 만들도록 제공된 이미지임
+-그래서 양쪽 끝이 자연스럽게 연결되도록 만들어진 것을 알 수 있음
+
+
+<백그라운드 파일 기초 세팅>
+-js폴더에 backgorund파일을 만들기
+-export default class Background{}해서 클래스를 만들어주기
+
+-이 안에 이전 플젝에서 했던 방식으로... 컨스트럭터, 업데이트, 드로우 순으로 메서드 만들고 정의하기
+: export default class Background {
+    constructor(){
+
+    }
+
+    update(){
+
+    }
+
+    draw(){
+        
+    }
+}
+
+-이제 백그라운드 클래스 만들었으니까 이미지를 한번 띄워야함
+-그러기위해 다시 인덱스.html로 가서 이미지 태그를 만들어서 이미지를 올려보기
+: <img src="./assets/bg1.png" id="bg1-img" class="asset-img">
+    <img src="./assets/bg2.png" id="bg2-img" class="asset-img">
+    <img src="./assets/bg3.png" id="bg3-img" class="asset-img">
+
+-돔 이미지 태그를 애니메이션 시키기 위해서 바디에서 부른게 아니라, 이 불러와진 이미지를 캔버스에서 ctx.드로우 이미지를 하기위해 바디에 넣은 것이기 때문에 지금처럼 화면에 보일 필요가 없음
+->따라서 css로 가서 디스플레이:넌으로 안보이게 만들어주기
+-하지만 draw이미지를 하게 되면 잘 보일 것임!
+
+-이제 백그라운드.js로 돌아와서 컨스트럭터 안에서 이미지태그들을 불러오기
+: constructor(){
+        this.img = document.querySelector("#bg1-img");
+    }
+-그리고 드로우 메서드 안에서 ctx를 가져와야하니까 app을 임포트 한 다음, app.ctx.drawImage를 호출하기
+-drawImage(this.img, 0, 0, this.img.width, this.img.height);
+->두번째 인자부터는 fillRect와 동일한 내용 넣으면 됨
+->>app.js에 이 백그라운드 클래스를 불러오면 그려질 것임!
+
+
+-App.js에서 컨스트럭터에서 백그라운드 클래스를 불러와서 인스턴스를 생성하기
+: this.backgournd = new Background();
+
+-render함수의 블록 안에서..그중에서도 if문 아래쪽에다가! draw함수로 배경을 그려주기
+: this.backgournd.draw();
+
+->그러면 내가 만들어둔 캔버스 안에 배경이 그려짐
+
+
+
+-그런데 우리가 원하는 배경은... 화면에 꽉 채워진 이미지가 가로로 무한히 이동해야 함
+-우선 이미지 크기를 확대해줘야함
+-우선 세로크기에 맞게 세로를 늘려주기로 함
+
+<배경을 캔버스 사이즈에 맞게 늘리기>
+-백그라운드.js에서 draw함수에서 이미지를 그렸었음
+: draw(){
+        App.ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height);
+    }
+-이떄 세로 길이를 이미지의 길이에 맞게 설정해뒀었는데, 우리는 캔버스 세로 크기에 맞게 만들고 싶은 것이니까 세로 크기 인자를 canvas의 세로 크기와 동일한 값을 넣어주면 됨
+
+-컨스트럭터 안에 this.height를 선언하고, app.height로 정해주면 됨
+:this.height = App.height;
+
+
+-가로크기는...이 이미지의 고유 가로값과 세로값을.... 가져올 수 있어서! 비례식으로 이미지의 확대된 크기를 구할 수 있음
+
+-this.width : this.height = App.width : App.height;
+-외항과 내항끼리 연산하면,
+this.width = App.height * (this.img.height분의 this.img.width)로 구할 수 있게 됨
+: this.width = App.height * (this.img.width / this.img.height);
+
+-이렇게 구한 this.width, this.height를 drawImage()함수의 인자로 넣기
+: App.ctx.drawImage(this.img, 0, 0, this.width, this.height);
+
+->이러면 캔버스 사이즈에 맞게 배경이미지의 가로,세로값이 확대됨!!
+
+
+<배경이미지 움직이게 하기>
+-그러면 이제 이 배경이미지를 업데이트해서 -20만큼 움직이게 하면 됨
+-우선 x와 y가 0,0이 아닌...컨스트럭터에서 따로 선언된 변수여야 함
+-x,y를 따로 초기화 하지말고 객체형으로 같이 초기화해주기
+: this.pos = { x: 0, y: 0 };
+
+-그러면 이제 draw함수 블록에서 drawImage()메서드를 쓸 때 0,0이 아니라 컨스트럭터에서 선언한 this.pos.x, y를 넣으면 됨
+: App.ctx.drawImage(
+            this.img, 
+            this.pos.x, this.pos.y, 
+            this.width, this.height
+        );
+
+
+-그리고 이제 update함수 블록 안에서 this.pos.x를 계속해서 -20 재할당해주면 됨
+: update(){
+        this.pos.x -= 20;
+    }
+
+
+-그리고 이 update메서드를 app.js의 렌더 함수에서 배경이미지가 드로우 되기 전에 실행시켜주기
+: render(){
+// 배경이미지 움직이도록 업데이트하기
+this.background.update();
+// 배경이미지 그리기
+this.background.draw();
+}
+
+
+->이러면 배경이미지가 왼쪽으로 이동함
+
+
+<이미지 무한루프 만들기>
+-이미지를 하나 더 뒤에 붙이는 것임!
+-이미지가 2개라면 2개의 이미지를 같은 속도로 왼쪽으로 이동시키다가, 왼쪽이미지가 화면 밖으로 완전히 사라지는 순간 오른쪽이미지의 뒤에 다시 갖다 붙이면 무한히 루프되는 모양이 됨
+-그럼 왼쪽이미지가 화면에서 완전히 사라지는 순간이 언제일까?
+->left.x + this.width가 0보다 작아야함!
+
+
+-왼쪽이미지, 오른쪽이미지 이렇게 2개의 이미지를 써야 하니까 아까 this.pos로 위치값을 명명한 것을 this.leftPos로 이름을 바꿔주기
+: this.leftPos = { x: 0, y: 0 };
+-그리고 오른쪽 이미지의 x,y위치값도 초기화해주기
+-오른쪽 이미지의 x값은 왼쪽 이미지의 바로 오른쪽에 붙어야하니까, 이미지의 가로만큼 오른쪽으로 떨어진 this.width가 됨
+: this.rightPos = { x: this.width, y: 0 };
+
+-그리고 draw메서드 안에서 드로우 이미지()를 2개 만든 다음에, 각각의 인자만 left, right로 바꿔주기
+:     draw(){
+        // 왼쪽 배경이미지 그리기
+        App.ctx.drawImage(
+            this.img, 
+            this.leftPos.x, this.leftPos.y, 
+            this.width, this.height
+        );
+        // 오른쪽 배경이미지 그리기
+        App.ctx.drawImage(
+            this.img, 
+            this.rightPos.x, this.rightPos.y, 
+            this.width, this.height
+        );
+    }
+
+
+
+<업데이트 함수에다가 코드짜기>
+-왼쪽 이미지와 오른쪽이미지가 화면 밖으로 벗어나는지 계속 체크해야하기 때문에 업데이트 함수 상단에 if문으로 제어하기
+: // 왼쪽 배경이미지가 화면 밖으로 나가는지 체크
+        if(this.leftPos.x + this.width < 0) {
+            // 오른쪽 배경이미지의 오른쪽 끝에 붙도록 하기
+            this.leftPos.x = this.rightPos.x + this.width;
+        }
+
+
+-오른쪽 배경이미지가 왼쪽으로 벗어날 때도 마찬가지로 해줘야 하기 때문에 반대 상황도 if문으로 제어하기
+: // 오른쪽 배경이미지가 화면 왼쪽 밖으로 나가는지 체크
+        if(this.rightPos.x + this.width < 0) {
+            // 왼쪽 배경이미지의 오른쪽 끝에 붙도록 하기
+            this.rightPos.x = this.leftPos.x + this.width;
+        }
+
+
+
+-this.left.pos.x에 매 프레임마다 속도를 더해주기
+-속도는 this.speed로 컨스트럭터 안에다가 정의한 값 넣어주기
+: constructor(){
+  this.speed = -20;
+}
+update(){
+// 속도 더하기
+        this.leftPos.x += this.speed;
+}
+
+
+-this.rightPos.x에도 똑같이 속도를 주기
+
+
+->이러면 계속 루프가 되면서 오른쪽으로 이동하는 느낌이 남!
+->>그런데 이미지를 바꿔서 #bg2-img를 루프 돌려보면, 약간의 틈새가 벌어진 것을 알 수 있음
+-이유? bg2의 png파일을 열어보니 얘만 양 끝이 약간 맞물려있지 않아서 문제가 발생한 것임
+-아쉽지만 오른쪽 이미지를 왼쪽 끝에 딱 붙이는게 아니라 -4px만큼 앞으로 당겨서 살짝 겹쳐지게 해서 틈이 안보이게 만들기
+: constructor(){
+ this.rightPos = { x: this.width - 4, y: 0 };
+}
+
+-마찬가지로 업데이트 함수에서도 화면 바깥으로 사라진 이미지를 다음 이미지의 오른쪽에 붙일 때 약간 더 겹치게 붙여야 함
+: // 왼쪽 배경이미지가 화면 왼쪽 밖으로 나가는지 체크
+        if(this.leftPos.x + this.width < 0) {
+            // 오른쪽 배경이미지의 오른쪽 끝에 붙도록 하기
+            this.leftPos.x = this.rightPos.x + this.width - 4;
+        }
+        // 오른쪽 배경이미지가 화면 왼쪽 밖으로 나가는지 체크
+        if(this.rightPos.x + this.width < 0) {
+            // 왼쪽 배경이미지의 오른쪽 끝에 붙도록 하기
+            this.rightPos.x = this.leftPos.x + this.width - 4;
+        }
+
+
+-그런데 사실 이 -4는... 옵션에 넣어서 필요한 이미지에만 -4를 더해줘야하지만..우리는 그냥 귀찮으니까^^ 공통적으로 -4px만큼 이동시켜주도록 하기!
+
+-그리고 이제 지금은 특정 이미지만을 위한 백그라운드 클래스가 만들어졌기 때문에
+-3가지 이미지 동시 호환이 가능하도록 하기 위해서
+-this.img값을 밖에서 연결시켜주도록 하기
+-컨스트럭터의 인자로 config로 넣고, this.img에다가 config.img로 바꿔주기
+: constructor(config){
+ this.img = config.img;
+}
+
+-그리고 this.speed또한 config.speed로 바꿔주기
+: this.speed = config.speed;
+
+
+-그리고 app.js로 가서 this.backgorund변수를 s로 바꿔주고 배열형으로 바꿔서
+3가지 백그라운드 인스턴스를 넣어주기
+: this.backgrounds =[
+            new Background({ img : document.querySelector("#bg1-img"), speed: -1 }),
+            new Background({ img : document.querySelector("#bg2-img"), speed: -1 }),
+            new Background({ img : document.querySelector("#bg3-img"), speed: -1 }),
+        ];
+
+
+
+-이제 frame함수로 가서 아까 테스트로 만들어둔 까만 정사각형을 지우고,
+-this.backgrounds를 forEach로 돌아서 각각 업데이트와 드로우를 실행해주기
+: // 배경이미지 생성
+            this.backgrounds.forEach(background => {
+                // 배경이미지 움직이도록 업데이트하기
+                background.update();
+                // 배경이미지 그리기
+                background.draw();
+            })
+
+
+-그리고 아까 주석처리해둔 업데이트 함수의 속도 재할당 부분을 주석해제시키기
+
+
+
+->그러면 배경이 이동하는 것을 확인할 수 있음
+-지금 bg3의이미지가 투명도가 없어서 뒤의 이미지들이 가려져서 안보임
+-그래서 bg1과 bg2배경이 가려짐
+-따라서 app 클래스의 컨스트럭터에서 배경이미지 인스턴스를 생성할 때 순서를 반대로 3, 2, 1로 바꾸면 가장 나중에 그려지는 1이미지가 맨 앞으로 z인덱스가 제일 높은(?) 맨 앞으로 나오게 됨
+: this.backgrounds =[
+            new Background({ img : document.querySelector("#bg3-img"), speed: -1 }),
+            new Background({ img : document.querySelector("#bg2-img"), speed: -1 }),
+            new Background({ img : document.querySelector("#bg1-img"), speed: -1 }),
+        ];
+
+
+->레이어처럼 먼배경 - 가까운배경 순으로 이미지가 쌓이고 이게 다같이 잘 움직이게 됨
+
+-그런데 다같은 속도로 움직이니까 입체감이 없어보임
+-2d이미지에서 원근감을 주기 위해서는 가까이있는 것은 빨리 이동, 멀리 있는 것은 느리게 이동하도록 해야 함
+-그래서 가까이에 있는 bg1은 -4 속도를 줘서 가장 빨리 움직이게 하고, 가운데는 -2, 가장 멀리 있는 3은 -1을 주기
+: this.backgrounds =[
+            new Background({ img : document.querySelector("#bg3-img"), speed: -1 }),
+            new Background({ img : document.querySelector("#bg2-img"), speed: -2 }),
+            new Background({ img : document.querySelector("#bg1-img"), speed: -4 }),
+        ];
+
+
+->>이러면 입체감이 느껴짐
+
+-그리고 지금까지 캔버스 사이즈 가늠을 위해 설정해둔 보더값을 지워주기
+
+
+
+
+
+
