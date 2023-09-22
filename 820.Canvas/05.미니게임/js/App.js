@@ -1,4 +1,5 @@
 import Background from "./Background.js";
+import Wall from "./Wall.js";
 
 export default class App{
     static canvas = document.querySelector('canvas');
@@ -16,6 +17,9 @@ export default class App{
             new Background({ img : document.querySelector("#bg2-img"), speed: -2 }),
             new Background({ img : document.querySelector("#bg1-img"), speed: -4 }),
         ];
+
+        // 장애물 만들기
+        this.walls = [new Wall({ type: 'SMALL' })];
 
         // 윈도우가 리사이즈될 때 리사이즈 함수 호출하기
         window.addEventListener('resize', this.resize.bind(this));
@@ -59,6 +63,30 @@ export default class App{
                 // 배경이미지 그리기
                 background.draw();
             })
+
+            // 장애물 생성
+            for(let i = this.walls.length - 1; i >= 0; i--){
+                this.walls[i].update();
+                this.walls[i].draw();
+    
+                console.log(this.walls[i].isOutside);
+                // 캔버스 화면 밖으로 장애물이 나가면 배열에서 지우기
+                if(this.walls[i].isOutside) {
+                    this.walls.splice(i, 1);
+                    continue
+                }
+
+                // 다음 장애물 생성하기
+                if(this.walls[i].canGenerateNext){
+                    // 더이상 생성 막기
+                    this.walls[i].generatedNext = true;
+
+                    // 새로운 장애물 만들기
+                    this.walls.push(new Wall({ type: Math.random() > 0.3 ? 'SMALL' : 'BIG' }));
+                }
+            }
+            // 배열 잘 추가되고 지워지는지 확인하기
+            // console.log(this.walls.length);
 
             
             ///////////////////////////////////////////
