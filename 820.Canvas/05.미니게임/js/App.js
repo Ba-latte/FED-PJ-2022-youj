@@ -1,4 +1,5 @@
 import Background from "./Background.js";
+import Player from "./Player.js";
 import Wall from "./Wall.js";
 
 export default class App{
@@ -20,6 +21,9 @@ export default class App{
 
         // 장애물 만들기
         this.walls = [new Wall({ type: 'SMALL' })];
+
+        // 플레이어 만들기
+        this.player = new Player();
 
         // 윈도우가 리사이즈될 때 리사이즈 함수 호출하기
         window.addEventListener('resize', this.resize.bind(this));
@@ -87,6 +91,10 @@ export default class App{
             }
             // 배열 잘 추가되고 지워지는지 확인하기
             // console.log(this.walls.length);
+
+            // 플레이어 관련
+            this.player.update();
+            this.player.draw();
 
             
             ///////////////////////////////////////////
