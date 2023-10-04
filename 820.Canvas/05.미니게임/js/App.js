@@ -68,25 +68,37 @@ export default class App{
                 background.draw();
             })
 
-            // 장애물 생성
+            // 장애물 벽 생성
             for(let i = this.walls.length - 1; i >= 0; i--){
                 this.walls[i].update();
                 this.walls[i].draw();
     
-                console.log(this.walls[i].isOutside);
-                // 캔버스 화면 밖으로 장애물이 나가면 배열에서 지우기
+                // console.log(this.walls[i].isOutside);
+
+                // 캔버스 화면 밖으로 장애물 벽이 나가면 배열에서 지우기
                 if(this.walls[i].isOutside) {
                     this.walls.splice(i, 1);
-                    continue
+                    continue;
                 }
 
-                // 다음 장애물 생성하기
+                // 다음 장애물 벽 생성하기
                 if(this.walls[i].canGenerateNext){
                     // 더이상 생성 막기
                     this.walls[i].generatedNext = true;
 
                     // 새로운 장애물 만들기
                     this.walls.push(new Wall({ type: Math.random() > 0.3 ? 'SMALL' : 'BIG' }));
+                }
+
+                // 벽과 플레이어 충돌 감지하기
+                if(this.walls[i].isColliding(this.player.boundingBox)){
+                    // console.log("colliding!!!!");
+                    
+                    // 충돌(true)시 바운딩박스 색상 변경
+                    this.player.boundingBox.color = `rgba(255, 0, 0, 0.3)`;
+                }
+                else{
+                    this.player.boundingBox.color = `rgba(0, 0, 255, 0.3)`;
                 }
             }
             // 배열 잘 추가되고 지워지는지 확인하기

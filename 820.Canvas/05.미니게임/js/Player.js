@@ -1,5 +1,6 @@
 // 플레이어 클래스 js
 import App from "./App.js";
+import BoundingBox from "./BoundingBox.js";
 
 export default class Player {
     constructor(){
@@ -10,9 +11,12 @@ export default class Player {
         this.y = App.height * 0.5;
         this.width = 130;
         this.height = this.width * ( 96 / 140);
+
+        // 충돌 감지용 바운딩 박스
+        this.boundingBox = new BoundingBox(this.x + 10, this.y + 16, this.width - 20, this.height - 20);
+
         // 플레이어 이미지 한 프레임 넘버 (0~14번 프레임)
         this.frameX = 0;
-
         // 프레임 애니메이션 속도 조절
         this.counter = 0;
 
@@ -45,6 +49,9 @@ export default class Player {
         this.vy += this.gravity;
         this.y += this.vy;
 
+        // 바운딩박스 y좌표값 업데이트하기
+        this.boundingBox.y = this.y + 16;
+
     }
     draw(){
         // 그릴 앱 불러오기
@@ -55,5 +62,7 @@ export default class Player {
             this.x, this.y,   // 시작하는 x와 y위치 
             this.width, this.height    // width, height
         );
+        // 바운딩 박스 그리기
+        this.boundingBox.draw();
     }
 }

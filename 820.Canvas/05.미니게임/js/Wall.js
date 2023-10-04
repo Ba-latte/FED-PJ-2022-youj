@@ -1,4 +1,5 @@
 import App from "./App.js";
+import BoundingBox from "./BoundingBox.js";
 import { randomNumBetween } from "./util.js";
 
 export default class Wall{
@@ -39,6 +40,10 @@ export default class Wall{
         this.generatedNext = false;
         // 다음 벽 생성할 시점 지정 : 0.8이상으로 올리면 플레이하기 너무 어려워짐
         this.gapNextX = App.width * randomNumBetween(0.6, 0.75);
+
+        // 충돌감지 바운딩박스 만들기
+        this.boundingBox1 = new BoundingBox(this.x + 30, this.y1 + 30, this.width - 60, this.height - 60);
+        this.boundingBox2 = new BoundingBox(this.x + 30, this.y2 + 30, this.width - 60, this.height - 60);
     }
 
     // 캔버스 밖으로 나갔는지 확인
@@ -52,11 +57,26 @@ export default class Wall{
             this.x + this.width < this.gapNextX
         )
     }
-
+    // 충돌 감지 메서드
+    isColliding(target){
+        return(
+            this.boundingBox1.isColliding(target) ||
+            this.boundingBox2.isColliding(target)
+        )
+    }
     update(){
         this.x += -6;
+
+        // 충돌감지용 바운딩박스 x좌표 업데이트하기
+        this.boundingBox1.x = this.x + 30;
+        this.boundingBox2.x = this.x + 30;
+        // this.boundingBox1.x = this.boundingBox2.x = this.x; // 위의 2줄 코드와 동일함
     }
     draw(){
+        // 테스트하기 위해 바운딩박스 위치 고정시키기
+        // this.x = 700;
+        // this.boundingBox1.x = this.boundingBox2.x = this.x + 30;
+
         App.ctx.drawImage(
             this.img,
             this.sx, 0, this.img.width * this.sizeX, this.img.height,
@@ -67,5 +87,9 @@ export default class Wall{
             this.sx, 0, this.img.width * this.sizeX, this.img.height,
             this.x, this.y2, this.width, this.height
         );
+
+        // 충돌감지용 바운딩박스 그리기
+        this.boundingBox1.draw();
+        this.boundingBox2.draw();
     }
 }
