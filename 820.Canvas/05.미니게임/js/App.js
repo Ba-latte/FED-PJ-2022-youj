@@ -1,4 +1,5 @@
 import Background from "./Background.js";
+import Coin from "./Coin.js";
 import Player from "./Player.js";
 import Wall from "./Wall.js";
 
@@ -27,6 +28,12 @@ export default class App{
 
         // 윈도우가 리사이즈될 때 리사이즈 함수 호출하기
         window.addEventListener('resize', this.resize.bind(this));
+
+        // 코인 만들기 : 내부 코드는 테스트용
+        this.coins = [new Coin( 
+            // 700 + this.walls[0].width / 2,  // x : 벽의 x좌표 - width의 절반
+            // this.walls[0].y2 - this.walls[0].gapY / 2  // y : 벽의 y2좌표 - gapY의 절반값
+        )];
     }
 
 
@@ -68,7 +75,7 @@ export default class App{
                 background.draw();
             })
 
-            // 장애물 벽 생성
+            // 장애물 벽 생성 관련
             for(let i = this.walls.length - 1; i >= 0; i--){
                 this.walls[i].update();
                 this.walls[i].draw();
@@ -87,7 +94,15 @@ export default class App{
                     this.walls[i].generatedNext = true;
 
                     // 새로운 장애물 만들기
-                    this.walls.push(new Wall({ type: Math.random() > 0.3 ? 'SMALL' : 'BIG' }));
+                    const newWall = new Wall({ type: Math.random() > 0.3 ? 'SMALL' : 'BIG' });
+                    this.walls.push(newWall);
+
+                    // 코인 생성하기
+                    if(Math.random() < 0.5) {
+                        const x = newWall.x + newWall.width / 2;
+                        const y = newWall.y2 - newWall.gapY / 2;
+                        this.coins.push(new Coin(x, y, newWall.vx));
+                    }
                 }
 
                 // 벽과 플레이어 충돌 감지하기
@@ -108,6 +123,16 @@ export default class App{
             this.player.update();
             this.player.draw();
 
+            // 코인 관련
+            for(let i = this.coins.length - 1; i >= 0; i--){
+                this.coins[i].update();
+                this.coins[i].draw();
+
+                // 코인이 화면 밖으로 나갔을 때 배열에서 지워주기
+                if(this.coins[i].x + this.coins[i].width < 0){
+                    this.coins.splice(i, 1);
+                }
+            }
             
             ///////////////////////////////////////////
             then = now - (delta % App.interval);

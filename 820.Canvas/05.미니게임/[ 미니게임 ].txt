@@ -1462,3 +1462,332 @@ export default class Player {
 
 
 
+[ 코인 클래스 만들기 ]
+-장애물 윗벽과 아랫벽 사이 중간에 코인 배치하기
+-랜덤 확률에 따라서 벽 사이의 중간에 배치하기
+-박스간 충돌 감지 기능을 통해서 벽에 충돌하면 게임 상태 바꾸고, 코인에 충돌시 점수 획득, 충돌된 코인을 코인즈 배열에서 제거하기!
+
+-코인은 스프라이트 애니메이션 효과로 플레이어 만드는 것과 비슷함!
+-
+
+
+<코인 크래스 만들기>
+-코인.js파일 만들고 기본형식 따다가 그대로 쓰기(ex, df, cl, cion{})
+-컨스트럭터랑 업데이트 메서드 만들기
+-에셋폴더에서 이미지 가져오기
+-html파일에 코인 이미지 가져오기
+
+-다시 coin.js로 돌아와서 이미지 불러오기
+:     constructor(){
+        this.img = document.querySelector("#coin-img");
+    }
+
+-드로우 메서드 만들고, app불러와서 그리기
+:     draw(){
+        App.ctx.drawImage(
+            this.img,
+            100, 100,
+            100, 100
+        );
+    }
+
+-그리고 화면에 표시해주기 위해서 app.js로 가서 컨스트럭터 안에다가 코인 배열 만들기!
+-컨스트럭터에 코인즈라는 배열 만들고 거기서 코인 인스턴스 하나 만들기
+:     constructor(){
+        // 코인 만들기
+        this.coins = [new Coin()];
+    }
+-우선 하나만 만들어주기!
+-원래는 빈 배열에 랜덤한 타이밍마다 생성해서 배열에 넣을 것이지만 일단 테스트로 하나 만든 것임!
+
+
+
+-그리고 프레임 함수 안에 맨 아래다가 코인 관련  주석 쓰고 for문 역순으로 월즈 돌았던 것처럼 반복문쓰고, 업데이트와 드로우 메서드를 순차적으로 호출해서 실행시키기
+: const frame = ()=>{
+           for(let i = this.coins.length - 1; i >= 0; i--){
+                this.coins[i].update();
+                this.coins[i].draw();
+            }
+}
+
+
+
+
+-스프라이트 애니메이션 만들기 위해서 코인.js로 돌아와서 드로우이미지()함수에다가 sx, sy, sw, sh를 부여하기
+:     draw(){
+        App.ctx.drawImage(
+            this.img,
+            0, 0, this.img.width / 10, this.img.height,
+            100, 100, 100, 100
+        );
+
+
+-이러면 첫번쨰 코인 이미지가 잘 잘려서 나옴!
+
+-이제 컨스트럭터 안에다가 스프라이트 애니메이션을 위해서, this.frame 선언하고 0으로 할당하기
+:     constructor(){
+        this.img = document.querySelector("#coin-img");
+
+        this.frameX = 0;
+    }
+
+
+-드로우 메서드에서 이미지 자르는 위치를 this.img.width / 10 * this.frameX를 하면 sx에다가 0 넣은 것과 똑같은 결과가 나온다!
+:     draw(){
+        App.ctx.drawImage(
+            this.img,
+            this.img.width / 10 * this.frameX, 0, // sx, sy
+            this.img.width / 10, this.img.height, // sw, sh
+            100, 100, 100, 100
+        );
+    }
+
+
+
+-이제 업데이트 메서드에서 this.frameX를 1씩 더해주는데, 만약 이 프레임엑스가 10이 되면 아래 드로우이미지에서 보는것처럼 프레임x가 10이 되면 이미지를 자를 sx의 값이 이미지의 끝지점이 되니까 프레임을 그리기전에 framex를 다시 0으로 초기화하면 된다
+:     update(){
+        // 프레임넘버 증가해서 애니메이션 만들기
+        this.frameX += 1;
+        // 만약 프레임넘버 한계수 도달하면 처음으로 되돌리기
+        if(this.frameX === 10) this.frameX = 0;
+    }
+
+
+
+-이 업데이트 코드 간결하게 작성 위해 this.frameX = ++this.frameX % 10; 이라고 한줄로 작성함
+
+
+-이제 너무 빠르게 돌기 때문에 프레임 넘어가는 속도를 조절하기 위해서 컨스트럭터에서 카운터 만들어주기
+: constructor(){
+  this.counter = 0;
+}
+
+-그리고 업데이트 메서드에서 프레임넘버 증가하기 전에, 카운터변수 1씩 증가시키고, 이 값이 2의 배수가 될 때 프레임넘버 증가하도록 하기
+:     update(){
+        if(++this.counter % 2 === 0){
+            // 프레임넘버 증가해서 애니메이션 만들기
+            this.frameX += 1;
+            // 만약 프레임넘버 한계수 도달하면 처음으로 되돌리기
+            if(this.frameX === 10) this.frameX = 0;
+            // 위의 2줄 코드 한줄로 줄이면 : this.frameX = ++this.frameX % 10;
+        }
+    }
+
+
+->>이렇게 하면 속도가 2분의 1이 됨!
+
+->>근데 이것도 빨라서 5분의 1로 줄임! 
+
+
+-이제 스프라이트 애니메이션 작업 끝임
+
+
+
+-드로우이미지 함수에 있는 x,y,w,h를 이제 컨스트럭터로 빼서 변수화하기
+-this.x,y는 바깥에서 받아오기 위해서 인자로 받아오기
+-this.width는 100으로, 높이도 100 그대로 상수값 넣어서 선언하기
+:     constructor(x, y){
+        this.img = document.querySelector("#coin-img");
+
+        this.x = x;
+        this.y = y;
+        this.width = 100;
+        this.height = 100;
+
+
+
+-그리고 드로우 메서드 안의 드로우이미지 함수안의 100이라고 상수 박아놓은 것들 변수로 처리하기
+:         App.ctx.drawImage(
+            this.img,
+            this.img.width / 10 * this.frameX, 0, // sx, sy
+            this.img.width / 10, this.img.height, // sw, sh
+            this.x, this.y, this.width, this.height
+        );
+
+
+
+
+<이제는 코인을 벽사이에 배치하기!>
+-일단 임의로 배치해두기 위해서 wall.js로 가서 드로우 메서드 상단에 this.x = 700이라고 하고, 이 업데이트 함수의 코드 복사해서 넣기
+:     draw(){
+        // 테스트하기 위해 바운딩박스 위치 고정시키기
+        this.x = 700;
+        this.boundingBox1.x = this.boundingBox2.x = this.x + 30;
+
+
+-이렇게 만든 테스트용 벽에 코인 배치할것임!
+
+-이제 코인을 만들 때, app.js파일의 컨스트럭터에 가보면 거기서 코인을 만들어내는데.... 이때 생성할 때 인자를 보내줘야함
+-근데 위치는 벽의 가운데에 있어야함!
+-이 x좌표는... 벽의 x좌표에서 가로사이즈의 절반을 더하면 되고
+-y는 벽의 y2좌표에서 gapY의 절반을 빼면 가운데 x,y좌표가 나옴!
+
+-이제 이걸 쓰면
+700에 첫번째 벽의 가로값 / 2를 하면되고
+-y값은 0번째 벽의 y2값에서 0번째 벽의 gapY / 2를 해주면 된다
+:         // 코인 만들기
+        this.coins = [new Coin( 
+            700 + this.walls[0].width / 2,  // x : 벽의 x좌표 - width의 절반
+            this.walls[0].y2 - this.walls[0].gapY / 2  // y : 벽의 y2좌표 - gapY의 절반값
+        )];
+
+
+-근데 이렇게했는데.. 코인이 가운데에 위치하지 않음!
+-이 이유는~ 코인을 그리는 좌표값이 0,0이기 때문! 그래서 코인이 살짝 더 오른쪽 아래쪽에 위치하게 된 것임
+
+-간단하게 코인클래스로 돌아와서 this.x좌표에 - 자기자신 가로값의 절반, this.y좌표에 자기자신의 높이값의 절반만큼 위로 올려주면 된다
+(css할때 마오마오 했던것처럼)
+:         App.ctx.drawImage(
+            this.img,
+            this.img.width / 10 * this.frameX, 0, // sx, sy
+            this.img.width / 10, this.img.height, // sw, sh
+            this.x - this.width / 2, this.y - this.height / 2, this.width, this.height
+        );
+
+
+
+-이렇게 하면 가운데 오게 됨!
+
+-근데 코인이 너무 커서... 사이즈를 줄여줌
+:     constructor(x, y){
+        this.img = document.querySelector("#coin-img");
+
+        this.x = x;
+        this.y = y;
+        this.width = 50;
+        this.height = 50;
+
+
+
+
+<이제 랜덤으로 생성되는 벽에다가 코인 넣어보기>
+-이제 app.js로 가서 임의로 만든 코인 배열을 지우고, 
+-wall.js에서 테스트용으로 만들었던 코드도 지우기
+
+
+-이제 코인생성하는 코드는 어디에 넣어야 할까?
+=>바로 app.js의 벽을 생성하는 코드 안임!!!
+-새로운 벽이 생성될 때에 랜덤 확률로 코인 생성해주면됨!
+-그 코드 아랫줄에다가 코인생셩관련 주석을 달고 if문으로 생성 제어해주면 됨
+:                     // 코인 생성하기
+                    if(Math.random() < 1) {
+                        const x = 
+                        const y =
+                        this.coins(new Coin(x, y));
+                    }
+
+
+-근데 이때 if조건에 랜덤수가 1보다 작으면 이라고 해서 항상 나오게 테스트 코드로 짰음
+-이제 x와 y의 좌표는 새로 생성된 벽의 좌표를 기준으로 잡으면 됨
+
+
+-지금은 this.walls.push()로 wall인스턴스를 다이렉트로 직접 만들고 있는데, 이제는 이렇게하지않고 위에 변수로 빼서 새 인스턴스를 담아준 다음, 이 변수를 푸시해주도록 하기
+:                    // 새로운 장애물 만들기
+                    const newWall = new Wall({ type: Math.random() > 0.3 ? 'SMALL' : 'BIG' });
+                    this.walls.push(newWall);
+
+
+-이제 코인생성하는 if문안에서 x는 newWall.x의 newWall.widht의 절반을 나누기 한 것을 담으면 된다
+:                     // 코인 생성하기
+                    if(Math.random() < 1) {
+                        const x = newWall.x + newWall.width / 2;
+                        const y = newWall.y2 - newWall.gapY / 2;
+                        this.coins(new Coin(x, y));
+                    }
+
+
+->>이렇게해도 지금은 코인이 안나오는데 그 이유는..코인을 처음 그리는건 성공했는데 업데이트 안시켜주기 떄문임!!
+-벽이 생성되는 건 화면안보이는 곳에서 ㅁ나들어지니까...
+
+
+-이제 다시 코인.js로 돌아와서, 여기서 업데이트 메서드에서 x값을 계속 바꿔주면 된다
+:     update(){
+        if(++this.counter % 5 === 0){
+            // 프레임넘버 증가해서 애니메이션 만들기
+            this.frameX += 1;
+            // 만약 프레임넘버 한계수 도달하면 처음으로 되돌리기
+            if(this.frameX === 10) this.frameX = 0;
+            // 위의 2줄 코드 한줄로 줄이면 : this.frameX = ++this.frameX % 10;
+        }
+        
+        this.x += this.vx;
+    }
+
+-그리고 이때 vx는 컨스트럭터에 vx선언하면서 인자로도 받아오도록 하기
+:     constructor(x, y, vx){
+        this.vx = vx;
+    }
+
+
+-그리고 app.js에서 코인생성 관련 코드에서..코인을 만들때 새로운 인자로 vx를 받아오는데, 이 vx도 새로운 벽의vx를 받아오면 된다
+:                     // 코인 생성하기
+                    if(Math.random() < 1) {
+                        const x = newWall.x + newWall.width / 2;
+                        const y = newWall.y2 - newWall.gapY / 2;
+                        this.coins(new Coin(x, y, newWall.vx));
+                    }
+
+
+-wall.js로 가서 업데이트 메서드보면..."this.x += -6;"이렇게... 현재 x값은 -6이라고 다이렉트로 들어가있음;; 이 값을 this.vx로 바꾸고 컨스트럭터 안에다가 vx를 초기화해주기
+: 컨스트럭터 -> this.vx = -6;
+    update(){
+        this.x += this.vx;
+}
+
+
+-그리고 아까 코인생성하는데서 실수한거.. push로 배열에 생성해서 넣어야함~!
+: if(Math.random() < 1) {
+                        const x = newWall.x + newWall.width / 2;
+                        const y = newWall.y2 - newWall.gapY / 2;
+                        this.coins.push(new Coin(x, y, newWall.vx));
+                    }
+
+
+
+-이렇게 하면 코인이 2번째 벽부터 가운데에서 잘 생성되는 것을 볼 수 있음!
+
+-근데 이렇게만 하면 문제가......... 코인을 없애주는 코드를 안 만들어서...코인이 아예 안보이는 시점에서는 제거를 해줘야한다!!
+
+
+
+<안보이게 되면 코인 배열에서 코인 지우기>
+-app.js에서 for문 돌면서 코인 업데이트하고 드로우하는 코인 관련 부분에서 맨 아래쪽에다가 if()문 써서.. 코인의 x좌표 + 코인의 width가 0보다 작아지는 시점이 되면 = 안보이게 되면
+스플라이스해서 i번째에서 1개만 지워주기
+:             // 코인 관련
+            for(let i = this.coins.length - 1; i >= 0; i--){
+                this.coins[i].update();
+                this.coins[i].draw();
+
+                // 코인이 화면 밖으로 나갔을 때 배열에서 지워주기
+                if(this.coins[i].x + this.coins[i].width < 0){
+                    this.coins.splice(i, 1);
+                }
+            }
+
+
+
+-이러면 이제 배열에서 잘 제거 됨!
+
+
+
+-이제 확률을 1에서 0.5로 조절해주면 된다!
+:                 // 다음 장애물 벽 생성하기
+                if(this.walls[i].canGenerateNext){
+                    // 더이상 생성 막기
+                    this.walls[i].generatedNext = true;
+
+                    // 새로운 장애물 만들기
+                    const newWall = new Wall({ type: Math.random() > 0.3 ? 'SMALL' : 'BIG' });
+                    this.walls.push(newWall);
+
+                    // 코인 생성하기
+                    if(Math.random() < 0.5) {
+                        const x = newWall.x + newWall.width / 2;
+                        const y = newWall.y2 - newWall.gapY / 2;
+                        this.coins.push(new Coin(x, y, newWall.vx));
+                    }
+                }
+
+
+
+

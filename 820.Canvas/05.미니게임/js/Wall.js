@@ -36,6 +36,8 @@ export default class Wall{
         // 아랫벽이 시작하는 y
         this.y2 = this.y1 + this.height + this.gapY;
 
+        this.vx = -6;
+
         // 다음 벽 생성 가능여부
         this.generatedNext = false;
         // 다음 벽 생성할 시점 지정 : 0.8이상으로 올리면 플레이하기 너무 어려워짐
@@ -65,7 +67,7 @@ export default class Wall{
         )
     }
     update(){
-        this.x += -6;
+        this.x += this.vx;
 
         // 충돌감지용 바운딩박스 x좌표 업데이트하기
         this.boundingBox1.x = this.x + 30;
@@ -73,7 +75,7 @@ export default class Wall{
         // this.boundingBox1.x = this.boundingBox2.x = this.x; // 위의 2줄 코드와 동일함
     }
     draw(){
-        // 테스트하기 위해 바운딩박스 위치 고정시키기
+        // // 테스트하기 위해 바운딩박스 위치 고정시키기
         // this.x = 700;
         // this.boundingBox1.x = this.boundingBox2.x = this.x + 30;
 
