@@ -131,6 +131,15 @@ export default class App{
                 // 코인이 화면 밖으로 나갔을 때 배열에서 지워주기
                 if(this.coins[i].x + this.coins[i].width < 0){
                     this.coins.splice(i, 1);
+                    // 코인 지운 이후에 아래 코드 실행되지 않도록 막기
+                    continue
+                }
+
+                // 코인과 플레이어 간의 충돌 감지
+                if(this.coins[i].boundingBox.isColliding(this.player.boundingBox)){
+                    console.log("플레이어와 코인 충돌!");
+                    // 충돌된 코인을 배열에서 지우기
+                    this.coins.splice(i, 1);
                 }
             }
             

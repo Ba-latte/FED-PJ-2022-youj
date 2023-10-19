@@ -1791,3 +1791,91 @@ export default class Player {
 
 
 
+[ Coin과 플레이어 충돌 감지]
+-코인 클래스 마저 완성하기
+-이미 바운딩박스 만들어뒀으니까, 코인.클래스에서 바운딩박스를 불러와서 생성하기
+
+-Coin.js의 constructor에서 this.boundingBox 생성하기
+: this.boundingBox = new BoundingBox();
+
+-이 바운딩박스 인자로 x, y, 가로, 세로값 넣기
+: this.boundingBox = new BoundingBox(this.x, this.y, this.width, this.height);
+
+
+-draw()메서드에서 코인이 그려지는 곳 아래쪽에서 바운딩 박스도 그려주기
+: this.boundingBox.draw();
+-이때 주의해야할 점이 그려진 this.boudingBox도 처음 값만 제대로 들어간 것이지, 업데이트가 제대로 이뤄지지 않아서 안보이게 됨
+-마찬가지로 update()메서드에서 x방향으로 움직이는 것 업데이트해주기
+: this.boundingBox.x = this.x;
+
+-그리고 확인해보면 잘 그려지지만 위치가 맞지 않아서, 위치를 수정해줘야함
+-Coin.js의 draw()메서드에서 코인을 그릴 때 위치 값을 그냥 this.x, this.y로 한 게 아니고 여기서 this.x - this.width / 2 이런식으로 값을 조정했기 때문임
+-그래서 코인의 실제 x,y좌표가 좀 달라진것임
+
+-그러니까 draw()메서드의 App.ctx.drawImage()안에서 값을 임의로 조정했던 것을, 그냥 this.x라고 깔끔하게 쓰고, constructor에서 this.x에서 this.width / 2; 이런식으로 여기서 값을 처음부터 조정하도록 만들기
+: this.x = x - this.width / 2;
+        this.y = y - this.height / 2;
+
+-이렇게 하면 기존에는 this.widht가 this.x,y의 밑에 줄에 있었는데, 상단에서 갖다 써야하므로! 위치를 더 올려주도록 하자
+: this.width = 50;
+        this.height = 50;
+        
+        this.x = x - this.width / 2;
+        this.y = y - this.height / 2;
+
+
+-이렇게 하면 코인과 충돌감지 박스가 잘 맞게 됨
+
+
+
+-이제 App.js에서 코인과 플레이어 충돌 감지를 해줄 것임
+-벽과 충돌하는 것과 마찬가지로, 코인도 코인 인스턴스 배열에서 코인 인스턴스를 splice로 지우고나면, 그 아래쪽 코드가 실행되면 안되기 때문에, continue를 써서 다음 인덱스로 코드가 진행되도록 만들어두기
+: if(this.coins[i].x + this.coins[i].width < 0){
+                    this.coins.splice(i, 1);
+                    // 코인 지운 이후에 아래 코드 실행되지 않도록 막기
+                    continue
+                }
+
+- 그리고 코인 관련된 코드블럭 안에서 i번째의 코인의 바운딩박스가 충돌했는지를 isColliding으로 플레이어와 충돌했는지 확인해보기
+: for(let i = this.coins.length - 1; i >= 0; i--){
+                this.coins[i].update();
+                this.coins[i].draw();
+
+                // 코인이 화면 밖으로 나갔을 때 배열에서 지워주기
+                if(this.coins[i].x + this.coins[i].width < 0){
+                    this.coins.splice(i, 1);
+                    // 코인 지운 이후에 아래 코드 실행되지 않도록 막기
+                    continue
+                }
+
+                // 코인과 플레이어 간의 충돌 감지
+                if(this.coins[i].boundingBox.isColliding(this.player.boundingBox)){
+                    console.log("플레이어와 코인 충돌!");
+                }
+            }
+
+
+->잘 날아다니면서 코인 충돌한 것 콘솔창에 찍힘~~
+
+-여기에서 먹은 코인은 배열에서 제거하고 게임에서 사라지게 만드는 동시에 점수 올라가도록 하면 끝!
+
+-우선 코인을 제거해주도록 하자
+
+-코인과 플레이어간의 충돌 감지하는 if문 블럭에서 true가 나서 충돌이 된다면, this.coin.splice()로 해당 코인의 인덱스번호 감지해서 해당 코인만! 제거하기
+: if(this.coins[i].boundingBox.isColliding(this.player.boundingBox)){
+                    console.log("플레이어와 코인 충돌!");
+                    // 충돌된 코인을 배열에서 지우기
+                    this.coins.splice(i, 1);
+                }
+
+
+
+-이제 boundingBox로 충돌 감지하는 것 다 확인했으니까 모든 곳에서 boundingBox를 그린 것 주석처리해서 안보이게 만들기!
+: Coin.js, Player.js, Wall.js에서 this.boundingBox.draw() 주석하기
+
+
+
+
+
+[ 스코어 Class 만들기 ]
+
