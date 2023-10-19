@@ -1,6 +1,7 @@
 import Background from "./Background.js";
 import Coin from "./Coin.js";
 import Player from "./Player.js";
+import Score from "./Score.js";
 import Wall from "./Wall.js";
 
 export default class App{
@@ -34,6 +35,9 @@ export default class App{
             // 700 + this.walls[0].width / 2,  // x : 벽의 x좌표 - width의 절반
             // this.walls[0].y2 - this.walls[0].gapY / 2  // y : 벽의 y2좌표 - gapY의 절반값
         )];
+
+        // 점수판 만들기
+        this.score = new Score();
     }
 
 
@@ -137,11 +141,18 @@ export default class App{
 
                 // 코인과 플레이어 간의 충돌 감지
                 if(this.coins[i].boundingBox.isColliding(this.player.boundingBox)){
-                    console.log("플레이어와 코인 충돌!");
+                    // console.log("플레이어와 코인 충돌!");
                     // 충돌된 코인을 배열에서 지우기
                     this.coins.splice(i, 1);
+                    // 코인 갯수 상태값 증가시키기
+                    this.score.coinCount += 1;
                 }
             }
+
+
+            // 점수판 관련
+            this.score.update();
+            this.score.draw();
             
             ///////////////////////////////////////////
             then = now - (delta % App.interval);
