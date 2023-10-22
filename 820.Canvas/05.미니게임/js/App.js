@@ -1,5 +1,6 @@
 import Background from "./Background.js";
 import Coin from "./Coin.js";
+import GameHandler from "./GameHandler.js";
 import Player from "./Player.js";
 import Score from "./Score.js";
 import Wall from "./Wall.js";
@@ -21,14 +22,27 @@ export default class App{
             new Background({ img : document.querySelector("#bg1-img"), speed: -4 }),
         ];
 
+        // 장애물, 플레이어, 코인, 점수판 만드는 코드를 모두 reset()메서드로 옮김
+
+        // 게임 상태관리
+        // this.gameHandler = new GameHandler();
+        // 게임 상황에 따라 변하는 거리, 코인갯수 값을 가져가기 위해 this를 써서 app전체를 인자로 받아감
+        this.gameHandler = new GameHandler(this);
+
+        // 리셋 함수 호출하여 초기화
+        this.reset();
+    }
+
+    // 게임 리셋 함수
+    reset(){
         // 장애물 만들기
         this.walls = [new Wall({ type: 'SMALL' })];
 
         // 플레이어 만들기
         this.player = new Player();
 
-        // 윈도우가 리사이즈될 때 리사이즈 함수 호출하기
-        window.addEventListener('resize', this.resize.bind(this));
+        // 윈도우가 리사이즈될 때 리사이즈 함수 호출하기 👉 style.css에서 반응형으로 수정함
+        // window.addEventListener('resize', this.resize.bind(this));
 
         // 코인 만들기 : 내부 코드는 테스트용
         this.coins = [new Coin( 
@@ -40,17 +54,24 @@ export default class App{
         this.score = new Score();
     }
 
-
-    // 리사이즈 함수
-    resize(){
+    // 초기화 함수 👉 리사이즈 함수 필요없어져서 개명
+    init(){
         App.canvas.width = App.width * App.dpr;
         App.canvas.height = App.height * App.dpr;
         App.ctx.scale(App.dpr, App.dpr);
 
         // 화면 비율 정하기
-        const width = innerWidth > innerHeight ? innerHeight * 0.9 : innerWidth * 0.9;
-        App.canvas.style.width = width + 'px';
-        App.canvas.style.height = width * (3 / 4) + 'px';
+        // const width = innerWidth > innerHeight ? innerHeight * 0.9 : innerWidth * 0.9;
+        // App.canvas.style.width = width + 'px';
+        // App.canvas.style.height = width * (3 / 4) + 'px';
+
+        // 배경이미지 생성
+        this.backgrounds.forEach(background => {
+            // 배경이미지 움직이도록 업데이트하기
+            background.update();
+            // 배경이미지 그리기
+            background.draw();
+        })
 
     }
 
@@ -69,15 +90,16 @@ export default class App{
             if(delta < App.interval) return;
             ///////////////////////////////////////////
 
+            // 게임 상태관리 변수값에 따라 화면 보이기 : 플레잉 상태가 아니면 돌려보내기
+            if(this.gameHandler.status !== "PLAYING") return;
+
             App.ctx.clearRect(0, 0, App.width, App.height);
 
-            // 배경이미지 생성
+            // 배경 관련
             this.backgrounds.forEach(background => {
-                // 배경이미지 움직이도록 업데이트하기
                 background.update();
-                // 배경이미지 그리기
                 background.draw();
-            })
+            });
 
             // 장애물 벽 생성 관련
             for(let i = this.walls.length - 1; i >= 0; i--){
@@ -110,14 +132,22 @@ export default class App{
                 }
 
                 // 벽과 플레이어 충돌 감지하기
+                // 이전 코드
+                // if(this.walls[i].isColliding(this.player.boundingBox)){
+                //     // console.log("colliding!!!!");
+                    
+                //     // 충돌(true)시 바운딩박스 색상 변경
+                //     this.player.boundingBox.color = `rgba(255, 0, 0, 0.3)`;
+                // }
+                // else{
+                //     this.player.boundingBox.color = `rgba(0, 0, 255, 0.3)`;
+                // }
+                // setter로 게임 상태 변경하는 코드
                 if(this.walls[i].isColliding(this.player.boundingBox)){
                     // console.log("colliding!!!!");
-                    
-                    // 충돌(true)시 바운딩박스 색상 변경
-                    this.player.boundingBox.color = `rgba(255, 0, 0, 0.3)`;
-                }
-                else{
-                    this.player.boundingBox.color = `rgba(0, 0, 255, 0.3)`;
+                    // 충돌(true)시 게임 상태 변수 바꿔서 종료 화면 보여주기
+                    this.gameHandler.status = "FINISHED";
+                    break;
                 }
             }
             // 배열 잘 추가되고 지워지는지 확인하기
@@ -126,6 +156,11 @@ export default class App{
             // 플레이어 관련
             this.player.update();
             this.player.draw();
+
+            // 플레이어가 화면 밖으로 나갔을 경우 = 벽과의 충돌과 동일하게 처리
+            if(this.player.y >=  App.height || this.player.y + this.player.height <= 0){
+                this.gameHandler.status = "FINISHED";
+            }
 
             // 코인 관련
             for(let i = this.coins.length - 1; i >= 0; i--){

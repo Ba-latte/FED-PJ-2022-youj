@@ -13,8 +13,67 @@ html, body{
 
 canvas{
     /* border: 1px solid red; */
+    width: 100vmin;
+    height: 75vmin;
 }
 
 .asset-img{
     display: none;
+}
+
+main{
+    position: relative;
+    overflow: hidden;
+}
+.ready-screen,
+.finish-screen{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    /* 유저셀렉트 기본기능 막기 */
+    user-select: none;
+}
+
+.title-img{
+    width: 60vmin;
+    margin-bottom: 15vmin;
+
+    /* 애니메이션 전 초기값 설정 */
+    opacity: 0;
+    transform: scale(2);
+}
+.play-img,
+.replay-img{
+    width: 11vmin;
+    cursor: pointer;
+
+    /* 애니메이션 초기값 */
+    transform: scale(0);
+}
+
+.finish-screen{
+    color: #fff;
+    font-family: "Nanum Pen Script";
+
+    /* 애니메이션 초기값 */
+    opacity: 0;
+    pointer-events: none;
+}
+.finish-screen > .distance{
+    font-size: 15vmin;
+}
+.finish-screen > .coin{
+    margin-bottom: 8vmin;
+    font-size: 8vmin;
+    color: gold;
 }

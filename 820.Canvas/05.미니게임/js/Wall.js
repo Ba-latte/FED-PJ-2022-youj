@@ -91,7 +91,7 @@ export default class Wall{
         );
 
         // 충돌감지용 바운딩박스 그리기
-        this.boundingBox1.draw();
-        this.boundingBox2.draw();
+        // this.boundingBox1.draw();
+        // this.boundingBox2.draw();
     }
 }

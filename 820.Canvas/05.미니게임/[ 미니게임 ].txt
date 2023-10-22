@@ -2053,3 +2053,655 @@ export default class Player {
 
 
 
+[ 게임 상태에 따른 UI/UX 작업하기 ]
+-지금까지는 게임이 진행되는 화면을 만든 것이었음!
+-이제 게임 시작전, 도중, 후를 만들 것임
+
+-게임 상태에 따라 화면을 다르게 보여주고 싶을 때 '게임 핸들러'라는 클래스를 통해서 상태와 화면의 ui를 함께 관리하면 됨!
+
+<게임 핸들러 클래스 만들기>
+-js파일 안에 'gameHandler라는 파일 만들고 클래스 기본 세팅하기
+: export default class GameHandler{
+    constructor(){
+        
+    }
+}
+
+
+-이 안에 this._status'라는 이름으로 "READY"라는 문자형 값을 넣어줌
+-이 변수가 가장 중요함
+    constructor(){
+        this._status = "READY"; // READY, PLAYING, FINISHED
+    }
+-여기에는 READ, PLAYING, FINISHED 이렇게 3가지 상태값을 넣을 것임
+-제일 처임엔 레디상태고, 이때 캔버스 화면을 z인덱스로 더 위에 덮는 div엘리먼트와 시작하기 버튼을 넣을 것임
+-그러면 이제 시작하기 버튼을 클릭하면 상태값을 플레잉으로 바꿔주고 캔버스가 돌아가기 시작함!
+-게임진행하다가 플레이어가 벽에 충돌하거나 화면 밖으로 나가면 게임상태를 피니시드로 바꿔줌!
+-그러면 이제 숨겨뒀던 피니시드 화면을 보여줄 것임!
+
+
+
+-App.js로 가서 컨스트럭터에다가 this.gameHandler변수를 만들고 게임핸들러 인스턴스를 저장해줌
+: this.gameHandler = new GameHandler();
+
+-하단에 프레임함수 안에서 배경을 그리기 전에! clearRect() 코드 위쪽에다가 아래의 코드 작성하기
+: // 게임 상태관리 변수값에 따라 화면 보이기 : 플레잉 상태가 아니면 돌려보내기
+            if(this.gameHandler.status !== "PLAYING") return;
+
+            App.ctx.clearRect(0, 0, App.width, App.height);
+
+->>이렇게 하면 이제 게임 상태관리 변수에 플레잉이 안 들어있으면 화면이 안보임
+->>상태값이 플레잉이 되면 잘보임!
+🔥🔥🔥주의🔥🔥🔥근데 지금 게임핸들러안에서 선언한 변수는 _status라 했는데, App.js의 렌더함수 안에서는 그냥 status라고 썼음
+-이건 이따 게터와 세터를 사용하면서 일치시킬 것이므로 일단 이렇게 다르게 해둠!!
+
+
+<gui작업하기>
+-html파일로 가서, 만들어뒀던 canvas태그를 main으로 감싸기
+-그리고 새로 section태그 만들고 클래스로 ready-screen을 쓰기
+:     <main>
+        <section class="ready-screen">
+
+        </section>
+        <canvas></canvas>
+    </main>
+
+-이제 섹션태그 안에다가 타이틀과 플레이 이미지를 가져와서 넣어두기
+: <section class="ready-screen">
+            <!-- 타이틀 -->
+            <img src="./assets/title.png" class="title-img">
+            <!-- 플레이 버튼 이미지 -->
+            <img src="./assets/play.svg" class="play-img">
+        </section>
+
+
+-그리고 이제 스타일.css로 가서 스타일링 해주기
+-vmin은 현재 스크린의 뷰포트의 vw와 vh중에서 더 짧은 쪽을 단위로 사용하는 것임
+-반대로 vmax는 더 큰쪽을 사용하는 것임
+: main{
+    position: relative;
+    overflow: hidden;
+}
+.ready-screen{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-img{
+    width: 60vmin;
+    margin-bottom: 15vmin;
+}
+.play-img{
+    width: 11vmin;
+    cursor: pointer;
+}
+
+
+
+🔥🔥vmin단위 쓰면서 App.js의 리사이즈쪽에서도 수정이 있었음🔥🔥
+<기존>
+// 화면 비율 정하기
+        const width = innerWidth > innerHeight ? innerHeight * 0.9 : innerWidth * 0.9;
+        App.canvas.style.width = width + 'px';
+        App.canvas.style.height = width * (3 / 4) + 'px';
+
+->이 부분 지우기
+
+<이후>
+-위의 코드 지우고 style.css에서 상단에 canvas요소에 width를 100vim, height를 75vmin;을 줬음
+-이렇게 쓰면 화면 비율을 4대3으로 유지 가능함
+: 
+canvas{
+    /* border: 1px solid red; */
+    width: 100vmin;
+    height: 75vmin;
+}
+
+->main보다도 위쪽에서 썼음!
+
+-이렇게 하면 리사에즈 이벤트가 필요 없어져서.... App.js에서 리사이즈이벤트 지우기
+: // 윈도우가 리사이즈될 때 리사이즈 함수 호출하기
+        window.addEventListener('resize', this.resize.bind(this));
+->이 코드 지우면 됨
+
+
+-그리고 App.js의 resize함수의 이름을..이젠 리사이즈 할 필요 없으니까.. init으로 바꿔줘버림!
+: init(){
+        App.canvas.width = App.width * App.dpr;
+        App.canvas.height = App.height * App.dpr;
+        App.ctx.scale(App.dpr, App.dpr);
+
+        // 화면 비율 정하기
+        // const width = innerWidth > innerHeight ? innerHeight * 0.9 : innerWidth * 0.9;
+        // App.canvas.style.width = width + 'px';
+        // App.canvas.style.height = width * (3 / 4) + 'px';
+
+    }
+
+
+-그리고 index.js파일에 가서도 로드 이벤트에서 resize()함수 호출한거 이름 바꿔주기
+: // 윈도우가 로드될 때 리사이즈 메서드 실행
+window.addEventListener('load', ()=>{
+    app.init();
+    app.render();
+});
+
+
+
+-그리고 지금 렌더링되는 게.... 렌더 함수에서 if조건문(게임 상태변수가 플레잉이 아닐때)에 막혀서 지금의 화면을 보여주고 있음
+-이렇게 되면 정말 너무 까만 바탕이라서 어색함
+-그래서 그 아래쪽에서 배경을 그려주는 코드를 아예 초기화 함수에서 처음에 바로 그려지게 하면 더 좋을거 같아서 init함수 안으로 이동함
+: App.ctx.clearRect(0, 0, App.width, App.height);
+            // 배경이미지 생성
+            this.backgrounds.forEach(background => {
+                // 배경이미지 움직이도록 업데이트하기
+                background.update();
+                // 배경이미지 그리기
+                background.draw();
+            })
+->>이렇게 render()함수 안에 있던 내용을
+
+: // 초기화 함수 👉 리사이즈 함수 필요없어져서 개명
+    init(){
+        App.canvas.width = App.width * App.dpr;
+        App.canvas.height = App.height * App.dpr;
+        App.ctx.scale(App.dpr, App.dpr);
+
+        // 화면 비율 정하기
+        // const width = innerWidth > innerHeight ? innerHeight * 0.9 : innerWidth * 0.9;
+        // App.canvas.style.width = width + 'px';
+        // App.canvas.style.height = width * (3 / 4) + 'px';
+
+        // 배경이미지 생성
+        this.backgrounds.forEach(background => {
+            // 배경이미지 움직이도록 업데이트하기
+            background.update();
+            // 배경이미지 그리기
+            background.draw();
+        })
+
+    }
+->>이렇게 초기화할 때 같이 그려주게 함
+-그리고 초기화될 때부터 움직일 필요 없으니까, 업데이트 함수 지워주기
+: init(){
+        App.canvas.width = App.width * App.dpr;
+        App.canvas.height = App.height * App.dpr;
+        App.ctx.scale(App.dpr, App.dpr);
+
+        // 배경이미지 생성
+        this.backgrounds.forEach(background => {
+            // 배경이미지 그리기
+            background.draw();
+        })
+
+    }
+
+->>이렇게 해주면 됨!!
+
+
+-이러면 이제 레디상태의 스크린 ui디자인이 끝남!!
+
+
+
+-이제 다시 게임핸들러.js로 돌아감
+-클래스 안에다가 get status와 set status를 만들기
+:     get status(){
+
+    }
+    set status(value){
+
+    }
+
+-이렇게 하고, 게터 안에서는 this._status를 리턴해주기
+:     get status(){
+        return this._status;
+    }
+
+-세터 안에서는 _status에 인자로 받아온 value값을 넣어주기
+:     set status(value){
+        this._status = value;
+    }
+
+
+-그리고 그 아래쪽에서 스위치문 돌며 벨류값에 따라서 케이스를 만들어주기
+-READY케이스가 들어오면, showReadyScreen()메서드를 실행해주기
+-그리고 이제 아래쪽에서 showReadyScreen() 메서드를 만들어주기
+: set status(value){
+        // 게임 상태 변수에 value값을 넣어 바꿔주기
+        this._status = value;
+
+        // value값에 따라 게임 상태 바꾸기
+        switch(value){
+            case "READY" : this.showReadyScreen();
+                break;
+        }
+    }
+    showReadyScreen(){
+        
+    }
+
+-바깥에서 스테이터스 값을 변경하거나 불러와서 참고할 때엔 게터와 세터를 쓰도록 함
+-데이터 함부로 못 변경하도록!!
+
+-그리고 맨처음에 첫화면 보여줄때 애니메이션 효과주려고 쇼레디스크린이라는 메서드 만든 것임
+-이제 이 메서드 위에 이닛메서드 만들어서 각종 필요한 엘리먼트들을 this로 저장하기
+: init(){
+        
+    }
+    // 첫 화면 보일 때 애니메이션 효과 부여
+    showReadyScreen(){
+        
+    }
+
+
+-ready-screen요소 가져오기
+-title이미지도 docu.qs해서 클래스로 가져오고, 마찬가지로 플레이버튼도 가져오기
+:  init(){
+        // 첫 화면 구성 요소 가져오기
+        this.readyScreen = document.querySelector(".ready-screen");
+        this.titleImage = this.readyScreen.querySelector(".title-img");
+        this.playBtn = this.readyScreen.querySelector(".play-img");
+    }
+
+-그리고 이제 애니메이션효과 주기 위해 gsap라이브러리를 가져와서 쓸 것임
+: 
+-버전은 일단 강의에서 사용하는 버전과 동일하게 3.11.0 버전을 가져와서 쓰지만, 최신 버전을 써도 문제가 없다면, 최신버전 쓰기
+-참고문헌 : https://cdnjs.com/libraries/gsap/3.11.0
+-코드 복사해서 index.html의 해드 태드안에다가 cdn붙여넣기
+: <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js" integrity="sha512-GQ5/eIhs41UXpG6fGo4xQBpwSEj9RrBvMuKyE2h/2vw3a9x85T1Bt0JglOUVJJLeyIUl/S/kCdDXlE/n7zCjIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+-그리고 showReadyScreen메서드에서 gsap.to()해서 애니메이션 시작하도록 만들 것임
+: showReadyScreen(){
+        gsap.to(this.titleImage);
+    }
+-이렇게 써두고, stytle.css파일로 가서 title-img의 초기 상태에 투명도0, 스케일(2)로 일단 해주기
+: .title-img{
+    width: 60vmin;
+    margin-bottom: 15vmin;
+
+    /* 애니메이션 전 초기값 설정 */
+    opacity: 0;
+    transform: scale(2);
+}
+
+
+
+-다시 핸들러.js로 와서, to()의 두번째 인자로 옵션값을 넣어서 설정하기
+: gsap.to(this.titleImage, {
+            scale : 1,
+            rotation : 720,
+            opacity : 1,
+            duration : 0.5
+        });
+-스케일은 처음 css에서 선언한 2에서 1로, 회전은 0에서 720도로 2번 회전하도록 하고, 투명도는 0에서 1로 나타나도록하고, 듀레이션을 0.5초로 해서 이 모든게 0.5초동안 일어나게 함
+
+-다음에 gsap.to()로 playBtn도 애니메이션을 줌
+-마찬가지로 애니메이션 부여하기 전에 css 파일로 돌아가서 transform의 scale을 0으로 만들기
+: .play-img{
+    width: 11vmin;
+    cursor: pointer;
+
+    /* 애니메이션 초기값 */
+    transform: scale(0);
+}
+
+-그리고 다시 핸들러js로 돌아와서 애니메이션 부여하기
+: gsap.to(this.playBtn, {
+            scale : 1,
+            duration : 1,
+            ease : Elastic.easeOut.config(2, 0.5)
+        });
+-스케일을 0에서 1로 키우고, 1초동안 애니메이션하는데, 가속도를 부여해서 다르게 움직이게 함
+-gsap easing사이트 들어가서 gsap에서 제공하는 다양한 이징옵션값을 확인해보기
+-참고문헌 : https://gsap.com/docs/v3/Eases/
+
+-엘라스틱을 보면, 첫번째 인자로 값이 변화되는 크기, 두번째는 바운스되는 정도를 설정할 수 있음
+-앨라스틱, 파워1~4, 바운스 옵션을 주로 쓰는 것 같다고 함
+
+-이렇게 애니메이션 만들어뒀으면, 이제 init메서드로 가서 아럐쪽에서 this.status()라고 하고 등호를 쓴 뒤, 바꿀 상태값이름을 적어서 넣으면 setter가 정한 값으로 _status를 바꿔줌
+: this.status = "READY";
+
+-이제 컨스트럭터 맨 하단에서 this.init()메서드를 불러서 처음에 이닛 불러서 실행시키기
+:     constructor(){
+        this._status = "READY"; // READY, PLAYING, FINISHED
+
+        // 초기화 함수 실행
+        this.init();
+    }
+
+
+-처음 화면이 뜰때 나타나는 애니메이션을 보고, playBtn의 애니메이션이 좀 빨리 실행되는 것 같아서, 타이틀 애니메이션이 나타난 후에 버튼 애니메이션 등장하도록 딜레이값을 주기
+: gsap.to(this.playBtn, {
+            scale : 1,
+            duration : 1,
+            ease : Elastic.easeOut.config(2, 0.5),
+            delay : 0.5
+        });
+
+
+
+
+-이제 이 플레이버튼 누르면 게임 상태 "플레잉"으로 바꾸면됨
+-init()메서드 안에서 버튼 클릭시 status값 바꾸도록 하면 됨
+: // 플레이버튼 클릭시
+        this.playBtn.addEventListener("click", ()=>{
+            // 레디화면 숨기는 함수 호출
+            this.hideReayScreen();
+        });
+
+
+-이제 쇼레디스크린()메서드 아래에다가 하이드레디스크린()메서드를 정의해주기
+-이번에도 gsap로 애니메이션을 주기!
+: gsap.to(this.readyScreen, {
+            opacity : 0,
+            pointerEvents : "none",
+            duration : 0.3,
+            // 완성 후 콜백 함수
+            onComplete : ()=>{
+                // 상태 변수 값 바꾸기
+                this.status = "PLAYING";
+            }
+        });
+-레디화면 전체를 투명도를 0으로 만들고 포인터이벤트 넌으로 해서 숨겨진 화면 터지 못하게 막고, 애니메이션을 0.3초동안 진행되게 하고 애니메이션이 끝나면 게임 상태 변수값을 플레잉으로 바꿔주기!
+->이렇게하고 플레이버튼 누르면! 레디 화면에서 플레이 화면으로 바뀜
+
+
+<이제 마지막 피니시드 상태 작업하기>
+-먼저 인덱스.html로 가서 레디-스크린 섹션 하단에 finish-screen섹션을 만들기
+: <!-- 끝 화면 -->
+        <section class="finish-screen">
+            <!-- 최종 거리 -->
+            <div class="distance">0m</div>
+            <!-- 최종 코인 갯수 -->
+            <div class="coin">0 coin</div>
+            <!-- 리플레이 버튼 이미지 -->
+            <img src="./assets/replay.svg" class="replay-img">
+        </section>
+-그리고 위의 코드처럼 여러 코드 써주기
+
+-그다음 css파일로 넘어가서 ready-screen 옆에 .finish-screen도 추가해서 같은 스타일 주기
+: .ready-screen,
+.finish-screen{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+-그리고 리플레이 버튼도 플레이버튼 스타일과 같게 만들어주기
+: .play-img,
+.replay-img{
+    width: 11vmin;
+    cursor: pointer;
+
+    /* 애니메이션 초기값 */
+    transform: scale(0);
+}
+
+-그리고 finish-screen만의 스타일도 부여하기
+: .finish-screen{
+    color: #fff;
+    font-family: "Nanum Pen Script";
+}
+.finish-screen > .distance{
+    font-size: 15vmin;
+}
+.finish-screen > .coin{
+    margin-bottom: 8vmin;
+    font-size: 8vmin;
+    color: gold;
+}
+
+
+-그리고 다시 GameHandler.js로 돌아가서 준비화면의 애니메이션 연결하기
+-status setter안의 switch-case에 FINISHED 상태 추가하기
+: // value값에 따라 게임 상태 바꾸기
+        switch(value){
+            case "READY" : this.showReadyScreen();
+                break;
+            case "FINISHED" : this.showFinishScreen();
+        }
+-이제 쇼피니시스크린 메서드를 만들어주면 됨
+: // 종료 화면 보이기 함수
+    showFinishScreen(){
+    }
+
+-그리고 init() 메서드로 가서 미리 dom요소들을 담아서 클릭 이벤트에 넣어주기
+: // 종료 화면 구성 요소 가져오기
+        this.finishScreen = document.querySelector(".finish-screen");
+        this.distanceText = this.finishScreen.querySelector(".distance");
+        this.coinText = this.finishScreen.querySelector(".coin");
+        this.replayBtn = this.finishScreen.querySelector(".replay-img");
+
+        // 리플레이 버튼 클릭시
+        this.replayBtn.addEventListener("click", ()=>{
+            // 종료화면 숨기는 함수 호출
+            this.hideFinishScreen();
+        });
+
+
+-그리고 쇼피니시스크린 메서드 하단에 하이드피니시스크린 메서드도 만들기
+: // 종료 화면 숨기기 함수
+    hideFinishScreen(){
+        
+    }
+
+
+-쇼피니시 스크린 함수 안에서 이번에는 gsap에서 to()가 아니라 from,to를 쓸 것임
+-피니시-플레잉 플로우로 반복될 것이니까, 스타일을 from에서 to로하면 따로 원상복귀시키지 않아도 자동으로 돌아가니까 이렇게 하는 것임
+: fromTo는 첫번재로는 finishScreen, 두번째는 from의 옵션값, 세번째는 to의 옵션값을 쓰면 됨
+: showFinishScreen(){
+        gsap.fromTo(
+            this.finishScreen, 
+            { opacity : 0 }, // from 옵션
+            {
+                opacity : 1,
+                duration : 0.5,
+                pointerEvents : "all"
+            } // to 옵션
+        );
+    }
+
+-이제 다시 스타일.css로 가서 .finish-screen{}으로 가서 처음에는 보이지 않고 클릭도 안 되도록 숨겨두기
+: .finish-screen{
+    color: #fff;
+    font-family: "Nanum Pen Script";
+
+    /* 애니메이션 초기값 */
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+
+-이제 다시 게임핸들러.js로 돌아가서 글자도 이쁘게 나타나도록 애니메이션 주기
+: gsap.fromTo(this.distanceText, 
+            { opacity : 0, scale : 0 }, 
+            { opacity : 1, scale : 1, duration : 0.5, delay : 1}
+        );
+        gsap.fromTo(this.coinText, 
+            { opacity : 0, scale : 0 }, 
+            { opacity : 1, scale : 1, duration : 0.5, delay : 1.1}
+        );
+        gsap.fromTo(this.replayBtn, 
+            { opacity : 0, scale : 0 }, 
+            { opacity : 1, scale : 1, rotation : 720, duration : 0.5, delay : 1.3}
+        );
+
+
+-이제 결과 확인하기 위해 init메서드 안에서 처음 스테이터스만 피니시드로 만들어서 확인해보기
+->애니메이션 잘 적용된것 확인됨!!
+
+-이제 다시 원래대로 복구해놓기!
+
+
+
+-이제 게임을 잘 진행하다가 충될 때의 세터갑을 피니시드로 바꾸면 됨
+-App.js로 돌아가서... 벽과 플레이어가 충돌했을 때의 코드에서 세터로 상태값을 바꾸면 될 것같음
+:                 // 벽과 플레이어 충돌 감지하기
+                if(this.walls[i].isColliding(this.player.boundingBox)){
+                    // console.log("colliding!!!!");
+                    
+                    // 충돌(true)시 바운딩박스 색상 변경
+                    this.player.boundingBox.color = `rgba(255, 0, 0, 0.3)`;
+                }
+                else{
+                    this.player.boundingBox.color = `rgba(0, 0, 255, 0.3)`;
+                }
+
+-지금까지는 충돌 확인하기위해 색상변경하도록 if-else문으로 써놨지만 이제는 충돌하면 바로 게임오버 상태로 바꾸기 위해서 그냥 if문만 쓰면 됨
+: // setter로 게임 상태 변경하는 코드
+                if(this.walls[i].isColliding(this.player.boundingBox)){
+                    // console.log("colliding!!!!");
+                    // 충돌(true)시 게임 상태 변수 바꿔서 종료 화면 보여주기
+                    this.gameHandler.status = "FINISHED";
+                    break;
+                }
+-그리고 안전하게 이 if문을 break;로 빠져나와서 혹시 모를 다른 일이 벌어지지 않게 막기
+
+
+
+
+<이제 종료화면의 텍스트를 게임 진생 상황에 맞게 바꾸기>
+-App.js의 스코어 인스턴스 내부의 값을 가져오기 위해서, 컨스트럭터 안에있는 게임핸들러 변수에다가 저장한 GameHandler 인스턴스의 소괄호에 'this'라고 써서, 이 app전체를 넘겨주기
+-이렇게 하면 이제 게임핸들러 인스턴스가 게임핸들러 클래스로 app전체를 가지고 넘어감
+: this.gameHandler = new GameHandler(this);
+
+-그리고 핸들러. js에서 맨 위에서 컨스트럭터에서 app을 받아와서 this.app변수에 저장하기
+: constructor(app){
+        // App 전체 받아오기
+        this.app = app;
+...
+}
+
+
+
+-다음에 showFinishScreen() 메서드블럭 맨 위쪽에다가 거리텍스트 요소의 내부 텍스트로 app의 점수판의 거리값을 가져와서 내림하여주기
+: showFinishScreen(){
+        // 이동 거리값 보여주기
+        this.distanceText.innerText = Math.floor(this.app.score.distCount) + 'm';
+...
+}
+-마찬가지로 코인 텍스트도 가져와서 넣어주기
+:         // 코인 갯수 보여주기
+        this.coinText.innerText = Math.floor(this.app.score.coinCount) + coin';
+
+
+
+-유저셀렉트 기본값때문에 결과화면 돌아오면 더블클릭해서 텍스트가 선택되어있는 것 막기
+: .ready-screen,
+.finish-screen{
+    /* 유저셀렉트 기본기능 막기 */
+    user-select: none;
+}
+
+
+-그리고 종료화면 숨기는 메서드인 하이드피니시스크린 메서드에서 애니메이션 부여하기
+:gsap.fromTo(this.finishScreen, 
+            { opacity : 1}, 
+            { opacity : 0, pointerEvents : "none", duration : 0.1 }
+        );
+
+-근데 이렇게 하면 화면만 사라지고 게임이 실행되지는 않음!
+- 그래서 아랫줄에서 status값을 'PLAYING'로 바꿔주기
+: // 게임 상태 변경
+        this.status = "PLAYING";
+
+
+->근데 이렇게하면.. 충돌나서 게임이 오버됐을 때의 그 상태로 돌아가기 때문에 다시 또 게임오버가 되어버림
+
+-이 문제 해결하기 위해서 App.js의 컨스트럭터 바로 아레에다가 리셋이라는 메서드를 추가로 만들고, 컨스트럭터에 있는 배경과 게임핸들러를 제외한 나머지를 리셋 메서드로 옮겨주기
+: constructor(){
+        // 배경 불러오기 : Background 클래스를 불러와서 인스턴스 생성하기
+        // this.background = new Background();
+        this.backgrounds =[
+            new Background({ img : document.querySelector("#bg3-img"), speed: -1 }),
+            new Background({ img : document.querySelector("#bg2-img"), speed: -2 }),
+            new Background({ img : document.querySelector("#bg1-img"), speed: -4 }),
+        ];
+
+        // 장애물, 플레이어, 코인, 점수판 만드는 코드를 모두 reset()메서드로 옮김
+        
+        // 게임 상태관리
+        // this.gameHandler = new GameHandler();
+        // 게임 상황에 따라 변하는 거리, 코인갯수 값을 가져가기 위해 this를 써서 app전체를 인자로 받아감
+        this.gameHandler = new GameHandler(this);
+    }
+
+    // 게임 리셋 함수
+    reset(){
+        // 장애물 만들기
+        this.walls = [new Wall({ type: 'SMALL' })];
+
+        // 플레이어 만들기
+        this.player = new Player();
+
+        // 윈도우가 리사이즈될 때 리사이즈 함수 호출하기 👉 style.css에서 반응형으로 수정함
+        // window.addEventListener('resize', this.resize.bind(this));
+
+        // 코인 만들기 : 내부 코드는 테스트용
+        this.coins = [new Coin( 
+            // 700 + this.walls[0].width / 2,  // x : 벽의 x좌표 - width의 절반
+            // this.walls[0].y2 - this.walls[0].gapY / 2  // y : 벽의 y2좌표 - gapY의 절반값
+        )];
+
+        // 점수판 만들기
+        this.score = new Score();
+    }
+
+
+-이렇게 옮기고 컨스트럭터의 하단에서 reset()메서드를 호출해서 처음에 한번 초기화하기!
+: constructor(){
+...
+        // 리셋 함수 호출하여 초기화
+        this.reset();
+    }
+
+-이러고나서 게임핸들러.js의 hideFinishScreen()메서드 안에서 하단에서 this.app.reset()메서드를 불러서 실행해주기!
+: // 종료 화면 숨기기 함수
+    hideFinishScreen(){
+        // 애니메이션
+        gsap.fromTo(this.finishScreen, 
+            { opacity : 1}, 
+            { opacity : 0, pointerEvents : "none", duration : 0.1 }
+        );
+
+        // 게임 상태 변경
+        this.status = "PLAYING";
+
+        // 앱 리셋 함수 호출
+        this.app.reset();
+    }
+
+
+->그러면 이제 충돌나서 종료화면이 뜬 후, 리플레이버튼 클릭하면 게임이 리셋된 상태로 다시 시작하게 됨!
+
+
+
+
+<보완하기>
+-화면 바깥으로 플레이어가 나가도 게임오버가 되도록 해야함
+-호면 바깥으로 나가는 경우 = y축이 위로 벗어나든가 아래로 벗어나는 경우 이렇게 나뉨
+
+-App.js에서 frame()함수에서 플레이어 관련된 코드 아래에다가 if문 작성하기
+: 
+-플레이어의 y값이 앱의 높이값보다 크거나 플레이어의 y값에 높이값을 더한게 0보다 작으면, 게임 상태값을 finished로 바꿔주면 됨

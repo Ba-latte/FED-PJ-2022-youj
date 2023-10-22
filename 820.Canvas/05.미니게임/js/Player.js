@@ -63,6 +63,6 @@ export default class Player {
             this.width, this.height    // width, height
         );
         // 바운딩 박스 그리기
-        this.boundingBox.draw();
+        // this.boundingBox.draw();
     }
 }

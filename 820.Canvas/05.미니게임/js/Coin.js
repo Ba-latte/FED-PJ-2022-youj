@@ -48,6 +48,6 @@ export default class Coin{
         );
 
         // 바운딩박스 그리기 : 추후 안보이게 주석 예정
-        this.boundingBox.draw();
+        // this.boundingBox.draw();
     }
 }
