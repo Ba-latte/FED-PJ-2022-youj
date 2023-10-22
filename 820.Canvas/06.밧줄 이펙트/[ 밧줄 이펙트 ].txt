@@ -1,0 +1,164 @@
+[밧줄 이펙트]
+-현업에서는 물리알고리즘을 모아서 쉽게 사용가능하도록 만들어둔 라이브러리를 활용하겠지만, 이번 강의에서는 직접 물리알고리즘을 이해하고, 구현하는데 목적이 있음
+-물리 알고리즘이 어떻게 돌아가는지 이해하기!
+
+-x,y좌표에 대한 값 이해하기
+
+-stick클래스가 이번 강의에서 포인트임!
+
+
+
+<기초 뼈대 구성하기>
+-style.css파일 만들고 헤드 태그에서 link로 불러오기
+-canvas태그 넣기
+-스크립트 태그 만들기
+
+-styel.css에서는 html, body의 기본 마진,패딩 없애기
+: @charset "utf-8";
+
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+
+-그리고 index.js에 바로 코딩하지 말고, App.js를 만들고 거기서 작성한다음 index.js에 불러올것임
+-그 이유는 index.js는 밧줄말고도 다른 웹 구성요소들이 모이는 곳이기 때문에 실전처럼 다른 곳에 빼두는 것임!
+-내게 맞는 보일러플레이트를 만들어서 정착하면 됨
+
+-js폴더 만들고 App.js파일 만들고 기초 구성하기
+:export default class App{
+    constructor(){
+
+    }
+    resize(){
+
+    }
+    render(){
+        
+    }
+}
+
+-그리고 컨스트럭터 작성하기 전에, 상단에 스태틱으로, 상수로 사용되는 변수들을 미리 작성해두기
+: static width = innerWidth;
+    static height =  innerHeight;
+    static dpr = devicePixelRatio > 1 ? 2 : 1;
+    static interval = 1000 / 60;
+-전체 화면의 픽셀값들 미리 정해두기
+-dpr도 1보다 크면 2, 아니면1로 해두기
+-인터벌도 60fps로 동작하게끔 1000분의 60으로 해두기
+
+-그리고 이제 컨스트럭터에서 캔버스불러오기
+-그리고 ctx 변수를 2d로 만들어두기
+:     constructor(){
+        // 캔버스 불러오기
+        this.canvas = document.querySelector("canvas");
+        this.ctx = this.canvas.getContext("2d");
+    }
+-이전에는 이 두개도 스태틱으로 해서 사용했었는데, 매번 스태틱으로 getContext로 객체를 만드는 것보다, 이렇게 컨스트럭터에서 써주면, 한번만 변수에 저장해두면 더 편할 수 있음
+
+
+-이제 리사이즈 메서드에서 App.width와 height를 리사이즈될떄마다 변경되는 전체 화면의 가로, 세로 길이를 다시 스태틱으로 저장해주기
+:     resize(){
+        // 리사이즈 될 때마다 화면의 가로, 세로값 다시 지정
+        App.width = innerWidth;
+        App.height = innerHeight;
+}
+-이 값을 통해서 캔버스 css 가로세로값과 실제 캔버스의 가로세로값을 적용해주면 됨
+: // 캔버스 CSS 스타일 지정
+        this.canvas.style.width = App.width + 'px';
+        this.canvas.style.height = App.height + 'px';
+
+-캔버스의 사이즈를 앱의 가로/세로값에 * dpr곱해주는 이유는, dpr이 1 이상일 때 2로 통일시켜주는것임
+-그 이유는 고유 캔버스 사이즈가 커질수록 .. 예를 들어 이미지 파일이 고해상도일 경우, 파일 용량이 커지는것처럼, 캔버스에서 그리는데에 영향을 끼칠 수있기 때문임!
+
+- 캔버스 사이즈도 지정해주기
+: // 캔버스 사이즈 지정
+        this.canvas.width = App.width * App.dpr;
+        this.canvas.height = App.height * App.dpr;
+
+
+- 그리고 이제 ctx의 스케일에 dpr을 각각 곱해줘서 선명도를 높여주고, 또 낮은 dpr과 높은 dpr에서 모두 같은 모습으로 볼 수 있도록 해주기
+: this.ctx.scale(App.dpr, App.dpr);
+
+
+-이제 컨스트럭터에서 리사이즈 메서드를 호출해서 최초 한번 실행하도록 하고, 리사이즈 이벤트가 발생할때마다 리사이즈 함수를 실행하도록 해주기
+:     constructor(){
+        // 캔버스 불러오기
+        this.canvas = document.querySelector("canvas");
+        this.ctx = this.canvas.getContext("2d");
+
+        // 실행
+        this.resize();
+        // 윈도우 리사이즈시
+        window.addEventListener("resize", this.resize.bind(this));
+    }
+
+->근데 이렇게만 하면, 리사이즈 메서드가 실행될 때 안에서 선언된 this가 윈도우라고 인식하기 때문에 bind(this)를 추가로 메서드체인해줘서 this값을 앱으로 인식할수 있도록 함
+
+
+
+-그리고 렌더로 넘어가서, let으로 now, delta선언하고 then = Date.now()로 현재 시간 담아주기
+:     render(){
+        let now, delta;
+        let then = Date.now();
+}
+-frame()함수를 만들고, 그 안에서 리퀘스트애니메이션프레임함수에서 프레임함수를 다시 호출해서, 재귀함수로 스스로 기기의 모니터 주사율마다 프레임이 실행될수있도록 함
+:         const frame = ()=>{
+            requestAnimationFrame(frame);
+}
+=>즉 모두 같은 속도로 캔버스를 그리게 하기 위함
+
+-그리고 아랫쪽에서 코드짜기
+: now = Date.now();
+            delta = now - then;
+            if(delta < App.interval) return;
+-델타는 나우와 덴값의 차이로, 델타가 인터벌보다 작으면 리턴을 시켜서 모니터 주사율인 60헤르쯔를 기준으로 캔버스가 애니메이션되도록 해줌
+
+-그리고 나우에서 델타를 인터벌로 나눈 나머지값을 뺀 값을 다시 덴에 넣어주기
+: then = now - (delta % App.interval);
+
+-그리고 그 아래쪽에서 clearRect()를해서, 전체화면을 프레임마다 지우는 과정을 해주기
+: this.ctx.clearRect(0, 0, App.width, App.height);
+
+-그러고나서 우선 테스트용으로 정사각형 하나 그려서 잘 동작하는지 확인하기
+: this.ctx.fillRect(100, 100, 100, 100);
+
+
+
+-이제 이 프레임을 실행해야하니까 바로 아랫줄에서 리퀘스트애니메이션프레임으로 프레임함수 실행되도록 하기
+:     render(){
+        let now, delta;
+        let then = Date.now();
+
+        const frame = ()=>{
+            requestAnimationFrame(frame);
+
+            now = Date.now();
+            delta = now - then;
+            if(delta < App.interval) return;
+            ///////////////////////////////////////////////////
+            
+            ///////////////////////////////////////////////////
+            then = now - (delta % App.interval);
+
+            this.ctx.clearRect(0, 0, App.width, App.height);
+
+            // 테스트용 사각형 그리기
+            this.ctx.fillRect(100, 100, 100, 100);
+        };
+        // 프레임 함수 실행
+        requestAnimationFrame(frame);
+    }
+
+
+-그리고 이제 다시 index.js로 돌아가서 로드이벤트로 모든게 로드되었을 때 앱 인스턴스를 생성해서 저장한 app변수를 만들고, 이 앱을 렌더함수로 실행시켜주기
+: window.addEventListener("load", ()=>{
+    const app = new App();
+    app.render();
+});
+
+
+
+
+
