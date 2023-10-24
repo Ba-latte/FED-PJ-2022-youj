@@ -1,5 +1,7 @@
 // 밧줄 이팩트
 
+import Dot from "./Dot.js";
+
 export default class App{
     static width = innerWidth;
     static height =  innerHeight;
@@ -16,6 +18,9 @@ export default class App{
         this.resize();
         // 윈도우 리사이즈시
         window.addEventListener("resize", this.resize.bind(this));
+
+        // 점 생성
+        this.dots = [new Dot(400, 50)];
     }
     resize(){
         // 리사이즈 될 때마다 화면의 가로, 세로값 다시 지정
@@ -43,15 +48,20 @@ export default class App{
             now = Date.now();
             delta = now - then;
             if(delta < App.interval) return;
-            ///////////////////////////////////////////////////
             
-            ///////////////////////////////////////////////////
             then = now - (delta % App.interval);
-
+            
             this.ctx.clearRect(0, 0, App.width, App.height);
+            ///////////////////////////////////////////////////
 
             // 테스트용 사각형 그리기
-            this.ctx.fillRect(100, 100, 100, 100);
+            // this.ctx.fillRect(100, 100, 100, 100);
+
+            // 점 관련
+            this.dots.forEach(dot => {
+                dot.update();
+                dot.draw(this.ctx);
+            });
         };
         // 프레임 함수 실행
         requestAnimationFrame(frame);

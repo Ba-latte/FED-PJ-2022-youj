@@ -380,12 +380,193 @@ console.log(v3);
 
 
 
+[ Dot 클래서 마저 만들기 ]
+-백터 클래스를 활용해서 Dot클래스를 본격적으로 만들기
+-기존 파티클 시스템을 구성할 때에는 this.x, y를 다이렉트로 사용했고, 덧셈 뺄셈과 같은 연산은 모두 수기로 작성하거나 util.js 파일안에서 만들고 export로 꺼내와서 사용하는 것처럼 작업했음
+-이제 이렇게 벡터 클래스를 만들어서 쓰면! x,y값을 벡터에서 관리하면서 기타 연산 메서드를 쉽게 이용할 수 있다는 장점이 있음
+
+
+-이제 index.js에서 테스트 했던거 다 지워버리기
+
+
+-이제 Dot 클래스의 컨스트럭터에서 this.x,y정의했던거 지워주기
+-이제 여기서 this.pos 선언하고 Vector인스턴스 불러오고 그 인자로 x,y넣어주기
+:     constructor(x, y){
+        // 벡터 인스턴스 불러와서 this.pos 정의
+        this.pos = new Vector(x, y);
+...
+}
+
+
+-속도를 구하기 위해서 oldPos라고 이전 위치변수를 정의하기
+:         // 속도 구하기 위해 oldPos 정의
+        this.oldPos = new Vector(x, y);
+
+->이전에 파티클 프로젝트 만들 떄 속도를 구할때... 속도는 5, 3, 1과 같이 직접 숫자를 넣었음
+-그러면 캔버스에서 "5"라고 하면....예를 들어 m/s라고 하면 1초에 이동한 거리를 m단위로 나타낸것임
+-캔버스에서 속도 개념을 나타낸다면, App.js에서 render()메서드 안의 frame()함수가 1번 돌아가는 동안 이동한 거리를 속도라고 표현했었음
+->즉 캔버스에서 "속도=5"라고 한다면, 한번의 프레임동안 5px만큼 이동했다는 뜻임!
+
+-이번에는 Dot클래스의 update()메서드 안에서 속도를 vel이라고 해서 this.pos와 this.oldPos의 차이값을 가진 벡터 인스턴스라고 정의할 것임!
+:     update(){
+        // 속도
+        let vel = Vector.sub(this.pos, this.oldPos);
+    }
+-즉, 이전 프레임에서의 위치(올드포스)에서 이번 프레임에서의 위치(포스) 사이의 거리가 속도를 나타낼 수 있기 때문임
 
 
 
+-왜 이번 플젝에서는 이렇게 표현하나???
+->>나중에 하나의 점이 속도가 0인데 같은 직선으로 연결된 다른 점이 속도를 가지게 되면 속도가 0인 점에도 영향을 받기 위해서는 이전위치와 현재 위치와의 차이값으로 속도를 나타내야하기 때문임!
 
 
+-이제 draw()메서드 안에서 점을 그려볼것임
+-이번 플젝에서는 ctx가 스태틱이 아니라 this.ctx로 앱 안에 정의되어 있기 때문에 드로우의 인자로 ctx를 밖에서 불러와야함
+-그리고 ctx.fillStyle로 점의 색상을 검정색으로 해주고
+-beginPath()로 그리기 시작하겠다고 선언하고
+-ctx.arc()로 호를 그려줘야함
+-x는 this.x가 아니라 this.pos.x이고, 마찬가지로 this.y가 아니라 this.pos.y로 해줘야함
+-반지름은 10정도로 하고 호는 0부터 Math.PI * 2로 360으로 해줘서 원으로 만들어주기
+-그리고 ctx.fill()로 안의 색을 채워서 점을 그려주기
+-그리고 마지막으로 ctx.closePath()로 비긴패스로 열어둔 것을 닫아주기
+:     draw(ctx){
+        // 점 그리기
+        ctx.fillStyle = "#000";
+        ctx.beginPath();
+        ctx.arc(this.pos.x, this.pos.y, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.closePath();
+    }
 
+
+-이렇게 우선 작업해두고, App.js로 돌아가서 컨스트럭터 안의 맨 하단에, this.dots = [];를 배열로 선언하고 그 안에서 뉴 닷으로 인스턴스를 생성하기
+:     constructor(){
+...
+        // 점 생성
+        this.dots = [new Dot()];
+    }
+-그리고 인자로 400, 50을 넣기
+: this.dots = [new Dot(400, 50)];
+
+
+-그리고 맨 하단의 frame()함수 안에서 clearRect()의 아래쪽에서 forEach()돌면서 dots배열의 각 점들을 update(), draw() 시켜주기
+: render(){
+        let now, delta;
+        let then = Date.now();
+
+        const frame = ()=>{
+            requestAnimationFrame(frame);
+
+            now = Date.now();
+            delta = now - then;
+            if(delta < App.interval) return;
+            
+            then = now - (delta % App.interval);
+            
+            this.ctx.clearRect(0, 0, App.width, App.height);
+            ///////////////////////////////////////////////////
+
+            // 테스트용 사각형 그리기
+            // this.ctx.fillRect(100, 100, 100, 100);
+
+            // 점 관련
+            this.dots.forEach(dot => {
+                dot.update();
+                dot.draw(this.ctx);
+            });
+        };
+        // 프레임 함수 실행
+        requestAnimationFrame(frame);
+    }
+
+-이렇게 하면 화면에 400, 50의 위치에 점이 하나 그려짐!
+-지금은 점이 고정되어 있지만.. 이제 속도를 사용하면 점이 움직일 수 있음!
+
+-이제 우리는 속도가 현재 위치에서 이전 프레임의 위치를 뺀 값이라고 했으니까, 컨스트럭터에서 처음에 초기화 시킬 때 둘의 값을 x,y로 똑같이 초기화해서 지금은 두개의 x,y값이 동일함
+-이제 update()메서드에서 다르게 작업해주면됨
+
+-vel변수 아래에다가 this.oldPos를 setXY로 this.pos.x, this.pos.y로 값을 대입하기
+:     update(){
+        // 속도 정의
+        let vel = Vector.sub(this.pos, this.oldPos);
+
+        this.oldPos.setXY(this.pos.x, this.pos.y);
+    }
+-> 현재 프레임이 실행될 때 새로운 속도를 현재 포지션에 계산하기 전에, 값을 setXY로 이전 위치값에 대입해주면 말 그대로 이전위치가 됨
+
+-이 아래쪽에서 속도.x에 0.1씩을 매 프레임마다 더해주면 어떻게 되는지 테스트해보자
+-그리고 this.pos.add(vel)을 아랫줄에다가 써서, 변경된 속도값을 현재 위치에 더해주면...!
+:         vel.x += 0.1;
+        this.pos.add(vel);
+->>그럼 점이 오른쪽으로 움직이는데 속도가 점점 빨라지는거 확인됨
+
+-콘솔로 한번 찍어보면... 매 프레임마다 0.1씩 계속 더해져서 점점 빨라져서...가속도가 붙어서 빨리 오른쪽으로 사라지게 되는 것임
+
+-이번엔 속도를 0.5를 주고 y로 테스트해보기
+(frame함수의 clearRect()를 잠시 주석처리해서 이전의 그림이 남아있게 만들어두기)
+:         vel.y += 0.5;
+        this.pos.add(vel);
+->이러면 점이 찍히는 모습이 다 남아있는데 아래로 갈수록 거리가 벌어져서 가속도가 붙는 걸 알 수있음
+
+
+-이전에 파티클에서는 중력을 이렇게 표현했었음!
+-이게 매초 또는 매 프레임마다 속도에 중력값을 더해주니까 아래로 빠르게 떨어지는 것임
+-여기서는 이제 중력을 "1"이라고 상수값을 직접 더해주지 않고, 중력도 벡터클래스를 활용할것임!
+
+-먼저 Dot의 컨스트럭터 안에서 gravity를 정의하기
+: this.gravity = new Vector(0, 1);
+
+-그리고 update()에서 vel.y + 1을 vel.add(this.gravity)로 바꿔주기
+:     update(){
+        // 속도 정의
+        let vel = Vector.sub(this.pos, this.oldPos);
+
+        this.oldPos.setXY(this.pos.x, this.pos.y);
+        
+        // 속도에 중력 더하여 가속도 붙이기
+        vel.add(this.gravity);
+        this.pos.add(vel);
+    }
+->이전처럼 똑같이 동작하지만 좀더 변수화되어서 깔끔해짐
+
+
+--이전에 파티클 시스템에서 우리가 마찰력도 대입했던 것을..이번에도 마찰력 구현할것임
+-실제로 물리적으로 하늘에서 공을 떨굴때 하늘 높은 곳에서 떨어트리면 속도가 점점 빨라질것임
+-계속 무한히 빨라지지않음! 왜냐면 공기 마찰력때문임
+-그래서 어느정도 속도에 도달하면 마찰려과 중력이 상쇄되서 일정한 속도를 가지고 아래로 떨어지게됨
+
+-이걸 파티클시스템에서 활용해서 컨페티나 불꽃놀이같은 걸 만들었었음
+-이번에는 벡터를 활용해서 좀더 자세히 이해해보자!
+
+
+-이제 콘솔창에서중력 더한 시점에서 vel를 확인해보면 y방향으로 1프레임당 1씩 속도가 무한히 커지는 걸 확인할 수 있음
+: vel.add(this.gravity);
+        console.log(vel);
+        this.pos.add(vel);
+
+
+-이제 Dot클래스의 컨스트럭터 안에서 friction 변수를 만들고 0.97정도의 값으로 초기화해주기
+: this.friction = 0.97;
+
+-여기에 중력값을 더하기 전에 마찰력을 먼저 현재 속도에 곱해주기
+: update(){
+        // 속도 정의
+        let vel = Vector.sub(this.pos, this.oldPos);
+
+        this.oldPos.setXY(this.pos.x, this.pos.y);
+
+        // 속도에 마찰력 곱하여 마찰력 부여하기
+        vel.mult(this.friction);
+        
+        // 속도에 중력 더하여 가속도 붙이기
+        vel.add(this.gravity);
+        // console.log(vel);
+        this.pos.add(vel);
+    }
+
+-그리고 콘솔 주석 해제해서 결과 확인해보면, 속도가 33.33...과 같은 어떤 시점에서 유지되는 것을 알 수 있음!
+
+-이렇게 3d 물리 시스템을 속도, 중력, 마찰을 이용하여 2d에서 구현하는 것임!
 
 
 
