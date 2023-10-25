@@ -571,3 +571,446 @@ console.log(v3);
 
 
 
+[ stick 클래스 만들기 ]
+-중력과 마찰력을 가지고 자유낙하하는 공을 만등렀으니, 이번에는 이 공을 서로 연결해주는 스틱 클래스 만들기로 함
+
+-js폴더 안에 stick.js 파일을 만들고 클래스를 세팅하기
+:export default class Stick{
+  constructor(){
+
+  }
+  update(){
+
+  }
+  draw(){
+    
+  }
+}
+
+
+-dot클래스에서 x, y를 인자로 필요했다면, 스틱은?
+-점 두개임! 이 두개를 서로 연결해야하니까!
+
+-p1, p2라는 인자를 받아와서 시작점, 끝점 변수를 만들고 저장하기
+:   constructor(p1, p2){
+    this.startPoint = p1;
+    this.endPoint = p2;
+  }
+
+
+-draw()메서드에서 바깥에서 ctx를 받아와서 그려주는데, 먼저 비긴패스로 패스를 그리겠따고 선언하기
+-그리고 strokesStyle로 선의 색상 정하고, lineWidth로 선 두께도 지정하기
+:   draw(ctx){
+    // 스틱 그리기
+    ctx.beginPath();
+    ctx.strokeStyle = "#999";
+    ctx.lineWidth = 10;
+}
+
+-그리고 무브투로 스틱 그리기 위한 위치로 이동해주는데, 먼저 스타트포인트.pos.x, 스타트포인트.pos.y로 이동해주면됨
+-그리고 lineto()로 앤드포인트의 위치로 가서 패스 그리기
+:     // 스틱 그릴 위치로 이동
+    ctx.moveTo(this.startPoint.pos.x, this.startPoint.pos.y);
+    // 스틱 연결할 위치로 이동
+    ctx.lineTo(this.endPoint.pos.x, this.endPoint.pos.y);
+
+
+-그리고 이제 선으로 연결해서 그리기
+-그리고 패스 닫아서 p1과 p2를 잇는 선분 그림!
+:     ctx.stroke();
+    ctx.closePath();
+
+
+-이제 선분 하나 그리는 메서드가 완성됨
+
+->>동작하는지 확인 위해 App.js로 가서 컨스트럭터에서 this.dots안에서 점을 하나 더 그려주기
+: this.dots = [new Dot(400, 50), new Dot(500, 100)];
+
+
+-그리고 이 점들을 잇는 선분을 생성하기 위해서 아랫줄에 sticks라는 인스턴스를 모아둘 배열 선언하고, 스틱 인스턴스 생성하기
+:         this.sticks = [new Stick(this.dots[0], this.dots[1])];
+
+
+-이렇게 한 다음 프레임함수 안에서 dots아래쪽에서 스틱 배열을 forEach 돌면서 각 스틱 인스턴스를 업데이트, 드로우 시켜주기!
+:             // 선 관련
+            this.sticks.forEach(stick => {
+                stick.update();
+                stick.draw(this.ctx);
+            });
+
+-이제 결과 확인해보면 두개가 연결되어있음!!
+-점 두개는 똑같이 중력 받아서 아래로 떨어져서..잘 안보임;;;
+-그러니까 이제 점 하나를 화면에 고정시켜볼 것임
+
+-Dot.js로 가서, 컨스트럭터에서 this.pinned라는 변수를 만들고 false로 초기화해놓기
+: this.pinned = false;
+
+-그리고 업데이트 메서드 영역의 최상단에서, if문으로 조건을 걸면 됨
+-this.pinned가 true면 리턴돼서 아래쪽에 있는 속도 관련 코드 읽지 않게끔!
+:     update(){
+        // 만약 dot이 고정되어 있다면 움직이지 않게 하기
+        if(this.pinned) return;
+        
+        // 속도 정의
+        let vel = Vector.sub(this.pos, this.oldPos);
+...
+}
+
+
+->속도도 없고 중력과 마찰력이 적용되지 않도록 하는 것임!
+
+-이제 앱.js로 돌아와서 컨스트럭터 하단에서 첫번째 점을 핀으로 고정시켜보기
+: this.dots[0].pinned = true;
+
+->이러면 스타트점이 화면에 고정되고, 끝점은 계속 하강하기 때문에 이를 연결해둔 선분도 무한하게 길어지고 있음
+
+-이때 스틱.js에서 update메서드 안에서 거리를 일정하게 유지해주는 로직을 짜서 이 두 점 사이의 거리를 처음 선언한 그 거리를 유지하도록 해주기
+
+
+-먼저 로직 작성하기 전에, 잠깐 원리 설명 듣기,,,
+
+<원리 설명>
+점 두개 사이에 스틱이 연결되어 있는 상태
+그리고 시작점은 고정되어 있는 상태임
+두번째 프레임이 그려젔을 때에는 업데이트 안에 아무것도 작성되지 않은 상태라면, 끝점만 아래로 떨어지게 되는데... 무한히 길어지게 됨
+
+-근데 우리는 스틱 클래스가 원래의 길이로 되돌아가려는 성질을 가지고 있어야, 업데이트돼도 계속 원래의 길이를 유지하게 됨
+-원래 오리지널 길이를...랭스의 줄임말인 l로 지칭하고, 실제로 늘어나거나 줄어드는 길이를 dist라고 지칭해보자
+-늘어나거나 줄어드는 dist의 거리는... 시작점과 끝점 사이의 거리값이라 생각하면 됨
+-이 dist의 거리를 알고리즘을 적용시켜서 원래의 거리로 돌아가게 해줘야함
+
+-이 dist에서 l을 뺀 차이값을 a라고 해보자
+-이 실제로 늘어난 길이와 원래 오리지날 거리의 차이값인 오차 a를 통해서 원래 길이로 돌려주면 됨
+
+-이 알고리즘의 핵심은 "늘어난 차이만큼 매 프레임마다 반 잘라서 시작점에 반 더해주고, 끝점에는 반을 빼주면"됨
+= 늘어났을 때에는 늘어난 만큼 반씩 잘라주고, 줄어들었을 때에는 작아진 만큼 반씩 잘라주면 됨
+
+-이걸 1프레임마다 반복하면 원래 길이에 일치하진 않아도 무한히 원래의 값에 가까워지게 되는 원리임
+
+-이해를 돕기 위해 늘어났을 때만 생각했지만 줄어드는 경우도 똑같은 원리 적용하면 됨
+
+
+
+-이 오차값 a를 어떻게 이해해서 구해서 반 잘라 나눠주면 될까...ㅎ
+-두 점을 이어서 빗변삼각형??을 만들어서 계산해보면 된대 ㅎ...
+
+
+
+....
+
+-dx는 끝점.x에서 시작점.x를 뺀게 dx가됨
+-dy는 끝점.y에서 시작점.y를 뺀게 dy임
+-....
+-사인과 코사인 이용하면 됨....ㅎ
+
+-dist-L분의 ay가 코사인 세타값이됨
+-사인세타는 dist-L분의 ax가 사인 세타값이 됨
+
+-이걸 이용하면 ax값 구할 수 있음
+
+-코사인 세타값이 알고보면 dist분의 dy랑 동일함!
+->>따라서 이 두 비례식을 통해서 ay를 구할 수 있음
+
+->>>dist-L분의 ay = dist분의 dy
+->>>이 값이 코사인 세타값이됨!!
+
+👉dist-L값을 오른쪽으로 보내면 ay값을 구할 수 있게 됨
+
+-ax도 마찬가지로 사인세타를 이용해서 비례식으로 구하면됨
+->>>dist-L분의 ax = dist분으 ㅣdx
+👉dist-l값을 오른쪽에 보내면 ax를 구할 수 있게뙴
+
+
+
+-이렇게 나온 ax, ay값을 반 잘라서 끝점에서는 그값을 빼고, 시작점에서는 그걸 더해주면... 원래의 길이에 무한하게 가까워지게됨!
+
+-우선.... l을 먼저 구해야함
+-l은 스틱 클래스 생성할때 p1과 p2를 인자로 받느 ㄴ컨스트럭터에서 두 점사이의 오리지날 거리를 구할 수 있고
+-dx,dy는 업데이트 함수가 매프레임마다 실행될때 두 점좌표의 차이값으로 구할 수 있음
+-그리고 dist는 dx,dy를 이용해서 피타고라스의 정의로 구하면 됨
+
+
+
+
+-코드로 돌아와서... 우선 l 구하기
+-스틱 클래스의 컨스트럭터 안에다가 this.length = 시작점.pos.dist()로, 우리가 벡터클래스의 메서드로 두 점사이의 거리를 리턴해주는 메서드를 만들어둔걸이용해서.. 인자로 dist.끝점.pos를 넣어서 원래의 길이 구하기
+:     this.length = this.startPoint.pos.dist(this.endPoint.pos);
+
+
+-그리고 이제 업데이트 메서드 안에서, dx,dy구하기
+-dist로 구할 수있음!
+-먼저 dx는 끝점.pos.x에서 시작점pos.x를 뺴주면 됨
+-마찬가지로 dy는 끝점.y 에서 시작점.y를 빼주기
+: const dx = this.endPoint.pos.x - this.startPoint.pos.x;
+const dy = this.endPoint.pos.y - this.startPoint.pos.y;
+
+
+-그리고 dist 선언하고 거기서 피타고라스의 정의로 구하기
+:   update(){
+    const dx = this.endPoint.pos.x - this.startPoint.pos.x;
+    const dy = this.endPoint.pos.y - this.startPoint.pos.y;
+
+    // 피타고라스 정의로 원래 길이 구하기
+    const dist = Math.sqrt(dx*dx + dy*dy);
+  }
+
+
+-이제 ax, ay구하기 위한 요소들 다 구했음
+-이제 ax를 offsetX라는 이름으로 정해서 아까 생각해둔 비례식을 이용해서 구하기
+: const offsetX = (dist - this.length) / dist * dx;
+const offsetY = (dist - this.length) / dist * dy;
+
+-이제 이렇게 하면되는데 "(dist - this.length) / dist"요만큼이 중복됨
+-중복 줄이기 위해서....diff라는 변수 만들고 거기에 저장해서 쓰기
+:   update(){
+    const dx = this.endPoint.pos.x - this.startPoint.pos.x;
+    const dy = this.endPoint.pos.y - this.startPoint.pos.y;
+
+    // 피타고라스 정의로 원래 길이 구하기
+    const dist = Math.sqrt(dx*dx + dy*dy);
+
+    // 늘어난 길이의 x, y구하기
+    const diff = (dist - this.length) / dist;
+    const offsetX = diff * dx;
+    const offsetY = diff * dy;
+  }
+
+
+-이제 또 시작점.x에 늘어난 길이의 절반만큼 더해주고
+-y에도 늘어난 길이의 절반만큼을 더해주면 됨
+:     this.startPoint.pos.x += offsetX * 0.5;
+    this.startPoint.pos.y += offsetY * 0.5;
+
+-이제 끝점에는 반대로 빼주기
+:     this.endPoint.pos.x -= offsetX * 0.5;
+    this.endPoint.pos.y -= offsetY * 0.5;
+
+
+->>이러고 확인해보면....먼가 이상하게;; 시작점 고정해놨는데;; 고정이 풀려버림..
+->>그래서 시작점, 끝점의 좌표값에 변동을 주는 코드 윗줄에서 if문으로 시작점이 고정되지 않은 경우에만 좌표값에 변동이 가도록 하기
+:     // 시작점이 고정되지 않은 경우에만 적용하기
+    if(!this.startPoint.pinned){
+      // 시작점의 x,y 좌표에 늘어난 길이의 절반만큼 더해주기
+      this.startPoint.pos.x += offsetX * 0.5;
+      this.startPoint.pos.y += offsetY * 0.5;
+    }
+-마찬가지로 끝점도 고정되지 않은 경우에만 변동이 가도록 하기!
+:     // 끝점이 고정되지 않은 경우에만 적용하기
+    if(!this.endPoint.pinned){
+      // 끝점의 x, y 좌표에 늘어난 길이의 절반만큼 빼주기
+      this.endPoint.pos.x -= offsetX * 0.5;
+      this.endPoint.pos.y -= offsetY * 0.5;
+    }
+
+
+
+->>이렇게 하면! 스틱이 늘어나지 않고 원래의 길이로 돌아가려는 성질 때문에 끝점이 계속 아래로 늘어지는 게 아니라 시작점과의 거리를 계속 유지하고 있는 모습을 볼 수 있음!!!
+
+
+-이제 App.js로 돌아가서 점을 좀 늘려서 테스트해보기
+-컨스트럭터 안에다가 600,50 위치에 점을 하나 더 추가해보기
+:         this.dots = [new Dot(400, 50), new Dot(500, 100), new Dot(600, 50)];
+->그러면 혼자 생긴 점이 바닥으로 떨어지게됨
+
+-그러면 이제 스틱 배열에서 두번째와 세번째 점을 잇는 스틱을 하나 더 만들어보기
+:         // 선 생성
+        this.sticks = [
+            new Stick(this.dots[0], this.dots[1]),
+            new Stick(this.dots[1], this.dots[2])
+        ];
+
+
+->이러면 두번째 점에 3번째 점이 선으로 연결되는 것 확인됨!!
+
+-이번엔 800,0위치에 점을 하나 더 만들고 3번째와 4번째 공을 잇는 스틱도 만들어보기
+:         // 점 생성
+        this.dots = [new Dot(400, 50), new Dot(500, 100), new Dot(600, 50), new Dot(800, 0)];
+
+        // 선 생성
+        this.sticks = [
+            new Stick(this.dots[0], this.dots[1]),
+            new Stick(this.dots[1], this.dots[2]),
+            new Stick(this.dots[2], this.dots[3]),
+        ];
+
+
+->그러면 이렇게 공들이 서로 유기적으로 영향 주고받으며 연결되어있고, 매 프레임마다 모두 원래의 길이로 돌아가기 위해서 계속 노력하는 스틱이 만들어짐!!
+
+
+
+-이제 또 우리가 고려해야하는 개념이 또있음. 바로 "무게"임...
+-만약 공들이 같은 무게를 가지고 있지 않고... 예를 들어 시작점은 1을갖고, 끝점은 3의 무게를 가지고 있으면...!!
+-우리가 공평하게 ax,ay값을 반씩 잘라서 시작점 끝점에 똑같이 분배했던게..이제 무게가 차이나니까 분배를 다르게 시켜줘야함!!!
+-즉, 3의 무게를 가지고 있는 쪽이 더 무거우니까 4분의 1만큼만 되돌아가면 되고, 1의 무게를 가지고 있는 쪽이 훨씬 더 가벼우니까 4분의 3만큼 무거운쪽으로 이동해야 한다!
+
+-여기서도 규칙이 보이는데... 시작점은 1과 3을 더한 무게에서, 3만큼 오른쪽으로 이동하고/끝점은 1과3을 더한 무게에서 1만큼만 왼쪽으로 이동하면됨!!!
+
+
+-끝점에 있는 점은 이전에는 오프셋의 절반만큼 곱하기 0.5만해서 왼쪽으로 이동했었는데, 이번에는 스타트 포인트와 엔드포인트의 무게를 더한것 분의 스타트 포인트의 무게를 곱해준 만큼만 왼쪽으로 이동하면 됨
+
+-스타트 포인트에 있는 공은 오른쪽으로, 오프셋에서 스타트포인트의 무게와 엔드포인트의 무게를 더한 것분의엔드포인트의무게를 곱해준것 만큼만 오른쪽으로이동시켜주면됨
+
+
+
+-이제 스타트 클래스의 업데이트 메서드 안에 있는 오프셋 정의한 부분 바로 아래쪽에서....
+m이란 변수 만들고... 거기서 시작점.mass  + 끝점.mass라고 정의하고
+-m1은 끝점의 mass / m,
+m2는 시작점의 mss / m
+-이라고 정의해주기
+: // 늘어난 길이의 x, y 차이 구하기
+    const diff = (dist - this.length) / dist;
+    const offsetX = diff * dx;
+    const offsetY = diff * dy;
+
+    // 무게에 따른 차이 구하기
+    const m = this.startPoint.mass + this.endPoint.mass;
+    const m1 = this.endPoint.mass / m;
+    const m2 = this.startPoint.mass / m;
+
+
+-이제 0.5를 곱해준 부분들을... 스타트포인트쪽에는 m1을 곱해주고, 끝점은 m2를 곱해주면됨!
+:     // 시작점이 고정되지 않은 경우에만 적용하기
+    if(!this.startPoint.pinned){
+      // 시작점의 x,y 좌표에 늘어난 길이의 절반만큼 더해주기
+      this.startPoint.pos.x += offsetX * m1;
+      this.startPoint.pos.y += offsetY * m1;
+    }
+
+    // 끝점이 고정되지 않은 경우에만 적용하기
+    if(!this.endPoint.pinned){
+      // 끝점의 x, y 좌표에 늘어난 길이의 절반만큼 빼주기
+      this.endPoint.pos.x -= offsetX * m2;
+      this.endPoint.pos.y -= offsetY * m2;
+    }
+
+
+
+📌업데이트 함수 전체
+:   update(){
+    const dx = this.endPoint.pos.x - this.startPoint.pos.x;
+    const dy = this.endPoint.pos.y - this.startPoint.pos.y;
+
+    // 피타고라스 정의로 원래 길이 구하기
+    const dist = Math.sqrt(dx*dx + dy*dy);
+
+    // 늘어난 길이의 x, y 차이 구하기
+    const diff = (dist - this.length) / dist;
+    const offsetX = diff * dx;
+    const offsetY = diff * dy;
+
+    // 무게에 따른 차이 구하기
+    const m = this.startPoint.mass + this.endPoint.mass;
+    const m1 = this.endPoint.mass / m;
+    const m2 = this.startPoint.mass / m;
+
+    // 시작점이 고정되지 않은 경우에만 적용하기
+    if(!this.startPoint.pinned){
+      // 시작점의 x,y 좌표에 늘어난 길이의 절반만큼 더해주기
+      this.startPoint.pos.x += offsetX * m1;
+      this.startPoint.pos.y += offsetY * m1;
+    }
+
+    // 끝점이 고정되지 않은 경우에만 적용하기
+    if(!this.endPoint.pinned){
+      // 끝점의 x, y 좌표에 늘어난 길이의 절반만큼 빼주기
+      this.endPoint.pos.x -= offsetX * m2;
+      this.endPoint.pos.y -= offsetY * m2;
+    }
+  }
+
+
+-이렇게하면 식이 완성됨
+-근데 우리가 mass설정 안해둬서.. 에러난것임
+
+-이제 Dot.js의 컨스트럭터 안에다가 mass를 1로 기본적으로 초기화해주기
+:         this.mass = 1;
+
+
+->우리가 따로 무게를 만져준 곳 없으니까..모두 같은 무게를 갖고 있어서 결과적으로는 반반 나뉘게 되니까 아까 해둔거랑 똑같은 결고 ㅏ나옴
+
+
+-무게에 따른 변화를 알아보기 위해서 우선 점을 0번과 1번만 남기고 전부 다 지우기
+:         this.dots = [new Dot(400, 50), new Dot(500, 100)];
+-스틱도 한개만 남기기
+:         this.sticks = [new Stick(this.dots[0], this.dots[1])];
+
+-이제 점을 100,50과 200,100위치를 추가하고
+-스틱도 1,2번쨰 연결하기
+:         // 점 생성
+        this.dots = [new Dot(400, 50), new Dot(500, 100), new Dot(100, 50), new Dot(200, 100)];
+
+        // 선 생성
+        this.sticks = [new Stick(this.dots[0], this.dots[1]), new Stick(this.dots[2], this.dots[3])];
+
+
+-그리고 인덱스2번 점도 핀으로 고정해두기
+:         this.dots[2].pinned = true;
+
+
+
+->현재 둘다 똑같이 나옴
+
+-이제 dots[1]의 무게를 10을 줘보기
+:         // 테스트 : 무게 추가
+        this.dots[1].mass = 10;
+
+->> 비슷해보이니까 '텐션'개념을 추가해서 무게감 부여하기
+
+
+
+-Stick.js의 컨스트럭터에다 tension = 1로 초기화하기
+:     this.tension = 1;
+
+-이 텐션을 업데이트 메서드에서 offsetx,y에 각각 곱해주기
+:     // 늘어난 길이의 x, y 차이 구하기
+    const diff = (dist - this.length) / dist;
+    const offsetX = diff * dx * this.tension;
+    const offsetY = diff * dy * this.tension;
+
+
+-이 텐션은 오프셋,,오차값을 되돌려줘야하는데... 원래 곱하기 1을 한게 기본 텐션으로 되돌려주는 것이지만 만약 텐션을 0.05로 바꾸면.... 원래대로 돌아가야할 값을 20분의 1만큼만 되돌려주기 때문에 텐션이 느슨하게 되는 것임
+:    this.tension = 0.05; // 탄성이 줄어서 무거울수록 늘어짐
+
+-그리고 일정 시간이 지나면 중력과 상쇄되면서 완전히 원래 값으로는 되돌아가지 못하도록 하는 것임
+-또한 무게가 더 무거운 쪽에서는 길이가 더 늘어져서, 진짜 무게가 있는 공처럼 물리 표현이 됨
+
+
+
+
+-이제 다시 App.js로 가서 점 4개를 만들고 스틱으로 주루룩 연결해보면!
+:     constructor(){
+        // 캔버스 불러오기
+        this.canvas = document.querySelector("canvas");
+        this.ctx = this.canvas.getContext("2d");
+
+        // 실행
+        this.resize();
+        // 윈도우 리사이즈시
+        window.addEventListener("resize", this.resize.bind(this));
+
+        // 점 생성
+        this.dots = [new Dot(400, 50), new Dot(500, 100), new Dot(600, 50), new Dot(800, 0)];
+
+        // 선 생성
+        this.sticks = [
+            new Stick(this.dots[0], this.dots[1]),
+            new Stick(this.dots[1], this.dots[2]),
+            new Stick(this.dots[2], this.dots[3]),
+        ];
+
+        // 점을 고정해두기
+        this.dots[0].pinned = true;
+    }
+
+->>그러면 스프링처럼 탄성이 생기며 원래의 길이로 돌아가려고 함
+
+
+
+
+
+-설명 이해 잘 안되면 다시 돌려보면 이해될거야~^^....
+
+
+
+
+

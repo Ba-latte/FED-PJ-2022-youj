@@ -13,8 +13,17 @@ export default class Dot{
         this.gravity = new Vector(0, 1);
         // 마찰력
         this.friction = 0.97;
+
+        // 고정핀
+        this.pinned = false;
+
+        // 무게
+        this.mass = 1;
     }
     update(){
+        // 만약 dot이 고정되어 있다면 움직이지 않게 하기
+        if(this.pinned) return;
+
         // 속도 정의
         let vel = Vector.sub(this.pos, this.oldPos);
 
