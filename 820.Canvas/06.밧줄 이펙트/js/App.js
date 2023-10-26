@@ -1,6 +1,7 @@
 // 밧줄 이팩트
 
 import Dot from "./Dot.js";
+import Mouse from "./Mouse.js";
 import Stick from "./Stick.js";
 
 export default class App{
@@ -21,7 +22,7 @@ export default class App{
         window.addEventListener("resize", this.resize.bind(this));
 
         // 점 생성
-        this.dots = [new Dot(400, 50), new Dot(500, 100), new Dot(600, 50), new Dot(800, 0)];
+        this.dots = [new Dot(400, 50), new Dot(500, 100), new Dot(600, 50), new Dot(800, 0),];
 
         // 선 생성
         this.sticks = [
@@ -32,6 +33,9 @@ export default class App{
 
         // 점을 고정해두기
         this.dots[0].pinned = true;
+
+        // 마우스 생성
+        this.mouse = new Mouse(this.canvas);
     }
     resize(){
         // 리사이즈 될 때마다 화면의 가로, 세로값 다시 지정
@@ -68,15 +72,19 @@ export default class App{
             // 테스트용 사각형 그리기
             // this.ctx.fillRect(100, 100, 100, 100);
 
-            // 점 관련
+            // 점, 선 관련
+            // 유기적으로 동작하기 위해 따로 update, draw 시킴
             this.dots.forEach(dot => {
-                dot.update();
-                dot.draw(this.ctx);
+                dot.update(this.mouse);
             });
-
-            // 선 관련
             this.sticks.forEach(stick => {
                 stick.update();
+            });
+
+            this.dots.forEach(dot => {
+                dot.draw(this.ctx);
+            });
+            this.sticks.forEach(stick => {
                 stick.draw(this.ctx);
             });
         };
