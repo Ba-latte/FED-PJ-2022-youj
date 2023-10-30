@@ -12,7 +12,8 @@ export default class Stick{
 
     // 텐션
     // this.tension = 1;
-    this.tension = 0.5; // 탄성이 줄어서 무거울수록 늘어짐
+    // this.tension = 0.5; // 탄성이 줄어서 무거울수록 늘어짐
+    this.tension = 0.3; // 한 프레임에서 stick의 update()메서드를 여러번 호출해서, 이전보다 텐션값을 낮게 주어야 함
   }
   update(){
     const dx = this.endPoint.pos.x - this.startPoint.pos.x;

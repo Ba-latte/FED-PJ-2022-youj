@@ -1264,3 +1264,443 @@ mouse.pos - dot.pos = (dx, dy)로 표현됨!
 
 
 
+<Rope 클래스 만들기>
+-이제 로프 클래스를 만들어서 지금까지 작업했던것처럼 점,선 하나씩 만들지말고 공장처럼 찍어내보도록 하자
+
+-그런데 밧줄 만들기 전에, 알고리즘 좀 보완하기^^,.................미리 좀 해라....
+
+
+1.보완 1번
+-어떤 시점에 공이 마우스오 ㅏ가까워도 튕겨져나가는 경우가 있음
+-dot클래스의 업데이트 메서드와 관련있음
+-업데이트 메서드에 가서 보면, 상단에서 먼저 속도를 구하고 포지션에 적용한 다음 force값을 계산해서 다시 포지션에 적용하고 있음
+-근데 스틱 클래스에서 또! 유기적으로 스틱을 통해서 공들의 포지션을 변경하고 있음
+-게다가 App.js에 가서 프레임함수를 보면... dot을 먼저 업데이트한 다음에 스틱을 업데이트 하고 있음
+
+-따라서 현재 프레임에서 dot업데이트 마지막 부분에서.. force가 0.6보다 커질 경우 마우스 포지션에 맞춰 공의 포지션을 세팅하더라도... 그 다음 프레임에서 스틱으로 인해서 변경된 포지션과..마찬가지로 중력 가속도 영향으로 인해 또 포지션이 변경될 수있음
+-그래서 0.6보다 크다고 하고 내려왔는데 저런 내용들 때문에 값이 바껴서 작아질 수 있음
+-그래서 튕겨나가는 현상이 발생하는 것임
+
+
+-이문제 해결하기 위해서 속도 반영하는 구문을 맨 마지막 else구문 안으로 옮겨줘야함
+-그리고 dist가 마우스의 반지름보다 크면 리턴하는 부분도 지워주고,
+-그와 같은 내용을 force를 정의하는 부분에서 만들어주면 됨
+-Math의 max로 첫번째 인자에 기존 force에 할당한 내용을 넣고 두번째 인자로 0을 넣어주면... 첫번째 인자 값이 0보다 작아질 경우에는 0이 최대값이기 때문에 거리의 차이가 음수일때 force를 0으로 계속 나타낼 수 있음!
+
+:     update(mouse){
+        // 만약 dot이 고정되어 있다면 움직이지 않게 하기
+        if(this.pinned) return;
+
+        // 속도 정의
+        let vel = Vector.sub(this.pos, this.oldPos);
+
+        this.oldPos.setXY(this.pos.x, this.pos.y);
+
+        // 속도에 마찰력 곱하여 마찰력 부여하기
+        vel.mult(this.friction);
+        
+        // 속도에 중력 더하여 가속도 붙이기
+        vel.add(this.gravity);
+        // console.log(vel);
+        // this.pos.add(vel); // 👉 하단의 else문으로 이동
+
+        // 방향 벡터 구하기 위한 변수 설정
+        // 마우스 벡터와 점 벡터 사이의 차이를 갖는 벡터 인스턴스에서 x, y값만 추출
+        let {x: dx, y:dy} = Vector.sub(mouse.pos, this.pos);
+        // 마우스와 점 사이의 거리
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        // 점이 마우스 범위 바깥에 존재할 경우, 리턴돼서 마이너스 값 발생하지 않도록 하기
+        // if(dist > mouse.radius) return; // 👉force 부분으로 이동
+
+        // 방향 벡터
+        const direction = new Vector(dx / dist, dy / dist);
+
+        // 힘 구하기 : 점이 마우스 범위 바깥에 존재할 경우(마이너스 값)와 0을 비교해서 최대값을 할당하기 = 마이너스값과 0을 비교하면 0이 큰 값이므로, 항상 0이 할당됨
+        const force = Math.max((mouse.radius - dist) / mouse.radius, 0);
+        // 힘이 0~1 사이값으로 생기는지 확인
+        // console.log(force);
+
+        // 힘의 강도에 따른 움직임 여부 설정
+        // 일정 강도 이상의 힘을 받으면 점의 위치를 마우스의 위치로 붙여주기
+        if(force > 0.8){
+            this.pos.setXY(mouse.pos.x, mouse.pos.y);
+        }
+        else{
+            // 위치에 속도 더해주기
+            this.pos.add(vel);
+            // 점의 위치에 방향 벡터와 힘을 곱한 값 더해주기 : 5를 추가로 곱해서 힘을 더 강하게 함
+            this.pos.add(direction.mult(force).mult(5));
+        }
+    }
+
+
+
+
+2.보완 2번
+-현재 유기적으로 연결된 점과 선이 많지 않아서 큰 문제가 안보이는데, 나중에 연결점이 많아지면... 한 프레임만 돌면서 점과 선을 업데이트를 한번씩만 해주면.. 다 반영되지 못하는 경우가 있음
+-그 경우, 반영되지 못한 부분이 다음 프레임으로 넘어가면서 사이드이펙트가 발생할 수 있음
+-따라서 App.js에서 한 점이 다른 점에 영향을 주는 부분이 stick의 업데이트 메서드 실행 부분인데, 이 부분을 한번만 실행하는 것이 아니라, 가능한 만큼 많이 시켜주면.. 그만큼 사이드 이펙트가 실행될 확률이 적어짐!
+
+-따라서 for문으로 우선 10번 정도를 돌면서.. 스틱의 업데이트 구문을 반복시켜주면 됨
+-테스트해본결과 이터레이션을 10번정도 도는게, 사이드이펙트도 안 생기고 퍼포먼스도 적당 한것 같다고 함....
+: render(){
+        let now, delta;
+        let then = Date.now();
+
+        const frame = ()=>{
+            requestAnimationFrame(frame);
+
+           ...
+
+            // 점, 선 관련
+            // 유기적으로 동작하기 위해 따로 update, draw 시킴
+            this.dots.forEach(dot => {
+                dot.update(this.mouse);
+            });
+            // 한 점이 다른 점에 영향을 주게 만드는 선을 업데이트 하는 횟수를 늘려서 처리할 양이 많아질 경우에 발생할 수 있는 사이드 이펙트를 방지하기 위해 update메서드 여러번 실행하기
+            // this.sticks.forEach(stick => {
+            //     stick.update();
+            // });
+            for(let i=0; i < 10; i++){
+                this.sticks.forEach(stick => {
+                    stick.update();
+                });
+            }
+
+            this.dots.forEach(dot => {
+                dot.draw(this.ctx);
+            });
+            this.sticks.forEach(stick => {
+                stick.draw(this.ctx);
+            });
+        };
+        // 프레임 함수 실행
+        requestAnimationFrame(frame);
+    }
+
+
+
+-현재 여기서 잠재적 버그 해결했지만 큰 변화 보이지 않음
+-일단 보기에는... 텐션이 좀 더 딱딱해져서 잘 안늘어나는 것처럼 보이게 됨
+-그 이유는... 텐션을 0.몇으로 낮게 줘서.. 원래 길이로 돌아오는 것을 늦춰주었더라도.. 한 프레임에서 스틱 업데이트를 여러번 반복시켜서... 그 업데이트 메서드가 반복해서 실행되는 횟수만큼 빨리 돌아오게 되는 것임
+-원래는 텐션을 0.1을 줘서 10분의 1만큼만 되돌아오려고 하려던 것이... 10번을 돌면서 10분의 1을 10번 반복하니까... 1만큼 되돌아오게 되는 것임...!
+-그래서 결과적으로 텐션이 높아져서..딱딱해 보이는 것임
+
+-이건 텐션을 지금보다 더 낮게 주면 해결됨
+
+-Stick.js의 컨스트럭터에서 tension을 0.3으로 주면 아까처럼 적당히 늘어지게 됨
+:   constructor(p1, p2){
+    // 시작점
+    this.startPoint = p1;
+    // 끝점
+    this.endPoint = p2;
+
+    // 원래 길이
+    this.length = this.startPoint.pos.dist(this.endPoint.pos);
+
+    // 텐션
+    // this.tension = 1;
+    // this.tension = 0.5; // 탄성이 줄어서 무거울수록 늘어짐
+    this.tension = 0.3; // 한 프레임에서 stick의 update()메서드를 여러번 호출해서, 이전보다 텐션값을 낮게 주어야 함
+  }
+
+
+
+<로프 클래스 만들기>
+-이제 js폴더에서 Rope.js파일을 만들기
+: export default class Rope{
+  constructor(){
+
+  }
+  update(){
+
+  }
+  draw(){
+    
+  }
+}
+
+-바깥에서 config 옵션 가지고 올 것임
+:  constructor(config){
+    // 점의 위치
+    this.x = config.x;
+    this.y = config.y;
+
+-먼저 밧줄 제일 위에 0번째 공이 위치할 x,y좌표를 가져오기 위해서 this.x, y로 받아오기
+-또는 바깥에서 입력된 값이 없을 때를 대비해서 디폴트 값으로 10을 넣어주기
+-그리고 gap이라고..점과 점사이의 거리로 초기 스틱의 길이라고 보면됨
+-똑같이 config로 바깥에서 받아오거나 디폴트값으로 50넣어주기
+-스틱의 업데이트 반복 횟수도 밖에서 받아오거나, 마찬가지로 10으로 초기화해주기
+:     // 생성할 점의 갯수 : 밖에서 입력값을 안 줄 때에는 10 넣기
+    this.segments = config.segments || 10;
+    // 점과 점 사이의 거리
+    this.gap = config.gap || 50;
+    // stick의 업데이트 반복 횟수
+    this.iterations = config.iterations || 10;
+
+
+
+-dots과 sticks도 만들어서 빈 배열로 초기화해주기
+:     // 점 배열
+    this.dots = [];
+    // 선 배열
+    this.sticks = [];
+
+
+-로프 생성하는 메서드 만들어주기
+-create()란 이름으로 메서드 만들기
+-점이 먼저 있어야하니까 for문 돌면서 0부터 segments까지 돌면서 i++해주기
+-점 배열에다가 새로 만든 점 인스턴스를 푸시해주기
+:   // 로프 생성하기
+  create(){
+    for(let i = 0; i < this.segments; i++){
+      this.dots.push(new Dot);
+    }
+  }
+
+-그리고 new Dot의 인스턴스 인자값으로 this.x, y + i * this.gap을 넣어주면됨
+-이러면 각 점들이 y축 방향으로 this.gap만큼 서로 떨어져서 생성됨 (x축 방향은 다 같은 값이니까 세로로는 한 줄로 서있는 모양임)
+:   create(){
+    for(let i = 0; i < this.segments; i++){
+      // 점 생성하기
+      this.dots.push(new Dot(this.x, this.y + this.gap*i));
+    }
+  }
+
+
+-이제 점을 연결하는 선분 생성하기
+-마찬가지로 for문 돌면서 segments의 -1만큼만 돌면서 이터레이션해주기
+-즉, 선분은 점의 갯수보다 1개가 적어야함
+-그리고 빈 배열에 푸시로 스틱 인스턴스를 생성해서 넣기
+-인스턴스의 인자로는 dots의 인덱스번호갸 i번째, dots의 인덱스번호가 i+1번째를 순서대로 넣으면...  i번째의 점과 i+1번째의 점을 서로 연결하게 됨
+:   create(){
+    // 점 생성하기
+    for(let i = 0; i < this.segments; i++){
+      this.dots.push(new Dot(this.x, this.y + this.gap*i));
+    }
+    // 선 생성하기
+    for(let i = 0; i < this.segments - 1; i++){
+      this.sticks.push(new Stick(this.dots[i], this.dots[i + 1]));
+    }
+  }
+
+
+
+-이제 이렇게 만든 크리에이트 메서드를 컨스트럭터 안의 제일 하단에서 실행해주기
+:   constructor(config){
+    // 점의 위치
+    this.x = config.x;
+    this.y = config.y;
+
+    // 생성할 점의 갯수 : 밖에서 입력값을 안 줄 때에는 10 넣기
+    this.segments = config.segments || 10;
+    // 점과 점 사이의 거리
+    this.gap = config.gap || 50;
+    // stick의 업데이트 반복 횟수
+    this.iterations = config.iterations || 10;
+
+    // 점 배열
+    this.dots = [];
+    // 선 배열
+    this.sticks = [];
+
+    // 생성 함수 호출
+    this.create();
+  }
+
+
+
+-업데이트 함수 안에서 app.js안에 있는 점과 선의 업데이트 구문을 모두 잘라내서 이 안에 넣어주기
+(((App.js)))
+            // 유기적으로 동작하기 위해 따로 update, draw 시킴
+            this.dots.forEach(dot => {
+                dot.update(this.mouse);
+            });
+            // 한 점이 다른 점에 영향을 주게 만드는 선을 업데이트 하는 횟수를 늘려서 처리할 양이 많아질 경우에 발생할 수 있는 사이드 이펙트를 방지하기 위해 update메서드 여러번 실행하기
+            // this.sticks.forEach(stick => {
+            //     stick.update();
+            // });
+            for(let i=0; i < 10; i++){
+                this.sticks.forEach(stick => {
+                    stick.update();
+                });
+            }
+
+->이부분 잘라내기
+
+
+(((Rope.js)))
+  update(){
+    // 유기적으로 동작하기 위해 따로 update, draw 시킴
+    this.dots.forEach(dot => {
+      dot.update(this.mouse);
+    });
+    // 한 점이 다른 점에 영향을 주게 만드는 선을 업데이트 하는 횟수를 늘려서 처리할 양이 많아질 경우에 발생할 수 있는 사이드 이펙트를 방지하기 위해 update메서드 여러번 실행하기
+    for(let i=0; i < 10; i++){
+      this.sticks.forEach(stick => {
+          stick.update();
+      });
+    }
+  }
+-이렇게 붙여넣기
+
+
+-그리고 상수 10을 넣어서 반복시킨 것을 this.iterations로 바꿔주기
+:   update(){
+    // 유기적으로 동작하기 위해 따로 update, draw 시킴
+    this.dots.forEach(dot => {
+      dot.update(this.mouse);
+    });
+    // 한 점이 다른 점에 영향을 주게 만드는 선을 업데이트 하는 횟수를 늘려서 처리할 양이 많아질 경우에 발생할 수 있는 사이드 이펙트를 방지하기 위해 update메서드 여러번 실행하기
+    for(let i=0; i < this.iterations; i++){
+      this.sticks.forEach(stick => {
+          stick.update();
+      });
+    }
+  }
+
+
+
+
+-그리고 이제 this.mouse도 바깥에서 마우스를 보내준거를 받아와서 쓰도록 this.를 빼버리기
+:   update(mouse){
+    this.dots.forEach(dot => {
+      dot.update(mouse);
+    });
+    // 한 점이 다른 점에 영향을 주게 만드는 선을 업데이트 하는 횟수를 늘려서 처리할 양이 많아질 경우에 발생할 수 있는 사이드 이펙트를 방지하기 위해 update메서드 여러번 실행하기
+    for(let i=0; i < this.iterations; i++){
+      this.sticks.forEach(stick => {
+          stick.update();
+      });
+    }
+  }
+
+
+-draw메서드도 마찬가지로 App.js에서 draw되는 부분을 모두 잘라내서 rope.js의 draw메서드에서 붙여주기
+:   draw(){
+    this.dots.forEach(dot => {
+      dot.draw(this.ctx);
+    });
+    this.sticks.forEach(stick => {
+      stick.draw(this.ctx);
+    });
+  }
+
+-그리고ctx도 바깥에서 가져와서 전달해주도록 this.ctx에서 ctx로 바꿔주고 draw에 인자 추가하기
+:   draw(ctx){
+    this.dots.forEach(dot => {
+      dot.draw(ctx);
+    });
+    this.sticks.forEach(stick => {
+      stick.draw(ctx);
+    });
+  }
+
+
+
+-이제 테스트 위해 App.js로 가서 컨스트럭터 안에다가, 기존에 하나씩 작성한 점과 선 관련 코드 모두 지우기
+(((App.js의 constructor에서 지울 부분)))
+: // 점 생성
+        this.dots = [new Dot(400, 50), new Dot(500, 100), new Dot(600, 50), new Dot(800, 0),];
+
+        // 선 생성
+        this.sticks = [
+            new Stick(this.dots[0], this.dots[1]),
+            new Stick(this.dots[1], this.dots[2]),
+            new Stick(this.dots[2], this.dots[3]),
+        ];
+
+        // 점을 고정해두기
+        this.dots[0].pinned = true;
+
+
+-이제 this.ropes를 빈 배열로 초기화하기
+-그리고 우선 테스트 위해 1개만 그려볼것이므로, rope_1 변수를 만들고 로프 인스턴스를 하나 만들어주기
+:     constructor(){
+        // 캔버스 불러오기
+        this.canvas = document.querySelector("canvas");
+        this.ctx = this.canvas.getContext("2d");
+
+        // 실행
+        this.resize();
+        // 윈도우 리사이즈시
+        window.addEventListener("resize", this.resize.bind(this));
+
+        // 마우스 생성
+        this.mouse = new Mouse(this.canvas);
+
+        // 점, 선을 한번에 만들어내는 로프 생성
+        this.ropes = [];
+        const rope_1 = new Rope();
+    }
+
+
+-그리고 config값으로 객체를 만들어서 x : 400, y : 100을 넣고 배열에 푸시하기
+:         // 점, 선을 한번에 만들어내는 로프 생성
+        this.ropes = [];
+        const rope_1 = new Rope({ x: 400, y: 100 });
+        this.ropes.push(rope_1);
+
+
+-그리고 아래 frame함수 안에서 기존에 지워진 코드 위치에서 로프 배열을 forEach를 돌면서 업데이트, 드로우해주기
+:const frame = ()=>{
+            requestAnimationFrame(frame);
+
+            now = Date.now();
+            delta = now - then;
+            if(delta < App.interval) return;
+            
+            then = now - (delta % App.interval);
+            
+            this.ctx.clearRect(0, 0, App.width, App.height);
+            ///////////////////////////////////////////////////
+
+            // 테스트용 사각형 그리기
+            // this.ctx.fillRect(100, 100, 100, 100);
+
+            // 점, 선 관련 : 유기적으로 동작하기 위해 따로 update, draw 시킴 👉 모두 Rope.js로 옮김
+            // 점, 선을 한번에 그리는 로프 관련
+            this.ropes.forEach(rope => {
+                rope.update();
+                rope.draw();
+            });
+
+        };
+
+
+
+-그리고 업데이트 메서드에는 this.mouse를 인자로 보내주고, darw인자에는 ctx를 인자로 보내주기
+:             this.ropes.forEach(rope => {
+                rope.update(this.mouse);
+                rope.draw(this.ctx);
+            });
+
+
+
+-이제 로프가 잘 그려지긴 하는데, 핀으로 고정하지 않아서 아래로 떨어져버림
+
+-Rope.js로 돌아가서 핀을 해주는 메서드를 만들어주기 (업데이트 메서드 위에다 만들기)
+-컨스트럭터 하단에서 pin이라는 메서드를 만들고 인자로는 index를 가져오게 함
+-그리고 점 배열의 인덱스번호번째 점에 pinned가 true라고 해주기
+:   // 점을 화면에 고정하기
+  pin(index){
+    this.dots[index].pinned = true;
+  }
+
+
+-이제 다시 app.js로 돌아와서 로프1을 정의한 부분 아래에다가 로프1에 핀으로 0을 넣으면 고정됨
+:         // 테스트위해 로프 1개 만들어보기
+        const rope_1 = new Rope({ x: 400, y: 100 });
+        rope_1.pin(0);
+        this.ropes.push(rope_1);
+
+
+
+-
+
+
+
+
+
+
+

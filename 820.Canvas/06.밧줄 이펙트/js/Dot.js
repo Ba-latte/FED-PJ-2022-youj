@@ -35,7 +35,7 @@ export default class Dot{
         // 속도에 중력 더하여 가속도 붙이기
         vel.add(this.gravity);
         // console.log(vel);
-        this.pos.add(vel);
+        // this.pos.add(vel); // 👉 하단의 else문으로 이동
 
         // 방향 벡터 구하기 위한 변수 설정
         // 마우스 벡터와 점 벡터 사이의 차이를 갖는 벡터 인스턴스에서 x, y값만 추출
@@ -43,13 +43,13 @@ export default class Dot{
         // 마우스와 점 사이의 거리
         const dist = Math.sqrt(dx*dx + dy*dy);
         // 점이 마우스 범위 바깥에 존재할 경우, 리턴돼서 마이너스 값 발생하지 않도록 하기
-        if(dist > mouse.radius) return;
+        // if(dist > mouse.radius) return; // 👉force 부분으로 이동
 
         // 방향 벡터
         const direction = new Vector(dx / dist, dy / dist);
 
-        // 힘 구하기
-        const force = (mouse.radius - dist) / mouse.radius;
+        // 힘 구하기 : 점이 마우스 범위 바깥에 존재할 경우(마이너스 값)와 0을 비교해서 최대값을 할당하기 = 마이너스값과 0을 비교하면 0이 큰 값이므로, 항상 0이 할당됨
+        const force = Math.max((mouse.radius - dist) / mouse.radius, 0);
         // 힘이 0~1 사이값으로 생기는지 확인
         // console.log(force);
 
@@ -59,11 +59,11 @@ export default class Dot{
             this.pos.setXY(mouse.pos.x, mouse.pos.y);
         }
         else{
+            // 위치에 속도 더해주기
+            this.pos.add(vel);
             // 점의 위치에 방향 벡터와 힘을 곱한 값 더해주기 : 5를 추가로 곱해서 힘을 더 강하게 함
             this.pos.add(direction.mult(force).mult(5));
         }
-
-
     }
     draw(ctx){
         // 점 그리기

@@ -2,6 +2,7 @@
 
 import Dot from "./Dot.js";
 import Mouse from "./Mouse.js";
+import Rope from "./Rope.js";
 import Stick from "./Stick.js";
 
 export default class App{
@@ -21,21 +22,16 @@ export default class App{
         // 윈도우 리사이즈시
         window.addEventListener("resize", this.resize.bind(this));
 
-        // 점 생성
-        this.dots = [new Dot(400, 50), new Dot(500, 100), new Dot(600, 50), new Dot(800, 0),];
-
-        // 선 생성
-        this.sticks = [
-            new Stick(this.dots[0], this.dots[1]),
-            new Stick(this.dots[1], this.dots[2]),
-            new Stick(this.dots[2], this.dots[3]),
-        ];
-
-        // 점을 고정해두기
-        this.dots[0].pinned = true;
-
         // 마우스 생성
         this.mouse = new Mouse(this.canvas);
+
+        // 점, 선을 한번에 만들어내는 로프 생성
+        this.ropes = [];
+
+        // 테스트위해 로프 1개 만들어보기
+        const rope_1 = new Rope({ x: 400, y: 100 });
+        rope_1.pin(0);
+        this.ropes.push(rope_1);
     }
     resize(){
         // 리사이즈 될 때마다 화면의 가로, 세로값 다시 지정
@@ -72,21 +68,13 @@ export default class App{
             // 테스트용 사각형 그리기
             // this.ctx.fillRect(100, 100, 100, 100);
 
-            // 점, 선 관련
-            // 유기적으로 동작하기 위해 따로 update, draw 시킴
-            this.dots.forEach(dot => {
-                dot.update(this.mouse);
-            });
-            this.sticks.forEach(stick => {
-                stick.update();
+            // 점, 선 관련 : 유기적으로 동작하기 위해 따로 update, draw 시킴 👉 모두 Rope.js로 옮김
+            // 점, 선을 한번에 그리는 로프 관련
+            this.ropes.forEach(rope => {
+                rope.update(this.mouse);
+                rope.draw(this.ctx);
             });
 
-            this.dots.forEach(dot => {
-                dot.draw(this.ctx);
-            });
-            this.sticks.forEach(stick => {
-                stick.draw(this.ctx);
-            });
         };
         // 프레임 함수 실행
         requestAnimationFrame(frame);
