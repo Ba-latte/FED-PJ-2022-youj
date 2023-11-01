@@ -50,7 +50,7 @@ export default class Stick{
     // 스틱 관련
     ctx.beginPath();
     ctx.strokeStyle = "#999";
-    ctx.lineWidth = 10;
+    ctx.lineWidth = 1;
     // 스틱 그릴 위치로 이동
     ctx.moveTo(this.startPoint.pos.x, this.startPoint.pos.y);
     // 스틱 연결할 위치로 이동

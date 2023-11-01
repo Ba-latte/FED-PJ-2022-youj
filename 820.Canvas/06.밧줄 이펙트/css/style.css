@@ -3,4 +3,15 @@
 html, body{
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1f1f1f;
+}
+
+/* 이미지 파일 안보이게 숨기기 */
+.asset-img{
+    display: none;
 }

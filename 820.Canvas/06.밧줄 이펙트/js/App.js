@@ -4,6 +4,7 @@ import Dot from "./Dot.js";
 import Mouse from "./Mouse.js";
 import Rope from "./Rope.js";
 import Stick from "./Stick.js";
+import { randomNumBetween } from "./utils.js";
 
 export default class App{
     static width = innerWidth;
@@ -24,14 +25,6 @@ export default class App{
 
         // 마우스 생성
         this.mouse = new Mouse(this.canvas);
-
-        // 점, 선을 한번에 만들어내는 로프 생성
-        this.ropes = [];
-
-        // 테스트위해 로프 1개 만들어보기
-        const rope_1 = new Rope({ x: 400, y: 100 });
-        rope_1.pin(0);
-        this.ropes.push(rope_1);
     }
     resize(){
         // 리사이즈 될 때마다 화면의 가로, 세로값 다시 지정
@@ -48,6 +41,30 @@ export default class App{
 
         // 선명도 높이기 : dpr다른 기기들 모두 같은 모습 볼 수 있게 함
         this.ctx.scale(App.dpr, App.dpr);
+
+        // 리사이즈 될 때마다 로프 배열 초기화, 새로 생성하기 : 화면 사이즈에 맞는 갯수 생성 위함
+        this.initRopes();
+    }
+    initRopes(){
+        this.ropes = [];
+
+        // 생성할 로프의 갯수 : 화면 가로사이즈에 맞게 갯수 생성
+        const TOTAL = App.width * 0.06;
+
+        for(let i = 0; i < TOTAL; i++){
+            // 로프 인스턴스 생성
+            const rope = new Rope({
+                x: randomNumBetween(App.width*0.3, App.width*0.7),
+                y: 0,
+                gap: randomNumBetween(App.height*0.05, App.height*0.08)
+            });
+
+            // 로프 화면에 고정하기 위해 핀으로 꼽기
+            rope.pin(0);
+
+            // 로프 배열에 담기
+            this.ropes.push(rope);
+        }
     }
     render(){
         let now, delta;

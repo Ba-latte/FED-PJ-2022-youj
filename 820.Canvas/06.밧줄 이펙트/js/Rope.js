@@ -42,7 +42,20 @@ export default class Rope{
     this.dots[index].pinned = true;
   }
 
+  // 선분 늘어나는 길이 체크하기
+  checkPullingOut(){
+    // 0번째 점과 1번째 점 사이의 거리 알아내기
+    const dist = this.dots[0].pos.dist(this.dots[1].pos);
+    // 0번째 선분의 원래 길이보다 1.2배 이상 늘어나면 pin 해제하기
+    if((dist / this.sticks[0].length) > 1.2){
+      this.dots[0].pinned =false;
+    }
+  }
+
   update(mouse){
+    // 선분 늘어나는 길이 체크->핀 해제하기
+    this.checkPullingOut();
+    
     this.dots.forEach(dot => {
       dot.update(mouse);
     });
@@ -61,5 +74,8 @@ export default class Rope{
     this.sticks.forEach(stick => {
       stick.draw(ctx);
     });
+
+    // 로프 최하단에 불빛 달아주기
+    this.dots[this.dots.length - 1].drawLight(ctx);
   }
 }
