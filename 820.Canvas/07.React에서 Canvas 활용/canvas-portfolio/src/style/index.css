@@ -1,0 +1,7 @@
+/* 기본 스타일 초기화 */
+@import './reset.css';
+
+html, body{
+  box-sizing: border-box;
+  border: 1px solid red;
+}
