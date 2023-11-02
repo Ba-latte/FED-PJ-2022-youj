@@ -143,5 +143,323 @@
 
 
 
-[  ]
+[ ui 구조 작업하기 ]
 -기초 뼈대 작업하기
+
+-2개의 캔버스에 다른 기술스택을 사용해서 인터렉티브하게 할 것임
+
+-그전에 미리 캔버스 공간을 넣어두면 작업 편해서
+-미리 html,css로 디자인 잡아두기로 함!
+
+
+
+-사용할 폰트 가져오기
+
+
+-스타일을 변수명으로 적용할 수 있음
+-변수는 상속성을 가지고 있어서, html에 변수 선언해두면 어느곳에서나 이 변수 사용할 수 있음
+-반대로 자식 엘리먼트의 css에서 선언했을 때에는 부모 엘리먼트에서 쓸 수는 없다!
+
+-전체적 통일성 주기 위해서는 최상단인 html에 미리 초기화해주는 것이 좋음
+
+
+
+
+-html, css기본 세팅하기
+: html, body{
+  --color-border: #938f87;
+  --color-bg: #c7c288;
+  --color-text: #1b1b19;
+
+  --border01: 1px solid var(--color-border);
+  --border02: 6px double var(--color-border);
+
+  font-family: 'Fjalla One', 'Noto Sans KR', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+
+  overflow-x: hidden;
+}
+
+
+
+-이제 app.jsx로 가서 클래스명을 소문자 a로 바꿔주고 그 안에 섹션태그 만들고 클래스이름은 섹션-1로 해주기
+:     <div className="app">
+      <section className="section-1">
+        
+      </section>
+    </div>
+-메인 첫 화면 꽉찬 대표 엘리먼트를 이 섹션1이 담당할것임
+-그리고 그 안에다가 코드 짜주기
+:<header>
+          <h1>Portfolio</h1>
+          <ul>
+            <li>instagram</li>
+            <li>twitter</li>
+            <li>codepen</li>
+          </ul>
+        </header>
+        <main>
+          <div>canvas</div>
+        </main>
+
+
+
+-헤더와 메인으로 나눔
+-메인에 캔버스 쓸 것임
+
+-이제 스타일 잡아주기
+: .section-1{
+  height: 100vh;
+  /* 헤더와 메인 정렬 */
+  display: flex;
+  flex-direction: column;
+}
+
+.section-1 > header{
+  height: 8rem;
+  box-sizing: border-box;
+  border-bottom: var(--border01);
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+
+  font-weight: bold;
+}
+
+.section-1 > header > ul{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 2rem;
+  padding-bottom: 0.5rem;
+}
+
+
+-고정 단위인 rem을 썼음.. 반응형으로 작업하면 이쁘겟지만..캔버스 때문에 모바일 반응형 스타일하지 않음;
+
+-메인 스타일링하기
+:.section-1 > main{
+  padding: 1rem 0;
+  display: flex;
+  flex-grow: 1;
+}
+.section-1 > main > div{
+  box-sizing: border-box;
+  border: var(--border02);
+  flex-grow: 1;
+}
+
+
+
+-이 메인 안에 캔버스 넣을 것이고 , 이걸 포함하는 리액트 컴포넌트는 다음에 작성예정!
+
+
+
+-app.jsx로 가서 섹션-2 만들기
+:       <section className="section-2">
+        What is Lorem Ipsum?
+      </section>
+
+
+
+-스크래치용으로 유용하게 쓸 의미없는 문장을 만들어내는 사이트로, 만들어내기
+-참고사이트 : https://www.lipsum.com/
+
+-우리는 많이는 필요 없으니까...일단은 메인화면에 잇는 것 긁어와서 쓰기
+
+-css스타일 잡아주기
+: .section-2{
+  background-color: var(--color-text);
+  margin: 1rem 0;
+  padding: 2rem 0;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  font-size: 9rem;
+  letter-spacing: -0.5rem;
+}
+
+
+
+-약간 신문느낌이 나게 만듦
+-2022, 2023 트렌드 중 하나가.. 큰 글씨 사용하는 디자인이라고 함...ㅎ
+-어워드나..그런 곳에서 보면 큰 글자 형식으로 웹 디자인 많이 했음...
+
+-2023년 트렌드는...미니멀리즘 형식으로 만들지않고 맥시멀리즘이라고..군데군데 빈 곳없이 인터렉션 만들고 움직이는 아이콘 넣는 게 트랜드래;;
+
+
+
+-app.jsx로 돌아가서, 이번에는 section-3 태그 작성해주기
+: <section className="section-3">
+        <aside>
+          <div className="top">
+
+          </div>
+          <div className="bottom">
+            
+          </div>
+        </aside>
+        <article>
+          
+        </article>
+      </section>
+
+
+-top와  bottom에 들어갈 텍스트도 아까 그 사이트에서 가져와서 넣기
+: <div className="top">
+            1914 translation by H. Rackham
+          </div>
+          <div className="bottom">
+            <img src={} />
+          </div>
+
+
+-이미지는 assets에 넣어둔 화살표 이미지를 가져올것임
+-상단에서 임포트로 ArrowImg라고해서 상대경로로 가져오기
+: import ArrowImg from "./assets/arrow.svg";
+-><img src={ArrowImg} />
+
+
+-아티클에 들어갈 글도 로렘입섬에서 문장 아무거나 발췌해서 가져오기
+: <article>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </article>
+
+
+-그리고 css로 가서 섹션3의 스타일도 잡아주기
+: .section-3{
+  min-height: 50rem;
+  display: flex;
+  border-top: var(--border01);
+  border-bottom: var(--border01);
+}
+
+.section-3 > aside{
+  width: 40%;
+  border-right: var(--border01);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.section-3 > aside > .top{
+  padding: 2rem 0 2rem 1rem;
+  font-size: 5rem;
+  letter-spacing: -0.2rem;
+}
+.section-3 > aside > .bottom{
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+.section-3 > aside > .bottom > img:nth-last-child(1){
+  transform: scale(-1);
+}
+.section-3 > article{
+  width: 60%;
+  padding: 0 3rem;
+  display: flex;
+  align-items: center;
+
+  font-size: 2rem;
+  line-height: 1.3;
+}
+
+
+
+-화살표 이미지에 스케일-1을 줘서 좌우반전을 줬음
+
+
+
+-이제 섹션-4 작업하기
+: <section className="section-4">
+        <canvas></canvas>
+        <aside>
+          <h1>Javascript</h1>
+          <h2>⭐⭐⭐⭐⭐</h2>
+          <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+        </aside>
+      </section>
+
+
+
+-그리고 다시 css로 돌아가서 섹션4 스타일 입혀주기
+: .section-4{
+  padding: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+}
+.section-4 > canvas{
+  width: 50vmin;
+  height: 50vmin;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.02);
+  box-shadow: inset 0 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+.section-4 > aside{
+  width: 50vmin;
+}
+.section-4 > aside > h1{
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+}
+.section-4 > aside > h2{
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+.section-4 > aside > p{
+  font-size: 1.2rem;
+  line-height: 1.4;
+}
+
+
+-inset으로 내부에 그림자를 줘서 안쪽으로 파인 것 같이 효과를줌
+
+
+
+
+-마지막으로 푸터 작성하기
+:       <footer>
+        <div className="email">test@test.com</div>
+      </footer>
+
+
+-css로 스타일링해주기
+: footer{
+  position: relative;
+  min-height: 75vh;
+  background-color: var(--color-text);
+  color: #fff;
+}
+footer > .email{
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  font-size: 12vmin;
+}
+
+
+-가로사이즈를 꽉 채워서 채우고싶은데 지금 상단에 .app에 max-width가 9120픽셀로 되어 있고.... 이걸로 감싸져있기 때문에
+-푸터가 그 안에서 있기 때문에 부모 요소의 .app의 가로값을 상속받게 되어서 안이쁜 것임
+-그래서 바깥으로 빼주기
+
+-근데 이렇게만하면 리턴할 때에는 1개 요소만 가능하기 떄문에 에러가 발생함
+-그래서 그냥 이거 전체를 감싸는 <></>를 넣어줘서 해결하기
+->얘는 리액트.프레그먼트라는 뜻임
+
+-이렇게하면 가로가 꽉차는 검정 푸터가 생김
+
+
+-이렇게보면 낡은 신문 느낌이 남
+
+
+
+[ nudake 작업하기 ]
+
+
+
+
