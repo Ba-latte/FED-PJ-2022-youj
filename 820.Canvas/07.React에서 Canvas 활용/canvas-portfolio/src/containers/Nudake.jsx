@@ -1,7 +1,8 @@
 // 화면 일정 퍼센트 이상 지우면 다음 이미지 보여주는 기능
 import { useEffect, useRef } from "react";
 import "../style/containers/Nudake.css";
-import { getAngle, getDistance } from "../utils/utils";
+import { getAngle, getDistance, getScrupedPercent } from "../utils/utils";
+import throttle from "lodash/throttle";
 
 import image1 from "../assets/nudake-1.jpg";
 import image2 from "../assets/nudake-2.jpg";
@@ -77,9 +78,11 @@ const Nudake = ()=>{
       canvas.removeEventListener('mousemove', onMouseMove);
     }
     function onMouseMove(e){
-      console.log('onMouseMove');
+      // console.log('onMouseMove');
       // 원 그리기
       drawCircles(e);
+      // 투명도 체크하기
+      checkPercent();
     }
 
     // 지우개역할의 원 그리기 함수
@@ -107,10 +110,15 @@ const Nudake = ()=>{
         ctx.closePath();
       }
 
-
       // 지금 위치값을 이전위치값으로 바꾸기
       prevPos = nextPos;
     }
+
+    // 투명도 체크하는 함수
+    const checkPercent = throttle(()=>{
+      const percent = getScrupedPercent(ctx, canvasWidth, canvasHeight);
+      console.log(percent);
+    }, 500);
 
     // 캔버스에 이벤트 등록
     canvas.addEventListener('mousedown', onMouseDown);
