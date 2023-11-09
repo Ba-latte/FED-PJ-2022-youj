@@ -55,11 +55,15 @@ const Nudake = ()=>{
       // 캔버스에 그리기 : 이미지 로드가 되면 캔버스에 그려주기
       image.onload = ()=>{
         ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight);
+
+        // 부모 요소에 배경이미지 속성으로 다음 그림을 그려서 보여주기
+        const nextImage = imageSrcs[currIndex];
+        canvasParent.style.backgroundImage = `url(${nextImage})`;
       };
     }
 
     function onMouseDown(e){
-      console.log('onMouseDown');
+      // console.log('onMouseDown');
 
       // 마우스다운 이벤트가 발생할 때에만 마우스업, 마우스무브 이벤트 등록
       canvas.addEventListener('mouseup', onMouseUp);
@@ -70,7 +74,7 @@ const Nudake = ()=>{
       prevPos = {x: e.offsetX, y: e.offsetY};
     }
     function onMouseUp(){
-      console.log('onMouseUp');
+      // console.log('onMouseUp');
 
       // 마우스업 이벤트가 발생할 때에만 마우스업, 마우스무브 이벤트 제거
       canvas.removeEventListener('mouseup', onMouseUp);
@@ -99,13 +103,13 @@ const Nudake = ()=>{
         // x좌표 구하기
         const x = prevPos.x + Math.cos(angle) * i;
         // y좌표 구하기
-        const y = prevPos.y + Math.sign(angle) * i;
+        const y = prevPos.y + Math.sin(angle) * i;
 
         // 지워주는 효과 넣기
         ctx.globalCompositeOperation = 'destination-out';
         // 원 만들기
         ctx.beginPath();
-        ctx.arc(x, y, 50, 0, Math.PI * 2);
+        ctx.arc(x, y, canvasWidth / 15, 0, Math.PI * 2);
         ctx.fill();
         ctx.closePath();
       }
@@ -117,7 +121,7 @@ const Nudake = ()=>{
     // 투명도 체크하는 함수
     const checkPercent = throttle(()=>{
       const percent = getScrupedPercent(ctx, canvasWidth, canvasHeight);
-      console.log(percent);
+      // console.log(percent);
     }, 500);
 
     // 캔버스에 이벤트 등록
